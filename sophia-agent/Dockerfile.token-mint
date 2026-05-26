@@ -1,0 +1,36 @@
+# syntax=docker/dockerfile:1
+# Token-mint service image. Lighter than the main Dockerfile because it
+# skips the Silero VAD and turn-detector ONNX download step (token-mint
+# does not load any models -- it just signs JWTs).
+ARG PYTHON_VERSION=3.13
+FROM ghcr.io/astral-sh/uv:python${PYTHON_VERSION}-bookworm-slim AS base
+
+ENV PYTHONUNBUFFERED=1
+ENV UV_COMPILE_BYTECODE=1
+
+FROM base AS build
+WORKDIR /app
+COPY pyproject.toml uv.lock ./
+RUN mkdir -p src
+# --no-dev keeps the image smaller; token-mint runtime needs fastapi +
+# livekit-api + pydantic which live in main deps.
+RUN uv sync --locked --no-dev
+
+COPY src/ ./src/
+
+FROM base
+ARG UID=10001
+RUN adduser \
+    --disabled-password \
+    --gecos "" \
+    --home "/app" \
+    --shell "/sbin/nologin" \
+    --uid "${UID}" \
+    appuser
+
+COPY --from=build --chown=appuser:appuser /app /app
+WORKDIR /app
+USER appuser
+
+EXPOSE 8001
+CMD ["uv", "run", "uvicorn", "src.token_mint:app", "--host", "0.0.0.0", "--port", "8001"]

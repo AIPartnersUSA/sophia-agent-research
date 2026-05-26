@@ -21,6 +21,7 @@ shapes are known we either:
 import asyncio
 import json
 import logging
+import os
 import textwrap
 import time
 from typing import Literal
@@ -44,7 +45,14 @@ logger = logging.getLogger("sophia-agent")
 
 load_dotenv(".env.local")
 
-SOPHIA_RAG_URL = "http://localhost:8106"
+# Inference service URLs. Defaults are the localhost ports the dev stack
+# uses (per sophia-agent/infra/pf-gpu.sh). Override in production by setting
+# env vars to VPC-internal DNS names of the inference services.
+SOPHIA_RAG_URL = os.environ.get("SOPHIA_RAG_URL", "http://localhost:8106")
+WHISPER_URL = os.environ.get("WHISPER_URL", "http://localhost:8080")
+QWEN3_URL = os.environ.get("QWEN3_URL", "http://localhost:18080")
+KOKORO_URL = os.environ.get("KOKORO_URL", "http://localhost:8122")
+
 RAG_RESULT_TOPIC = "sophia.rag_result"
 AGENT_EVENTS_TOPIC = "sophia.agent_events"
 # /retrieve returns max_score in [0, 1]. Below this threshold we treat the
@@ -570,17 +578,17 @@ async def sophia_agent(ctx: JobContext):
     #   kokoro-tts         -> Kokoro-82M TTS         on localhost:8122
     session = AgentSession(
         stt=openai.STT(
-            base_url="http://localhost:8080/v1",
+            base_url=f"{WHISPER_URL}/v1",
             model="whisper-large-v3",
             api_key="not-needed",
         ),
         llm=openai.LLM(
-            base_url="http://localhost:18080/v1",
+            base_url=f"{QWEN3_URL}/v1",
             model="qwen3-vl-8b-instruct",
             api_key="not-needed",
         ),
         tts=openai.TTS(
-            base_url="http://localhost:8122/v1",
+            base_url=f"{KOKORO_URL}/v1",
             # Must be "tts-1" or "tts-1-hd" -- the openai plugin uses the model
             # name to pick the decoder path: tts-1/tts-1-hd -> AudioChunkedStream
             # (raw audio bytes, what Kokoro returns), anything else ->
