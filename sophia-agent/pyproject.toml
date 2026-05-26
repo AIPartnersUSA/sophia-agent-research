@@ -1,0 +1,63 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sophia-agent"
+version = "0.1.0"
+description = "Sophia voice agent on fully self-hosted OSS LiveKit (Phase 2 OSS-replication target)."
+requires-python = ">=3.10, <3.15"
+
+# Notes on dependencies:
+#   - `livekit-agents[silero,turn-detector]` is the same OSS pair my-agent uses for VAD + EOT.
+#     These are local-CPU ONNX models and stay forever.
+#   - `livekit-plugins-openai` is included as a *generic OpenAI-compatible HTTP client*.
+#     We use it via base_url=... to point at AWS STT/TTS/LLM if those endpoints speak the
+#     OpenAI schema (Route A in livekit_doubts.md Q10). If AWS speaks a custom protocol,
+#     we will write subclassed plugins under src/plugins/ instead (Route B / Q36) and
+#     this dep can be dropped.
+#   - `fastapi` and `uvicorn` are for the token-mint service (src/token_mint.py).
+#   - `livekit-api` is the Python server SDK used by token-mint to generate JWTs.
+#   - NO `livekit-plugins-ai-coustics`: Cloud-locked, will not auth on self-host.
+#     Optional substitute (DeepFilterNet 3) is intentionally deferred until noise becomes
+#     a real measured problem on real hardware.
+
+dependencies = [
+    "livekit-agents[silero,turn-detector]~=1.5",
+    "livekit-api~=1.0",
+    "livekit-plugins-openai~=1.5",
+    "fastapi~=0.115",
+    "uvicorn[standard]~=0.32",
+    "python-dotenv",
+    "torch>=2.11.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "pytest-asyncio",
+    "ruff",
+    "httpx",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-dir]
+"" = "src"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+
+[tool.ruff]
+line-length = 88
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "B", "A", "C4", "UP", "SIM", "RUF"]
+ignore = ["E501"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"

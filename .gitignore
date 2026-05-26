@@ -1,0 +1,76 @@
+# ============================================================
+# macOS / IDE
+# ============================================================
+.DS_Store
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# ============================================================
+# Secrets (never commit)
+# ============================================================
+**/.env
+**/.env.local
+**/.env.production
+
+# ============================================================
+# sophia-agent (Python + uv)
+# ============================================================
+sophia-agent/.venv/
+sophia-agent/.ruff_cache/
+sophia-agent/__pycache__/
+sophia-agent/**/__pycache__/
+sophia-agent/**/*.pyc
+sophia-agent/src/sophia_agent.egg-info/
+sophia-agent/.pytest_cache/
+
+# uv.lock IS tracked (pin deps reproducibly)
+# Same for my-agent
+my-agent/.venv/
+my-agent/.ruff_cache/
+my-agent/__pycache__/
+my-agent/**/__pycache__/
+my-agent/**/*.pyc
+my-agent/src/*.egg-info/
+
+# ============================================================
+# agent-starter-react (Next.js)
+# ============================================================
+agent-starter-react/node_modules/
+agent-starter-react/.next/
+agent-starter-react/out/
+agent-starter-react/build/
+agent-starter-react/.turbo/
+agent-starter-react/*.tsbuildinfo
+agent-starter-react/coverage/
+
+# package-lock.json IS tracked (pin deps reproducibly)
+
+# ============================================================
+# Unity client (Phase A skips this entirely)
+# Remove or relax these in Phase B
+# ============================================================
+sophia-glasses/unity/
+sophia-glasses/client-sdk-unity/
+
+# ============================================================
+# Reference clones (read-only, not our code)
+# ============================================================
+livekit-agents/
+livekit-cli-src/
+livekit-server-src/
+
+# ============================================================
+# Large media (track manually with LFS if needed)
+# ============================================================
+videos/
+*.mp4
+*.mov
+*.heic
+*.HEIC
+
+# ============================================================
+# Temporary local-only docs (delete-after-issue-resolved style)
+# ============================================================
+READ_ME_NOW.md

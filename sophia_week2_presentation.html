@@ -1,0 +1,1601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sophia Voice Agent</title>
+<style>
+/* ============================================================
+   DESIGN TOKENS — change here, affects everything
+   ============================================================ */
+:root {
+  /* Color palette */
+  --bg-deep:        #07090f;
+  --bg-base:        #0c1220;
+  --bg-card:        #131a2b;
+  --bg-elevated:    #1a2238;
+  --fg-primary:     #e8edf5;
+  --fg-secondary:   #b4bcd0;
+  --fg-muted:       #6b7689;
+  --accent-blue:    #38bdf8;
+  --accent-amber:   #fbbf24;
+  --accent-green:   #34d399;
+  --accent-pink:    #f472b6;
+  --accent-violet:  #a78bfa;
+  --border-subtle:  #1f2a44;
+  --border-strong:  #2d3a5c;
+
+  /* Typography — single font family across all slides */
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", "Inter", Roboto, sans-serif;
+  --font-mono: "SF Mono", "Monaco", "Menlo", "Cascadia Mono", "Consolas", monospace;
+
+  /* Font scale — viewport-scaled for projection, capped for readability */
+  --fs-display:  clamp(3.0rem, 5.0vw, 5.5rem);
+  --fs-title:    clamp(2.2rem, 3.6vw, 3.6rem);
+  --fs-section:  clamp(1.5rem, 2.2vw, 2.2rem);
+  --fs-body:     clamp(1.05rem, 1.3vw, 1.5rem);
+  --fs-small:    clamp(0.85rem, 1.0vw, 1.1rem);
+  --fs-mono:     clamp(0.85rem, 1.0vw, 1.05rem);
+
+  /* Spacing */
+  --gap-xs: 0.5rem;
+  --gap-sm: 1rem;
+  --gap-md: 1.75rem;
+  --gap-lg: 2.5rem;
+  --gap-xl: 4rem;
+}
+
+/* ============================================================
+   RESET + GLOBALS
+   ============================================================ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background: var(--bg-deep);
+  color: var(--fg-primary);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.55;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+}
+
+/* ============================================================
+   SLIDE CONTAINER — fixed 100vh, overflow hidden so content can't leak
+   ============================================================ */
+.slide {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  min-height: 600px;
+  padding: 5vh 7vw 4vh 7vw;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  background: var(--bg-base);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.slide-num {
+  position: absolute;
+  bottom: 1.5vh;
+  right: 1.5vw;
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  color: var(--fg-muted);
+  letter-spacing: 0.08em;
+}
+
+.slide-tag {
+  position: absolute;
+  top: 2vh;
+  left: 2vw;
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  color: var(--accent-blue);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   TITLE SLIDE
+   ============================================================ */
+.slide-title {
+  background: radial-gradient(ellipse at center, var(--bg-base) 0%, var(--bg-deep) 100%);
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.slide-title .eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  color: var(--accent-blue);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-bottom: var(--gap-md);
+}
+.slide-title h1 {
+  font-size: var(--fs-display);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin-bottom: var(--gap-md);
+  background: linear-gradient(135deg, var(--fg-primary) 0%, var(--accent-blue) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.slide-title .tagline {
+  font-size: calc(var(--fs-body) * 1.4);
+  color: var(--fg-secondary);
+  max-width: 60vw;
+  margin: 0 auto var(--gap-lg);
+}
+.slide-title .meta {
+  display: flex;
+  gap: var(--gap-lg);
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  color: var(--fg-muted);
+  letter-spacing: 0.05em;
+}
+
+/* ============================================================
+   STANDARD CONTENT SLIDE
+   ============================================================ */
+.slide h2 {
+  font-size: var(--fs-title);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.1;
+  margin-bottom: var(--gap-xs);
+  color: var(--fg-primary);
+}
+.slide .subhead {
+  font-size: var(--fs-section);
+  color: var(--accent-blue);
+  font-weight: 400;
+  margin-bottom: var(--gap-lg);
+  line-height: 1.2;
+}
+.slide .content {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-md);
+  font-size: var(--fs-body);
+  color: var(--fg-secondary);
+  overflow: hidden;
+}
+.slide p {
+  font-size: var(--fs-body);
+  line-height: 1.55;
+  color: var(--fg-secondary);
+}
+.slide strong, .slide b {
+  color: var(--fg-primary);
+  font-weight: 600;
+}
+.slide .accent { color: var(--accent-amber); }
+.slide .accent-green { color: var(--accent-green); }
+.slide .accent-blue { color: var(--accent-blue); }
+.slide .accent-pink { color: var(--accent-pink); }
+.slide .accent-violet { color: var(--accent-violet); }
+
+/* ============================================================
+   LISTS / BULLETS
+   ============================================================ */
+.bullets {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-sm);
+}
+.bullets li {
+  position: relative;
+  padding-left: 1.8rem;
+  font-size: var(--fs-body);
+  color: var(--fg-secondary);
+  line-height: 1.5;
+}
+.bullets li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 8px;
+  height: 8px;
+  background: var(--accent-blue);
+  border-radius: 2px;
+  transform: rotate(45deg);
+}
+
+.checks {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-sm);
+}
+.checks li {
+  position: relative;
+  padding-left: 2rem;
+  font-size: var(--fs-body);
+  color: var(--fg-secondary);
+  line-height: 1.5;
+}
+.checks li::before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--accent-green);
+  font-size: 1.2em;
+  font-weight: 700;
+}
+
+/* ============================================================
+   CARDS / GRIDS
+   ============================================================ */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--gap-md);
+  flex: 1;
+  min-height: 0;
+}
+.grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--gap-md);
+  flex: 1;
+  min-height: 0;
+}
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--gap-md);
+  flex: 1;
+  min-height: 0;
+}
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: var(--gap-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-sm);
+  overflow: hidden;
+}
+.card.accent-top {
+  border-top: 3px solid var(--accent-blue);
+}
+.card.accent-top.amber { border-top-color: var(--accent-amber); }
+.card.accent-top.green { border-top-color: var(--accent-green); }
+.card.accent-top.pink  { border-top-color: var(--accent-pink); }
+.card.accent-top.violet{ border-top-color: var(--accent-violet); }
+
+.card-head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--gap-sm);
+  margin-bottom: var(--gap-xs);
+}
+.card-num {
+  font-family: var(--font-mono);
+  font-size: calc(var(--fs-body) * 1.4);
+  color: var(--accent-blue);
+  font-weight: 700;
+}
+.card-title {
+  font-size: calc(var(--fs-body) * 1.15);
+  font-weight: 600;
+  color: var(--fg-primary);
+}
+.card-body {
+  font-size: var(--fs-small);
+  color: var(--fg-secondary);
+  line-height: 1.5;
+}
+
+/* ============================================================
+   KEY-VALUE / TABLES
+   ============================================================ */
+.kv {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  column-gap: var(--gap-md);
+  row-gap: var(--gap-xs);
+  font-size: var(--fs-body);
+}
+.kv dt {
+  color: var(--fg-muted);
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+}
+.kv dd { color: var(--fg-primary); }
+
+table.compact {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-small);
+}
+table.compact th, table.compact td {
+  text-align: left;
+  padding: 0.6rem 0.8rem;
+  border-bottom: 1px solid var(--border-subtle);
+  vertical-align: top;
+}
+table.compact th {
+  color: var(--accent-blue);
+  font-weight: 600;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: calc(var(--fs-small) * 0.9);
+}
+table.compact tr:last-child td { border-bottom: none; }
+
+/* ============================================================
+   CODE BLOCKS
+   ============================================================ */
+.code {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-left: 3px solid var(--accent-blue);
+  border-radius: 6px;
+  padding: var(--gap-sm) var(--gap-md);
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  color: var(--fg-secondary);
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow: hidden;
+}
+.code .comment { color: var(--fg-muted); }
+.code .key { color: var(--accent-amber); }
+.code .str { color: var(--accent-green); }
+
+code.inline {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  background: var(--bg-elevated);
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  color: var(--accent-amber);
+}
+
+/* ============================================================
+   VIDEO PLACEHOLDER SLIDE
+   ============================================================ */
+.video-placeholder {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-card);
+  border: 2px dashed var(--border-strong);
+  border-radius: 16px;
+  padding: var(--gap-xl);
+  position: relative;
+}
+.video-placeholder::before {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  pointer-events: none;
+}
+.video-placeholder .play-icon {
+  width: 6vw;
+  height: 6vw;
+  max-width: 100px;
+  max-height: 100px;
+  min-width: 60px;
+  min-height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-violet));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--gap-md);
+  box-shadow: 0 0 60px rgba(56, 189, 248, 0.3);
+}
+.video-placeholder .play-icon::after {
+  content: "";
+  width: 0;
+  height: 0;
+  border-left: 2vw solid var(--bg-deep);
+  border-top: 1.4vw solid transparent;
+  border-bottom: 1.4vw solid transparent;
+  margin-left: 0.6vw;
+  max-border-left-width: 30px;
+}
+.video-placeholder .vp-inner {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.video-placeholder .vp-label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  color: var(--accent-amber);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: var(--gap-sm);
+}
+.video-placeholder .vp-title {
+  font-size: calc(var(--fs-section) * 0.9);
+  color: var(--fg-primary);
+  font-weight: 600;
+  margin-bottom: var(--gap-xs);
+  max-width: 60vw;
+}
+.video-placeholder .vp-caption {
+  font-size: var(--fs-body);
+  color: var(--fg-secondary);
+  max-width: 50vw;
+  line-height: 1.4;
+}
+
+/* ============================================================
+   ARCHITECTURE / DIAGRAM
+   ============================================================ */
+.arch {
+  flex: 1;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: var(--gap-md);
+  min-height: 0;
+}
+.arch-row {
+  display: flex;
+  gap: var(--gap-sm);
+  justify-content: center;
+  align-items: stretch;
+}
+.arch-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  padding: var(--gap-sm) var(--gap-md);
+  flex: 1;
+  max-width: 22vw;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.arch-box.live { border-color: var(--accent-blue); }
+.arch-box.model { border-color: var(--accent-violet); }
+.arch-box.client { border-color: var(--accent-green); }
+
+.arch-box .box-label {
+  font-family: var(--font-mono);
+  font-size: calc(var(--fs-small) * 0.85);
+  color: var(--fg-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.arch-box .box-name {
+  font-weight: 600;
+  color: var(--fg-primary);
+  font-size: var(--fs-body);
+}
+.arch-box .box-desc {
+  font-size: calc(var(--fs-small) * 0.95);
+  color: var(--fg-secondary);
+  line-height: 1.35;
+}
+
+.arch-connector {
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  color: var(--fg-muted);
+  letter-spacing: 0.2em;
+  padding: var(--gap-xs) 0;
+}
+
+/* ============================================================
+   STAT NUMBERS
+   ============================================================ */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--gap-lg);
+  margin-top: var(--gap-md);
+}
+.stat {
+  text-align: center;
+}
+.stat-num {
+  font-size: calc(var(--fs-title) * 1.2);
+  font-weight: 800;
+  color: var(--accent-blue);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-violet));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.stat-label {
+  font-size: var(--fs-small);
+  color: var(--fg-muted);
+  font-family: var(--font-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: var(--gap-xs);
+}
+
+/* ============================================================
+   TWO-COLUMN COMPARISON
+   ============================================================ */
+.comparison {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: var(--gap-md);
+  flex: 1;
+  min-height: 0;
+  align-items: stretch;
+}
+.comparison .col {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: var(--gap-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-sm);
+  overflow: hidden;
+}
+.comparison .col.before { border-top: 3px solid var(--fg-muted); }
+.comparison .col.after  { border-top: 3px solid var(--accent-green); }
+.comparison .col-head {
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: var(--gap-xs);
+}
+.comparison .col.before .col-head { color: var(--fg-muted); }
+.comparison .col.after .col-head { color: var(--accent-green); }
+.comparison .col-title {
+  font-size: calc(var(--fs-section) * 0.9);
+  font-weight: 700;
+  color: var(--fg-primary);
+  margin-bottom: var(--gap-sm);
+}
+.comparison .arrow {
+  display: flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: calc(var(--fs-title) * 0.6);
+  color: var(--accent-blue);
+}
+
+/* ============================================================
+   NAVIGATION HINT
+   ============================================================ */
+.nav-hint {
+  position: fixed;
+  bottom: 1.5vh;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  color: var(--fg-muted);
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+  z-index: 100;
+  background: var(--bg-elevated);
+  padding: 0.4rem 1rem;
+  border-radius: 6px;
+  border: 1px solid var(--border-subtle);
+}
+body.show-nav-hint .nav-hint { opacity: 1; }
+
+/* ============================================================
+   PRINT — one page per slide
+   ============================================================ */
+@media print {
+  body { background: white; color: black; }
+  .slide {
+    page-break-after: always;
+    height: 100vh;
+    background: var(--bg-base);
+    color: var(--fg-primary);
+    border: none;
+  }
+  .nav-hint { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-hint">Use ← → keys to navigate</div>
+
+<!-- ============================================================
+     SLIDE 1: TITLE
+     ============================================================ -->
+<section class="slide slide-title">
+  <div class="eyebrow"></div>
+  <h1>Sophia Voice Agent<br>From Architecture to AR Glasses</h1>
+  <div class="tagline">Four targets shipped. One backend</div>
+  <div class="meta">
+    <span>Browser → Mac Editor → Beam Pro → XREAL One Pro</span>
+  </div>
+  <div class="slide-num">01</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 2: RECAP
+     ============================================================ -->
+<section class="slide">
+  <div class="slide-tag">Recap</div>
+  <h2>Where we were last week</h2>
+  <div class="subhead">Why LiveKit, the architecture pitch</div>
+  <div class="content">
+    <p>
+      Last week we presented the case for using <strong>LiveKit as our voice-agent orchestrator</strong> in production —
+      bringing our existing AWS-hosted models (Whisper, Qwen3-VL, Kokoro, sophia-spatial-ai) into LiveKit's framework
+      so we don't have to rebuild the orchestration plumbing ourselves.
+    </p>
+    <div class="grid-3">
+      <div class="card accent-top">
+        <div class="card-head">
+          <span class="card-num">01</span>
+          <span class="card-title">What LiveKit gives us free</span>
+        </div>
+        <div class="card-body">
+          VAD, turn detection, interruption handling, preemptive generation,
+          transcription syncing, browser-native AEC, full WebRTC stack (SFU + ICE + Opus).
+          Plus 69 model plugins.
+        </div>
+      </div>
+      <div class="card accent-top amber">
+        <div class="card-head">
+          <span class="card-num">02</span>
+          <span class="card-title">Our plug-in model</span>
+        </div>
+        <div class="card-body">
+          Bring our own STT / LLM / TTS / RAG. Route their endpoints through LiveKit's
+          <code class="inline">openai</code> plugin. Zero custom plugin code for the happy path.
+        </div>
+      </div>
+      <div class="card accent-top violet">
+        <div class="card-head">
+          <span class="card-num">03</span>
+          <span class="card-title">The end-state vision</span>
+        </div>
+        <div class="card-body">
+          One stack on a Mac driving four user experiences:
+          Safari demo, Unity Mac Editor, Beam Pro Android app, XREAL glasses on Beam Pro.
+        </div>
+      </div>
+    </div>
+    <p style="color: var(--fg-muted); font-style: italic;">
+      Last week's deck: <code class="inline">sophia_pipeline_presentation.html</code>
+    </p>
+  </div>
+  <div class="slide-num">02</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 3: THIS WEEK SUMMARY
+     ============================================================ -->
+<section class="slide">
+  <div class="slide-tag">This Week</div>
+  <h2>From slides to four working clients</h2>
+  <div class="subhead">All sharing one backend, all using the full LiveKit orchestration stack</div>
+  <div class="content">
+    <div class="grid-4">
+      <div class="card accent-top">
+        <div class="card-head">
+          <span class="card-num">T1</span>
+          <span class="card-title">Browser</span>
+        </div>
+        <div class="card-body">
+          <strong class="accent-blue">agent-starter-react</strong> on Safari.
+          Full reference implementation with 3 live overlay panels.
+        </div>
+      </div>
+      <div class="card accent-top amber">
+        <div class="card-head">
+          <span class="card-num">T2</span>
+          <span class="card-title">Mac Unity Editor</span>
+        </div>
+        <div class="card-body">
+          <strong class="accent">Hit Play in Unity 6.</strong>
+          Same backend. Voice loop through MacBook mic + speakers.
+        </div>
+      </div>
+      <div class="card accent-top green">
+        <div class="card-head">
+          <span class="card-num">T3</span>
+          <span class="card-title">Beam Pro (alone)</span>
+        </div>
+        <div class="card-body">
+          <strong class="accent-green">Android APK</strong> built from same Unity project.
+          Voice loop through Beam Pro's built-in audio.
+        </div>
+      </div>
+      <div class="card accent-top violet">
+        <div class="card-head">
+          <span class="card-num">T4</span>
+          <span class="card-title">Beam Pro + XREAL</span>
+        </div>
+        <div class="card-body">
+          <strong class="accent-violet">Plug glasses in.</strong>
+          Audio routes to XREAL near-ear speakers + mic.
+          Beam Pro in pocket.
+        </div>
+      </div>
+    </div>
+    <p>
+      <strong>Plus Phase 2 first cut</strong>: real-time HUD overlays now render inside the XREAL glasses,
+      showing the same state pill / transcript / RAG sources panels that the browser frontend shows —
+      driven by the same backend events, just a different render target.
+    </p>
+  </div>
+  <div class="slide-num">03</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 4: ARCHITECTURE DIAGRAM
+     ============================================================ -->
+<section class="slide">
+  <div class="slide-tag">Architecture</div>
+  <h2>One backend, four clients</h2>
+  <div class="subhead">All four targets connect to the same SFU + agent worker + AWS models</div>
+  <div class="content">
+    <div class="arch">
+      <div class="arch-row">
+        <div class="arch-box model">
+          <div class="box-label">AWS · GPU pods</div>
+          <div class="box-name">Whisper-large-v3</div>
+          <div class="box-desc">STT — speech to text</div>
+        </div>
+        <div class="arch-box model">
+          <div class="box-label">AWS · GPU pods</div>
+          <div class="box-name">Qwen3-VL-8B</div>
+          <div class="box-desc">LLM — answer generation with RAG injection</div>
+        </div>
+        <div class="arch-box model">
+          <div class="box-label">AWS · GPU pods</div>
+          <div class="box-name">Kokoro-82M</div>
+          <div class="box-desc">TTS — text to speech (aiden voice)</div>
+        </div>
+        <div class="arch-box model">
+          <div class="box-label">AWS · GPU pods</div>
+          <div class="box-name">sophia-spatial-ai</div>
+          <div class="box-desc">RAG — /retrieve over indexed PDFs</div>
+        </div>
+      </div>
+      <div class="arch-connector">↑ accessed via kubectl port-forwards (pf-gpu.sh) ↑</div>
+      <div class="arch-row">
+        <div class="arch-box live">
+          <div class="box-label">Mac · native</div>
+          <div class="box-name">livekit-server</div>
+          <div class="box-desc">SFU — room routing, WebRTC media plane</div>
+        </div>
+        <div class="arch-box live">
+          <div class="box-label">Mac · FastAPI</div>
+          <div class="box-name">token_mint</div>
+          <div class="box-desc">JWT issuer + RoomConfiguration with agent dispatch</div>
+        </div>
+        <div class="arch-box live">
+          <div class="box-label">Mac · Python</div>
+          <div class="box-name">agent worker</div>
+          <div class="box-desc">VAD + turn detection + RAG hook + plugin orchestration</div>
+        </div>
+      </div>
+      <div class="arch-row">
+        <div class="arch-box client">
+          <div class="box-label">Target 1</div>
+          <div class="box-name">Safari browser</div>
+          <div class="box-desc">agent-starter-react · React overlays</div>
+        </div>
+        <div class="arch-box client">
+          <div class="box-label">Target 2</div>
+          <div class="box-name">Mac Unity Editor</div>
+          <div class="box-desc">Same scene as APK · MacBook audio</div>
+        </div>
+        <div class="arch-box client">
+          <div class="box-label">Target 3</div>
+          <div class="box-name">Beam Pro APK</div>
+          <div class="box-desc">Android · IL2CPP arm64 native binary</div>
+        </div>
+        <div class="arch-box client">
+          <div class="box-label">Target 4</div>
+          <div class="box-name">XREAL One Pro</div>
+          <div class="box-desc">USB-tethered to Beam Pro · near-ear audio</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">04</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 5: TARGET 1 - BROWSER
+     ============================================================ -->
+<section class="slide">
+  <div class="slide-tag">Target 1 of 4</div>
+  <h2>Browser application</h2>
+  <div class="subhead">Full OSS LiveKit + AWS models, served to Safari via agent-starter-react</div>
+  <div class="content">
+    <div class="grid-2">
+      <div>
+        <h3 style="font-size: var(--fs-section); color: var(--accent-blue); margin-bottom: var(--gap-sm);">What's running</h3>
+        <ul class="checks">
+          <li><strong>livekit-server</strong> on the Mac at port 7880 (Apache 2.0 OSS, brew-installed)</li>
+          <li><strong>token_mint</strong> FastAPI issuing JWTs at port 8001</li>
+          <li><strong>agent worker</strong> running our Python agent.py with VAD + turn detection prewarmed</li>
+          <li><strong>pf-gpu.sh</strong> port-forwarding to 4 model pods on AWS EKS</li>
+          <li><strong>agent-starter-react</strong> Next.js frontend at port 3000</li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="font-size: var(--fs-section); color: var(--accent-blue); margin-bottom: var(--gap-sm);">The voice loop</h3>
+        <div class="code">browser mic <span class="comment">→ WebRTC AEC</span>
+   → SFU → agent worker
+   → Whisper STT <span class="comment">(~1.6s)</span>
+   → sophia-spatial-ai <span class="comment">/retrieve</span>
+   → Qwen3-VL LLM <span class="comment">(streaming)</span>
+   → Kokoro TTS <span class="comment">(per-sentence)</span>
+   → SFU → browser speakers</div>
+        <p style="margin-top: var(--gap-sm);">
+          Three React overlays render live: state pill, event log with per-stage metrics,
+          RAG sources side panel showing matched PDF pages.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">05</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 6: VIDEO PLACEHOLDER — BROWSER
+     ============================================================ -->
+<section class="slide">
+  <div class="slide-tag">Demo · Recording</div>
+  <h2>Browser end-to-end voice loop</h2>
+  <div class="subhead">Chrome + agent-starter-react + Sophia answering manual questions with RAG</div>
+  <div class="content">
+    <div style="flex: 1; min-height: 0; display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap-md); overflow: hidden;">
+      <div style="display: flex; flex-direction: column; gap: var(--gap-xs); min-height: 0;">
+        <div style="font-family: var(--font-mono); font-size: var(--fs-small); color: var(--accent-blue); letter-spacing: 0.1em; text-transform: uppercase;">Take 1</div>
+        <div style="flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; background: var(--bg-card); border-radius: 12px; padding: var(--gap-sm); overflow: hidden;">
+          <video
+            controls
+            preload="metadata"
+            playsinline
+            style="max-width: 100%; max-height: 100%; width: auto; height: auto; border-radius: 6px; background: black;"
+          >
+            <source src="videos/browser_demo_1.mov" type="video/mp4">
+            Your browser does not support inline video playback. File: <code>videos/browser_demo_1.mov</code>
+          </video>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: var(--gap-xs); min-height: 0;">
+        <div style="font-family: var(--font-mono); font-size: var(--fs-small); color: var(--accent-blue); letter-spacing: 0.1em; text-transform: uppercase;">Take 2</div>
+        <div style="flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; background: var(--bg-card); border-radius: 12px; padding: var(--gap-sm); overflow: hidden;">
+          <video
+            controls
+            preload="metadata"
+            playsinline
+            style="max-width: 100%; max-height: 100%; width: auto; height: auto; border-radius: 6px; background: black;"
+          >
+            <source src="videos/browser_demo_2.mov" type="video/mp4">
+            Your browser does not support inline video playback. File: <code>videos/browser_demo_2.mov</code>
+          </video>
+        </div>
+      </div>
+    </div>
+    <div style="text-align: center; color: var(--fg-muted); font-size: var(--fs-small); font-family: var(--font-mono);">
+      Shows: user speaks → live state pill transitions → RAG panel populates with PDF sources → Sophia replies in Kokoro aiden voice
+    </div>
+  </div>
+  <div class="slide-num">06</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 7: TARGET 2 - MAC UNITY EDITOR
+     ============================================================ -->
+<section class="slide">
+  <div class="slide-tag">Target 2 of 4</div>
+  <h2>Unity on Mac (Editor)</h2>
+  <div class="subhead">Same backend, new client — built in Unity 6 with LiveKit Unity SDK</div>
+  <div class="content">
+    <div class="grid-2">
+      <div>
+        <h3 style="font-size: var(--fs-section); color: var(--accent-blue); margin-bottom: var(--gap-sm);">Why Unity (not native Kotlin)</h3>
+        <ul class="bullets">
+          <li><strong>Future 3D AR rendering.</strong> Unity + XREAL SDK 3.1.0 bakes stereo + head pose + camera + eventually XREAL Eye into one toolchain. Native Kotlin would force a rewrite for Phase 3.</li>
+          <li><strong>Same C# code → Mac Editor + Android APK</strong>, no fork.</li>
+          <li><strong>Phased build</strong>: Phase 1 voice-only first, AR overlays Phase 2, vision Phase 3.</li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="font-size: var(--fs-section); color: var(--accent-blue); margin-bottom: var(--gap-sm);">What we wrote</h3>
+        <dl class="kv">
+          <dt>SophiaConfig.cs</dt><dd>ScriptableObject holding all runtime config (SFU URL, token endpoint, room mode, identity). One asset, no recompile.</dd>
+          <dt>SophiaConnection.cs</dt><dd>MonoBehaviour: token fetch → Room.Connect → publish mic → subscribe Sophia's TTS audio track.</dd>
+          <dt>token_mint.py</dt><dd>Backend tweak: attach <code class="inline">RoomConfiguration(agents=[RoomAgentDispatch(...)])</code> to JWT so non-web clients trigger agent dispatch.</dd>
+          <dt>sophia-scene.unity</dt><dd>One scene, one GameObject with SophiaConnection attached + SophiaConfig.asset wired.</dd>
+        </dl>
+      </div>
+    </div>
+    <p style="border-top: 1px solid var(--border-subtle); padding-top: var(--gap-sm);">
+      Result: hit <strong>Play in Unity Editor</strong> → voice loop end-to-end through MacBook Pro speakers.
+      Same agent, same models, same round-trip.
+    </p>
+  </div>
+  <div class="slide-num">07</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 8: VIDEO PLACEHOLDER — MAC UNITY
+     ============================================================ -->
+<section class="slide">
+  <div class="slide-tag">Demo · Recording</div>
+  <h2>Unity Editor on Mac</h2>
+  <div class="subhead">&nbsp;</div>
+  <div class="content">
+    <div class="video-placeholder">
+      <div class="vp-inner">
+        <div class="play-icon"></div>
+        <div class="vp-label">Video to be embedded</div>
+        <div class="vp-title">Hit Play in Unity → voice loop through MacBook Pro speakers</div>
+        <div class="vp-caption">
+          Shows: Unity Editor Game view with the SophiaConnection GameObject active →
+          console streaming [Sophia] logs → user speaks → Sophia replies
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">08</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 9: TARGET 3 - BEAM PRO APK
+     ============================================================ -->
+<section class="slide">
+  <div class="slide-tag">Target 3 of 4</div>
+  <h2>Android APK on Beam Pro</h2>
+  <div class="subhead">The same Unity project, built as a native ARM64 Android app</div>
+  <div class="content">
+    <div class="grid-2">
+      <div>
+        <h3 style="font-size: var(--fs-section); color: var(--accent-blue); margin-bottom: var(--gap-sm);">From Editor to APK</h3>
+        <ul class="checks">
+          <li>Switched build target to <strong>Android (ARM64, IL2CPP)</strong></li>
+          <li>Unity cross-compiled C# → IL → C++ → native ARM64 <code class="inline">libil2cpp.so</code></li>
+          <li>Bundled Unity Android Player + LiveKit FFI Rust client (Android <code class="inline">.so</code>) + XREAL plugins + scenes + manifest</li>
+          <li>Output: <strong>sophia-glasses.apk</strong></li>
+          <li><code class="inline">adb install -r</code> from Mac, USB-tethered to Beam Pro</li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="font-size: var(--fs-section); color: var(--accent-blue); margin-bottom: var(--gap-sm);">What we observed</h3>
+        <ul class="checks">
+          <li><strong class="accent-green">Voice loop worked first try</strong> through Beam Pro's built-in mic + speaker</li>
+          <li><strong class="accent-green">No sample-rate issues</strong> — Android audio is 48 kHz natively (unlike macOS)</li>
+          <li><strong class="accent-green">No echo loop</strong> — validates that the macOS echo was geometry-specific, not Unity-fundamental</li>
+          <li>Same backend, same models, no code change between Mac Editor and Android</li>
+        </ul>
+      </div>
+    </div>
+    <p style="border-top: 1px solid var(--border-subtle); padding-top: var(--gap-sm); color: var(--fg-muted);">
+      Bundle ID: <code class="inline">com.UnityTechnologies.com.unity.template.urpblank</code> (default template name — to be renamed <code class="inline">com.sophia.glasses</code> in Phase 2 cleanup).
+    </p>
+  </div>
+  <div class="slide-num">09</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 10: VIDEO PLACEHOLDER — BEAM PRO
+     ============================================================ -->
+<section class="slide">
+  <div class="slide-tag">Demo · Recording</div>
+  <h2>Beam Pro running the APK (phone mode)</h2>
+  <div class="subhead">&nbsp;</div>
+  <div class="content">
+    <div class="video-placeholder">
+      <div class="vp-inner">
+        <div class="play-icon"></div>
+        <div class="vp-label">Video to be embedded</div>
+        <div class="vp-title">Same APK, voice loop through Beam Pro's built-in audio</div>
+        <div class="vp-caption">
+          Shows: Beam Pro screen with the app running → user talks → Sophia answers
+          through the device speaker → adb logcat in the background showing the [Sophia] log stream
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">10</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 11: TARGET 4 - BEAM PRO + XREAL
+     ============================================================ -->
+<section class="slide">
+  <div class="slide-tag">Target 4 of 4</div>
+  <h2>The full stack — XREAL One Pro on Beam Pro</h2>
+  <div class="subhead">Plug glasses in. Wear them. Talk. Beam Pro stays in pocket.</div>
+  <div class="content">
+    <div class="grid-2">
+      <div>
+        <h3 style="font-size: var(--fs-section); color: var(--accent-blue); margin-bottom: var(--gap-sm);">How it works</h3>
+        <ul class="bullets">
+          <li><strong>Zero APK changes</strong>. Same binary as Target 3.</li>
+          <li><strong>Speakers</strong>: XREAL One Pro near-ear directional speakers — auto-routed by Android USB Audio Class.</li>
+          <li><strong>Microphone</strong>: XREAL One Pro built-in dual-mic array — also auto-routed by Android.</li>
+          <li><strong>Network</strong>: Beam Pro → Tailscale → Mac SFU at <code class="inline">100.69.34.194:7880</code>. Glasses don't see the network at all.</li>
+          <li><strong>Beam Pro placement</strong>: anywhere on your person within the ~1.2m tether reach. Pocket works.</li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="font-size: var(--fs-section); color: var(--accent-blue); margin-bottom: var(--gap-sm);">The echo prediction held</h3>
+        <p>
+          On Mac Editor with built-in speakers + mic at ~20cm apart, we hit an
+          <strong class="accent">acoustic feedback loop</strong> — Sophia echoing back into the mic
+          (Unity has no AEC; LiveKit's Unity SDK doesn't wire playback into APM).
+        </p>
+        <p>
+          We <strong>predicted glasses geometry would kill it</strong>: near-ear directional speakers + mic on Beam Pro at arm's length =
+          loop gain too low. <strong class="accent-green">Confirmed empirically — no echo on the glasses.</strong>
+          No mic gating needed for Phase 1 ship.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">11</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 12: VIDEO PLACEHOLDER — XREAL GLASSES
+     ============================================================ -->
+<section class="slide">
+  <div class="slide-tag">Demo · Recording</div>
+  <h2>Wearing the XREAL One Pro</h2>
+  <div class="subhead">&nbsp;</div>
+  <div class="content">
+    <div class="video-placeholder">
+      <div class="vp-inner">
+        <div class="play-icon"></div>
+        <div class="vp-label">Video to be embedded</div>
+        <div class="vp-title">Beam Pro in pocket. Glasses on face. Full voice loop through the XREAL audio.</div>
+        <div class="vp-caption">
+          Shows: user wearing the glasses + Beam Pro held casually (or pocketed) →
+          full conversation flowing through the glasses' near-ear speakers and built-in mic
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">12</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 13: PHASE 2 HUD
+     ============================================================ -->
+<section class="slide">
+  <div class="slide-tag">Phase 2 · First cut</div>
+  <h2>AR HUD overlays in the glasses</h2>
+  <div class="subhead">Same three panels as the browser frontend, rendered through the XREAL display</div>
+  <div class="content">
+    <div class="grid-3">
+      <div class="card accent-top">
+        <div class="card-head">
+          <span class="card-title">State pill <span style="color: var(--fg-muted); font-weight: 400; font-family: var(--font-mono); font-size: 0.7em;">top-left</span></span>
+        </div>
+        <div class="card-body">
+          Big color-coded text: <span class="accent-green">LISTENING</span> /
+          <span class="accent">THINKING</span> /
+          <span class="accent-blue">SPEAKING</span>. Reflects Sophia's current state in real time.
+        </div>
+      </div>
+      <div class="card accent-top amber">
+        <div class="card-head">
+          <span class="card-title">Transcript <span style="color: var(--fg-muted); font-weight: 400; font-family: var(--font-mono); font-size: 0.7em;">bottom</span></span>
+        </div>
+        <div class="card-body">
+          Two lines: <strong>You: ...</strong> (greenish) and <strong>Sophia: ...</strong> (bluish).
+          Updates per turn from the same <code class="inline">lk.transcription</code> stream the browser uses.
+        </div>
+      </div>
+      <div class="card accent-top violet">
+        <div class="card-head">
+          <span class="card-title">RAG sources <span style="color: var(--fg-muted); font-weight: 400; font-family: var(--font-mono); font-size: 0.7em;">right side</span></span>
+        </div>
+        <div class="card-body">
+          Question + matched PDF filenames. "general chat" badge when retrieve was skipped.
+          Driven by <code class="inline">sophia.rag_result</code> topic.
+        </div>
+      </div>
+    </div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap-md); padding-top: var(--gap-sm); border-top: 1px solid var(--border-subtle);">
+      <div>
+        <strong class="accent-blue">Identical data to the browser frontend.</strong>
+        Same three LiveKit text-stream topics. Just a Unity Canvas + TextMeshPro render target instead of React + HTML.
+      </div>
+      <div>
+        <strong class="accent-blue">World-space head-locked Canvas.</strong>
+        2 metres in front of you in the glasses' field of view. Built entirely at runtime —
+        zero Unity Inspector wiring required, drop the script on a GameObject and it works.
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">13</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 14: VIDEO PLACEHOLDER — AR HUD
+     ============================================================ -->
+<section class="slide">
+  <div class="slide-tag">Demo · Recording</div>
+  <h2>AR HUD in the glasses</h2>
+  <div class="subhead">&nbsp;</div>
+  <div class="content">
+    <div class="video-placeholder">
+      <div class="vp-inner">
+        <div class="play-icon"></div>
+        <div class="vp-label">Video to be embedded</div>
+        <div class="vp-title">Voice loop + live overlays floating ~2m in front of you in the glasses</div>
+        <div class="vp-caption">
+          Shows: through-the-lens view of the state pill flipping LISTENING → THINKING → SPEAKING,
+          the transcript updating as the conversation flows, the RAG sources panel populating
+          with PDF filenames when manual-relevant questions are asked
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">14</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 15: BEFORE / AFTER
+     ============================================================ -->
+<section class="slide">
+  <div class="slide-tag">Comparison</div>
+  <h2>Last week's vision vs this week's reality</h2>
+  <div class="subhead">&nbsp;</div>
+  <div class="content">
+    <div class="comparison">
+      <div class="col before">
+        <div class="col-head">Last week</div>
+        <div class="col-title">A plan</div>
+        <ul class="bullets" style="margin-top: var(--gap-sm);">
+          <li>LiveKit framework chosen as our voice-agent orchestrator</li>
+          <li>Strategy to plugin our AWS models</li>
+          <li>Vision: deploy to XREAL One Pro + Beam Pro</li>
+          <li>One target validated (research notebooks, web prototype)</li>
+        </ul>
+      </div>
+      <div class="arrow">→</div>
+      <div class="col after">
+        <div class="col-head">This week</div>
+        <div class="col-title">Working code</div>
+        <ul class="bullets" style="margin-top: var(--gap-sm);">
+          <li><strong class="accent-green">4 client targets</strong> live and validated</li>
+          <li><strong class="accent-green">1 backend</strong> drives all of them, zero per-target divergence</li>
+          <li><strong class="accent-green">Phase 2 AR overlays</strong> already shipping in the glasses</li>
+          <li>~1700 line ops + design doc · 48 Q&A entries in livekit_doubts.md</li>
+        </ul>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-num">4</div>
+        <div class="stat-label">Client targets validated</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">0</div>
+        <div class="stat-label">Backend changes per target</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Live HUD panels in glasses</div>
+      </div>
+
+    </div>
+  </div>
+  <div class="slide-num">15</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 16: NOTABLE CHALLENGES
+     ============================================================ -->
+<section class="slide">
+  <div class="slide-tag">Behind the scenes</div>
+  <h2>Notable challenges we solved</h2>
+  <div class="subhead">The interesting problems<code class="inline"></code></div>
+  <div class="content">
+    <div class="grid-2">
+      <div class="card accent-top">
+        <div class="card-head">
+          <span class="card-num">A</span>
+          <span class="card-title">Acoustic echo loop on Mac</span>
+        </div>
+        <div class="card-body">
+          Speakers → mic feedback on the Editor. Unity has no AEC; LiveKit's Unity SDK doesn't wire playback into APM.
+          <strong class="accent-green">Predicted glasses geometry would kill it. Validated on hardware — no echo.</strong>
+          Mic gating deferred indefinitely.
+        </div>
+      </div>
+      <div class="card accent-top amber">
+        <div class="card-head">
+          <span class="card-num">B</span>
+          <span class="card-title">Sample rate mismatch (44.1k vs 48k)</span>
+        </div>
+        <div class="card-body">
+          <code class="inline">OnAudioFilterRead</code> follows the macOS output device sample rate; EarPods are 44.1k-locked, RtcAudioSource expects 48k.
+          <strong class="accent-green">Fix: use a 48k-capable output (MacBook speakers). Android isn't affected — VOICE source is always 48k.</strong>
+        </div>
+      </div>
+      <div class="card accent-top green">
+        <div class="card-head">
+          <span class="card-num">C</span>
+          <span class="card-title">Token URL routing</span>
+        </div>
+        <div class="card-body">
+          token_mint returned <code class="inline">ws://localhost:7880</code> — the Mac's view of localhost. On Beam Pro, that's the Beam Pro itself.
+          <strong class="accent-green">Fix: client always uses its own configured URL; ignores server-side URL hint.</strong>
+        </div>
+      </div>
+      <div class="card accent-top pink">
+        <div class="card-head">
+          <span class="card-num">D</span>
+          <span class="card-title">Android permission race</span>
+        </div>
+        <div class="card-body">
+          Unity's <code class="inline">RequestUserAuthorization</code> returns immediately on Android — script gives up before user taps Allow.
+          <strong class="accent-green">Path A shipped today: 20s poll-retry. Path B JNI bridge bundled with AEC fix for Phase 2.</strong>
+        </div>
+      </div>
+      <div class="card accent-top violet">
+        <div class="card-head">
+          <span class="card-num">E</span>
+          <span class="card-title">LiveKit SDK install gotchas</span>
+        </div>
+        <div class="card-body">
+          Git LFS pointer files instead of FFI binaries; Google.Protobuf runtime missing; NuGet menu hidden by Safe Mode.
+          <strong class="accent-green">Documented as Q44 — comprehensive recovery procedure for any future install.</strong>
+        </div>
+      </div>
+      <div class="card accent-top">
+        <div class="card-head">
+          <span class="card-num">F</span>
+          <span class="card-title">Unity 6 + XREAL build constraints</span>
+        </div>
+        <div class="card-body">
+          minSdk 25 vs XREAL's 29 requirement; Unity 6 uses <code class="inline">UnityPlayerGameActivity</code> not <code class="inline">UnityPlayerActivity</code>; scene list defaults to empty SampleScene.
+          <strong class="accent-green">All five gotchas catalogued as Q45 with checklist.</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">16</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 17: MULTI-USER — TWO SCENARIOS
+     ============================================================ -->
+<section class="slide">
+  <div class="slide-tag">Multi-user · Concept</div>
+  <h2>Two ways multiple people use Sophia</h2>
+  <div class="subhead">Same backend supports both. One config field decides which.</div>
+  <div class="content">
+    <div class="grid-2">
+      <div class="card accent-top green">
+        <div class="card-head">
+          <span class="card-num">B</span>
+          <span class="card-title">Scenario B — Isolated rooms</span>
+        </div>
+        <div class="card-body">
+          <p style="margin-bottom: var(--gap-sm);">
+            Each user gets their own private room. Their own Sophia worker subprocess. Their own chat history. No overlap with anyone else.
+          </p>
+          <p style="color: var(--fg-muted); font-size: var(--fs-small);">
+            <strong class="accent-green">Default in today's APK.</strong>
+            10 Beam Pros launch simultaneously = 10 isolated Sophia sessions.
+          </p>
+          <p style="margin-top: var(--gap-sm);"><strong>Best for:</strong> single-tech troubleshooting, privacy-sensitive conversations, multi-tenant deployment</p>
+        </div>
+      </div>
+      <div class="card accent-top violet">
+        <div class="card-head">
+          <span class="card-num">A</span>
+          <span class="card-title">Scenario A — Shared room</span>
+        </div>
+        <div class="card-body">
+          <p style="margin-bottom: var(--gap-sm);">
+            Multiple users join the SAME room. ONE Sophia serves all of them. Shared chat context — Sophia knows everyone's questions and answers.
+          </p>
+          <p style="color: var(--fg-muted); font-size: var(--fs-small);">
+            <strong class="accent-violet">First user triggers agent dispatch; subsequent users join the existing session.</strong>
+            Per-room agent dispatch deduplication is built into LiveKit's SFU.
+          </p>
+          <p style="margin-top: var(--gap-sm);"><strong>Best for:</strong> tech + remote expert pairing, supervisor-recorded inspections, training scenarios, multi-tech teardowns</p>
+        </div>
+      </div>
+    </div>
+    <div style="border-top: 1px solid var(--border-subtle); padding-top: var(--gap-sm);">
+      <strong class="accent-blue">Real-world use cases unlocked by Scenario A:</strong>
+      Field tech wearing glasses + remote expert on browser, both in the same room, both ask Sophia questions, both see same answers and RAG sources.
+      Training: senior wears glasses, trainee wears glasses, both observe the same conversation with their own AR overlays.
+      Inspection: tech does walkthrough, supervisor on browser sees live transcript + sources, conversation auto-archives.
+    </div>
+  </div>
+  <div class="slide-num">17</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 18: PRODUCTION MULTI-TENANT ARCHITECTURE
+     ============================================================ -->
+<section class="slide">
+  <div class="slide-tag">Multi-user · Production</div>
+  <h2>Going from one Mac to many client companies</h2>
+  <div class="subhead">SaaS multi-tenant pattern: shared infrastructure, per-client isolation via hierarchical room naming</div>
+  <div class="content">
+    <div class="grid-2">
+      <div>
+        <h3 style="font-size: var(--fs-section); color: var(--accent-blue); margin-bottom: var(--gap-sm);">Tenant isolation in one line</h3>
+        <div class="code"><span class="comment">Room name is hierarchical:</span>
+   <span class="key">{client_id}/{session_id}</span>
+
+<span class="comment">Examples:</span>
+   <span class="str">acme/maintenance-bay-3</span>        <span class="comment"># Acme team room</span>
+   <span class="str">acme/user-john-uuid</span>           <span class="comment"># John's private</span>
+   <span class="str">globex/bay-2</span>                  <span class="comment"># Globex team</span></div>
+        <p style="margin-top: var(--gap-sm);">
+          <strong>Three enforcement layers</strong> prevent cross-tenant leakage:
+        </p>
+        <ul class="checks" style="margin-top: var(--gap-xs);">
+          <li><strong>JWT issuance</strong>: token_mint refuses tokens for rooms whose prefix doesn't match user's tenant</li>
+          <li><strong>SFU validation</strong>: forged room names fail JWT signature check</li>
+          <li><strong>Agent RAG scoping</strong>: worker parses room name → uses that client's RAG index only</li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="font-size: var(--fs-section); color: var(--accent-blue); margin-bottom: var(--gap-sm);">Migration path from today's MacBook</h3>
+        <table class="compact">
+          <thead><tr><th>Today (Mac)</th><th>Production (AWS)</th></tr></thead>
+          <tbody>
+            <tr><td>livekit-server dev mode</td><td>EC2/EKS with TLS + multi-region</td></tr>
+            <tr><td>kubectl port-forward to AWS pods</td><td>Direct VPC routing</td></tr>
+            <tr><td>token_mint anonymous</td><td>+ tenant validation, +SSO auth</td></tr>
+            <tr><td>agent.py single RAG index</td><td>+ per-client RAG lookup from room name</td></tr>
+            <tr><td>Tailscale URL in SophiaConfig</td><td>Public wss://livekit.sophia.ai</td></tr>
+            <tr><td>No tenant DB</td><td>DynamoDB / Postgres + admin dashboard</td></tr>
+            <tr><td>No MDM</td><td>APK signing + Play Store / MDM</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top: var(--gap-sm); color: var(--accent-green); font-weight: 600;">
+          Total lift: ~1-2 person-months of ops + auth + admin work.
+        </p>
+        <p style="color: var(--fg-muted); font-size: var(--fs-small); margin-top: var(--gap-xs);">
+          The voice-agent code itself stays unchanged. The architectural pattern (LiveKit + JWT-encoded room names + per-room agent dispatch) was already production-correct from day one.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">18</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 19: PHASE 2 PICKER UI (JUST SHIPPED)
+     ============================================================ -->
+<section class="slide">
+  <div class="slide-tag">Multi-user · Just shipped</div>
+  <h2>The picker UI</h2>
+  <div class="subhead">One APK, runtime choice between private and team modes</div>
+  <div class="content">
+    <div class="grid-2">
+      <div>
+        <h3 style="font-size: var(--fs-section); color: var(--accent-blue); margin-bottom: var(--gap-sm);">How the user experiences it</h3>
+        <ul class="checks">
+          <li><strong>Launch app</strong> → picker screen shown (built at runtime, no Unity Editor wiring)</li>
+          <li><strong>Tap "Start Private Session"</strong> → auto-generated unique room, isolated Sophia (Scenario B)</li>
+          <li><strong>Tap "Join Team Session"</strong> → type a room code → joins shared room (Scenario A); if anyone's already there, same Sophia serves all</li>
+          <li><strong>Tap "End Session"</strong> → mic disconnects, agent recycled, returns to picker</li>
+          <li><strong>Tap "Quit App"</strong> → full app exit, returns to Android launcher</li>
+          <li><strong>Cycle freely</strong> — pick → use → end → pick again, no app restart needed</li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="font-size: var(--fs-section); color: var(--accent-blue); margin-bottom: var(--gap-sm);">What's running under the hood</h3>
+        <dl class="kv">
+          <dt>SophiaSessionContext.cs</dt>
+          <dd>Static state holder for the user's session choice (mode + room override)</dd>
+          <dt>SessionPicker.cs</dt>
+          <dd>Builds Screen Space - Overlay Canvas + 4 buttons + input field at runtime; toggles SophiaConnection GameObject active/inactive</dd>
+          <dt>SophiaConnection.cs</dt>
+          <dd>Reads room from SessionContext first, falls back to config. New <code class="inline">OnApplicationPause</code> + <code class="inline">OnApplicationQuit</code> handlers so Android swipe-away disconnects cleanly</dd>
+          <dt>SophiaOverlayUI.cs</dt>
+          <dd>HUD canvas now builds in <code class="inline">OnEnable</code>, tears down in <code class="inline">OnDisable</code> — so the AR overlays rebuild fresh per session</dd>
+        </dl>
+        <p style="margin-top: var(--gap-sm); color: var(--accent-green); font-weight: 600;">
+          ~520 lines of new C# + ~45 lines of edits. Zero backend changes.
+        </p>
+      </div>
+    </div>
+    <div style="border-top: 1px solid var(--border-subtle); padding-top: var(--gap-sm);">
+      <strong class="accent-blue">Why this matters:</strong>
+      Until today, switching between private and team mode required rebuilding a different APK per deployment. Now one APK ships everywhere; the user decides at launch. This is the UX foundation for both single-tech enterprise rollout AND multi-tech team scenarios shipping in the same product.
+    </div>
+  </div>
+  <div class="slide-num">19</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 20: VIDEO — PICKER UI DEMO
+     ============================================================ -->
+<section class="slide">
+  <div class="slide-tag">Demo · Recording</div>
+  <h2>The picker UI in action</h2>
+  <div class="subhead">&nbsp;</div>
+  <div class="content">
+    <div style="flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; background: var(--bg-card); border-radius: 16px; padding: var(--gap-md); overflow: hidden;">
+      <video
+        controls
+        preload="metadata"
+        playsinline
+        style="max-width: 100%; max-height: 100%; width: auto; height: auto; border-radius: 8px; box-shadow: 0 0 60px rgba(56, 189, 248, 0.25); background: black;"
+      >
+        <source src="videos/picker_ui_demo.mp4" type="video/mp4">
+        Your browser does not support inline video playback. The file is at
+        <code>videos/picker_ui_demo.mp4</code> in the same folder as this presentation.
+      </video>
+    </div>
+    <div style="text-align: center; color: var(--fg-muted); font-size: var(--fs-small); font-family: var(--font-mono);">
+      Glasses-perspective recording · Other targets (browser, Beam Pro, full HUD) to be recorded once TTS infrastructure is back online
+    </div>
+  </div>
+  <div class="slide-num">20</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 21: WHAT'S NEXT
+     ============================================================ -->
+<section class="slide">
+  <div class="slide-tag">What's next</div>
+  <h2>The roadmap from here</h2>
+  <div class="subhead">Phase 2 hardening, then Phase 3 vision RAG, then production</div>
+  <div class="content">
+    <div class="grid-3">
+      <div class="card accent-top amber">
+        <div class="card-head">
+          <span class="card-num">P2</span>
+          <span class="card-title">Phase 2 hardening</span>
+        </div>
+        <div class="card-body">
+          <ul class="bullets" style="margin-top: 0;">
+            <li>HUD layout polish based on visual feedback in the glasses</li>
+            <li><strong>Android JNI plugin</strong> bundling 3 fixes: real permission callback, VOICE_COMMUNICATION audio source for system AEC, explicit mic selection as defensive fallback</li>
+            <li>Bundle ID rename to <code class="inline">com.sophia.glasses</code></li>
+            <li>XR Plug-in Management for proper stereo rendering in the glasses</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card accent-top violet">
+        <div class="card-head">
+          <span class="card-num">P3</span>
+          <span class="card-title">Phase 3 — vision RAG</span>
+        </div>
+        <div class="card-body">
+          <ul class="bullets" style="margin-top: 0;">
+            <li><strong>XREAL Eye camera</strong> capture from the glasses</li>
+            <li>Snapshot-on-demand → sophia-spatial-ai <code class="inline">/image-question</code></li>
+            <li>"What is this part?" — point at equipment, get manual-grounded answer</li>
+            <li>AR labels anchored to real-world objects (depth-aware)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card accent-top green">
+        <div class="card-head">
+          <span class="card-num">P4</span>
+          <span class="card-title">Phase 4 — production</span>
+        </div>
+        <div class="card-body">
+          <ul class="bullets" style="margin-top: 0;">
+            <li>Production signing keystore + signed APK pipeline</li>
+            <li>Internal distribution to pilot users</li>
+            <li>Backend migration: Mac → AWS EC2 (single config change — backend already production-ready)</li>
+            <li>Telemetry: OpenTelemetry → Grafana for per-turn latency, error rates, user sessions</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <p style="border-top: 1px solid var(--border-subtle); padding-top: var(--gap-sm);">
+      Documentation pace continues — every architectural decision and bug fix recorded in
+      <code class="inline">unity_approach.md</code> + <code class="inline">livekit_doubts.md</code> so the team can resume any thread at any time.
+    </p>
+  </div>
+  <div class="slide-num">21</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 22: THANK YOU
+     ============================================================ -->
+<section class="slide slide-title">
+  <div class="eyebrow">Questions · Discussion</div>
+  <h1>Thank you</h1>
+  <div class="tagline">Four targets. One backend. Real AR voice agent on real hardware.</div>
+  <div class="meta">
+    <span>unity_approach.md</span>
+    <span>·</span>
+    <span>livekit_doubts.md</span>
+    <span>·</span>
+    <span>sophia-agent/CHAT.md</span>
+  </div>
+  <div class="slide-num">22</div>
+</section>
+
+<script>
+/* ============================================================
+   KEYBOARD NAVIGATION
+   ============================================================ */
+(function() {
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  let current = 0;
+
+  function go(idx) {
+    current = Math.max(0, Math.min(slides.length - 1, idx));
+    slides[current].scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') {
+      e.preventDefault();
+      go(current + 1);
+    } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+      e.preventDefault();
+      go(current - 1);
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      go(0);
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      go(slides.length - 1);
+    }
+  });
+
+  // Track which slide is currently in view (so arrow keys advance from there)
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
+        current = slides.indexOf(entry.target);
+      }
+    });
+  }, { threshold: [0.5] });
+  slides.forEach(s => observer.observe(s));
+
+  // Show navigation hint briefly on load
+  setTimeout(() => {
+    document.body.classList.add('show-nav-hint');
+    setTimeout(() => document.body.classList.remove('show-nav-hint'), 3000);
+  }, 500);
+})();
+</script>
+
+</body>
+</html>

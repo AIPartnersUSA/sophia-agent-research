@@ -1,0 +1,25 @@
+# Local SFU. Single service for now; coturn, redis, observability are production-only.
+#
+# Run:
+#     docker compose -f infra/docker-compose.yml up -d
+# Stop:
+#     docker compose -f infra/docker-compose.yml down
+#
+# Verify livekit-server is up:
+#     curl -sf http://localhost:7880/ && echo OK
+#     (You should get a 200 with a small HTML page.)
+
+services:
+  livekit-server:
+    image: livekit/livekit-server:latest
+    container_name: sophia-livekit-server
+    restart: unless-stopped
+    network_mode: host  # simplifies UDP/WebRTC ports on macOS/Linux dev
+    # --node-ip 127.0.0.1 forces the SFU to advertise localhost as its ICE
+    # candidate. Without it, on macOS Docker Desktop with host-networking on,
+    # the SFU auto-detects its Docker-VM IP (192.168.65.x) which the browser
+    # cannot reach, and WebRTC peer connections fail with "could not establish
+    # pc connection" / dtls timeout.
+    command: --config /etc/livekit.yaml --dev --node-ip 127.0.0.1
+    volumes:
+      - ./livekit.yaml:/etc/livekit.yaml:ro

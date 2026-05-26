@@ -1,0 +1,21 @@
+# LiveKit SFU configuration for local OSS development.
+# Mounted into the livekit-server Docker container at /etc/livekit.yaml.
+
+port: 7880
+
+rtc:
+  tcp_port: 7881
+  # Smaller UDP range than the production default (50000-60000) is fine for local.
+  port_range_start: 50000
+  port_range_end: 50100
+  # Localhost: do not try to discover a public IP via STUN.
+  use_external_ip: false
+
+# Dev key/secret pair. Must match LIVEKIT_API_KEY and LIVEKIT_API_SECRET in .env.local.
+# Rotate before any non-local deployment.
+keys:
+  devkey: devsecret-please-change
+
+logging:
+  level: info
+  json: false

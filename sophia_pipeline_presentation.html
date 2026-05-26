@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Sophia Voice Agent — Research &amp; Pipeline</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reset.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/black.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/monokai.css">
+
+  <style>
+    :root {
+      --accent: #5BC0EB;
+      --accent-dim: #3a7a94;
+      --warn: #FDE74C;
+      --good: #7ED957;
+      --bad: #E55934;
+      --muted: #9ba3af;
+    }
+    .reveal { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .reveal h1, .reveal h2, .reveal h3, .reveal h4 { color: var(--accent); text-transform: none; letter-spacing: -0.01em; font-weight: 600; }
+    .reveal h1 { font-size: 2.0em; }
+    .reveal h2 { font-size: 1.5em; }
+    .reveal h3 { font-size: 1.15em; }
+    .reveal section { text-align: left; }
+    .reveal section.center { text-align: center; }
+
+    /* ========== STANDARDIZED FONT SIZES (override per-slide inline styles) ========== */
+    .reveal .slides pre { box-shadow: none; font-size: 0.5em !important; line-height: 1.3 !important; width: 100%; }
+    .reveal .slides pre code { padding: 18px; }
+    .reveal .slides table { font-size: 0.6em !important; border-collapse: collapse; margin: 0 auto; width: 100%; }
+    .reveal table th { background: rgba(91, 192, 235, 0.15); color: var(--accent); padding: 8px 12px; text-align: left; border-bottom: 2px solid var(--accent); }
+    .reveal table td { padding: 8px 12px; border-bottom: 1px solid #333; vertical-align: top; }
+    .reveal table tr:hover td { background: rgba(91, 192, 235, 0.05); }
+    .reveal .slides .box h4 { font-size: 0.85em !important; }
+
+    /* ========== PER-SLIDE VERTICAL SCROLL ========== */
+    .reveal .slides > section,
+    .reveal .slides > section > section {
+      max-height: 100% !important;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      padding: 20px 30px;
+      box-sizing: border-box;
+      /* Firefox scrollbar */
+      scrollbar-width: thin;
+      scrollbar-color: var(--accent-dim) rgba(255,255,255,0.05);
+    }
+    /* WebKit scrollbar (Chrome, Safari, Edge) */
+    .reveal .slides > section::-webkit-scrollbar,
+    .reveal .slides > section > section::-webkit-scrollbar {
+      width: 10px;
+    }
+    .reveal .slides > section::-webkit-scrollbar-track,
+    .reveal .slides > section > section::-webkit-scrollbar-track {
+      background: rgba(255,255,255,0.05);
+      border-radius: 5px;
+    }
+    .reveal .slides > section::-webkit-scrollbar-thumb,
+    .reveal .slides > section > section::-webkit-scrollbar-thumb {
+      background: var(--accent-dim);
+      border-radius: 5px;
+    }
+    .reveal .slides > section::-webkit-scrollbar-thumb:hover,
+    .reveal .slides > section > section::-webkit-scrollbar-thumb:hover {
+      background: var(--accent);
+    }
+
+    /* Pre blocks: horizontal scroll for wide diagrams */
+    .reveal pre { overflow-x: auto !important; }
+    .reveal pre::-webkit-scrollbar { height: 8px; }
+    .reveal pre::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
+    .reveal pre::-webkit-scrollbar-thumb { background: var(--accent-dim); border-radius: 4px; }
+
+    /* Centered slides: keep them flex-centered since global center is off */
+    .reveal section.center {
+      display: flex !important;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100%;
+    }
+    .reveal section.center > * { width: 100%; }
+    .reveal ul, .reveal ol { margin-left: 1em; }
+    .reveal li { margin-bottom: 0.4em; line-height: 1.4; }
+    .reveal code:not(pre code) { background: rgba(91, 192, 235, 0.12); color: var(--accent); padding: 2px 6px; border-radius: 3px; font-size: 0.85em; }
+    .small { font-size: 0.7em; color: var(--muted); }
+    .smaller { font-size: 0.6em; color: var(--muted); }
+    .tag { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 0.5em; font-weight: 600; vertical-align: middle; margin-left: 8px; }
+    .tag.done { background: var(--good); color: #000; }
+    .tag.wip { background: var(--warn); color: #000; }
+    .tag.todo { background: var(--bad); color: #fff; }
+    .pill { display: inline-block; padding: 4px 10px; border-radius: 14px; font-size: 0.55em; background: rgba(91, 192, 235, 0.15); color: var(--accent); border: 1px solid var(--accent-dim); margin: 4px 4px 4px 0; }
+    .quote { font-size: 1.5em; color: var(--accent); font-style: italic; text-align: center; padding: 30px 60px; line-height: 1.3; }
+    .footnote { font-size: 0.5em; color: var(--muted); margin-top: 30px; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+    .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+    .box { background: rgba(255,255,255,0.04); border: 1px solid #333; border-radius: 8px; padding: 16px; }
+    .box.accent { border-color: var(--accent-dim); background: rgba(91, 192, 235, 0.06); }
+    .box h4 { margin-top: 0; color: var(--accent); font-size: 0.9em; }
+    .verdict { background: rgba(126, 217, 87, 0.1); border-left: 4px solid var(--good); padding: 16px 20px; margin: 20px 0; font-size: 0.85em; }
+    .warn-box { background: rgba(253, 231, 76, 0.08); border-left: 4px solid var(--warn); padding: 16px 20px; margin: 20px 0; font-size: 0.85em; }
+    .header-meta { position: absolute; top: 20px; right: 30px; font-size: 0.5em; color: var(--muted); }
+    .reveal .progress { color: var(--accent); }
+    .reveal .controls { color: var(--accent); }
+    .checklist li::marker { content: "✅ "; }
+    .todolist li::marker { content: "⚠️  "; }
+    .nope li::marker { content: "❌ "; }
+  </style>
+</head>
+<body>
+
+<div class="reveal">
+  <div class="slides">
+
+    <!-- ============================================================ -->
+    <!-- 1. TITLE -->
+    <!-- ============================================================ -->
+    <section class="center">
+      <h1 style="font-size: 2.6em; margin-bottom: 0.2em;">Sophia Voice Agent</h1>
+      <h3 style="color: var(--muted); font-size: 1.1em; font-weight: 400;">From model research to voice agent pipeline</h3>
+      <div style="margin-top: 80px;" class="small">
+        (Model Landscape) → (Orchestration & Benchmarking)<br>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 2. THE PROBLEM -->
+    <!-- ============================================================ -->
+    <section>
+      <h2>The Problem</h2>
+      <div class="two-col" style="margin-top: 30px;">
+        <div>
+          <h4 style="color: var(--accent);">What we're building</h4>
+          <ul>
+            <li>Real-time conversational voice agent</li>
+            <li>End-user device: <strong>XREAL glasses</strong> tethered to <strong>Android phone</strong></li>
+            <li>Pipeline: <code>STT → RAG → TTS</code></li>
+            <li>Phone is the LiveKit client; glasses are display + optional mic/camera</li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="color: var(--accent);">Hard requirements</h4>
+          <ul>
+            <li><strong>Open-source</strong> (no vendor lock for production)</li>
+            <li><strong>Self-hostable</strong> on AWS</li>
+            <li>End-to-end first-audio-byte: <strong>~600 ms</strong></li>
+            <li>Real conversational UX (interrupts, turn-taking, no echo)</li>
+            <li>RAG-grounded answers (your AWS endpoint)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footnote" style="margin-top: 40px;">
+        Two architectures considered: <strong>cascaded</strong> (STT → LLM → TTS) vs <strong>end-to-end STS</strong> (audio-LLM with RAG hooks)
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 3. ARCHITECTURE DECISION -->
+    <!-- ============================================================ -->
+    <section>
+      <h2>Architecture decision: cascaded vs STS</h2>
+      <table style="margin-top: 20px;">
+        <thead>
+          <tr><th></th><th>Cascaded (STT → LLM → TTS)</th><th>End-to-end STS</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Components</strong></td><td>3 independent models</td><td>1 audio-LLM</td></tr>
+          <tr><td><strong>RAG integration</strong></td><td>Native (LLM is text-in)</td><td>Needs native function-calling</td></tr>
+          <tr><td><strong>Latency floor</strong></td><td>400–800 ms (optimized)</td><td>200–400 ms (Moshi)</td></tr>
+          <tr><td><strong>OSS license landscape</strong></td><td><span style="color: var(--good);">Excellent</span></td><td><span style="color: var(--warn);">Sparse — mostly CC-BY-NC</span></td></tr>
+          <tr><td><strong>Voice / style control</strong></td><td>Per-component, granular</td><td>Limited, model-baked</td></tr>
+          <tr><td><strong>Debuggability</strong></td><td>Each stage observable</td><td>Black box</td></tr>
+          <tr><td><strong>Swap one model</strong></td><td>Trivial</td><td>Replace whole brain</td></tr>
+        </tbody>
+      </table>
+
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 4. PHASE 1 LANDSCAPE -->
+    <!-- ============================================================ -->
+    <section>
+      <h2>Model landscape <span class="tag done">DONE</span></h2>
+      <p class="small">Surveyed open-source models with.</p>
+
+      <div class="three-col" style="margin-top: 20px;">
+        <div class="box">
+          <h4>STT</h4>
+          <span class="pill">Granite-Speech-4.1-2B</span>
+          <span class="pill">Kyutai stt-1b-en_fr</span>
+          <span class="pill">Parakeet TDT 0.6B v2</span>
+          <span class="pill">Cohere Transcribe</span>
+          <p class="smaller" style="margin-top: 10px;"><code>STT_models.md</code></p>
+        </div>
+        <div class="box">
+          <h4>TTS</h4>
+          <span class="pill">Orpheus 3B</span>
+          <span class="pill">CosyVoice 2 0.5B</span>
+          <span class="pill">Chatterbox</span>
+          <span class="pill">Kokoro-82M</span>
+          <span class="pill">IndexTTS-2</span>
+          <p class="smaller" style="margin-top: 10px;"><code>TTS_models.md</code></p>
+        </div>
+        <div class="box">
+          <h4>STS</h4>
+          <span class="pill">Step-Audio 2 mini</span>
+          <span class="pill">Moshi</span>
+          <span class="pill">Qwen2.5-Omni-7B</span>
+          <p class="smaller" style="margin-top: 10px;"><code>STS_models.md</code></p>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 5. THE REALIZATION -->
+    <!-- ============================================================ -->
+    <section class="center">
+      <div class="quote">
+        "Models alone aren't enough."
+      </div>
+      <p style="margin-top: 30px; font-size: 0.9em;">
+        A great STT + a great LLM + a great TTS does <strong>not</strong> equal a great voice agent.
+      </p>
+
+      <div class="warn-box" style="margin-top: 35px; text-align: left; max-width: 850px; margin-left: auto; margin-right: auto;">
+        <strong>The scenario we want to avoid:</strong><br>
+        <span style="font-style: italic; color: var(--muted);">"My RAG is working fine — answers are correct. But the user isn't enjoying the conversation."</span><br>
+        <span class="smaller" style="display: block; margin-top: 8px;">Because the agent cuts them off mid-pause. Talks over them. Echoes its own voice. Waits 2 seconds before responding. Can't be interrupted. The retrieval is right; the conversation feels broken.</span>
+      </div>
+
+      <p style="margin-top: 30px; font-size: 0.85em; color: var(--muted);">
+        What's missing is the <strong style="color: var(--accent);">environment</strong> — the orchestration layer<br>
+        that turns three models into a real conversation.
+      </p>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 6. WHAT ORCHESTRATION ACTUALLY IS -->
+    <!-- ============================================================ -->
+    <section>
+      <h2>What "orchestration" actually means</h2>
+      <p class="small">Concrete examples of where a naive STT→LLM→TTS pipeline breaks:</p>
+
+      <table style="margin-top: 20px;">
+        <thead><tr><th>Concern</th><th>Problem if missing</th></tr></thead>
+        <tbody>
+          <tr><td><strong>VAD</strong> (voice activity detection)</td><td>Stream silence to STT 24/7 → wasted compute, hallucinated transcripts</td></tr>
+          <tr><td><strong>Turn detection</strong></td><td>Cut user off at "I want to know about… <em>uh</em>…" — silence ≠ turn end</td></tr>
+          <tr><td><strong>Barge-in / interruption</strong></td><td>Agent monologues over the user; no way to stop it mid-sentence</td></tr>
+          <tr><td><strong>AEC echo handling</strong></td><td>Agent hears its own TTS, treats it as user speech, infinite loop</td></tr>
+          <tr><td><strong>State machine</strong></td><td>Race conditions: TTS starts before LLM finishes, tools called twice</td></tr>
+          <tr><td><strong>Streaming hand-off</strong></td><td>Wait for full LLM response before TTS → seconds of dead air</td></tr>
+          <tr><td><strong>Preemptive generation</strong></td><td>Lose 300–500 ms by waiting for explicit "user done" signal</td></tr>
+          <tr><td><strong>Audio I/O orchestration</strong></td><td>Sample rate conversion, chunk boundaries, codec mismatches</td></tr>
+        </tbody>
+      </table>
+
+      
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 6a. VAD vs TURN HANDLING — THE CORE DISTINCTION -->
+    <!-- ============================================================ -->
+    <section>
+      <h2>VAD vs Turn Handling — different problems</h2>
+      <p class="small">The two are constantly conflated. They solve completely different problems at completely different time scales.</p>
+
+      <table style="margin-top: 25px;">
+        <thead>
+          <tr><th>Question</th><th>Answered by</th><th>Time scale</th><th>Type</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>"Is the user PHYSICALLY making sound RIGHT NOW?"</strong></td>
+            <td>VAD</td>
+            <td>Per audio frame (~30 ms)</td>
+            <td>Mechanical</td>
+          </tr>
+          <tr>
+            <td><strong>"Is the user DONE EXPRESSING their thought?"</strong></td>
+            <td>Turn detector</td>
+            <td>Per utterance (~seconds)</td>
+            <td>Semantic</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="two-col" style="margin-top: 30px;">
+        <div class="box">
+          <h4>VAD = mechanical</h4>
+          <p class="small">VAD output is NOT raw per-frame decisions — it's a clean stream of <code>SpeechStarted</code> / <code>SpeechEnded</code> events with timestamps, computed by aggregating frame-level probabilities through hysteresis and duration filters.</p>
+          <p class="smaller">Doesn't know what the user said. Doesn't know if a thought is complete. Doesn't know about conversation.</p>
+          <div style="margin-top: 12px; padding-top: 10px; border-top: 1px solid #333;">
+            <div class="smaller" style="color: var(--accent); margin-bottom: 6px; font-weight: 600;">Models / implementations</div>
+            <span class="pill" style="background: rgba(126, 217, 87, 0.15); border-color: var(--good); color: var(--good);">Silero VAD (MIT) ← Sophia</span>
+            <span class="pill">WebRTC VAD (BSD)</span>
+            <span class="pill">ten-vad (Apache)</span>
+            <span class="pill">Picovoice Cobra (proprietary)</span>
+          </div>
+        </div>
+        <div class="box">
+          <h4>Turn detection = semantic</h4>
+          <p class="small">Does this utterance feel complete? Reads the recent transcript, predicts probability the user is done.</p>
+          <p class="smaller">Owns more than just end-of-turn: barge-in, endpointing timing, preemptive generation.</p>
+          <div style="margin-top: 12px; padding-top: 10px; border-top: 1px solid #333;">
+            <div class="smaller" style="color: var(--accent); margin-bottom: 6px; font-weight: 600;">Models / implementations</div>
+            <span class="pill" style="background: rgba(126, 217, 87, 0.15); border-color: var(--good); color: var(--good);">LiveKit MultilingualModel (Apache) ← Sophia</span>
+            <span class="pill">LiveKit English Turn Detector (Apache, EN-only, lighter)</span>
+            <span class="pill">Pipecat smart-turn-v2 (BSD-3)</span>
+            <span class="pill">STT-based endpointing (Deepgram, AssemblyAI)</span>
+            <span class="pill">Pure VAD timeout (dumb fallback)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footnote" style="margin-top: 25px;">
+        VAD gives <strong>temporal scaffolding</strong> (when sound starts/stops). Turn detection gives <strong>semantic scaffolding</strong> (when a thought is complete). Complementary, not redundant.
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 6b. VAD DEEP DIVE -->
+    <!-- ============================================================ -->
+    <section>
+      <h2>VAD — the per-frame primitive</h2>
+      <p class="small">Purpose: detect speech presence per frame, robustly. Everything else builds on this.</p>
+
+      <div class="warn-box" style="margin-top: 15px;">
+        <strong>Without VAD:</strong> STT receives constant silence/noise (wasted compute, hallucinated transcripts) · No barge-in detection (can't detect user speaking while agent talks)· No "user started speaking" event · Agent either listens to everything or nothing.
+      </div>
+
+      <h4 style="margin-top: 25px;">Silero VAD args — each tunes "detect speech per frame, robustly"</h4>
+      <table style="margin-top: 10px; font-size: 0.55em;">
+        <thead><tr><th>Arg</th><th>Default</th><th>What it controls</th></tr></thead>
+        <tbody>
+          <tr><td><code>activation_threshold</code></td><td>0.5</td><td>ENTER threshold: probability ≥ this → "speech" | Direct main-classifier knob. Higher = stricter.</td></tr>
+          <tr><td><code>deactivation_threshold</code></td><td>auto ≈ 0.35</td><td>EXIT threshold: probability < this → "not speech" | Hysteresis — once in speech mode, lower bar to stay. Prevents flickering when intra-word energy briefly dips.</td></tr>
+          <tr><td><code>min_speech_duration</code></td><td>0.05 s</td><td>Reject chunks shorter than this | Filters single-frame false positives (clicks, pops). Speech must be ≥50 ms.</td></tr>
+          <tr><td><code>min_silence_duration</code></td><td>0.55 s</td><td>Required silence to declare speech ENDED | Smooths over normal between-word gaps. Without this, every micro-pause would fire SpeechEnded. </td></tr>
+          <tr><td><code>prefix_padding_duration</code></td><td>0.5 s</td><td>Audio kept BEFORE detected speech start | Captures word onset that the model itself might miss. STT gets the lead-in syllable. </td></tr>
+          <tr><td><code>max_buffered_speech</code></td><td>60.0 s</td><td>Cap on single chunk length | Memory cap. Forces chunk boundary after 60 s for very long utterances. </td></tr>
+          <tr><td><code>sample_rate</code></td><td>16000</td><td>Audio rate for inference | Required by Silero model (trained on 16 kHz)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="verdict" style="margin-top: 20px;">
+        <strong>None of these args know about conversation, turns, or LLMs.</strong> They're all about making frame-level "is there speech?" decisions robust. VAD doesn't decide when a turn is over, doesn't know what the user said, doesn't know if a thought is complete.
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 6c. TURN HANDLING DEEP DIVE -->
+    <!-- ============================================================ -->
+    <section>
+      <h2>Turn handling — silence ≠ turn end</h2>
+      <p class="small">Why turn handling is needed? To decide when USER'S UTTERANCE is complete enough to send to the LLM. VAD says "silence detected for 550 ms." But silence alone can't tell you if the user is done:</p>
+
+      <table style="margin-top: 15px; font-size: 0.62em;">
+        <thead><tr><th>User says</th><th>Silence after</th><th>Turn complete?</th></tr></thead>
+        <tbody>
+          <tr><td>"what's the weather today"</td><td>600 ms</td><td><span style="color: var(--good);">✅ Yes — clear question</span></td></tr>
+          <tr><td>"I want to know about… uh…"</td><td>800 ms</td><td><span style="color: var(--bad);">❌ No — mid-thought hesitation</span></td></tr>
+          <tr><td>"Let me think…"</td><td>1500 ms</td><td><span style="color: var(--bad);">❌ No — thinking pause</span></td></tr>
+          <tr><td>"ok"</td><td>400 ms</td><td><span style="color: var(--good);">✅ Yes — short but complete</span></td></tr>
+        </tbody>
+      </table>
+
+      <p class="small" style="margin-top: 15px;">A pure silence-timeout can't distinguish these. Set timeout low → cut off mid-sentence. Set high → painful waits. <strong>That's why semantic turn detection (`MultilingualModel`) exists. Reads recent transcript, predicts probability user is done. "I want to know about" with a pause → P(done) low. "what's the weather today" with a pause → P(done) high.</strong></p>
+      <p class="small" style="margin-top: 15px;">Plus turn handling owns more than just end-of-turn detection — it handles **barge-in** (user speaks while agent talks), **endpointing** (timing rule), and **preemptive generation** (speculative LLM call)</p>
+
+      <h4 style="margin-top: 25px;">Four sub-blocks of <code>turn_handling</code></h4>
+
+      <!-- Block 1: turn_detection -->
+      <div class="box" style="margin-top: 15px;">
+        <h4><code>turn_detection</code> — WHICH signal decides "user done"</h4>
+        <table>
+          <thead><tr><th>Value</th><th>Contribution</th></tr></thead>
+          <tbody>
+            <tr><td><code>"vad"</code></td><td>Use only silence timeout. Cheap, dumb. Cuts off pauses.</td></tr>
+            <tr><td><code>"stt"</code></td><td>Use STT's own endpointing signal. Variable quality across providers.</td></tr>
+            <tr style="background: rgba(126, 217, 87, 0.08);"><td><code>MultilingualModel()</code></td><td><strong>Semantic</strong> — reads transcript history, predicts P(end). Smartest. <strong>Sophia's current setting.</strong></td></tr>
+            <tr><td><code>"realtime_llm"</code></td><td>Realtime API (OpenAI/Gemini Live) emits server-side turn events.</td></tr>
+            <tr><td><code>"manual"</code></td><td>You drive turns programmatically.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Block 2: endpointing -->
+      <div class="box" style="margin-top: 15px;">
+        <h4><code>endpointing</code> — WHEN to declare turn over (timing rules even with a semantic detector)</h4>
+        <table>
+          <thead><tr><th>Arg</th><th>Default</th><th>Contribution</th></tr></thead>
+          <tbody>
+            <tr><td><code>mode</code></td><td><code>"fixed"</code></td><td>Constant timeout (<code>"fixed"</code>) vs adaptive (<code>"dynamic"</code>).</td></tr>
+            <tr><td><code>min_delay</code></td><td><code>0.5 s</code></td><td><strong>Floor</strong> — even if detector is sure, wait at least this long. Prevents over-eagerness.</td></tr>
+            <tr><td><code>max_delay</code></td><td><code>3.0 s</code></td><td><strong>Ceiling</strong> — force turn-end after this long. Prevents infinite waits.</td></tr>
+            <tr><td><code>alpha</code></td><td><code>0.9</code></td><td>EMA history weight for <code>"dynamic"</code> mode.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Block 3: interruption -->
+      <div class="box" style="margin-top: 15px;">
+        <h4><code>interruption</code> — barge-in (different from end-of-turn)</h4>
+        <p class="smaller"><strong>Turn-end</strong> = user finished, agent now talks. <strong>Barge-in</strong> = agent is talking, user speaks anyway.</p>
+        <table>
+          <thead><tr><th>Arg</th><th>Default</th><th>Contribution</th></tr></thead>
+          <tbody>
+            <tr><td><code>enabled</code></td><td><code>True</code></td><td>Master switch — set <code>False</code> = agent always finishes.</td></tr>
+            <tr><td><code>mode</code></td><td>auto</td><td><code>"adaptive"</code> (ML-based) vs <code>"vad"</code> (raw VAD trigger).</td></tr>
+            <tr><td><code>min_duration</code></td><td><code>0.5 s</code></td><td>Filters coughs / clicks — must speak ≥500 ms to count as interrupt.</td></tr>
+            <tr><td><code>min_words</code></td><td><code>0</code></td><td>Min word count to count as interrupt (STT-mode only).</td></tr>
+            <tr><td><code>discard_audio_if_uninterruptible</code></td><td><code>True</code></td><td>When uninterruptible, drop buffered audio (don't queue interruption for later).</td></tr>
+            <tr><td><code>resume_false_interruption</code></td><td><code>True</code></td><td>Brief interrupt → agent resumes original utterance from where it stopped.</td></tr>
+            <tr><td><code>false_interruption_timeout</code></td><td><code>2.0 s</code></td><td>After this silence post-interrupt → reclassify as false.</td></tr>
+            <tr><td><code>backchannel_boundary</code></td><td><code>(1.0, 3.5)</code></td><td>Suppress interruption at <em>(start, end)</em> of agent's turn. Handles "mm-hmm" backchannels and STT timestamp drift. End value higher than start because STT timestamps aren't very reliable.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Block 4: preemptive_generation -->
+      <div class="box" style="margin-top: 15px;">
+        <h4><code>preemptive_generation</code> — speculative LLM call</h4>
+        <p class="smaller">While turn detector is still computing, start LLM in parallel. Save latency.</p>
+        <table>
+          <thead><tr><th>Arg</th><th>Default</th><th>Contribution</th></tr></thead>
+          <tbody>
+            <tr><td><code>enabled</code></td><td><code>True</code></td><td>Start LLM speculatively when detector leans toward "end".</td></tr>
+            <tr><td><code>preemptive_tts</code></td><td><code>False</code></td><td>Also start TTS speculatively. Riskier — wastes TTS compute on cancelled turns.</td></tr>
+            <tr><td><code>max_speech_duration</code></td><td><code>10.0 s</code></td><td>Skip preemption for utterances longer than this — long utterances more likely to change.</td></tr>
+            <tr><td><code>max_retries</code></td><td><code>3</code></td><td>Cap on speculative-call retries per turn (resets when turn completes).</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Bonus: MultilingualModel args -->
+      <div class="box accent" style="margin-top: 15px;">
+        <h4><code>MultilingualModel()</code> args (the model itself)</h4>
+        <table>
+          <thead><tr><th>Arg</th><th>Default</th><th>Contribution</th></tr></thead>
+          <tbody>
+            <tr><td><code>unlikely_threshold</code></td><td><code>None</code> (per-language defaults)</td><td>Override "unlikely end-of-turn" threshold. Lower = more eager to end.</td></tr>
+            <tr><td><code>MAX_HISTORY_TURNS</code> <span class="smaller">(internal)</span></td><td><code>6</code></td><td>Only the last 6 turns sent for prediction. <strong>Not user-tunable.</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 6d. LIFECYCLE + VERDICT -->
+    <!-- ============================================================ -->
+    <section>
+      <h2>Lifecycle — VAD + turn handling in cooperation</h2>
+      <pre style="font-size: 0.5em;"><code class="language-text">User starts speaking
+  ↓
+[VAD] activation_threshold crossed for >min_speech_duration → SpeechStarted
+  ↓
+[STT] streams audio, emits interim transcripts
+[Turn detector] reads interims, computes P(end) continuously
+  ↓
+User pauses
+  ↓
+[VAD] silence >min_silence_duration → SpeechEnded   (just means "no more sound")
+  ↓
+[Endpointing] starts countdown (must wait min_delay before turn ends)
+[Turn detector] given final transcript, predicts P(end)
+  ↓
+Decision branch:
+  IF P(end) > threshold AND endpointing min_delay elapsed:
+    → Turn confirmed, send to LLM (or use preemptive result)
+    → TTS speaks response
+  IF P(end) low AND max_delay not elapsed:
+    → Wait. User probably paused mid-thought.
+  IF max_delay elapsed regardless:
+    → Force turn end
+
+While agent speaking:
+  [VAD] runs continuously
+  IF user speech > min_interruption_duration AND not in backchannel_boundary:
+    → Barge-in! Cancel TTS, cancel LLM, return to listening
+  IF brief speech then silence > false_interruption_timeout:
+    → Resume agent's original utterance from where it stopped</code></pre>
+
+      <table style="margin-top: 15px; font-size: 0.55em;">
+        <thead><tr><th>Approach</th><th>Pros</th><th>Cons</th></tr></thead>
+        <tbody>
+          <tr><td>VAD alone (<code>turn_detection="vad"</code>)</td><td>Cheap, no extra model</td><td>Cuts off mid-sentence pauses, can't distinguish hesitation</td></tr>
+          <tr><td>Turn detector alone</td><td>Semantic, accurate</td><td>Needs VAD silence events as trigger</td></tr>
+          <tr><td>STT-based (<code>turn_detection="stt"</code>)</td><td>Free (STT engine usually has endpointing)</td><td>Variable quality; not as smart as semantic</td></tr>
+          <tr style="background: rgba(126, 217, 87, 0.08);"><td><strong>VAD + MultilingualModel</strong> (Sophia's current)</td><td><strong>Best</strong> — VAD handles fast per-frame events; turn detector handles slow semantic completeness</td><td>More compute (extra ONNX); more args to tune</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 6e. THE OTHER 4 CONCERNS -->
+    <!-- ============================================================ -->
+    <section>
+      <h2>other concerns</h2>
+
+      <div class="two-col" style="margin-top: 25px;">
+
+        <!-- AEC echo handling -->
+        <div class="box">
+          <h4>AEC echo handling</h4>
+          <p class="small"><strong>What it is:</strong> Cancel the agent's own voice before it gets re-fed into STT (otherwise infinite loop -- agent transcribes itself).</p>
+          <p class="small"><strong>Who handles it:</strong></p>
+          <ul class="smaller">
+            <li><strong>WebRTC AEC</strong> -- runs <em>client-side</em> in the browser / Android SDK. Standard WebRTC primitive, automatic.</li>
+            <li><strong>LiveKit framework</strong> -- adds <code>aec_warmup_duration=3.0 s</code> (AgentSession arg). Tells the agent "ignore user audio for the first 3 s of agent speech" so AEC has time to converge before barge-in detection trusts the mic.</li>
+          </ul>
+          <p class="smaller" style="color: var(--accent);"><strong>Where:</strong> WebRTC stack (transport layer) + <code>voice/agent_session.py</code> (warmup timer)</p>
+        </div>
+
+        <!-- State machine -->
+        <div class="box">
+          <h4>State machine</h4>
+          <p class="small"><strong>What it is:</strong> Tracks "what is the agent doing right now?" so audio + LLM + TTS don't race. States: <code>listening</code> -> <code>thinking</code> -> <code>speaking</code> -> <code>interrupted</code>.</p>
+          <p class="small"><strong>Who handles it:</strong></p>
+          <ul class="smaller">
+            <li><strong>AgentActivity</strong> class (<code>voice/agent_activity.py</code>) -- the per-session state machine. Owns the lifecycle of one user turn.</li>
+            <li><strong>AgentSession</strong> -- holds <code>agent_state</code> and <code>user_state</code> properties; emits <code>agent_state_changed</code> events you can subscribe to.</li>
+            <li><strong>SpeechHandle scheduler</strong> -- per-utterance state (queued / playing / cancelled / done).</li>
+          </ul>
+          <p class="smaller" style="color: var(--accent);"><strong>Where:</strong> <code>voice/agent_activity.py</code>, <code>voice/agent_session.py</code>, <code>voice/speech_handle.py</code></p>
+        </div>
+
+        <!-- Streaming hand-off -->
+        <div class="box">
+          <h4>Streaming hand-off (STT -> LLM -> TTS)</h4>
+          <p class="small"><strong>What it is:</strong> Pipe STT transcript chunks into the LLM, pipe LLM token chunks into TTS, all while preserving sentence boundaries so TTS can start speaking the first sentence before the LLM finishes.</p>
+          <p class="small"><strong>Who handles it:</strong></p>
+          <ul class="smaller">
+            <li><strong>generate_reply()</strong> in <code>voice/generation.py</code> -- consumes the LLM's <code>ChatChunk</code> stream, splits text deltas (-> TTS) from tool-call deltas (-> @function_tool execution).</li>
+            <li><strong>StreamAdapter</strong> -- wraps non-streaming STT/TTS plugins so the rest of the pipeline can pretend everything streams.</li>
+            <li><strong>Sentence tokenizer</strong> (blingfire) -- splits LLM text into sentences for TTS engines that synthesize per-sentence.</li>
+            <li><strong>transcription_node</strong> -- runs between LLM and TTS; strips markdown / emoji / does pronunciation fixes.</li>
+          </ul>
+          <p class="smaller" style="color: var(--accent);"><strong>Where:</strong> <code>voice/generation.py</code>, <code>stt/stream_adapter.py</code>, <code>tts/stream_adapter.py</code>, <code>voice/agent.py</code> (transcription_node hook)</p>
+        </div>
+
+        <!-- Audio I/O orchestration -->
+        <div class="box">
+          <h4>Audio I/O orchestration</h4>
+          <p class="small"><strong>What it is:</strong> Move raw audio frames between mic / SFU / STT / TTS / speaker while normalizing sample rates, codecs, and chunk boundaries.</p>
+          <p class="small"><strong>Who handles it:</strong></p>
+          <ul class="smaller">
+            <li><strong>livekit-rtc</strong> (Python bindings to the Rust SDK) -- raw WebRTC frame I/O, codec negotiation (Opus on the wire), packet jitter buffer.</li>
+            <li><strong>AgentSession.input</strong> / <strong>.output</strong> -- typed channels for audio / video / text. Routes mic frames to STT and TTS frames to SFU.</li>
+            <li><strong>Framework auto-resampling</strong> -- mic frames arrive at SFU rate (typically 48 kHz), get resampled to STT's expected rate (16 kHz for Silero / Deepgram nova-3); TTS output at 24 kHz gets resampled to 48 kHz for SFU.</li>
+          </ul>
+          <p class="smaller" style="color: var(--accent);"><strong>Where:</strong> <code>livekit-rtc</code> package + <code>voice/io.py</code> + <code>voice/room_io/</code></p>
+        </div>
+
+      </div>
+
+      <div class="verdict" style="margin-top: 25px;">
+        <strong>Pattern:</strong> some of this lives in WebRTC (transport-layer primitive), some in <code>livekit-agents</code> (the Python framework), some in <code>livekit-rtc</code> (the audio I/O bindings). When we self-host, ALL of these come along for free -- they are part of the OSS stack, not Cloud-only features.
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 6f. WHAT YOU ACTUALLY BUY WITH LIVEKIT -->
+    <!-- ============================================================ -->
+    <section>
+      <h2>What you actually buy with LiveKit (vs just models)</h2>
+
+      <div class="quote" style="font-size: 1.0em; padding: 18px 30px; margin-top: 10px;">
+        "The model is the easy part. The integration is what separates a usable voice agent from a frustrating one."
+      </div>
+
+      <p class="small" style="margin-top: 15px;">Concrete behaviours you experience in the LiveKit Playground -- and where each one actually comes from:</p>
+
+      <table style="margin-top: 10px;">
+        <thead><tr><th>Behaviour you observe</th><th>Comes from</th></tr></thead>
+        <tbody>
+          <tr><td>Agent starts speaking ~300 ms after you finish your sentence</td><td><strong>Framework</strong> -- preemptive_generation (LLM runs speculatively before turn confirmed)</td></tr>
+          <tr><td>Agent doesn't get interrupted when you say "uh-huh" while it talks</td><td><strong>Framework</strong> -- interruption.backchannel_boundary suppression</td></tr>
+          <tr><td>Agent stops mid-sentence when you actually do interrupt</td><td><strong>Framework</strong> -- interruption detection + TTS cancellation in SpeechHandle scheduler</td></tr>
+          <tr><td>Agent resumes its sentence when your "interrupt" turned out to be a cough</td><td><strong>Framework</strong> -- resume_false_interruption + false_interruption_timeout</td></tr>
+          <tr><td>Agent doesn't transcribe its own voice and loop forever</td><td><strong>WebRTC</strong> client-side AEC + <strong>framework</strong> aec_warmup_duration window</td></tr>
+          <tr><td>Agent waits when you pause mid-thought instead of cutting you off</td><td><strong>Model + framework</strong> -- MultilingualModel returns low P(end), framework's endpointing countdown holds turn-end</td></tr>
+          <tr><td>Agent transcribes correctly even when you mumble or whisper</td><td><strong>Model</strong> -- STT (Deepgram nova-3). Framework just routes audio.</td></tr>
+          <tr><td>Agent's voice sounds natural and prosodic</td><td><strong>Model</strong> -- TTS (Cartesia sonic-3). Framework just streams the synthesized frames.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="two-col" style="margin-top: 25px;">
+        <div class="box">
+          <h4>Pattern</h4>
+          <p class="small">Anything about <strong>timing, interruption, recovery, coordination</strong> between stages = framework.</p>
+          <p class="small">Anything about <strong>acoustic quality, transcript accuracy, generation quality</strong> = the model.</p>
+          <p class="smaller">The framework wraps the models with a state machine that turns "ML inference results" into "a conversation that feels human."</p>
+        </div>
+        <div class="box accent">
+          <h4>Where this code actually lives</h4>
+          <ul class="smaller">
+            <li><code>voice/agent_activity.py</code> -- per-turn state machine</li>
+            <li><code>voice/turn.py</code> -- TurnHandling / Endpointing / Interruption / Preemptive options</li>
+            <li><code>voice/generation.py</code> -- generate_reply() loop, speculative LLM scheduling</li>
+            <li><code>voice/speech_handle.py</code> -- per-utterance scheduler with interruption + AEC enforcement</li>
+            <li><code>voice/audio_recognition.py</code> -- pumps STT events to turn detector, fires endpointing countdown</li>
+            <li><code>voice/agent_session.py</code> -- AEC warmup timer, user / agent state machines</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="verdict" style="margin-top: 25px;">
+        <strong>Strategic implication:</strong> we can swap models freely (Sophia's Phase 2 plan rests on this), but rebuilding orchestration would cost 4-8 person-weeks of careful state-machine and timing logic, plus audio I/O plumbing on top. Sticking with LiveKit lets us spend engineering time on model quality and RAG quality, not on rebuilding what already works.
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 9. LIVEKIT ARCHITECTURE -->
+    <!-- ============================================================ -->
+    <section>
+      <h2>LiveKit architecture: 3 processes, 3 layers</h2>
+
+      <h4 style="margin-top: 20px;">Three orthogonal layers (plugins replace ONE)</h4>
+      <pre><code class="language-text">  [Network layer]            [Audio enhancement]      [Model layer]
+  ─────────────────          ─────────────────────    ──────────────
+  LiveKit Cloud SFU          ai-coustics (Cloud)      STT plugin
+          OR                          OR              LLM plugin
+  self-hosted livekit-server  DeepFilterNet 3 (OSS)   TTS plugin
+                                      OR              VAD plugin
+                                     none
+     (must exist)              (optional)             (you bring)</code></pre>
+
+      <h4 style="margin-top: 30px;">Three-process model (when worker runs)</h4>
+      <pre><code class="language-text">  [ AgentServer main process ]              ← cli.run_app(server)
+    Process pool + WS-to-SFU manager         No ML — pure config
+              │ spawns N
+              ▼
+  [ Worker subprocess #N ]                  ← per user session
+    AgentSession orchestrator                prewarm: loads Silero VAD
+    Runs Assistant.entrypoint                HTTPS to remote STT/LLM/TTS
+              │ IPC for turn detection
+              ▼
+  [ Inference runner subprocess ]           ← framework auto-spawns
+    Loads turn-detector ONNX once            Serves all workers via IPC</code></pre>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 10. CODE FLOW -->
+    <!-- ============================================================ -->
+    <section>
+      <h2>Code flow: one user turn</h2>
+      <pre><code class="language-text">user audio → SFU → Worker → AgentSession audio input
+                  │
+                  ▼
+        Agent.stt_node(audio)          ← override hook
+                  │
+                  ▼
+          STT.stream() → INTERIM / FINAL transcripts
+                  │
+                  ▼
+       VAD + turn detector say "user done"
+                  │
+                  ▼
+        Agent.llm_node(chat_ctx, tools)   ← override hook  ← RAG injection point
+                  │
+                  ▼
+          LLM.chat(chat_ctx, tools) → ChatChunk stream (text + tool calls)
+                  │
+                  ▼
+   Agent.transcription_node(text)    ← strip markdown / emoji, expand abbrevs
+                  │
+                  ▼
+        Agent.tts_node(text)           ← override hook
+                  │
+                  ▼
+          TTS.stream() → AudioFrame stream
+                  │
+                  ▼
+   SpeechHandle scheduler (interruption rules + AEC warmup)
+                  │
+                  ▼
+        SFU output → audio in user's ear</code></pre>
+
+      <div class="footnote">
+        <strong>Override hooks</strong> are how custom plugins integrate. <code>llm_node</code> is where Sophia's <code>AwsRagLLM</code> wires in — intercept <code>chat_ctx</code>, hit AWS RAG endpoint, return ChatChunk stream.
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 11. THREE-RING TUNABLE MODEL -->
+    <!-- ============================================================ -->
+    <section>
+      <h2>Three-ring tunable model</h2>
+      <p class="small">For each pipeline stage, every knob lives in one of three rings:</p>
+
+      <pre style="margin-top: 15px;"><code class="language-text">  [ Plugin constructor ]      ← model quality (temperature, voice, speed)
+                                  per-provider, NOT on Agent
+  [ Agent / Session args ]    ← orchestration (instructions, tools, max_tool_steps)
+                                  framework-level, provider-agnostic
+  [ turn_handling block ]     ← timing &amp; UX (endpointing, interruption, preemption)</code></pre>
+
+      <table style="margin-top: 20px; font-size: 0.55em;">
+        <thead><tr><th>Stage</th><th>Plugin knobs (model-specific)</th><th>Framework knobs (orchestration)</th><th>turn_handling</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>STT</strong></td>
+            <td><code>model</code>, <code>endpointing</code>, <code>keywords</code>, <code>smart_format</code>, <code>diarize</code>, <code>language</code></td>
+            <td><code>vad</code>, <code>stt</code>, <code>Agent.stt_node</code> override</td>
+            <td><code>turn_detection</code>, <code>endpointing.{min,max}_delay</code></td>
+          </tr>
+          <tr>
+            <td><strong>LLM</strong></td>
+            <td><code>temperature</code>, <code>max_completion_tokens</code>, <code>parallel_tool_calls</code>, <code>reasoning_effort</code>, <code>prompt_cache_key</code></td>
+            <td><code>instructions</code>, <code>tools</code>, <code>mcp_servers</code>, <code>chat_ctx</code>, <code>max_tool_steps</code>, <code>llm_node</code> override</td>
+            <td><code>preemptive_generation.{enabled, max_speech_duration}</code></td>
+          </tr>
+          <tr>
+            <td><strong>TTS</strong></td>
+            <td><code>voice</code>, <code>speed</code>, <code>emotion</code>, <code>volume</code>, <code>add_timestamps</code></td>
+            <td><code>tts_text_transforms</code>, <code>aec_warmup_duration</code>, <code>use_tts_aligned_transcript</code>, <code>transcription_node</code> + <code>tts_node</code> overrides</td>
+            <td><code>interruption.*</code> (mostly TTS-reaction)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="footnote" style="margin-top: 20px;">
+        <strong>Insight:</strong> The <code>interruption.*</code> block is mostly about <em>how TTS reacts</em> to user speech, not about detecting it. VAD/turn-detection produce the signal; interruption args decide what to do with it.
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 12. PRODUCTION ARCHITECTURE (THE BIG DIAGRAM) -->
+    <!-- ============================================================ -->
+    <section>
+      <h2>OSS production architecture</h2>
+      <pre style="font-size: 0.5em;"><code class="language-text">          ┌──────────────────────────────┐
+          │   XREAL Glasses (display)    │
+          └─────────────┬────────────────┘
+                        │ USB-C tether
+          ┌─────────────▼────────────────┐
+          │  Android phone (Kotlin)      │
+          │  • livekit-android SDK       │
+          │  • XREAL NRSDK               │
+          └────┬─────────────────────┬───┘
+               │                     │
+               │ HTTPS (auth)        │ WebRTC (SRTP audio)
+               ▼                     ▼
+   ┌────────────────────┐   ┌──────────────────────┐
+   │  Token-mint        │   │  livekit-server      │  ← AWS VPC
+   │  FastAPI           │   │  (Go SFU, Docker)    │     EC2 + ALB
+   │  livekit-api       │   │  + coturn (TURN)     │
+   └────────────────────┘   └──────────┬───────────┘
+                                       │ WebRTC + WebSocket
+                                       ▼
+                          ┌──────────────────────────┐
+                          │  Sophia Agent Worker     │  ← AWS EC2 (CPU)
+                          │  livekit-agents          │     no GPU needed
+                          │   + silero VAD           │
+                          │   + turn-detector        │
+                          │   + DeepFilterNet 3      │
+                          │   + custom plugins:      │
+                          │      • AwsRagLLM         │
+                          │      • AwsSttPlugin      │
+                          │      • AwsTtsPlugin      │
+                          └──────────┬───────────────┘
+                                     │ HTTPS
+                                     ▼
+                          ┌──────────────────────────┐
+                          │  AWS Model Servers       │  ← GPU instances
+                          │  • STT model server      │     (g5.xlarge)
+                          │  • RAG service           │
+                          │  • TTS model server      │
+                          └──────────────────────────┘</code></pre>
+
+      <div class="footnote" style="margin-top: 15px;">
+        <strong>4 distinct flows:</strong>
+        <span class="pill">Auth (HTTPS Android→FastAPI)</span>
+        <span class="pill">Media (WebRTC Android↔SFU↔Agent)</span>
+        <span class="pill">Worker control (WS Agent↔SFU)</span>
+        <span class="pill">Inference (HTTPS Agent→AWS models)</span>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/highlight.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/notes/notes.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    slideNumber: 'c/t',
+    transition: 'fade',
+    transitionSpeed: 'fast',
+    width: 1280,
+    height: 800,
+    margin: 0.04,
+    minScale: 0.4,
+    maxScale: 1.6,
+    center: false,        // disabled — per-slide overflow-y scroll handles tall content
+    plugins: [RevealHighlight, RevealNotes]
+  });
+</script>
+
+</body>
+</html>
