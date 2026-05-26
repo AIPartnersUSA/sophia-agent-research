@@ -1,0 +1,303 @@
+name: CI
+permissions:
+  contents: read
+  actions: read
+  packages: read
+  statuses: write
+  checks: write
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  build-ffi:
+    name: Rebuild FFI (Linux)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    outputs:
+      rebuilt: ${{ steps.check.outputs.changed }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: false
+          submodules: recursive
+          fetch-depth: 0
+      # Decide whether to rebuild the Linux FFI lib.
+      # Label overrides (PRs only) take priority over submodule diff:
+      #   - `release`         → skip rebuild (test against the committed prebuilt .so)
+      #   - `rust-dependency` → force rebuild (escape hatch / explicit opt-in)
+      # If neither label is set, fall back to diffing client-sdk-rust~ against the base ref.
+      - name: Check for Rust submodule changes
+        id: check
+        env:
+          PR_LABELS: ${{ toJSON(github.event.pull_request.labels.*.name) }}
+        run: |
+          BASE_REF="${{ github.event.pull_request.base.ref || 'main' }}"
+          HAS_RELEASE_LABEL=$(echo "$PR_LABELS" | jq -r '(. // []) | any(. == "release")')
+          HAS_REBUILD_LABEL=$(echo "$PR_LABELS" | jq -r '(. // []) | any(. == "rust-dependency")')
+          if [ "$HAS_RELEASE_LABEL" = "true" ]; then
+            echo "'release' label set — skipping rebuild (testing against committed prebuilt lib)"
+            echo "changed=false" >> $GITHUB_OUTPUT
+          elif [ "$HAS_REBUILD_LABEL" = "true" ]; then
+            echo "'rust-dependency' label set — forcing rebuild"
+            echo "changed=true" >> $GITHUB_OUTPUT
+          elif git diff --name-only "origin/$BASE_REF"...HEAD | grep -q "^client-sdk-rust~" ; then
+            echo "Rust submodule has changes — will rebuild"
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "No Rust submodule changes — skipping build"
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+      # Mirrors the Linux build from the upstream Rust SDK's ffi-builds.yml.
+      # If this breaks after an upstream change, check for updates there:
+      # https://github.com/livekit/client-sdk-rust/blob/main/.github/workflows/ffi-builds.yml
+      - name: Build liblivekit_ffi.so
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          docker run --rm -v $PWD/client-sdk-rust~:/workspace -w /workspace \
+            sameli/manylinux_2_28_x86_64_cuda_12.3 bash -c "\
+              export PATH=/root/.cargo/bin:\$PATH && \
+              yum install -y llvm llvm-libs lld clang protobuf-compiler && \
+              yum groupinstall -y 'Development Tools' && \
+              yum install -y openssl-devel libX11-devel mesa-libGL-devel libXext-devel && \
+              curl --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && \
+              cd livekit-ffi && cargo build --release --target x86_64-unknown-linux-gnu"
+          sudo cp client-sdk-rust~/target/x86_64-unknown-linux-gnu/release/liblivekit_ffi.so \
+             Runtime/Plugins/ffi-linux-x86_64/liblivekit_ffi.so
+      - name: Upload rebuilt library
+        if: steps.check.outputs.changed == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ffi-linux-x86_64
+          path: Runtime/Plugins/ffi-linux-x86_64/liblivekit_ffi.so
+  test:
+    name: Test (${{ matrix.unityVersion }})
+    needs: build-ffi
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        unityVersion: [6000.0.49f1, 2023.2.20f1]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+      - name: Download rebuilt FFI library
+        if: needs.build-ffi.outputs.rebuilt == 'true'
+        uses: actions/download-artifact@v4
+        with:
+          name: ffi-linux-x86_64
+          path: Runtime/Plugins/ffi-linux-x86_64/
+      # Required when using package mode, see open issue:
+      # https://github.com/game-ci/unity-test-runner/issues/223
+      - name: Move Into Subdirectory
+        shell: bash
+        run: |
+          mkdir root
+          shopt -s dotglob extglob
+          mv !(root) root/
+      # Required for E2E tests
+      - name: Install LiveKit Server
+        run: curl -sSL https://get.livekit.io | bash
+      - name: Run LiveKit Server
+        env:
+          # TODO: once data tracks is enabled by default in a subsequent SFU release, remove this.
+          LIVEKIT_CONFIG: "enable_data_tracks: true"
+        run: livekit-server --dev &
+      - name: Wait for LiveKit Server
+        run: |
+          for i in $(seq 1 30); do
+            if curl -sf http://localhost:7880 > /dev/null 2>&1; then
+              echo "LiveKit server is ready"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "LiveKit server failed to start within 30s"
+          exit 1
+      - name: Run Tests
+        uses: game-ci/unity-test-runner@v4
+        id: testRunner
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          projectPath: root
+          unityVersion: ${{ matrix.unityVersion }}
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          checkName: Test Results (${{ matrix.unityVersion }})
+          packageMode: true
+          useHostNetwork: true
+      - name: Generate HTML Test Report
+        if: always()
+        run: |
+          ARTIFACTS="${{ steps.testRunner.outputs.artifactsPath || 'artifacts' }}"
+          python3 root/Scripts~/unity_test_results_utils.py \
+            "$ARTIFACTS/editmode-results.xml" \
+            "$ARTIFACTS/playmode-results.xml" \
+            -o test-results.html
+      - name: Test Summary
+        if: always()
+        run: |
+          ARTIFACTS="${{ steps.testRunner.outputs.artifactsPath || 'artifacts' }}"
+          CRASHED=""
+          for MODE in editmode playmode; do
+            if [ ! -f "$ARTIFACTS/${MODE}-results.xml" ]; then
+              CRASHED="$CRASHED $MODE"
+            fi
+          done
+          if [ -n "$CRASHED" ]; then
+            echo "## :boom: Unity crashed during tests" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "Missing results for:**$CRASHED**. Unity exited before writing results." >> $GITHUB_STEP_SUMMARY
+            echo "Check the **Run Tests** step logs for a native stack trace or abort signal." >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+          fi
+          python3 root/Scripts~/unity_test_results_utils.py \
+            "$ARTIFACTS/editmode-results.xml" \
+            "$ARTIFACTS/playmode-results.xml" \
+            -f markdown >> $GITHUB_STEP_SUMMARY
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Test results (${{ matrix.unityVersion }})
+          path: |
+            ${{ steps.testRunner.outputs.artifactsPath || 'artifacts' }}
+            test-results.html
+  # For platforms with build support on Linux
+  build-linux:
+   env:
+      UNITY_PROJECT_PATH: Samples~/Basic
+   name: Build (${{ matrix.targetPlatform }}, ${{ matrix.unityVersion }})
+   runs-on: ubuntu-latest
+   timeout-minutes: 30
+   strategy:
+      fail-fast: false
+      matrix:
+        unityVersion: [6000.0.49f1]
+        targetPlatform: [iOS, Android, StandaloneLinux64]
+   steps:
+     - name: Checkout
+       uses: actions/checkout@v4
+       with:
+         lfs: true
+     - uses: actions/cache@v3
+       with:
+         path: ${{ env.UNITY_PROJECT_PATH }}/Library
+         key: Library-${{ env.UNITY_PROJECT_PATH }}-${{ matrix.targetPlatform }}-${{ hashFiles(env.UNITY_PROJECT_PATH) }}
+         restore-keys: |
+           Library-${{ env.UNITY_PROJECT_PATH }}-${{ matrix.targetPlatform }}-
+           Library-${{ env.UNITY_PROJECT_PATH }}-
+           Library-
+     # Android build requires more disk space than other platforms
+     # Solution: clear disk space first
+     - name: Free Disk Space
+       if: matrix.targetPlatform == 'Android'
+       uses: jlumbroso/free-disk-space@v1.3.1
+     - name: Build
+       uses: game-ci/unity-builder@v4
+       env:
+         UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+         UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+         UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+       with:
+         projectPath: ${{ env.UNITY_PROJECT_PATH }}
+         unityVersion: ${{ matrix.unityVersion }}
+         targetPlatform: ${{ matrix.targetPlatform }}
+     - name: Upload Build
+       uses: actions/upload-artifact@v4
+       with:
+        name: Build (${{ matrix.targetPlatform }})
+        path: build/${{ matrix.targetPlatform }}
+        retention-days: 1
+  # For platforms with build support on Windows
+  build-windows:
+   env:
+      UNITY_PROJECT_PATH: Samples~/Basic
+   name: Build (${{ matrix.targetPlatform }}, ${{ matrix.unityVersion }})
+   runs-on: windows-latest
+   timeout-minutes: 30
+   strategy:
+      fail-fast: false
+      matrix:
+        unityVersion: [6000.0.49f1]
+        targetPlatform: [StandaloneWindows64]
+   steps:
+     - name: Checkout
+       uses: actions/checkout@v4
+       with:
+         lfs: true
+     - uses: actions/cache@v3
+       with:
+         path: ${{ env.UNITY_PROJECT_PATH }}/Library
+         key: Library-${{ env.UNITY_PROJECT_PATH }}-${{ matrix.targetPlatform }}-${{ hashFiles(env.UNITY_PROJECT_PATH) }}
+         restore-keys: |
+           Library-${{ env.UNITY_PROJECT_PATH }}-${{ matrix.targetPlatform }}-
+           Library-${{ env.UNITY_PROJECT_PATH }}-
+           Library-
+     - name: Build
+       uses: game-ci/unity-builder@v4
+       env:
+         UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+         UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+         UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+       with:
+         projectPath: ${{ env.UNITY_PROJECT_PATH }}
+         unityVersion: ${{ matrix.unityVersion }}
+         targetPlatform: ${{ matrix.targetPlatform }}
+     - name: Upload Build
+       uses: actions/upload-artifact@v4
+       with:
+        name: Build (${{ matrix.targetPlatform }})
+        path: build/${{ matrix.targetPlatform }}
+        retention-days: 1
+  # For platforms with build support on MacOS
+  build-macos:
+   env:
+      UNITY_PROJECT_PATH: Samples~/Basic
+   name: Build (${{ matrix.targetPlatform }}, ${{ matrix.unityVersion }})
+   runs-on: macos-latest
+   timeout-minutes: 30
+   strategy:
+      fail-fast: false
+      matrix:
+        unityVersion: [6000.0.49f1]
+        targetPlatform: [StandaloneOSX]
+   steps:
+     - name: Checkout
+       uses: actions/checkout@v4
+       with:
+         lfs: true
+     - uses: actions/cache@v3
+       with:
+         path: ${{ env.UNITY_PROJECT_PATH }}/Library
+         key: Library-${{ env.UNITY_PROJECT_PATH }}-${{ matrix.targetPlatform }}-${{ hashFiles(env.UNITY_PROJECT_PATH) }}
+         restore-keys: |
+           Library-${{ env.UNITY_PROJECT_PATH }}-${{ matrix.targetPlatform }}-
+           Library-${{ env.UNITY_PROJECT_PATH }}-
+           Library-
+     - name: Build
+       uses: game-ci/unity-builder@v4
+       env:
+         UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+         UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+         UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+       with:
+         projectPath: ${{ env.UNITY_PROJECT_PATH }}
+         unityVersion: ${{ matrix.unityVersion }}
+         targetPlatform: ${{ matrix.targetPlatform }}
+     - name: Upload Build
+       uses: actions/upload-artifact@v4
+       with:
+        name: Build (${{ matrix.targetPlatform }})
+        path: build/${{ matrix.targetPlatform }}
+        retention-days: 1
