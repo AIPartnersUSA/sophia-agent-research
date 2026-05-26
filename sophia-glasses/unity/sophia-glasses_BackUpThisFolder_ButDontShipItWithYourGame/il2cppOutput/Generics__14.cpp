@@ -24581,9 +24581,9 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AsyncTask_1__ctor_mEDAFC62AB6B6EE128ACF1
 	}
 	bool V_0 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:19>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:19>
 		Object__ctor_mE837C6B9FA8C6D5D109F4B2EC885D79919AC0EA2((RuntimeObject*)__this, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:22>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:22>
 		il2cpp_codegen_runtime_class_init_inline(AsyncTask_t4D5E86BDB8753F9FC9A138EB67FDD69B42CA8AAC_il2cpp_TypeInfo_var);
 		bool L_0;
 		L_0 = AsyncTask_get_IsInitialized_m46BBA1C780D6226AAEA7F309769DAF19D17B3BA7_inline(NULL);
@@ -24595,36 +24595,36 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AsyncTask_1__ctor_mEDAFC62AB6B6EE128ACF1
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:24>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:24>
 		il2cpp_codegen_runtime_class_init_inline(AsyncTask_t4D5E86BDB8753F9FC9A138EB67FDD69B42CA8AAC_il2cpp_TypeInfo_var);
 		AsyncTask_Init_m6AA9E3A057BDB417AF0BC0F366647F0822A88A2A(NULL);
 	}
 
 IL_001c:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:27>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:27>
 		AsyncTask_1_set_IsComplete_mBFE2F93DFEFF3F7631F5F9A3E56343FA5EEB869C_inline(__this, (bool)0, il2cpp_rgctx_method(method->klass->rgctx_data, 0));
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:28>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:29>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:30>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:31>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:32>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:33>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:34>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:35>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:36>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:37>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:38>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:39>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:40>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:41>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:42>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:28>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:29>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:30>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:31>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:32>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:33>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:34>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:35>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:36>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:37>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:38>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:39>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:40>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:41>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:42>
 		Action_1_tFB8EF4E4D53C5E5BDA2CD05ACC80F089A7152EFD** L_2 = ___0_asyncOperationComplete;
 		Action_1_tFB8EF4E4D53C5E5BDA2CD05ACC80F089A7152EFD* L_3 = (Action_1_tFB8EF4E4D53C5E5BDA2CD05ACC80F089A7152EFD*)il2cpp_codegen_object_new(il2cpp_rgctx_data(method->klass->rgctx_data, 3));
 		Action_1__ctor_mF980CCBD03D34F53A5EB37FC978850C6F9F831F3(L_3, (RuntimeObject*)__this, (intptr_t)((void*)il2cpp_rgctx_method(method->klass->rgctx_data, 2)), il2cpp_rgctx_method(method->klass->rgctx_data, 4));
 		*((Action_1_tFB8EF4E4D53C5E5BDA2CD05ACC80F089A7152EFD**)L_2) = (Action_1_tFB8EF4E4D53C5E5BDA2CD05ACC80F089A7152EFD*)L_3;
 		Il2CppCodeGenWriteBarrier((void**)(Action_1_tFB8EF4E4D53C5E5BDA2CD05ACC80F089A7152EFD**)L_2, (void*)(Action_1_tFB8EF4E4D53C5E5BDA2CD05ACC80F089A7152EFD*)L_3);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:43>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:43>
 		return;
 	}
 }
@@ -24632,14 +24632,14 @@ IL_001c:
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AsyncTask_1__ctor_m0AA595A7D046D2AA0CDE904253122E87566F79A0_gshared (AsyncTask_1_t0AE0B7AB5AFE61F44467F751449C4FA9761E8CD7* __this, AndroidPermissionsRequestResult_t83AFC3243B17FCF39091C01A9A4EA9C219AE345D ___0_result, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:47>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:47>
 		Object__ctor_mE837C6B9FA8C6D5D109F4B2EC885D79919AC0EA2((RuntimeObject*)__this, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:49>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:49>
 		AndroidPermissionsRequestResult_t83AFC3243B17FCF39091C01A9A4EA9C219AE345D L_0 = ___0_result;
 		AsyncTask_1_set_Result_mC96D1B02F49AC74D43FE8024EE964B2BF2CF36D9_inline(__this, L_0, il2cpp_rgctx_method(method->klass->rgctx_data, 6));
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:50>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:50>
 		AsyncTask_1_set_IsComplete_mBFE2F93DFEFF3F7631F5F9A3E56343FA5EEB869C_inline(__this, (bool)1, il2cpp_rgctx_method(method->klass->rgctx_data, 0));
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:51>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:51>
 		return;
 	}
 }
@@ -24647,7 +24647,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AsyncTask_1__ctor_m0AA595A7D046D2AA0CDE9
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool AsyncTask_1_get_IsComplete_m67157FD592D06EF0B4376E07A2539043DC8581D3_gshared (AsyncTask_1_t0AE0B7AB5AFE61F44467F751449C4FA9761E8CD7* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:55>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:55>
 		bool L_0 = __this->___U3CIsCompleteU3Ek__BackingField;
 		return L_0;
 	}
@@ -24656,7 +24656,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool AsyncTask_1_get_IsComplete_m67157FD592D0
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AsyncTask_1_set_IsComplete_mBFE2F93DFEFF3F7631F5F9A3E56343FA5EEB869C_gshared (AsyncTask_1_t0AE0B7AB5AFE61F44467F751449C4FA9761E8CD7* __this, bool ___0_value, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:55>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:55>
 		bool L_0 = ___0_value;
 		__this->___U3CIsCompleteU3Ek__BackingField = L_0;
 		return;
@@ -24666,7 +24666,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AsyncTask_1_set_IsComplete_mBFE2F93DFEFF
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR AndroidPermissionsRequestResult_t83AFC3243B17FCF39091C01A9A4EA9C219AE345D AsyncTask_1_get_Result_mD16B85AD6AE4FF08E3EE5528302CF653F7612E67_gshared (AsyncTask_1_t0AE0B7AB5AFE61F44467F751449C4FA9761E8CD7* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:59>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:59>
 		AndroidPermissionsRequestResult_t83AFC3243B17FCF39091C01A9A4EA9C219AE345D L_0 = __this->___U3CResultU3Ek__BackingField;
 		return L_0;
 	}
@@ -24675,7 +24675,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR AndroidPermissionsRequestResult_t83AFC3243B17
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AsyncTask_1_set_Result_mC96D1B02F49AC74D43FE8024EE964B2BF2CF36D9_gshared (AsyncTask_1_t0AE0B7AB5AFE61F44467F751449C4FA9761E8CD7* __this, AndroidPermissionsRequestResult_t83AFC3243B17FCF39091C01A9A4EA9C219AE345D ___0_value, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:59>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:59>
 		AndroidPermissionsRequestResult_t83AFC3243B17FCF39091C01A9A4EA9C219AE345D L_0 = ___0_value;
 		__this->___U3CResultU3Ek__BackingField = L_0;
 		Il2CppCodeGenWriteBarrier((void**)&(((&__this->___U3CResultU3Ek__BackingField))->___U3CPermissionNamesU3Ek__BackingField), (void*)NULL);
@@ -24690,7 +24690,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR CustomYieldInstruction_t6B81A50D5D210C1ACAAE2
 {
 	CustomYieldInstruction_t6B81A50D5D210C1ACAAE247FB53B65CDFFEB7617* V_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:66>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:66>
 		WaitForTaskCompletionYieldInstruction_1_t3326504877750A2A824062F9D75AEC606832A420* L_0 = (WaitForTaskCompletionYieldInstruction_1_t3326504877750A2A824062F9D75AEC606832A420*)il2cpp_codegen_object_new(il2cpp_rgctx_data(method->klass->rgctx_data, 8));
 		WaitForTaskCompletionYieldInstruction_1__ctor_m50B733A4433BC9464A73D6C897E07BA50900E29A(L_0, __this, il2cpp_rgctx_method(method->klass->rgctx_data, 9));
 		V_0 = (CustomYieldInstruction_t6B81A50D5D210C1ACAAE247FB53B65CDFFEB7617*)L_0;
@@ -24699,7 +24699,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR CustomYieldInstruction_t6B81A50D5D210C1ACAAE2
 
 IL_000a:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:67>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:67>
 		CustomYieldInstruction_t6B81A50D5D210C1ACAAE247FB53B65CDFFEB7617* L_1 = V_0;
 		return L_1;
 	}
@@ -24711,7 +24711,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR AsyncTask_1_t0AE0B7AB5AFE61F44467F751449C4FA9
 	AsyncTask_1_t0AE0B7AB5AFE61F44467F751449C4FA9761E8CD7* V_1 = NULL;
 	bool V_2 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:77>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:77>
 		bool L_0;
 		L_0 = AsyncTask_1_get_IsComplete_m67157FD592D06EF0B4376E07A2539043DC8581D3_inline(__this, il2cpp_rgctx_method(method->klass->rgctx_data, 10));
 		V_0 = L_0;
@@ -24722,20 +24722,20 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR AsyncTask_1_t0AE0B7AB5AFE61F44467F751449C4FA9
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:79>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:79>
 		Action_1_tFB8EF4E4D53C5E5BDA2CD05ACC80F089A7152EFD* L_2 = ___0_doAfterTaskComplete;
 		AndroidPermissionsRequestResult_t83AFC3243B17FCF39091C01A9A4EA9C219AE345D L_3;
 		L_3 = AsyncTask_1_get_Result_mD16B85AD6AE4FF08E3EE5528302CF653F7612E67_inline(__this, il2cpp_rgctx_method(method->klass->rgctx_data, 11));
 		NullCheck(L_2);
 		Action_1_Invoke_m28502B64CC788445DD50B6A9329945AF38B13940_inline(L_2, L_3, il2cpp_rgctx_method(method->klass->rgctx_data, 12));
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:80>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:80>
 		V_1 = __this;
 		goto IL_0048;
 	}
 
 IL_001d:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:84>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:84>
 		List_1_tC2DE0B56F2D12DD4154B9ED6710FEBCC26DE14F7* L_4 = __this->___m_ActionsUponTaskCompletion;
 		V_2 = (bool)((((RuntimeObject*)(List_1_tC2DE0B56F2D12DD4154B9ED6710FEBCC26DE14F7*)L_4) == ((RuntimeObject*)(RuntimeObject*)NULL))? 1 : 0);
 		bool L_5 = V_2;
@@ -24745,7 +24745,7 @@ IL_001d:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:86>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:86>
 		List_1_tC2DE0B56F2D12DD4154B9ED6710FEBCC26DE14F7* L_6 = (List_1_tC2DE0B56F2D12DD4154B9ED6710FEBCC26DE14F7*)il2cpp_codegen_object_new(il2cpp_rgctx_data(method->klass->rgctx_data, 13));
 		List_1__ctor_mAAFDE637C0E0E9A7E21AF9A53A4F0FAF8193E98F(L_6, il2cpp_rgctx_method(method->klass->rgctx_data, 14));
 		__this->___m_ActionsUponTaskCompletion = L_6;
@@ -24754,19 +24754,19 @@ IL_001d:
 
 IL_0037:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:89>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:89>
 		List_1_tC2DE0B56F2D12DD4154B9ED6710FEBCC26DE14F7* L_7 = __this->___m_ActionsUponTaskCompletion;
 		Action_1_tFB8EF4E4D53C5E5BDA2CD05ACC80F089A7152EFD* L_8 = ___0_doAfterTaskComplete;
 		NullCheck(L_7);
 		List_1_Add_mD7AEF741BC7BBAE3B8F39432295D67B942A138AE_inline(L_7, L_8, il2cpp_rgctx_method(method->klass->rgctx_data, 15));
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:90>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:90>
 		V_1 = __this;
 		goto IL_0048;
 	}
 
 IL_0048:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:91>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:91>
 		AsyncTask_1_t0AE0B7AB5AFE61F44467F751449C4FA9761E8CD7* L_9 = V_1;
 		return L_9;
 	}
@@ -24799,14 +24799,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AsyncTask_1_U3C_ctorU3Eb__1_0_mA3B1CCD72
 		#if IL2CPP_ENABLE_STRICT_WRITE_BARRIERS
 		Il2CppCodeGenWriteBarrier((void**)&(((&L_2->___result))->___U3CGrantResultsU3Ek__BackingField), (void*)NULL);
 		#endif
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:30>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:30>
 		U3CU3Ec__DisplayClass1_0_tEC4261628A25440375B9C0FB724E1B936A2B082C* L_4 = V_0;
 		NullCheck(L_4);
 		AndroidPermissionsRequestResult_t83AFC3243B17FCF39091C01A9A4EA9C219AE345D L_5 = L_4->___result;
 		AsyncTask_1_set_Result_mC96D1B02F49AC74D43FE8024EE964B2BF2CF36D9_inline(__this, L_5, il2cpp_rgctx_method(method->klass->rgctx_data, 6));
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:31>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:31>
 		AsyncTask_1_set_IsComplete_mBFE2F93DFEFF3F7631F5F9A3E56343FA5EEB869C_inline(__this, (bool)1, il2cpp_rgctx_method(method->klass->rgctx_data, 0));
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:32>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:32>
 		List_1_tC2DE0B56F2D12DD4154B9ED6710FEBCC26DE14F7* L_6 = __this->___m_ActionsUponTaskCompletion;
 		V_1 = (bool)((!(((RuntimeObject*)(List_1_tC2DE0B56F2D12DD4154B9ED6710FEBCC26DE14F7*)L_6) <= ((RuntimeObject*)(RuntimeObject*)NULL)))? 1 : 0);
 		bool L_7 = V_1;
@@ -24816,13 +24816,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AsyncTask_1_U3C_ctorU3Eb__1_0_mA3B1CCD72
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:34>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:35>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:36>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:37>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:38>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:39>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:40>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:34>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:35>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:36>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:37>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:38>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:39>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:40>
 		U3CU3Ec__DisplayClass1_0_tEC4261628A25440375B9C0FB724E1B936A2B082C* L_8 = V_0;
 		Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* L_9 = (Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07*)il2cpp_codegen_object_new(Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07_il2cpp_TypeInfo_var);
 		Action__ctor_mBDC7B0B4A3F583B64C2896F01BDED360772F67DC(L_9, (RuntimeObject*)L_8, (intptr_t)((void*)il2cpp_rgctx_method(method->klass->rgctx_data, 18)), NULL);
@@ -24832,7 +24832,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AsyncTask_1_U3C_ctorU3Eb__1_0_mA3B1CCD72
 
 IL_004b:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:42>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:42>
 		return;
 	}
 }
@@ -24855,9 +24855,9 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AsyncTask_1__ctor_m6E9DE043FB5DAB029BA12
 	}
 	bool V_0 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:19>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:19>
 		Object__ctor_mE837C6B9FA8C6D5D109F4B2EC885D79919AC0EA2((RuntimeObject*)__this, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:22>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:22>
 		il2cpp_codegen_runtime_class_init_inline(AsyncTask_t4D5E86BDB8753F9FC9A138EB67FDD69B42CA8AAC_il2cpp_TypeInfo_var);
 		bool L_0;
 		L_0 = AsyncTask_get_IsInitialized_m46BBA1C780D6226AAEA7F309769DAF19D17B3BA7_inline(NULL);
@@ -24869,36 +24869,36 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AsyncTask_1__ctor_m6E9DE043FB5DAB029BA12
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:24>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:24>
 		il2cpp_codegen_runtime_class_init_inline(AsyncTask_t4D5E86BDB8753F9FC9A138EB67FDD69B42CA8AAC_il2cpp_TypeInfo_var);
 		AsyncTask_Init_m6AA9E3A057BDB417AF0BC0F366647F0822A88A2A(NULL);
 	}
 
 IL_001c:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:27>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:27>
 		AsyncTask_1_set_IsComplete_m4B6765EA9A54FAFF54D51D9A7222F9EDC1EEAFA2_inline(__this, (bool)0, il2cpp_rgctx_method(method->klass->rgctx_data, 0));
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:28>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:29>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:30>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:31>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:32>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:33>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:34>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:35>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:36>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:37>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:38>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:39>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:40>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:41>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:42>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:28>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:29>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:30>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:31>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:32>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:33>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:34>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:35>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:36>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:37>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:38>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:39>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:40>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:41>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:42>
 		Action_1_t6F9EB113EB3F16226AEF811A2744F4111C116C87** L_2 = ___0_asyncOperationComplete;
 		Action_1_t6F9EB113EB3F16226AEF811A2744F4111C116C87* L_3 = (Action_1_t6F9EB113EB3F16226AEF811A2744F4111C116C87*)il2cpp_codegen_object_new(il2cpp_rgctx_data(method->klass->rgctx_data, 3));
 		Action_1__ctor_m2E1DFA67718FC1A0B6E5DFEB78831FFE9C059EB4(L_3, (RuntimeObject*)__this, (intptr_t)((void*)il2cpp_rgctx_method(method->klass->rgctx_data, 2)), il2cpp_rgctx_method(method->klass->rgctx_data, 4));
 		*((Action_1_t6F9EB113EB3F16226AEF811A2744F4111C116C87**)L_2) = (Action_1_t6F9EB113EB3F16226AEF811A2744F4111C116C87*)L_3;
 		Il2CppCodeGenWriteBarrier((void**)(Action_1_t6F9EB113EB3F16226AEF811A2744F4111C116C87**)L_2, (void*)(Action_1_t6F9EB113EB3F16226AEF811A2744F4111C116C87*)L_3);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:43>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:43>
 		return;
 	}
 }
@@ -24906,14 +24906,14 @@ IL_001c:
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AsyncTask_1__ctor_mB503E81928E617AE0C33E710A2248B7161A55169_gshared (AsyncTask_1_t752166623852A9111EEF677050C5C8D5AF93E09B* __this, RuntimeObject* ___0_result, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:47>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:47>
 		Object__ctor_mE837C6B9FA8C6D5D109F4B2EC885D79919AC0EA2((RuntimeObject*)__this, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:49>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:49>
 		RuntimeObject* L_0 = ___0_result;
 		AsyncTask_1_set_Result_mBBD9C46B2C0616ED235AD6DAA0E3C686362A0DDD_inline(__this, L_0, il2cpp_rgctx_method(method->klass->rgctx_data, 6));
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:50>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:50>
 		AsyncTask_1_set_IsComplete_m4B6765EA9A54FAFF54D51D9A7222F9EDC1EEAFA2_inline(__this, (bool)1, il2cpp_rgctx_method(method->klass->rgctx_data, 0));
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:51>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:51>
 		return;
 	}
 }
@@ -24921,7 +24921,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AsyncTask_1__ctor_mB503E81928E617AE0C33E
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool AsyncTask_1_get_IsComplete_mFD32A4920EC4A268A42FC8743143084E1373160F_gshared (AsyncTask_1_t752166623852A9111EEF677050C5C8D5AF93E09B* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:55>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:55>
 		bool L_0 = __this->___U3CIsCompleteU3Ek__BackingField;
 		return L_0;
 	}
@@ -24930,7 +24930,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool AsyncTask_1_get_IsComplete_mFD32A4920EC4
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AsyncTask_1_set_IsComplete_m4B6765EA9A54FAFF54D51D9A7222F9EDC1EEAFA2_gshared (AsyncTask_1_t752166623852A9111EEF677050C5C8D5AF93E09B* __this, bool ___0_value, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:55>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:55>
 		bool L_0 = ___0_value;
 		__this->___U3CIsCompleteU3Ek__BackingField = L_0;
 		return;
@@ -24940,7 +24940,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AsyncTask_1_set_IsComplete_m4B6765EA9A54
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* AsyncTask_1_get_Result_mCDFB9BD8EC10DE907FDDAF18B85A40335498516C_gshared (AsyncTask_1_t752166623852A9111EEF677050C5C8D5AF93E09B* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:59>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:59>
 		RuntimeObject* L_0 = __this->___U3CResultU3Ek__BackingField;
 		return L_0;
 	}
@@ -24949,7 +24949,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* AsyncTask_1_get_Result_mCDFB9B
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AsyncTask_1_set_Result_mBBD9C46B2C0616ED235AD6DAA0E3C686362A0DDD_gshared (AsyncTask_1_t752166623852A9111EEF677050C5C8D5AF93E09B* __this, RuntimeObject* ___0_value, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:59>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:59>
 		RuntimeObject* L_0 = ___0_value;
 		__this->___U3CResultU3Ek__BackingField = L_0;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___U3CResultU3Ek__BackingField), (void*)L_0);
@@ -24961,7 +24961,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR CustomYieldInstruction_t6B81A50D5D210C1ACAAE2
 {
 	CustomYieldInstruction_t6B81A50D5D210C1ACAAE247FB53B65CDFFEB7617* V_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:66>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:66>
 		WaitForTaskCompletionYieldInstruction_1_t98B8F189144F36CE5884FECE450F4503593C277C* L_0 = (WaitForTaskCompletionYieldInstruction_1_t98B8F189144F36CE5884FECE450F4503593C277C*)il2cpp_codegen_object_new(il2cpp_rgctx_data(method->klass->rgctx_data, 8));
 		WaitForTaskCompletionYieldInstruction_1__ctor_m9089713B1592F18EF905D196C6704F59628A7520(L_0, __this, il2cpp_rgctx_method(method->klass->rgctx_data, 9));
 		V_0 = (CustomYieldInstruction_t6B81A50D5D210C1ACAAE247FB53B65CDFFEB7617*)L_0;
@@ -24970,7 +24970,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR CustomYieldInstruction_t6B81A50D5D210C1ACAAE2
 
 IL_000a:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:67>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:67>
 		CustomYieldInstruction_t6B81A50D5D210C1ACAAE247FB53B65CDFFEB7617* L_1 = V_0;
 		return L_1;
 	}
@@ -24982,7 +24982,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR AsyncTask_1_t752166623852A9111EEF677050C5C8D5
 	AsyncTask_1_t752166623852A9111EEF677050C5C8D5AF93E09B* V_1 = NULL;
 	bool V_2 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:77>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:77>
 		bool L_0;
 		L_0 = AsyncTask_1_get_IsComplete_mFD32A4920EC4A268A42FC8743143084E1373160F_inline(__this, il2cpp_rgctx_method(method->klass->rgctx_data, 10));
 		V_0 = L_0;
@@ -24993,20 +24993,20 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR AsyncTask_1_t752166623852A9111EEF677050C5C8D5
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:79>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:79>
 		Action_1_t6F9EB113EB3F16226AEF811A2744F4111C116C87* L_2 = ___0_doAfterTaskComplete;
 		RuntimeObject* L_3;
 		L_3 = AsyncTask_1_get_Result_mCDFB9BD8EC10DE907FDDAF18B85A40335498516C_inline(__this, il2cpp_rgctx_method(method->klass->rgctx_data, 11));
 		NullCheck(L_2);
 		Action_1_Invoke_mF2422B2DD29F74CE66F791C3F68E288EC7C3DB9E_inline(L_2, L_3, il2cpp_rgctx_method(method->klass->rgctx_data, 12));
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:80>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:80>
 		V_1 = __this;
 		goto IL_0048;
 	}
 
 IL_001d:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:84>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:84>
 		List_1_t8ED86F5A318743E9CE1F85A351EB862E45361BE0* L_4 = __this->___m_ActionsUponTaskCompletion;
 		V_2 = (bool)((((RuntimeObject*)(List_1_t8ED86F5A318743E9CE1F85A351EB862E45361BE0*)L_4) == ((RuntimeObject*)(RuntimeObject*)NULL))? 1 : 0);
 		bool L_5 = V_2;
@@ -25016,7 +25016,7 @@ IL_001d:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:86>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:86>
 		List_1_t8ED86F5A318743E9CE1F85A351EB862E45361BE0* L_6 = (List_1_t8ED86F5A318743E9CE1F85A351EB862E45361BE0*)il2cpp_codegen_object_new(il2cpp_rgctx_data(method->klass->rgctx_data, 13));
 		List_1__ctor_m0A75F746E80B7130E71A3570E155D3F6FAFDA996(L_6, il2cpp_rgctx_method(method->klass->rgctx_data, 14));
 		__this->___m_ActionsUponTaskCompletion = L_6;
@@ -25025,19 +25025,19 @@ IL_001d:
 
 IL_0037:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:89>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:89>
 		List_1_t8ED86F5A318743E9CE1F85A351EB862E45361BE0* L_7 = __this->___m_ActionsUponTaskCompletion;
 		Action_1_t6F9EB113EB3F16226AEF811A2744F4111C116C87* L_8 = ___0_doAfterTaskComplete;
 		NullCheck(L_7);
 		List_1_Add_mA7C789A830108A82F925F9EB53FFC1F288C02908_inline(L_7, L_8, il2cpp_rgctx_method(method->klass->rgctx_data, 15));
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:90>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:90>
 		V_1 = __this;
 		goto IL_0048;
 	}
 
 IL_0048:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:91>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:91>
 		AsyncTask_1_t752166623852A9111EEF677050C5C8D5AF93E09B* L_9 = V_1;
 		return L_9;
 	}
@@ -25067,14 +25067,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AsyncTask_1_U3C_ctorU3Eb__1_0_m3BF6C00B7
 		NullCheck(L_2);
 		L_2->___result = L_3;
 		Il2CppCodeGenWriteBarrier((void**)(&L_2->___result), (void*)L_3);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:30>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:30>
 		U3CU3Ec__DisplayClass1_0_t3D16063F3BB03D8F7D4D347FFEF78928C128B758* L_4 = V_0;
 		NullCheck(L_4);
 		RuntimeObject* L_5 = L_4->___result;
 		AsyncTask_1_set_Result_mBBD9C46B2C0616ED235AD6DAA0E3C686362A0DDD_inline(__this, L_5, il2cpp_rgctx_method(method->klass->rgctx_data, 6));
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:31>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:31>
 		AsyncTask_1_set_IsComplete_m4B6765EA9A54FAFF54D51D9A7222F9EDC1EEAFA2_inline(__this, (bool)1, il2cpp_rgctx_method(method->klass->rgctx_data, 0));
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:32>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:32>
 		List_1_t8ED86F5A318743E9CE1F85A351EB862E45361BE0* L_6 = __this->___m_ActionsUponTaskCompletion;
 		V_1 = (bool)((!(((RuntimeObject*)(List_1_t8ED86F5A318743E9CE1F85A351EB862E45361BE0*)L_6) <= ((RuntimeObject*)(RuntimeObject*)NULL)))? 1 : 0);
 		bool L_7 = V_1;
@@ -25084,13 +25084,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AsyncTask_1_U3C_ctorU3Eb__1_0_m3BF6C00B7
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:34>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:35>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:36>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:37>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:38>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:39>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:40>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:34>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:35>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:36>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:37>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:38>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:39>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:40>
 		U3CU3Ec__DisplayClass1_0_t3D16063F3BB03D8F7D4D347FFEF78928C128B758* L_8 = V_0;
 		Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* L_9 = (Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07*)il2cpp_codegen_object_new(Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07_il2cpp_TypeInfo_var);
 		Action__ctor_mBDC7B0B4A3F583B64C2896F01BDED360772F67DC(L_9, (RuntimeObject*)L_8, (intptr_t)((void*)il2cpp_rgctx_method(method->klass->rgctx_data, 18)), NULL);
@@ -25100,7 +25100,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AsyncTask_1_U3C_ctorU3Eb__1_0_m3BF6C00B7
 
 IL_004b:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:42>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:42>
 		return;
 	}
 }
@@ -25123,9 +25123,9 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AsyncTask_1__ctor_m5441E8266BA28EBB49AAD
 	}
 	bool V_0 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:19>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:19>
 		Object__ctor_mE837C6B9FA8C6D5D109F4B2EC885D79919AC0EA2((RuntimeObject*)__this, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:22>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:22>
 		il2cpp_codegen_runtime_class_init_inline(AsyncTask_t4D5E86BDB8753F9FC9A138EB67FDD69B42CA8AAC_il2cpp_TypeInfo_var);
 		bool L_0;
 		L_0 = AsyncTask_get_IsInitialized_m46BBA1C780D6226AAEA7F309769DAF19D17B3BA7_inline(NULL);
@@ -25137,36 +25137,36 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AsyncTask_1__ctor_m5441E8266BA28EBB49AAD
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:24>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:24>
 		il2cpp_codegen_runtime_class_init_inline(AsyncTask_t4D5E86BDB8753F9FC9A138EB67FDD69B42CA8AAC_il2cpp_TypeInfo_var);
 		AsyncTask_Init_m6AA9E3A057BDB417AF0BC0F366647F0822A88A2A(NULL);
 	}
 
 IL_001c:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:27>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:27>
 		((  void (*) (AsyncTask_1_tF18E2DE0D3059E1ED2673B36A951F138BE490AC1*, bool, const RuntimeMethod*))il2cpp_codegen_get_direct_method_pointer(il2cpp_rgctx_method(method->klass->rgctx_data, 0)))(__this, (bool)0, il2cpp_rgctx_method(method->klass->rgctx_data, 0));
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:28>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:29>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:30>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:31>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:32>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:33>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:34>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:35>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:36>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:37>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:38>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:39>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:40>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:41>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:42>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:28>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:29>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:30>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:31>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:32>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:33>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:34>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:35>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:36>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:37>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:38>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:39>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:40>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:41>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:42>
 		Action_1_t923A20D1D4F6B55B2ED5AE21B90F1A0CE0450D99** L_2 = ___0_asyncOperationComplete;
 		Action_1_t923A20D1D4F6B55B2ED5AE21B90F1A0CE0450D99* L_3 = (Action_1_t923A20D1D4F6B55B2ED5AE21B90F1A0CE0450D99*)il2cpp_codegen_object_new(il2cpp_rgctx_data(method->klass->rgctx_data, 3));
 		((  void (*) (Action_1_t923A20D1D4F6B55B2ED5AE21B90F1A0CE0450D99*, RuntimeObject*, intptr_t, const RuntimeMethod*))il2cpp_codegen_get_direct_method_pointer(il2cpp_rgctx_method(method->klass->rgctx_data, 4)))(L_3, (RuntimeObject*)__this, (intptr_t)((void*)il2cpp_rgctx_method(method->klass->rgctx_data, 2)), il2cpp_rgctx_method(method->klass->rgctx_data, 4));
 		*((Action_1_t923A20D1D4F6B55B2ED5AE21B90F1A0CE0450D99**)L_2) = (Action_1_t923A20D1D4F6B55B2ED5AE21B90F1A0CE0450D99*)L_3;
 		Il2CppCodeGenWriteBarrier((void**)(Action_1_t923A20D1D4F6B55B2ED5AE21B90F1A0CE0450D99**)L_2, (void*)(Action_1_t923A20D1D4F6B55B2ED5AE21B90F1A0CE0450D99*)L_3);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:43>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:43>
 		return;
 	}
 }
@@ -25176,14 +25176,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AsyncTask_1__ctor_m203C679ED51B1BF269515
 	const uint32_t SizeOf_T_t5488467A123E6704FEB3CB579B502582B58B7996 = il2cpp_codegen_sizeof(il2cpp_rgctx_data_no_init(method->klass->rgctx_data, 5));
 	const Il2CppFullySharedGenericAny L_0 = alloca(SizeOf_T_t5488467A123E6704FEB3CB579B502582B58B7996);
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:47>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:47>
 		Object__ctor_mE837C6B9FA8C6D5D109F4B2EC885D79919AC0EA2((RuntimeObject*)__this, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:49>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:49>
 		il2cpp_codegen_memcpy(L_0, (il2cpp_codegen_class_is_value_type(il2cpp_rgctx_data_no_init(method->klass->rgctx_data, 5)) ? ___0_result : &___0_result), SizeOf_T_t5488467A123E6704FEB3CB579B502582B58B7996);
 		InvokerActionInvoker1< Il2CppFullySharedGenericAny >::Invoke(il2cpp_codegen_get_direct_method_pointer(il2cpp_rgctx_method(method->klass->rgctx_data, 6)), il2cpp_rgctx_method(method->klass->rgctx_data, 6), __this, (il2cpp_codegen_class_is_value_type(il2cpp_rgctx_data_no_init(method->klass->rgctx_data, 5)) ? L_0: *(void**)L_0));
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:50>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:50>
 		((  void (*) (AsyncTask_1_tF18E2DE0D3059E1ED2673B36A951F138BE490AC1*, bool, const RuntimeMethod*))il2cpp_codegen_get_direct_method_pointer(il2cpp_rgctx_method(method->klass->rgctx_data, 0)))(__this, (bool)1, il2cpp_rgctx_method(method->klass->rgctx_data, 0));
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:51>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:51>
 		return;
 	}
 }
@@ -25191,7 +25191,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AsyncTask_1__ctor_m203C679ED51B1BF269515
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool AsyncTask_1_get_IsComplete_mC4EAFCD7D6C0478CD6DD28CB4236FBD43B3CCDB2_gshared (AsyncTask_1_tF18E2DE0D3059E1ED2673B36A951F138BE490AC1* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:55>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:55>
 		bool L_0 = *(bool*)il2cpp_codegen_get_instance_field_data_pointer(__this, il2cpp_rgctx_field(il2cpp_rgctx_data_no_init(method->klass->rgctx_data, 7),1));
 		return L_0;
 	}
@@ -25200,7 +25200,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool AsyncTask_1_get_IsComplete_mC4EAFCD7D6C0
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AsyncTask_1_set_IsComplete_m10497BBB5634272FA326FA076B00435539EF1DE4_gshared (AsyncTask_1_tF18E2DE0D3059E1ED2673B36A951F138BE490AC1* __this, bool ___0_value, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:55>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:55>
 		bool L_0 = ___0_value;
 		il2cpp_codegen_write_instance_field_data<bool>(__this, il2cpp_rgctx_field(il2cpp_rgctx_data_no_init(method->klass->rgctx_data, 7),1), L_0);
 		return;
@@ -25212,7 +25212,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AsyncTask_1_get_Result_m6483B4677FD68423
 	const uint32_t SizeOf_T_t5488467A123E6704FEB3CB579B502582B58B7996 = il2cpp_codegen_sizeof(il2cpp_rgctx_data_no_init(method->klass->rgctx_data, 5));
 	const Il2CppFullySharedGenericAny L_0 = alloca(SizeOf_T_t5488467A123E6704FEB3CB579B502582B58B7996);
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:59>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:59>
 		il2cpp_codegen_memcpy(L_0, il2cpp_codegen_get_instance_field_data_pointer(__this, il2cpp_rgctx_field(il2cpp_rgctx_data_no_init(method->klass->rgctx_data, 7),2)), SizeOf_T_t5488467A123E6704FEB3CB579B502582B58B7996);
 		il2cpp_codegen_memcpy(il2cppRetVal, L_0, SizeOf_T_t5488467A123E6704FEB3CB579B502582B58B7996);
 		return;
@@ -25224,7 +25224,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AsyncTask_1_set_Result_m7B28224243A84916
 	const uint32_t SizeOf_T_t5488467A123E6704FEB3CB579B502582B58B7996 = il2cpp_codegen_sizeof(il2cpp_rgctx_data_no_init(method->klass->rgctx_data, 5));
 	const Il2CppFullySharedGenericAny L_0 = alloca(SizeOf_T_t5488467A123E6704FEB3CB579B502582B58B7996);
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:59>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:59>
 		il2cpp_codegen_memcpy(L_0, (il2cpp_codegen_class_is_value_type(il2cpp_rgctx_data_no_init(method->klass->rgctx_data, 5)) ? ___0_value : &___0_value), SizeOf_T_t5488467A123E6704FEB3CB579B502582B58B7996);
 		il2cpp_codegen_write_instance_field_data(__this, il2cpp_rgctx_field(il2cpp_rgctx_data_no_init(method->klass->rgctx_data, 7),2), L_0, SizeOf_T_t5488467A123E6704FEB3CB579B502582B58B7996);
 		return;
@@ -25235,7 +25235,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR CustomYieldInstruction_t6B81A50D5D210C1ACAAE2
 {
 	CustomYieldInstruction_t6B81A50D5D210C1ACAAE247FB53B65CDFFEB7617* V_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:66>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:66>
 		WaitForTaskCompletionYieldInstruction_1_t9AB48B22227E91482A27DF6701A97702C7AB2108* L_0 = (WaitForTaskCompletionYieldInstruction_1_t9AB48B22227E91482A27DF6701A97702C7AB2108*)il2cpp_codegen_object_new(il2cpp_rgctx_data(method->klass->rgctx_data, 8));
 		((  void (*) (WaitForTaskCompletionYieldInstruction_1_t9AB48B22227E91482A27DF6701A97702C7AB2108*, AsyncTask_1_tF18E2DE0D3059E1ED2673B36A951F138BE490AC1*, const RuntimeMethod*))il2cpp_codegen_get_direct_method_pointer(il2cpp_rgctx_method(method->klass->rgctx_data, 9)))(L_0, __this, il2cpp_rgctx_method(method->klass->rgctx_data, 9));
 		V_0 = (CustomYieldInstruction_t6B81A50D5D210C1ACAAE247FB53B65CDFFEB7617*)L_0;
@@ -25244,7 +25244,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR CustomYieldInstruction_t6B81A50D5D210C1ACAAE2
 
 IL_000a:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:67>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:67>
 		CustomYieldInstruction_t6B81A50D5D210C1ACAAE247FB53B65CDFFEB7617* L_1 = V_0;
 		return L_1;
 	}
@@ -25258,7 +25258,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR AsyncTask_1_tF18E2DE0D3059E1ED2673B36A951F138
 	AsyncTask_1_tF18E2DE0D3059E1ED2673B36A951F138BE490AC1* V_1 = NULL;
 	bool V_2 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:77>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:77>
 		bool L_0;
 		L_0 = ((  bool (*) (AsyncTask_1_tF18E2DE0D3059E1ED2673B36A951F138BE490AC1*, const RuntimeMethod*))il2cpp_codegen_get_direct_method_pointer(il2cpp_rgctx_method(method->klass->rgctx_data, 10)))(__this, il2cpp_rgctx_method(method->klass->rgctx_data, 10));
 		V_0 = L_0;
@@ -25269,19 +25269,19 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR AsyncTask_1_tF18E2DE0D3059E1ED2673B36A951F138
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:79>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:79>
 		Action_1_t923A20D1D4F6B55B2ED5AE21B90F1A0CE0450D99* L_2 = ___0_doAfterTaskComplete;
 		InvokerActionInvoker1< Il2CppFullySharedGenericAny* >::Invoke(il2cpp_codegen_get_direct_method_pointer(il2cpp_rgctx_method(method->klass->rgctx_data, 11)), il2cpp_rgctx_method(method->klass->rgctx_data, 11), __this, (Il2CppFullySharedGenericAny*)L_3);
 		NullCheck(L_2);
 		InvokerActionInvoker1< Il2CppFullySharedGenericAny >::Invoke(il2cpp_codegen_get_direct_method_pointer(il2cpp_rgctx_method(method->klass->rgctx_data, 12)), il2cpp_rgctx_method(method->klass->rgctx_data, 12), L_2, (il2cpp_codegen_class_is_value_type(il2cpp_rgctx_data_no_init(method->klass->rgctx_data, 5)) ? L_3: *(void**)L_3));
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:80>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:80>
 		V_1 = __this;
 		goto IL_0048;
 	}
 
 IL_001d:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:84>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:84>
 		List_1_t852BAD8F211254E9B6FC3D39529D71A7D467E7A1* L_4 = *(List_1_t852BAD8F211254E9B6FC3D39529D71A7D467E7A1**)il2cpp_codegen_get_instance_field_data_pointer(__this, il2cpp_rgctx_field(il2cpp_rgctx_data_no_init(method->klass->rgctx_data, 7),0));
 		V_2 = (bool)((((RuntimeObject*)(List_1_t852BAD8F211254E9B6FC3D39529D71A7D467E7A1*)L_4) == ((RuntimeObject*)(RuntimeObject*)NULL))? 1 : 0);
 		bool L_5 = V_2;
@@ -25291,7 +25291,7 @@ IL_001d:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:86>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:86>
 		List_1_t852BAD8F211254E9B6FC3D39529D71A7D467E7A1* L_6 = (List_1_t852BAD8F211254E9B6FC3D39529D71A7D467E7A1*)il2cpp_codegen_object_new(il2cpp_rgctx_data(method->klass->rgctx_data, 13));
 		((  void (*) (List_1_t852BAD8F211254E9B6FC3D39529D71A7D467E7A1*, const RuntimeMethod*))il2cpp_codegen_get_direct_method_pointer(il2cpp_rgctx_method(method->klass->rgctx_data, 14)))(L_6, il2cpp_rgctx_method(method->klass->rgctx_data, 14));
 		il2cpp_codegen_write_instance_field_data<List_1_t852BAD8F211254E9B6FC3D39529D71A7D467E7A1*>(__this, il2cpp_rgctx_field(il2cpp_rgctx_data_no_init(method->klass->rgctx_data, 7),0), L_6);
@@ -25299,19 +25299,19 @@ IL_001d:
 
 IL_0037:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:89>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:89>
 		List_1_t852BAD8F211254E9B6FC3D39529D71A7D467E7A1* L_7 = *(List_1_t852BAD8F211254E9B6FC3D39529D71A7D467E7A1**)il2cpp_codegen_get_instance_field_data_pointer(__this, il2cpp_rgctx_field(il2cpp_rgctx_data_no_init(method->klass->rgctx_data, 7),0));
 		Action_1_t923A20D1D4F6B55B2ED5AE21B90F1A0CE0450D99* L_8 = ___0_doAfterTaskComplete;
 		NullCheck(L_7);
 		InvokerActionInvoker1< Action_1_t923A20D1D4F6B55B2ED5AE21B90F1A0CE0450D99* >::Invoke(il2cpp_codegen_get_direct_method_pointer(il2cpp_rgctx_method(method->klass->rgctx_data, 15)), il2cpp_rgctx_method(method->klass->rgctx_data, 15), L_7, L_8);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:90>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:90>
 		V_1 = __this;
 		goto IL_0048;
 	}
 
 IL_0048:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:91>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:91>
 		AsyncTask_1_tF18E2DE0D3059E1ED2673B36A951F138BE490AC1* L_9 = V_1;
 		return L_9;
 	}
@@ -25342,13 +25342,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AsyncTask_1_U3C_ctorU3Eb__1_0_m2D378E155
 		il2cpp_codegen_memcpy(L_3, (il2cpp_codegen_class_is_value_type(il2cpp_rgctx_data_no_init(method->klass->rgctx_data, 5)) ? ___0_result : &___0_result), SizeOf_T_t5488467A123E6704FEB3CB579B502582B58B7996);
 		NullCheck(L_2);
 		il2cpp_codegen_write_instance_field_data(L_2, il2cpp_rgctx_field(il2cpp_rgctx_data_no_init(method->klass->rgctx_data, 16),0), L_3, SizeOf_T_t5488467A123E6704FEB3CB579B502582B58B7996);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:30>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:30>
 		U3CU3Ec__DisplayClass1_0_t909BC54C975F92DB22BEBEB231B82A52B94232E4* L_4 = V_0;
 		il2cpp_codegen_memcpy(L_5, il2cpp_codegen_get_instance_field_data_pointer(L_4, il2cpp_rgctx_field(il2cpp_rgctx_data_no_init(method->klass->rgctx_data, 16),0)), SizeOf_T_t5488467A123E6704FEB3CB579B502582B58B7996);
 		InvokerActionInvoker1< Il2CppFullySharedGenericAny >::Invoke(il2cpp_codegen_get_direct_method_pointer(il2cpp_rgctx_method(method->klass->rgctx_data, 6)), il2cpp_rgctx_method(method->klass->rgctx_data, 6), __this, (il2cpp_codegen_class_is_value_type(il2cpp_rgctx_data_no_init(method->klass->rgctx_data, 5)) ? L_5: *(void**)L_5));
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:31>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:31>
 		((  void (*) (AsyncTask_1_tF18E2DE0D3059E1ED2673B36A951F138BE490AC1*, bool, const RuntimeMethod*))il2cpp_codegen_get_direct_method_pointer(il2cpp_rgctx_method(method->klass->rgctx_data, 0)))(__this, (bool)1, il2cpp_rgctx_method(method->klass->rgctx_data, 0));
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:32>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:32>
 		List_1_t852BAD8F211254E9B6FC3D39529D71A7D467E7A1* L_6 = *(List_1_t852BAD8F211254E9B6FC3D39529D71A7D467E7A1**)il2cpp_codegen_get_instance_field_data_pointer(__this, il2cpp_rgctx_field(il2cpp_rgctx_data_no_init(method->klass->rgctx_data, 7),0));
 		V_1 = (bool)((!(((RuntimeObject*)(List_1_t852BAD8F211254E9B6FC3D39529D71A7D467E7A1*)L_6) <= ((RuntimeObject*)(RuntimeObject*)NULL)))? 1 : 0);
 		bool L_7 = V_1;
@@ -25358,13 +25358,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AsyncTask_1_U3C_ctorU3Eb__1_0_m2D378E155
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:34>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:35>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:36>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:37>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:38>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:39>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:40>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:34>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:35>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:36>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:37>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:38>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:39>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:40>
 		U3CU3Ec__DisplayClass1_0_t909BC54C975F92DB22BEBEB231B82A52B94232E4* L_8 = V_0;
 		Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* L_9 = (Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07*)il2cpp_codegen_object_new(Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07_il2cpp_TypeInfo_var);
 		Action__ctor_mBDC7B0B4A3F583B64C2896F01BDED360772F67DC(L_9, (RuntimeObject*)L_8, (intptr_t)((void*)il2cpp_rgctx_method(method->klass->rgctx_data, 18)), NULL);
@@ -25374,7 +25374,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AsyncTask_1_U3C_ctorU3Eb__1_0_m2D378E155
 
 IL_004b:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:42>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:42>
 		return;
 	}
 }
@@ -25846,21 +25846,21 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Awaitable_1_t7F2FEF7F3E53E010671259DFBDCF40FE
 	Awaitable_1_t7F2FEF7F3E53E010671259DFBDCF40FEA65869CE* V_0 = NULL;
 	Awaitable_1_t7F2FEF7F3E53E010671259DFBDCF40FEA65869CE* V_1 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/AR Features/AwaitableUtils.cs:16>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/AR Features/AwaitableUtils.cs:16>
 		AwaitableCompletionSource_1_t13046545B390F657C439285B31F050D2914038F9* L_0 = ___0_completionSource;
 		NullCheck(L_0);
 		Awaitable_1_t7F2FEF7F3E53E010671259DFBDCF40FEA65869CE* L_1;
 		L_1 = ((  Awaitable_1_t7F2FEF7F3E53E010671259DFBDCF40FEA65869CE* (*) (AwaitableCompletionSource_1_t13046545B390F657C439285B31F050D2914038F9*, const RuntimeMethod*))il2cpp_codegen_get_direct_method_pointer(il2cpp_rgctx_method(InitializedTypeInfo(method->klass)->rgctx_data, 1)))(L_0, il2cpp_rgctx_method(InitializedTypeInfo(method->klass)->rgctx_data, 1));
 		V_0 = L_1;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/AR Features/AwaitableUtils.cs:17>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/AR Features/AwaitableUtils.cs:17>
 		AwaitableCompletionSource_1_t13046545B390F657C439285B31F050D2914038F9* L_2 = ___0_completionSource;
 		NullCheck(L_2);
 		((  void (*) (AwaitableCompletionSource_1_t13046545B390F657C439285B31F050D2914038F9*, Il2CppFullySharedGenericAny*, const RuntimeMethod*))il2cpp_codegen_get_direct_method_pointer(il2cpp_rgctx_method(InitializedTypeInfo(method->klass)->rgctx_data, 4)))(L_2, (Il2CppFullySharedGenericAny*)(il2cpp_codegen_class_is_value_type(il2cpp_rgctx_data_no_init(InitializedTypeInfo(method->klass)->rgctx_data, 3)) ? ___1_result : &___1_result), il2cpp_rgctx_method(InitializedTypeInfo(method->klass)->rgctx_data, 4));
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/AR Features/AwaitableUtils.cs:18>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/AR Features/AwaitableUtils.cs:18>
 		AwaitableCompletionSource_1_t13046545B390F657C439285B31F050D2914038F9* L_3 = ___0_completionSource;
 		NullCheck(L_3);
 		((  void (*) (AwaitableCompletionSource_1_t13046545B390F657C439285B31F050D2914038F9*, const RuntimeMethod*))il2cpp_codegen_get_direct_method_pointer(il2cpp_rgctx_method(InitializedTypeInfo(method->klass)->rgctx_data, 6)))(L_3, il2cpp_rgctx_method(InitializedTypeInfo(method->klass)->rgctx_data, 6));
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/AR Features/AwaitableUtils.cs:19>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/AR Features/AwaitableUtils.cs:19>
 		Awaitable_1_t7F2FEF7F3E53E010671259DFBDCF40FEA65869CE* L_4 = V_0;
 		V_1 = L_4;
 		goto IL_001c;
@@ -25868,7 +25868,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Awaitable_1_t7F2FEF7F3E53E010671259DFBDCF40FE
 
 IL_001c:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/AR Features/AwaitableUtils.cs:20>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/AR Features/AwaitableUtils.cs:20>
 		Awaitable_1_t7F2FEF7F3E53E010671259DFBDCF40FEA65869CE* L_5 = V_1;
 		return L_5;
 	}
@@ -28659,7 +28659,7 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR bool AsyncTask_get_IsInitialized_
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:104>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:104>
 		il2cpp_codegen_runtime_class_init_inline(AsyncTask_t4D5E86BDB8753F9FC9A138EB67FDD69B42CA8AAC_il2cpp_TypeInfo_var);
 		bool L_0 = ((AsyncTask_t4D5E86BDB8753F9FC9A138EB67FDD69B42CA8AAC_StaticFields*)il2cpp_codegen_static_fields_for(AsyncTask_t4D5E86BDB8753F9FC9A138EB67FDD69B42CA8AAC_il2cpp_TypeInfo_var))->___U3CIsInitializedU3Ek__BackingField;
 		return L_0;
@@ -28795,7 +28795,7 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR int32_t Comparison_1_Invoke_mEA9A
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void AsyncTask_1_set_IsComplete_mBFE2F93DFEFF3F7631F5F9A3E56343FA5EEB869C_gshared_inline (AsyncTask_1_t0AE0B7AB5AFE61F44467F751449C4FA9761E8CD7* __this, bool ___0_value, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:55>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:55>
 		bool L_0 = ___0_value;
 		__this->___U3CIsCompleteU3Ek__BackingField = L_0;
 		return;
@@ -28805,7 +28805,7 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void AsyncTask_1_set_IsComplete_m
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void AsyncTask_1_set_Result_mC96D1B02F49AC74D43FE8024EE964B2BF2CF36D9_gshared_inline (AsyncTask_1_t0AE0B7AB5AFE61F44467F751449C4FA9761E8CD7* __this, AndroidPermissionsRequestResult_t83AFC3243B17FCF39091C01A9A4EA9C219AE345D ___0_value, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:59>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:59>
 		AndroidPermissionsRequestResult_t83AFC3243B17FCF39091C01A9A4EA9C219AE345D L_0 = ___0_value;
 		__this->___U3CResultU3Ek__BackingField = L_0;
 		Il2CppCodeGenWriteBarrier((void**)&(((&__this->___U3CResultU3Ek__BackingField))->___U3CPermissionNamesU3Ek__BackingField), (void*)NULL);
@@ -28819,7 +28819,7 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void AsyncTask_1_set_Result_mC96D
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR bool AsyncTask_1_get_IsComplete_m67157FD592D06EF0B4376E07A2539043DC8581D3_gshared_inline (AsyncTask_1_t0AE0B7AB5AFE61F44467F751449C4FA9761E8CD7* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:55>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:55>
 		bool L_0 = __this->___U3CIsCompleteU3Ek__BackingField;
 		return L_0;
 	}
@@ -28828,7 +28828,7 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR bool AsyncTask_1_get_IsComplete_m
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR AndroidPermissionsRequestResult_t83AFC3243B17FCF39091C01A9A4EA9C219AE345D AsyncTask_1_get_Result_mD16B85AD6AE4FF08E3EE5528302CF653F7612E67_gshared_inline (AsyncTask_1_t0AE0B7AB5AFE61F44467F751449C4FA9761E8CD7* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:59>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:59>
 		AndroidPermissionsRequestResult_t83AFC3243B17FCF39091C01A9A4EA9C219AE345D L_0 = __this->___U3CResultU3Ek__BackingField;
 		return L_0;
 	}
@@ -28881,7 +28881,7 @@ IL_0034:
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void AsyncTask_1_set_IsComplete_m4B6765EA9A54FAFF54D51D9A7222F9EDC1EEAFA2_gshared_inline (AsyncTask_1_t752166623852A9111EEF677050C5C8D5AF93E09B* __this, bool ___0_value, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:55>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:55>
 		bool L_0 = ___0_value;
 		__this->___U3CIsCompleteU3Ek__BackingField = L_0;
 		return;
@@ -28891,7 +28891,7 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void AsyncTask_1_set_IsComplete_m
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void AsyncTask_1_set_Result_mBBD9C46B2C0616ED235AD6DAA0E3C686362A0DDD_gshared_inline (AsyncTask_1_t752166623852A9111EEF677050C5C8D5AF93E09B* __this, RuntimeObject* ___0_value, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:59>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:59>
 		RuntimeObject* L_0 = ___0_value;
 		__this->___U3CResultU3Ek__BackingField = L_0;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___U3CResultU3Ek__BackingField), (void*)L_0);
@@ -28902,7 +28902,7 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void AsyncTask_1_set_Result_mBBD9
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR bool AsyncTask_1_get_IsComplete_mFD32A4920EC4A268A42FC8743143084E1373160F_gshared_inline (AsyncTask_1_t752166623852A9111EEF677050C5C8D5AF93E09B* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:55>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:55>
 		bool L_0 = __this->___U3CIsCompleteU3Ek__BackingField;
 		return L_0;
 	}
@@ -28911,7 +28911,7 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR bool AsyncTask_1_get_IsComplete_m
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR RuntimeObject* AsyncTask_1_get_Result_mCDFB9BD8EC10DE907FDDAF18B85A40335498516C_gshared_inline (AsyncTask_1_t752166623852A9111EEF677050C5C8D5AF93E09B* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:59>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:59>
 		RuntimeObject* L_0 = __this->___U3CResultU3Ek__BackingField;
 		return L_0;
 	}

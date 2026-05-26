@@ -45049,7 +45049,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* XREALUtility_AddOrGetComponent
 	il2cpp_rgctx_method_init(method);
 	RuntimeObject* V_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:202>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:202>
 		Component_t39FBE53E5EFCF4409111FB22C15FF73717632EC3* L_0 = ___0_component;
 		NullCheck(L_0);
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_1;
@@ -45062,7 +45062,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* XREALUtility_AddOrGetComponent
 
 IL_000f:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:203>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:203>
 		RuntimeObject* L_3 = V_0;
 		return L_3;
 	}
@@ -45075,7 +45075,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* XREALUtility_AddOrGetComponent
 	bool V_1 = false;
 	RuntimeObject* V_2 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:184>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:184>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_0 = ___0_gameObject;
 		NullCheck(L_0);
 		bool L_1;
@@ -45088,7 +45088,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* XREALUtility_AddOrGetComponent
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:186>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:186>
 		RuntimeObject* L_3 = V_0;
 		V_2 = L_3;
 		goto IL_001c;
@@ -45096,7 +45096,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* XREALUtility_AddOrGetComponent
 
 IL_0012:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:190>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:190>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_4 = ___0_gameObject;
 		NullCheck(L_4);
 		RuntimeObject* L_5;
@@ -45107,7 +45107,7 @@ IL_0012:
 
 IL_001c:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:192>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:192>
 		RuntimeObject* L_6 = V_2;
 		return L_6;
 	}
@@ -45122,7 +45122,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* XREALUtility_FindAnyObjectByTy
 	}
 	RuntimeObject* V_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:41>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:41>
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		RuntimeObject* L_0;
 		L_0 = Object_FindAnyObjectByType_TisRuntimeObject_mE7A79400E013891ADB85E4C6A5CF95B447D374BA(il2cpp_rgctx_method(method->rgctx_data, 0));
@@ -45132,7 +45132,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* XREALUtility_FindAnyObjectByTy
 
 IL_0009:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:45>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:45>
 		RuntimeObject* L_1 = V_0;
 		return L_1;
 	}
@@ -45150,11 +45150,11 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* XREALUtility_GetLoadedSubsyste
 	RuntimeObject* V_2 = NULL;
 	RuntimeObject* V_3 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:83>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:83>
 		XRLoader_t80B1B1934C40561C5352ABC95D567DC2A7C9C976* L_0;
 		L_0 = XREALUtility_GetActiveLoader_mB249AC549BCF4E28EC659BAFE8834F1C423D3276(NULL);
 		V_0 = L_0;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:84>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:84>
 		XRLoader_t80B1B1934C40561C5352ABC95D567DC2A7C9C976* L_1 = V_0;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_2;
@@ -45167,7 +45167,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* XREALUtility_GetLoadedSubsyste
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:86>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:86>
 		XRLoader_t80B1B1934C40561C5352ABC95D567DC2A7C9C976* L_4 = V_0;
 		NullCheck(L_4);
 		RuntimeObject* L_5;
@@ -45178,7 +45178,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* XREALUtility_GetLoadedSubsyste
 
 IL_001c:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:88>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:88>
 		il2cpp_codegen_initobj((&V_3), sizeof(RuntimeObject*));
 		RuntimeObject* L_6 = V_3;
 		V_2 = L_6;
@@ -45187,7 +45187,7 @@ IL_001c:
 
 IL_0028:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:89>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:89>
 		RuntimeObject* L_7 = V_2;
 		return L_7;
 	}

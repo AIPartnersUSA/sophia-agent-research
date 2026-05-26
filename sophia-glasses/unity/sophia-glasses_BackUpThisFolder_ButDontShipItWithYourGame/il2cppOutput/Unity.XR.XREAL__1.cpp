@@ -1155,6 +1155,21 @@ struct XREALFloatingViewProvider_tFD9F6DF021AF95DFBCE7EBDDDC07736397CF4C02  : pu
 	XREALFloatingViewProxyWrapper_t92C65FC790A4185B86DDE8EE93CE340B2FE0EDE5* ___mProxyWrapper;
 };
 #pragma pack(push, tp, 1)
+struct __StaticArrayInitTypeSizeU3D11248_tED7E7A7D499BCD29661C9BE4BF0AAC5468FD30D8 
+{
+	union
+	{
+		struct
+		{
+			union
+			{
+			};
+		};
+		uint8_t __StaticArrayInitTypeSizeU3D11248_tED7E7A7D499BCD29661C9BE4BF0AAC5468FD30D8__padding[11248];
+	};
+};
+#pragma pack(pop, tp)
+#pragma pack(push, tp, 1)
 struct __StaticArrayInitTypeSizeU3D24_tCE723CAC7167AB0D9DA5B8486584F54A5F49D197 
 {
 	union
@@ -1181,21 +1196,6 @@ struct __StaticArrayInitTypeSizeU3D4221_t5533785CABC0284D1290DFB7FFE7637B600700A
 			};
 		};
 		uint8_t __StaticArrayInitTypeSizeU3D4221_t5533785CABC0284D1290DFB7FFE7637B600700AB__padding[4221];
-	};
-};
-#pragma pack(pop, tp)
-#pragma pack(push, tp, 1)
-struct __StaticArrayInitTypeSizeU3D8323_t778135F76BAE88909F1D1A144E380FF2E84203B8 
-{
-	union
-	{
-		struct
-		{
-			union
-			{
-			};
-		};
-		uint8_t __StaticArrayInitTypeSizeU3D8323_t778135F76BAE88909F1D1A144E380FF2E84203B8__padding[8323];
 	};
 };
 #pragma pack(pop, tp)
@@ -3217,7 +3217,7 @@ struct Singleton_1_tFA42BBAB462F65D6369E29B52081450A6F3EFE39_StaticFields
 struct U3CPrivateImplementationDetailsU3E_tAB7E8A8AAC721FACEF4B31EAA444DE9CD70BE373_StaticFields
 {
 	__StaticArrayInitTypeSizeU3D4221_t5533785CABC0284D1290DFB7FFE7637B600700AB ___48963ED46B7ED7A3F98572AD518BDA7A792275E0B0D8B27B94D65F747F49392F;
-	__StaticArrayInitTypeSizeU3D8323_t778135F76BAE88909F1D1A144E380FF2E84203B8 ___EEBA4271F142D04728259A9D161E854F60D80FBEEF69B2B2DCC4D1FD195EB089;
+	__StaticArrayInitTypeSizeU3D11248_tED7E7A7D499BCD29661C9BE4BF0AAC5468FD30D8 ___F48DE2E0C282655F1A686C10B5DD2CEE2A14534FC2D258B85EE0546E5573BEEF;
 	__StaticArrayInitTypeSizeU3D24_tCE723CAC7167AB0D9DA5B8486584F54A5F49D197 ___FE78C65211DD0B56A97024FB61111E686EF1FE054AA132BA58E2891AC496F1EE;
 };
 struct AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0_StaticFields
@@ -4392,7 +4392,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALControllerSimulator__ctor_m3FE45F2C
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR FourCC_tA6CAA4015BC25A7F1053B6C512202D57A9C994ED XREALSimulatorControllerState_get_formatId_mD1A2598C9B2E768B8BDEE7BE195722A122F4EB45 (const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALSimulatorControllerState.cs:13>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALSimulatorControllerState.cs:13>
 		FourCC_tA6CAA4015BC25A7F1053B6C512202D57A9C994ED L_0;
 		memset((&L_0), 0, sizeof(L_0));
 		FourCC__ctor_mFE3A3F80C6900CD18CB9BDD3C9B604823F2E791F((&L_0), ((int32_t)88), ((int32_t)82), ((int32_t)88), ((int32_t)82), NULL);
@@ -4403,7 +4403,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR FourCC_tA6CAA4015BC25A7F1053B6C512202D57A9C99
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR FourCC_tA6CAA4015BC25A7F1053B6C512202D57A9C994ED XREALSimulatorControllerState_get_format_m6D7B9B99D49B9AD389A1A7E865A360D536B97BEE (XREALSimulatorControllerState_t80E0E3D4F27B665AB426CE6B635BA10B8EAC9075* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALSimulatorControllerState.cs:14>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALSimulatorControllerState.cs:14>
 		FourCC_tA6CAA4015BC25A7F1053B6C512202D57A9C994ED L_0;
 		L_0 = XREALSimulatorControllerState_get_formatId_mD1A2598C9B2E768B8BDEE7BE195722A122F4EB45(NULL);
 		return L_0;
@@ -4426,10 +4426,10 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR XREALSimulatorControllerState_t80E0E3D4F27B66
 	XREALSimulatorControllerState_t80E0E3D4F27B665AB426CE6B635BA10B8EAC9075 V_2;
 	memset((&V_2), 0, sizeof(V_2));
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALSimulatorControllerState.cs:66>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALSimulatorControllerState.cs:66>
 		int32_t L_0 = ___0_button;
 		V_0 = ((int32_t)(1<<((int32_t)((int32_t)L_0&((int32_t)31)))));
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALSimulatorControllerState.cs:67>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALSimulatorControllerState.cs:67>
 		bool L_1 = ___1_state;
 		V_1 = L_1;
 		bool L_2 = V_1;
@@ -4439,7 +4439,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR XREALSimulatorControllerState_t80E0E3D4F27B66
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALSimulatorControllerState.cs:68>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALSimulatorControllerState.cs:68>
 		uint16_t L_3 = __this->___buttons;
 		int32_t L_4 = V_0;
 		__this->___buttons = (uint16_t)((int32_t)(uint16_t)((int32_t)((int32_t)L_3|((int32_t)(uint16_t)L_4))));
@@ -4448,7 +4448,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR XREALSimulatorControllerState_t80E0E3D4F27B66
 
 IL_001f:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALSimulatorControllerState.cs:70>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALSimulatorControllerState.cs:70>
 		uint16_t L_5 = __this->___buttons;
 		int32_t L_6 = V_0;
 		__this->___buttons = (uint16_t)((int32_t)(uint16_t)((int32_t)((int32_t)L_5&((int32_t)(uint16_t)((~L_6))))));
@@ -4456,7 +4456,7 @@ IL_001f:
 
 IL_0030:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALSimulatorControllerState.cs:71>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALSimulatorControllerState.cs:71>
 		XREALSimulatorControllerState_t80E0E3D4F27B665AB426CE6B635BA10B8EAC9075 L_7 = (*(XREALSimulatorControllerState_t80E0E3D4F27B665AB426CE6B635BA10B8EAC9075*)__this);
 		V_2 = L_7;
 		goto IL_0039;
@@ -4464,7 +4464,7 @@ IL_0030:
 
 IL_0039:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALSimulatorControllerState.cs:72>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALSimulatorControllerState.cs:72>
 		XREALSimulatorControllerState_t80E0E3D4F27B665AB426CE6B635BA10B8EAC9075 L_8 = V_2;
 		return L_8;
 	}
@@ -4484,10 +4484,10 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALSimulatorControllerState_HasButton_
 	int32_t V_0 = 0;
 	bool V_1 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALSimulatorControllerState.cs:81>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALSimulatorControllerState.cs:81>
 		int32_t L_0 = ___0_button;
 		V_0 = ((int32_t)(1<<((int32_t)((int32_t)L_0&((int32_t)31)))));
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALSimulatorControllerState.cs:82>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALSimulatorControllerState.cs:82>
 		uint16_t L_1 = __this->___buttons;
 		int32_t L_2 = V_0;
 		V_1 = (bool)((!(((uint32_t)((int32_t)((int32_t)L_1&L_2))) <= ((uint32_t)0)))? 1 : 0);
@@ -4496,7 +4496,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALSimulatorControllerState_HasButton_
 
 IL_0016:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALSimulatorControllerState.cs:83>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALSimulatorControllerState.cs:83>
 		bool L_3 = V_1;
 		return L_3;
 	}
@@ -4514,15 +4514,15 @@ IL2CPP_EXTERN_C  bool XREALSimulatorControllerState_HasButton_m2979D939FAFFE467C
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALSimulatorControllerState_Reset_m5654B93642AA8CF671A6DBE059BD143287C968B0 (XREALSimulatorControllerState_t80E0E3D4F27B665AB426CE6B635BA10B8EAC9075* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALSimulatorControllerState.cs:94>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALSimulatorControllerState.cs:94>
 		Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7* L_0 = (Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7*)(&__this->___primary2DAxis);
 		il2cpp_codegen_initobj(L_0, sizeof(Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7));
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALSimulatorControllerState.cs:95>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALSimulatorControllerState.cs:95>
 		Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7* L_1 = (Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7*)(&__this->___secondary2DAxis);
 		il2cpp_codegen_initobj(L_1, sizeof(Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7));
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALSimulatorControllerState.cs:96>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALSimulatorControllerState.cs:96>
 		__this->___buttons = (uint16_t)0;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALSimulatorControllerState.cs:97>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALSimulatorControllerState.cs:97>
 		return;
 	}
 }
@@ -4545,7 +4545,7 @@ IL2CPP_EXTERN_C  void XREALSimulatorControllerState_Reset_m5654B93642AA8CF671A6D
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR FourCC_tA6CAA4015BC25A7F1053B6C512202D57A9C994ED XREALSimulatorHandState_get_formatId_mCE26C0BA914350509C9538E938AEE9AC99343EA8 (const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALSimulatorHandState.cs:13>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALSimulatorHandState.cs:13>
 		FourCC_tA6CAA4015BC25A7F1053B6C512202D57A9C994ED L_0;
 		memset((&L_0), 0, sizeof(L_0));
 		FourCC__ctor_mFE3A3F80C6900CD18CB9BDD3C9B604823F2E791F((&L_0), ((int32_t)88), ((int32_t)82), ((int32_t)88), ((int32_t)72), NULL);
@@ -4556,7 +4556,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR FourCC_tA6CAA4015BC25A7F1053B6C512202D57A9C99
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR FourCC_tA6CAA4015BC25A7F1053B6C512202D57A9C994ED XREALSimulatorHandState_get_format_mCA4F761A050D659B68A98E07631F337790DEEDBA (XREALSimulatorHandState_tB5EB961C83C7EFA13E1AD226A8A9393DDC0AB3C6* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALSimulatorHandState.cs:14>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALSimulatorHandState.cs:14>
 		FourCC_tA6CAA4015BC25A7F1053B6C512202D57A9C994ED L_0;
 		L_0 = XREALSimulatorHandState_get_formatId_mCE26C0BA914350509C9538E938AEE9AC99343EA8(NULL);
 		return L_0;
@@ -4579,10 +4579,10 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR XREALSimulatorHandState_tB5EB961C83C7EFA13E1A
 	XREALSimulatorHandState_tB5EB961C83C7EFA13E1AD226A8A9393DDC0AB3C6 V_2;
 	memset((&V_2), 0, sizeof(V_2));
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALSimulatorHandState.cs:39>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALSimulatorHandState.cs:39>
 		int32_t L_0 = ___0_button;
 		V_0 = ((int32_t)(1<<((int32_t)((int32_t)L_0&((int32_t)31)))));
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALSimulatorHandState.cs:40>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALSimulatorHandState.cs:40>
 		bool L_1 = ___1_state;
 		V_1 = L_1;
 		bool L_2 = V_1;
@@ -4592,7 +4592,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR XREALSimulatorHandState_tB5EB961C83C7EFA13E1A
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALSimulatorHandState.cs:41>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALSimulatorHandState.cs:41>
 		uint16_t L_3 = __this->___buttons;
 		int32_t L_4 = V_0;
 		__this->___buttons = (uint16_t)((int32_t)(uint16_t)((int32_t)((int32_t)L_3|((int32_t)(uint16_t)L_4))));
@@ -4601,7 +4601,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR XREALSimulatorHandState_tB5EB961C83C7EFA13E1A
 
 IL_001f:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALSimulatorHandState.cs:43>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALSimulatorHandState.cs:43>
 		uint16_t L_5 = __this->___buttons;
 		int32_t L_6 = V_0;
 		__this->___buttons = (uint16_t)((int32_t)(uint16_t)((int32_t)((int32_t)L_5&((int32_t)(uint16_t)((~L_6))))));
@@ -4609,7 +4609,7 @@ IL_001f:
 
 IL_0030:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALSimulatorHandState.cs:44>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALSimulatorHandState.cs:44>
 		XREALSimulatorHandState_tB5EB961C83C7EFA13E1AD226A8A9393DDC0AB3C6 L_7 = (*(XREALSimulatorHandState_tB5EB961C83C7EFA13E1AD226A8A9393DDC0AB3C6*)__this);
 		V_2 = L_7;
 		goto IL_0039;
@@ -4617,7 +4617,7 @@ IL_0030:
 
 IL_0039:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALSimulatorHandState.cs:45>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALSimulatorHandState.cs:45>
 		XREALSimulatorHandState_tB5EB961C83C7EFA13E1AD226A8A9393DDC0AB3C6 L_8 = V_2;
 		return L_8;
 	}
@@ -4637,10 +4637,10 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALSimulatorHandState_HasButton_m21CFC
 	int32_t V_0 = 0;
 	bool V_1 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALSimulatorHandState.cs:49>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALSimulatorHandState.cs:49>
 		int32_t L_0 = ___0_button;
 		V_0 = ((int32_t)(1<<((int32_t)((int32_t)L_0&((int32_t)31)))));
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALSimulatorHandState.cs:50>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALSimulatorHandState.cs:50>
 		uint16_t L_1 = __this->___buttons;
 		int32_t L_2 = V_0;
 		V_1 = (bool)((!(((uint32_t)((int32_t)((int32_t)L_1&L_2))) <= ((uint32_t)0)))? 1 : 0);
@@ -4649,7 +4649,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALSimulatorHandState_HasButton_m21CFC
 
 IL_0016:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALSimulatorHandState.cs:51>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALSimulatorHandState.cs:51>
 		bool L_3 = V_1;
 		return L_3;
 	}
@@ -4669,10 +4669,10 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR XREALSimulatorHandState_tB5EB961C83C7EFA13E1A
 	XREALSimulatorHandState_tB5EB961C83C7EFA13E1AD226A8A9393DDC0AB3C6 V_0;
 	memset((&V_0), 0, sizeof(V_0));
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALSimulatorHandState.cs:55>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALSimulatorHandState.cs:55>
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_0 = ___0_position;
 		__this->___pointerPosition = L_0;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALSimulatorHandState.cs:56>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALSimulatorHandState.cs:56>
 		XREALSimulatorHandState_tB5EB961C83C7EFA13E1AD226A8A9393DDC0AB3C6 L_1 = (*(XREALSimulatorHandState_tB5EB961C83C7EFA13E1AD226A8A9393DDC0AB3C6*)__this);
 		V_0 = L_1;
 		goto IL_0011;
@@ -4680,7 +4680,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR XREALSimulatorHandState_tB5EB961C83C7EFA13E1A
 
 IL_0011:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALSimulatorHandState.cs:57>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALSimulatorHandState.cs:57>
 		XREALSimulatorHandState_tB5EB961C83C7EFA13E1AD226A8A9393DDC0AB3C6 L_2 = V_0;
 		return L_2;
 	}
@@ -4700,10 +4700,10 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR XREALSimulatorHandState_tB5EB961C83C7EFA13E1A
 	XREALSimulatorHandState_tB5EB961C83C7EFA13E1AD226A8A9393DDC0AB3C6 V_0;
 	memset((&V_0), 0, sizeof(V_0));
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALSimulatorHandState.cs:61>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALSimulatorHandState.cs:61>
 		Quaternion_tDA59F214EF07D7700B26E40E562F267AF7306974 L_0 = ___0_rotation;
 		__this->___pointerRotation = L_0;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALSimulatorHandState.cs:62>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALSimulatorHandState.cs:62>
 		XREALSimulatorHandState_tB5EB961C83C7EFA13E1AD226A8A9393DDC0AB3C6 L_1 = (*(XREALSimulatorHandState_tB5EB961C83C7EFA13E1AD226A8A9393DDC0AB3C6*)__this);
 		V_0 = L_1;
 		goto IL_0011;
@@ -4711,7 +4711,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR XREALSimulatorHandState_tB5EB961C83C7EFA13E1A
 
 IL_0011:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALSimulatorHandState.cs:63>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALSimulatorHandState.cs:63>
 		XREALSimulatorHandState_tB5EB961C83C7EFA13E1AD226A8A9393DDC0AB3C6 L_2 = V_0;
 		return L_2;
 	}
@@ -5081,7 +5081,7 @@ IL_0007:
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR InputDevice_t882EE3EE8A71D8F5F38BA3F9356A49F24510E8BD XREALVirtualController_get_Controller_m0BEC0B3928D675375F1333201B356D515053D366 (XREALVirtualController_tB9DF68A13F410A7B3E9B5C29E91CD0FEA68AF730* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:47>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:47>
 		InputDevice_t882EE3EE8A71D8F5F38BA3F9356A49F24510E8BD L_0 = __this->___U3CControllerU3Ek__BackingField;
 		return L_0;
 	}
@@ -5090,7 +5090,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR InputDevice_t882EE3EE8A71D8F5F38BA3F9356A49F2
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALVirtualController_set_Controller_m0E35EA37BAD33C940D0711C785DD05B61A900B50 (XREALVirtualController_tB9DF68A13F410A7B3E9B5C29E91CD0FEA68AF730* __this, InputDevice_t882EE3EE8A71D8F5F38BA3F9356A49F24510E8BD ___0_value, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:47>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:47>
 		InputDevice_t882EE3EE8A71D8F5F38BA3F9356A49F24510E8BD L_0 = ___0_value;
 		__this->___U3CControllerU3Ek__BackingField = L_0;
 		return;
@@ -5119,10 +5119,10 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALVirtualController_Start_m8E1FC5B98A
 	Canvas_t2DB4CEFDFF732884866C83F11ABF75F5AE8FFB26* V_3 = NULL;
 	int32_t G_B3_0 = 0;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:56>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:56>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(_stringLiteralB8E9463988EF31D532EA2D87A9D73665E75A18FA, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:61>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:61>
 		Camera_tA92CC927D7439999BC82DBEDC0AA45B470F9E184* L_0 = __this->___m_URPUICamera;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_1;
@@ -5155,20 +5155,20 @@ IL_002a:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:63>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:63>
 		Camera_tA92CC927D7439999BC82DBEDC0AA45B470F9E184* L_4 = __this->___m_URPUICamera;
 		NullCheck(L_4);
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_5;
 		L_5 = Component_get_gameObject_m57AEFBB14DB39EC476F740BA000E170355DE691B(L_4, NULL);
 		NullCheck(L_5);
 		GameObject_SetActive_m638E92E1E75E519E5B24CF150B08CA8E0CDFAB92(L_5, (bool)1, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:64>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:64>
 		Camera_tA92CC927D7439999BC82DBEDC0AA45B470F9E184* L_6 = __this->___m_URPUICamera;
 		UniversalAdditionalCameraData_t57B5D0F93C2D506E618E23187302C0FADE813B93* L_7;
 		L_7 = CameraExtensions_GetUniversalAdditionalCameraData_m38406768FA69BDC80D45CA7698EC0B8755448604(L_6, NULL);
 		NullCheck(L_7);
 		UniversalAdditionalCameraData_set_allowXRRendering_mE9DE096F60A0E523B8C06F7E660A6FF1387B07F7_inline(L_7, (bool)0, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:66>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:66>
 		CanvasU5BU5D_tE5C544063BDA76B67407EFED5FF893BBCDB74841* L_8;
 		L_8 = Component_GetComponentsInChildren_TisCanvas_t2DB4CEFDFF732884866C83F11ABF75F5AE8FFB26_m79D580EB6EA07C013AE1120BACE13827EA17723E(__this, (bool)1, Component_GetComponentsInChildren_TisCanvas_t2DB4CEFDFF732884866C83F11ABF75F5AE8FFB26_m79D580EB6EA07C013AE1120BACE13827EA17723E_RuntimeMethod_var);
 		V_1 = L_8;
@@ -5178,18 +5178,18 @@ IL_002a:
 
 IL_0060:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:66>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:66>
 		CanvasU5BU5D_tE5C544063BDA76B67407EFED5FF893BBCDB74841* L_9 = V_1;
 		int32_t L_10 = V_2;
 		NullCheck(L_9);
 		int32_t L_11 = L_10;
 		Canvas_t2DB4CEFDFF732884866C83F11ABF75F5AE8FFB26* L_12 = (L_9)->GetAt(static_cast<il2cpp_array_size_t>(L_11));
 		V_3 = L_12;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:68>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:68>
 		Canvas_t2DB4CEFDFF732884866C83F11ABF75F5AE8FFB26* L_13 = V_3;
 		NullCheck(L_13);
 		Canvas_set_renderMode_mD73E953F8A115CF469508448A00D0EDAFAF5AB47(L_13, 1, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:69>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:69>
 		Canvas_t2DB4CEFDFF732884866C83F11ABF75F5AE8FFB26* L_14 = V_3;
 		Camera_tA92CC927D7439999BC82DBEDC0AA45B470F9E184* L_15 = __this->___m_URPUICamera;
 		NullCheck(L_14);
@@ -5200,7 +5200,7 @@ IL_0060:
 
 IL_007f:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:66>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:66>
 		int32_t L_17 = V_2;
 		CanvasU5BU5D_tE5C544063BDA76B67407EFED5FF893BBCDB74841* L_18 = V_1;
 		NullCheck(L_18);
@@ -5214,29 +5214,29 @@ IL_007f:
 
 IL_0086:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:77>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:77>
 		XREALVirtualController_UpdateController_m08E0054A798720B08CE24AFB8F39B9689F9E6175(__this, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:78>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:79>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:80>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:81>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:82>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:83>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:84>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:78>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:79>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:80>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:81>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:82>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:83>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:84>
 		Action_1_tFAB0B519749BBE2B7AAD946105FAE8116636A8BC* L_19 = (Action_1_tFAB0B519749BBE2B7AAD946105FAE8116636A8BC*)il2cpp_codegen_object_new(Action_1_tFAB0B519749BBE2B7AAD946105FAE8116636A8BC_il2cpp_TypeInfo_var);
 		Action_1__ctor_m9EFC6656FE579E4D72FFCA991DE5860FA28DD71E(L_19, __this, (intptr_t)((void*)XREALVirtualController_U3CStartU3Eb__18_0_m29851FD3811EC4AE8482F028A4717E34F7303C16_RuntimeMethod_var), NULL);
 		InputDevices_add_deviceConnected_m0329DBAE47CA4A20778F7DCBA470FCF9A672E9C9(L_19, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:85>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:86>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:87>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:88>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:89>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:90>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:91>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:85>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:86>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:87>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:88>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:89>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:90>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:91>
 		Action_1_tFAB0B519749BBE2B7AAD946105FAE8116636A8BC* L_20 = (Action_1_tFAB0B519749BBE2B7AAD946105FAE8116636A8BC*)il2cpp_codegen_object_new(Action_1_tFAB0B519749BBE2B7AAD946105FAE8116636A8BC_il2cpp_TypeInfo_var);
 		Action_1__ctor_m9EFC6656FE579E4D72FFCA991DE5860FA28DD71E(L_20, __this, (intptr_t)((void*)XREALVirtualController_U3CStartU3Eb__18_1_mE87F146C38727E42297A9F170E76A70AD6840E8F_RuntimeMethod_var), NULL);
 		InputDevices_add_deviceDisconnected_mADAB4CDAFF3655811C41D7715B29DCC0A2082F1B(L_20, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:92>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:92>
 		return;
 	}
 }
@@ -5255,14 +5255,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALVirtualController_UpdateController_
 	List_1_tB66D13E0427CA48C600AEA4DBA5B173C3734C6CE* V_0 = NULL;
 	bool V_1 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:96>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:96>
 		List_1_tB66D13E0427CA48C600AEA4DBA5B173C3734C6CE* L_0 = (List_1_tB66D13E0427CA48C600AEA4DBA5B173C3734C6CE*)il2cpp_codegen_object_new(List_1_tB66D13E0427CA48C600AEA4DBA5B173C3734C6CE_il2cpp_TypeInfo_var);
 		List_1__ctor_mF7ACC153F11A3260DAACDCA56B0A70A4BFA61EA4(L_0, List_1__ctor_mF7ACC153F11A3260DAACDCA56B0A70A4BFA61EA4_RuntimeMethod_var);
 		V_0 = L_0;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:97>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:97>
 		List_1_tB66D13E0427CA48C600AEA4DBA5B173C3734C6CE* L_1 = V_0;
 		InputDevices_GetDevicesWithCharacteristics_m82F54DE2802FCE4EB730FCFBF8731CA91A27DEB0(((int32_t)64), L_1, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:98>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:98>
 		List_1_tB66D13E0427CA48C600AEA4DBA5B173C3734C6CE* L_2 = V_0;
 		NullCheck(L_2);
 		int32_t L_3;
@@ -5275,7 +5275,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALVirtualController_UpdateController_
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:99>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:99>
 		List_1_tB66D13E0427CA48C600AEA4DBA5B173C3734C6CE* L_5 = V_0;
 		NullCheck(L_5);
 		InputDevice_t882EE3EE8A71D8F5F38BA3F9356A49F24510E8BD L_6;
@@ -5285,7 +5285,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALVirtualController_UpdateController_
 
 IL_002b:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:100>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:100>
 		return;
 	}
 }
@@ -5303,7 +5303,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALVirtualController_SendHapticButton_
 	int32_t G_B4_1 = 0;
 	ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* G_B4_2 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:113>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:113>
 		InputDevice_t882EE3EE8A71D8F5F38BA3F9356A49F24510E8BD L_0;
 		L_0 = XREALVirtualController_get_Controller_m0BEC0B3928D675375F1333201B356D515053D366_inline(__this, NULL);
 		V_1 = L_0;
@@ -5317,12 +5317,12 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALVirtualController_SendHapticButton_
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:115>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:115>
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_3 = __this->___m_Buffer;
 		int32_t L_4 = ___0_buttonType;
 		NullCheck(L_3);
 		(L_3)->SetAt(static_cast<il2cpp_array_size_t>(0), (uint8_t)((int32_t)(uint8_t)L_4));
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:116>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:116>
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_5 = __this->___m_Buffer;
 		bool L_6 = ___1_press;
 		if (L_6)
@@ -5352,7 +5352,7 @@ IL_002c:
 	{
 		NullCheck(G_B4_2);
 		(G_B4_2)->SetAt(static_cast<il2cpp_array_size_t>(G_B4_1), (uint8_t)G_B4_0);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:117>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:117>
 		InputDevice_t882EE3EE8A71D8F5F38BA3F9356A49F24510E8BD L_7;
 		L_7 = XREALVirtualController_get_Controller_m0BEC0B3928D675375F1333201B356D515053D366_inline(__this, NULL);
 		V_1 = L_7;
@@ -5363,7 +5363,7 @@ IL_002c:
 
 IL_0044:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:119>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:119>
 		return;
 	}
 }
@@ -5378,7 +5378,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALVirtualController_SendHapticAxis_m3
 	ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* V_4 = NULL;
 	ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* V_5 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:133>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:133>
 		InputDevice_t882EE3EE8A71D8F5F38BA3F9356A49F24510E8BD L_0;
 		L_0 = XREALVirtualController_get_Controller_m0BEC0B3928D675375F1333201B356D515053D366_inline(__this, NULL);
 		V_1 = L_0;
@@ -5392,36 +5392,36 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALVirtualController_SendHapticAxis_m3
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:135>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:135>
 		float L_3 = ___1_axisX;
 		int32_t L_4;
 		L_4 = Mathf_RoundToInt_m60F8B66CF27F1FA75AA219342BD184B75771EB4B_inline(((float)il2cpp_codegen_multiply(L_3, (32767.0f))), NULL);
 		V_2 = ((int16_t)L_4);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:136>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:136>
 		float L_5 = ___2_axisY;
 		int32_t L_6;
 		L_6 = Mathf_RoundToInt_m60F8B66CF27F1FA75AA219342BD184B75771EB4B_inline(((float)il2cpp_codegen_multiply(L_5, (32767.0f))), NULL);
 		V_3 = ((int16_t)L_6);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:137>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:137>
 		int16_t L_7 = V_2;
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_8;
 		L_8 = BitConverter_GetBytes_m0E92A4A8881B288AF838E6F5C7220210A5AADB15(L_7, NULL);
 		V_4 = L_8;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:138>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:138>
 		int16_t L_9 = V_3;
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_10;
 		L_10 = BitConverter_GetBytes_m0E92A4A8881B288AF838E6F5C7220210A5AADB15(L_9, NULL);
 		V_5 = L_10;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:139>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:139>
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_11 = __this->___m_Buffer;
 		int32_t L_12 = ___0_buttonType;
 		NullCheck(L_11);
 		(L_11)->SetAt(static_cast<il2cpp_array_size_t>(0), (uint8_t)((int32_t)(uint8_t)L_12));
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:140>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:140>
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_13 = __this->___m_Buffer;
 		NullCheck(L_13);
 		(L_13)->SetAt(static_cast<il2cpp_array_size_t>(1), (uint8_t)1);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:141>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:141>
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_14 = __this->___m_Buffer;
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_15 = V_4;
 		NullCheck(L_15);
@@ -5429,7 +5429,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALVirtualController_SendHapticAxis_m3
 		uint8_t L_17 = (L_15)->GetAt(static_cast<il2cpp_array_size_t>(L_16));
 		NullCheck(L_14);
 		(L_14)->SetAt(static_cast<il2cpp_array_size_t>(2), (uint8_t)L_17);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:142>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:142>
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_18 = __this->___m_Buffer;
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_19 = V_4;
 		NullCheck(L_19);
@@ -5437,7 +5437,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALVirtualController_SendHapticAxis_m3
 		uint8_t L_21 = (L_19)->GetAt(static_cast<il2cpp_array_size_t>(L_20));
 		NullCheck(L_18);
 		(L_18)->SetAt(static_cast<il2cpp_array_size_t>(3), (uint8_t)L_21);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:143>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:143>
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_22 = __this->___m_Buffer;
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_23 = V_5;
 		NullCheck(L_23);
@@ -5445,7 +5445,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALVirtualController_SendHapticAxis_m3
 		uint8_t L_25 = (L_23)->GetAt(static_cast<il2cpp_array_size_t>(L_24));
 		NullCheck(L_22);
 		(L_22)->SetAt(static_cast<il2cpp_array_size_t>(4), (uint8_t)L_25);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:144>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:144>
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_26 = __this->___m_Buffer;
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_27 = V_5;
 		NullCheck(L_27);
@@ -5453,7 +5453,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALVirtualController_SendHapticAxis_m3
 		uint8_t L_29 = (L_27)->GetAt(static_cast<il2cpp_array_size_t>(L_28));
 		NullCheck(L_26);
 		(L_26)->SetAt(static_cast<il2cpp_array_size_t>(5), (uint8_t)L_29);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:145>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:145>
 		InputDevice_t882EE3EE8A71D8F5F38BA3F9356A49F24510E8BD L_30;
 		L_30 = XREALVirtualController_get_Controller_m0BEC0B3928D675375F1333201B356D515053D366_inline(__this, NULL);
 		V_1 = L_30;
@@ -5464,7 +5464,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALVirtualController_SendHapticAxis_m3
 
 IL_009d:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:147>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:147>
 		return;
 	}
 }
@@ -5475,7 +5475,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALVirtualController_SendHapticAxisEnd
 	InputDevice_t882EE3EE8A71D8F5F38BA3F9356A49F24510E8BD V_1;
 	memset((&V_1), 0, sizeof(V_1));
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:159>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:159>
 		InputDevice_t882EE3EE8A71D8F5F38BA3F9356A49F24510E8BD L_0;
 		L_0 = XREALVirtualController_get_Controller_m0BEC0B3928D675375F1333201B356D515053D366_inline(__this, NULL);
 		V_1 = L_0;
@@ -5489,16 +5489,16 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALVirtualController_SendHapticAxisEnd
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:161>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:161>
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_3 = __this->___m_Buffer;
 		int32_t L_4 = ___0_buttonType;
 		NullCheck(L_3);
 		(L_3)->SetAt(static_cast<il2cpp_array_size_t>(0), (uint8_t)((int32_t)(uint8_t)L_4));
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:162>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:162>
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_5 = __this->___m_Buffer;
 		NullCheck(L_5);
 		(L_5)->SetAt(static_cast<il2cpp_array_size_t>(1), (uint8_t)0);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:163>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:163>
 		InputDevice_t882EE3EE8A71D8F5F38BA3F9356A49F24510E8BD L_6;
 		L_6 = XREALVirtualController_get_Controller_m0BEC0B3928D675375F1333201B356D515053D366_inline(__this, NULL);
 		V_1 = L_6;
@@ -5509,7 +5509,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALVirtualController_SendHapticAxisEnd
 
 IL_003e:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:165>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:165>
 		return;
 	}
 }
@@ -5519,7 +5519,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALVirtualController_OnPointerDown_mC1
 	Action_3_t62E5CF2F12680A72E8CDB065B70BFF879C12F1B1* G_B2_0 = NULL;
 	Action_3_t62E5CF2F12680A72E8CDB065B70BFF879C12F1B1* G_B1_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:175>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:175>
 		Action_3_t62E5CF2F12680A72E8CDB065B70BFF879C12F1B1* L_0 = __this->___pointerDown;
 		Action_3_t62E5CF2F12680A72E8CDB065B70BFF879C12F1B1* L_1 = L_0;
 		if (L_1)
@@ -5544,7 +5544,7 @@ IL_000d:
 
 IL_0016:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:176>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:176>
 		return;
 	}
 }
@@ -5554,7 +5554,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALVirtualController_OnPointerUp_mE7A1
 	Action_3_t62E5CF2F12680A72E8CDB065B70BFF879C12F1B1* G_B2_0 = NULL;
 	Action_3_t62E5CF2F12680A72E8CDB065B70BFF879C12F1B1* G_B1_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:186>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:186>
 		Action_3_t62E5CF2F12680A72E8CDB065B70BFF879C12F1B1* L_0 = __this->___pointerUp;
 		Action_3_t62E5CF2F12680A72E8CDB065B70BFF879C12F1B1* L_1 = L_0;
 		if (L_1)
@@ -5579,7 +5579,7 @@ IL_000d:
 
 IL_0016:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:187>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:187>
 		return;
 	}
 }
@@ -5589,7 +5589,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALVirtualController_OnPointerDrag_mA6
 	Action_3_t62E5CF2F12680A72E8CDB065B70BFF879C12F1B1* G_B2_0 = NULL;
 	Action_3_t62E5CF2F12680A72E8CDB065B70BFF879C12F1B1* G_B1_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:197>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:197>
 		Action_3_t62E5CF2F12680A72E8CDB065B70BFF879C12F1B1* L_0 = __this->___pointerDrag;
 		Action_3_t62E5CF2F12680A72E8CDB065B70BFF879C12F1B1* L_1 = L_0;
 		if (L_1)
@@ -5614,7 +5614,7 @@ IL_000d:
 
 IL_0016:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:198>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:198>
 		return;
 	}
 }
@@ -5624,7 +5624,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALVirtualController_OnPointerEndDrag_
 	Action_3_t62E5CF2F12680A72E8CDB065B70BFF879C12F1B1* G_B2_0 = NULL;
 	Action_3_t62E5CF2F12680A72E8CDB065B70BFF879C12F1B1* G_B1_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:208>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:208>
 		Action_3_t62E5CF2F12680A72E8CDB065B70BFF879C12F1B1* L_0 = __this->___pointerEndDrag;
 		Action_3_t62E5CF2F12680A72E8CDB065B70BFF879C12F1B1* L_1 = L_0;
 		if (L_1)
@@ -5649,7 +5649,7 @@ IL_000d:
 
 IL_0016:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:209>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:209>
 		return;
 	}
 }
@@ -5664,10 +5664,10 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALVirtualController__ctor_m895636F850
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:41>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:41>
 		__this->___m_URPUICamera = (Camera_tA92CC927D7439999BC82DBEDC0AA45B470F9E184*)NULL;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___m_URPUICamera), (void*)(Camera_tA92CC927D7439999BC82DBEDC0AA45B470F9E184*)NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:49>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:49>
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_0 = (ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031*)(ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031*)SZArrayNew(ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031_il2cpp_TypeInfo_var, (uint32_t)8);
 		__this->___m_Buffer = L_0;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___m_Buffer), (void*)L_0);
@@ -5682,7 +5682,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALVirtualController_U3CStartU3Eb__18_
 	InputDevice_t882EE3EE8A71D8F5F38BA3F9356A49F24510E8BD V_1;
 	memset((&V_1), 0, sizeof(V_1));
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:80>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:80>
 		InputDevice_t882EE3EE8A71D8F5F38BA3F9356A49F24510E8BD L_0;
 		L_0 = XREALVirtualController_get_Controller_m0BEC0B3928D675375F1333201B356D515053D366_inline(__this, NULL);
 		V_1 = L_0;
@@ -5696,13 +5696,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALVirtualController_U3CStartU3Eb__18_
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:82>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:82>
 		XREALVirtualController_UpdateController_m08E0054A798720B08CE24AFB8F39B9689F9E6175(__this, NULL);
 	}
 
 IL_001f:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:84>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:84>
 		return;
 	}
 }
@@ -5713,7 +5713,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALVirtualController_U3CStartU3Eb__18_
 	InputDevice_t882EE3EE8A71D8F5F38BA3F9356A49F24510E8BD V_1;
 	memset((&V_1), 0, sizeof(V_1));
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:87>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:87>
 		InputDevice_t882EE3EE8A71D8F5F38BA3F9356A49F24510E8BD L_0;
 		L_0 = XREALVirtualController_get_Controller_m0BEC0B3928D675375F1333201B356D515053D366_inline(__this, NULL);
 		InputDevice_t882EE3EE8A71D8F5F38BA3F9356A49F24510E8BD L_1 = ___0_device;
@@ -5727,7 +5727,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALVirtualController_U3CStartU3Eb__18_
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:89>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:89>
 		il2cpp_codegen_initobj((&V_1), sizeof(InputDevice_t882EE3EE8A71D8F5F38BA3F9356A49F24510E8BD));
 		InputDevice_t882EE3EE8A71D8F5F38BA3F9356A49F24510E8BD L_4 = V_1;
 		XREALVirtualController_set_Controller_m0E35EA37BAD33C940D0711C785DD05B61A900B50_inline(__this, L_4, NULL);
@@ -5735,7 +5735,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALVirtualController_U3CStartU3Eb__18_
 
 IL_0023:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:91>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:91>
 		return;
 	}
 }
@@ -5774,56 +5774,56 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void NativeConstants__cctor_m980E73BDB62FB966
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/NativeConstants.cs:16>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/NativeConstants.cs:16>
 		((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___GlassesDisconnectErrorTip = _stringLiteralFE95B137441388444E5B3BB3F5C9E0E718B5602F;
 		Il2CppCodeGenWriteBarrier((void**)(&((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___GlassesDisconnectErrorTip), (void*)_stringLiteralFE95B137441388444E5B3BB3F5C9E0E718B5602F);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/NativeConstants.cs:17>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/NativeConstants.cs:17>
 		((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___SdkVersionMismatchErrorTip = _stringLiteral2EE25B101E77C2C730B4146561909FA1FE97B524;
 		Il2CppCodeGenWriteBarrier((void**)(&((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___SdkVersionMismatchErrorTip), (void*)_stringLiteral2EE25B101E77C2C730B4146561909FA1FE97B524);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/NativeConstants.cs:18>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/NativeConstants.cs:18>
 		((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___UnknownErrorTip = _stringLiteralD22DF07C41C8E205610EC948F3F243CF8E3B5AE2;
 		Il2CppCodeGenWriteBarrier((void**)(&((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___UnknownErrorTip), (void*)_stringLiteralD22DF07C41C8E205610EC948F3F243CF8E3B5AE2);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/NativeConstants.cs:19>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/NativeConstants.cs:19>
 		((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___NotEnoughMemory = _stringLiteralD336651B9F15AD88BEA1ED1ECE724B1207325622;
 		Il2CppCodeGenWriteBarrier((void**)(&((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___NotEnoughMemory), (void*)_stringLiteralD336651B9F15AD88BEA1ED1ECE724B1207325622);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/NativeConstants.cs:20>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/NativeConstants.cs:20>
 		((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___SdcardPermissionDenyErrorTip = _stringLiteralCFCFFE77C5E5CAE24886A7C27C8EB79F2BFA9901;
 		Il2CppCodeGenWriteBarrier((void**)(&((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___SdcardPermissionDenyErrorTip), (void*)_stringLiteralCFCFFE77C5E5CAE24886A7C27C8EB79F2BFA9901);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/NativeConstants.cs:21>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/NativeConstants.cs:21>
 		((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___RGBCameraNotFindTip = _stringLiteral90B6DA8AB4023FC6CF784EE5FFB8DA4CB635D6C4;
 		Il2CppCodeGenWriteBarrier((void**)(&((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___RGBCameraNotFindTip), (void*)_stringLiteral90B6DA8AB4023FC6CF784EE5FFB8DA4CB635D6C4);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/NativeConstants.cs:22>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/NativeConstants.cs:22>
 		((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___DPDeviceNotFindTip = _stringLiteral81B3DC53947E95FE51F4C158442822767C1C3FDB;
 		Il2CppCodeGenWriteBarrier((void**)(&((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___DPDeviceNotFindTip), (void*)_stringLiteral81B3DC53947E95FE51F4C158442822767C1C3FDB);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/NativeConstants.cs:23>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/NativeConstants.cs:23>
 		((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___GetDisplayFailureErrorTip = _stringLiteral1BD9484BE32712A67D6EB0FED29EEF6C49F2033D;
 		Il2CppCodeGenWriteBarrier((void**)(&((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___GetDisplayFailureErrorTip), (void*)_stringLiteral1BD9484BE32712A67D6EB0FED29EEF6C49F2033D);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/NativeConstants.cs:24>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/NativeConstants.cs:24>
 		((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___DisplayModeMismatchErrorTip = _stringLiteralE31A96A657B47FDBF254219714259710697AE016;
 		Il2CppCodeGenWriteBarrier((void**)(&((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___DisplayModeMismatchErrorTip), (void*)_stringLiteralE31A96A657B47FDBF254219714259710697AE016);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/NativeConstants.cs:25>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/NativeConstants.cs:25>
 		((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___SDKRuntimeNotFoundErrorTip = _stringLiteralE4CF0484DB3055111ACCB9CC1474B5B58238471B;
 		Il2CppCodeGenWriteBarrier((void**)(&((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___SDKRuntimeNotFoundErrorTip), (void*)_stringLiteralE4CF0484DB3055111ACCB9CC1474B5B58238471B);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/NativeConstants.cs:26>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/NativeConstants.cs:26>
 		((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___LicenseExpiredErrorTip = _stringLiteral9D32811C6CAF109B6BCC93E83892719470A285F2;
 		Il2CppCodeGenWriteBarrier((void**)(&((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___LicenseExpiredErrorTip), (void*)_stringLiteral9D32811C6CAF109B6BCC93E83892719470A285F2);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/NativeConstants.cs:27>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/NativeConstants.cs:27>
 		((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___LicenseNotSupportCurrentDevice = _stringLiteralBD0AE4850319F1D716619F4D00CC2BF6B198EC88;
 		Il2CppCodeGenWriteBarrier((void**)(&((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___LicenseNotSupportCurrentDevice), (void*)_stringLiteralBD0AE4850319F1D716619F4D00CC2BF6B198EC88);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/NativeConstants.cs:28>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/NativeConstants.cs:28>
 		((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___LicenseNotSupportRequestedFeature = _stringLiteralB81D336CDE5C668906859FB3F7766F15A06E1376;
 		Il2CppCodeGenWriteBarrier((void**)(&((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___LicenseNotSupportRequestedFeature), (void*)_stringLiteralB81D336CDE5C668906859FB3F7766F15A06E1376);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/NativeConstants.cs:29>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/NativeConstants.cs:29>
 		((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___ScreenCaptureDenyErrorTip = _stringLiteral55E29FA08AC5EF6411625607686A26AB3F0679D8;
 		Il2CppCodeGenWriteBarrier((void**)(&((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___ScreenCaptureDenyErrorTip), (void*)_stringLiteral55E29FA08AC5EF6411625607686A26AB3F0679D8);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/NativeConstants.cs:30>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/NativeConstants.cs:31>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/NativeConstants.cs:30>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/NativeConstants.cs:31>
 		((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___PermissionDenyErrorTip = _stringLiteralD619743CB2ED71EA7DB1C4B48AA1D3EB95200206;
 		Il2CppCodeGenWriteBarrier((void**)(&((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___PermissionDenyErrorTip), (void*)_stringLiteralD619743CB2ED71EA7DB1C4B48AA1D3EB95200206);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/NativeConstants.cs:32>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/NativeConstants.cs:32>
 		((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___TrackingModeSwitchTip = _stringLiteral166966220A8E403D00851E0AA3B8268646961B9B;
 		Il2CppCodeGenWriteBarrier((void**)(&((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___TrackingModeSwitchTip), (void*)_stringLiteral166966220A8E403D00851E0AA3B8268646961B9B);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/NativeConstants.cs:33>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/NativeConstants.cs:33>
 		((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___UnSupportedErrorTip = _stringLiteralFBDE933D983C319939BD21156364220C67ED85D1;
 		Il2CppCodeGenWriteBarrier((void**)(&((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___UnSupportedErrorTip), (void*)_stringLiteralFBDE933D983C319939BD21156364220C67ED85D1);
 		return;
@@ -5847,14 +5847,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALBatteryNotification_Update_m8754316
 	bool V_4 = false;
 	bool V_5 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:30>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:30>
 		float L_0;
 		L_0 = SystemInfo_get_batteryLevel_m549AF9A6BB748E5C50FF2D1D04D4E9E6B1C5D8C6(NULL);
 		__this->___m_BatteryValue = L_0;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:34>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:34>
 		int32_t L_1 = __this->___m_CurrentLevel;
 		V_0 = L_1;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:35>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:35>
 		float L_2 = __this->___m_BatteryValue;
 		float L_3 = __this->___m_BatteryLowLevelThreshold;
 		V_1 = (bool)((((int32_t)((!(((float)L_2) <= ((float)L_3)))? 1 : 0)) == ((int32_t)0))? 1 : 0);
@@ -5865,9 +5865,9 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALBatteryNotification_Update_m8754316
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:37>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:37>
 		__this->___m_CurrentLevel = 0;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:38>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:38>
 		int32_t L_5 = V_0;
 		V_2 = (bool)((((int32_t)L_5) > ((int32_t)0))? 1 : 0);
 		bool L_6 = V_2;
@@ -5877,7 +5877,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALBatteryNotification_Update_m8754316
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:40>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:40>
 		VirtualActionInvoker0::Invoke(4, __this);
 	}
 
@@ -5888,7 +5888,7 @@ IL_0041:
 
 IL_0044:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:43>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:43>
 		float L_7 = __this->___m_BatteryValue;
 		float L_8 = __this->___m_BatteryMiddleThreshold;
 		V_3 = (bool)((((int32_t)((!(((float)L_7) <= ((float)L_8)))? 1 : 0)) == ((int32_t)0))? 1 : 0);
@@ -5899,9 +5899,9 @@ IL_0044:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:45>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:45>
 		__this->___m_CurrentLevel = 1;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:46>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:46>
 		int32_t L_10 = V_0;
 		V_4 = (bool)((((int32_t)L_10) > ((int32_t)1))? 1 : 0);
 		bool L_11 = V_4;
@@ -5911,7 +5911,7 @@ IL_0044:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:48>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:48>
 		VirtualActionInvoker0::Invoke(4, __this);
 	}
 
@@ -5922,7 +5922,7 @@ IL_0074:
 
 IL_0077:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:51>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:51>
 		float L_12 = __this->___m_BatteryValue;
 		float L_13 = __this->___m_BatteryMiddleThreshold;
 		V_5 = (bool)((((float)L_12) > ((float)L_13))? 1 : 0);
@@ -5933,13 +5933,13 @@ IL_0077:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:53>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:53>
 		__this->___m_CurrentLevel = 2;
 	}
 
 IL_0094:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:55>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:55>
 		return;
 	}
 }
@@ -5971,7 +5971,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALBatteryNotification_NotifyTrigger_m
 	bool V_6 = false;
 	bool V_7 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:59>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:59>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_0 = ((XREALNotification_t2D86ABA12DA41D68278DDB714AD565BF0FA47518*)__this)->___glassesSpacePopup;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_1;
@@ -5984,7 +5984,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALBatteryNotification_NotifyTrigger_m
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:61>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:61>
 		XREALLocalizationTool_tB0831BE3836FCE62B79500228719068915D84B2F* L_3;
 		L_3 = SingletonMonoBehaviour_1_get_Singleton_m36368F3FC7E6C89EE098D9154E24F92F37261469_inline(SingletonMonoBehaviour_1_get_Singleton_m36368F3FC7E6C89EE098D9154E24F92F37261469_RuntimeMethod_var);
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
@@ -5998,7 +5998,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALBatteryNotification_NotifyTrigger_m
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:64>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:64>
 		int32_t L_6 = __this->___m_CurrentLevel;
 		V_6 = (bool)((((int32_t)L_6) == ((int32_t)0))? 1 : 0);
 		bool L_7 = V_6;
@@ -6008,14 +6008,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALBatteryNotification_NotifyTrigger_m
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:66>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:66>
 		XREALLocalizationTool_tB0831BE3836FCE62B79500228719068915D84B2F* L_8;
 		L_8 = SingletonMonoBehaviour_1_get_Singleton_m36368F3FC7E6C89EE098D9154E24F92F37261469_inline(SingletonMonoBehaviour_1_get_Singleton_m36368F3FC7E6C89EE098D9154E24F92F37261469_RuntimeMethod_var);
 		NullCheck(L_8);
 		String_t* L_9;
 		L_9 = XREALLocalizationTool_GetNotificationContent_m98E6F25D4F783D0A48D90266A656775DFF8AA55C(L_8, _stringLiteral7F227C02FA9F244FB78D52E39D20890AE3708FC7, NULL);
 		V_2 = L_9;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:67>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:67>
 		XREALLocalizationTool_tB0831BE3836FCE62B79500228719068915D84B2F* L_10;
 		L_10 = SingletonMonoBehaviour_1_get_Singleton_m36368F3FC7E6C89EE098D9154E24F92F37261469_inline(SingletonMonoBehaviour_1_get_Singleton_m36368F3FC7E6C89EE098D9154E24F92F37261469_RuntimeMethod_var);
 		NullCheck(L_10);
@@ -6027,14 +6027,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALBatteryNotification_NotifyTrigger_m
 
 IL_005a:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:71>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:71>
 		XREALLocalizationTool_tB0831BE3836FCE62B79500228719068915D84B2F* L_12;
 		L_12 = SingletonMonoBehaviour_1_get_Singleton_m36368F3FC7E6C89EE098D9154E24F92F37261469_inline(SingletonMonoBehaviour_1_get_Singleton_m36368F3FC7E6C89EE098D9154E24F92F37261469_RuntimeMethod_var);
 		NullCheck(L_12);
 		String_t* L_13;
 		L_13 = XREALLocalizationTool_GetNotificationContent_m98E6F25D4F783D0A48D90266A656775DFF8AA55C(L_12, _stringLiteral4884AA3EEEB07D22E7306EAA4E7FFB7837EC2C80, NULL);
 		V_2 = L_13;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:72>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:72>
 		XREALLocalizationTool_tB0831BE3836FCE62B79500228719068915D84B2F* L_14;
 		L_14 = SingletonMonoBehaviour_1_get_Singleton_m36368F3FC7E6C89EE098D9154E24F92F37261469_inline(SingletonMonoBehaviour_1_get_Singleton_m36368F3FC7E6C89EE098D9154E24F92F37261469_RuntimeMethod_var);
 		NullCheck(L_14);
@@ -6045,19 +6045,19 @@ IL_005a:
 
 IL_007c:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:75>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:75>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_16 = ((XREALNotification_t2D86ABA12DA41D68278DDB714AD565BF0FA47518*)__this)->___glassesSpacePopup;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_17;
 		L_17 = Object_Instantiate_TisGameObject_t76FEDD663AB33C991A9C9A23129337651094216F_m10D87C6E0708CA912BBB02555BF7D0FBC5D7A2B3(L_16, Object_Instantiate_TisGameObject_t76FEDD663AB33C991A9C9A23129337651094216F_m10D87C6E0708CA912BBB02555BF7D0FBC5D7A2B3_RuntimeMethod_var);
 		V_4 = L_17;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:76>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:76>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_18 = V_4;
 		NullCheck(L_18);
 		XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* L_19;
 		L_19 = GameObject_GetComponent_TisXREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484_m1E0422A0833E9528D8DFD9138E6E4CE2E2030042(L_18, GameObject_GetComponent_TisXREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484_m1E0422A0833E9528D8DFD9138E6E4CE2E2030042_RuntimeMethod_var);
 		V_5 = L_19;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:77>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:77>
 		XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* L_20 = V_5;
 		bool L_21;
 		L_21 = Object_op_Inequality_mD0BE578448EAA61948F25C32F8DD55AB1F778602(L_20, (Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C*)NULL, NULL);
@@ -6069,29 +6069,29 @@ IL_007c:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:79>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:79>
 		XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* L_23 = V_5;
 		String_t* L_24 = V_2;
 		NullCheck(L_23);
 		XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* L_25;
 		L_25 = VirtualFuncInvoker1< XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484*, String_t* >::Invoke(10, L_23, L_24);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:80>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:80>
 		XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* L_26 = V_5;
 		String_t* L_27 = V_3;
 		NullCheck(L_26);
 		XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* L_28;
 		L_28 = VirtualFuncInvoker1< XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484*, String_t* >::Invoke(11, L_26, L_27);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:81>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:81>
 		XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* L_29 = V_5;
 		float L_30 = ((XREALNotification_t2D86ABA12DA41D68278DDB714AD565BF0FA47518*)__this)->___m_NotificationDisplayTime;
 		NullCheck(L_29);
 		XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* L_31;
 		L_31 = VirtualFuncInvoker1< XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484*, float >::Invoke(12, L_29, L_30);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:82>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:82>
 		XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* L_32 = V_5;
 		NullCheck(L_32);
 		VirtualActionInvoker0::Invoke(8, L_32);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:83>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:83>
 		ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_33 = (ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918*)(ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918*)SZArrayNew(ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918_il2cpp_TypeInfo_var, (uint32_t)1);
 		ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_34 = L_33;
 		float L_35 = __this->___m_BatteryValue;
@@ -6114,7 +6114,7 @@ IL_00ea:
 
 IL_00eb:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:87>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:87>
 		return;
 	}
 }
@@ -6122,13 +6122,13 @@ IL_00eb:
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALBatteryNotification__ctor_mFBACFD1E3F110738EC7D7910ABFD879DD1A7F809 (XREALBatteryNotification_t086730199C08C9D455E0288E685E22438BD2BCF5* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:19>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:19>
 		__this->___m_BatteryLowLevelThreshold = (0.200000003f);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:22>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:22>
 		__this->___m_BatteryMiddleThreshold = (0.300000012f);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:24>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:24>
 		__this->___m_CurrentLevel = 2;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:25>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALBatteryNotification.cs:25>
 		__this->___m_BatteryValue = (1.0f);
 		XREALNotification__ctor_mABE32F46B2C1655649AE44A6EAD301E69FC51EFF(__this, NULL);
 		return;
@@ -6155,7 +6155,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR GameObject_t76FEDD663AB33C991A9C9A23129337651
 {
 	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* V_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogController.cs:15>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogController.cs:15>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_0 = __this->___m_CurrentUIOnScreen;
 		V_0 = L_0;
 		goto IL_000a;
@@ -6163,7 +6163,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR GameObject_t76FEDD663AB33C991A9C9A23129337651
 
 IL_000a:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogController.cs:15>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogController.cs:15>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_1 = V_0;
 		return L_1;
 	}
@@ -6173,7 +6173,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR GameObject_t76FEDD663AB33C991A9C9A23129337651
 {
 	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* V_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogController.cs:16>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogController.cs:16>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_0 = __this->___m_CurrentUIInGlass;
 		V_0 = L_0;
 		goto IL_000a;
@@ -6181,7 +6181,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR GameObject_t76FEDD663AB33C991A9C9A23129337651
 
 IL_000a:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogController.cs:16>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogController.cs:16>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_1 = V_0;
 		return L_1;
 	}
@@ -6202,7 +6202,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALDialogController_Update_mD87B1B0DBC
 	int32_t G_B4_0 = 0;
 	int32_t G_B6_0 = 0;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogController.cs:20>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogController.cs:20>
 		Queue_1_t57484CF2A316F8471C210AA410F8270CCEFF92F4* L_0 = __this->___m_SpacePopupShowQueue;
 		NullCheck(L_0);
 		int32_t L_1;
@@ -6257,14 +6257,14 @@ IL_0031:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogController.cs:22>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogController.cs:22>
 		Queue_1_t57484CF2A316F8471C210AA410F8270CCEFF92F4* L_7 = __this->___m_SpacePopupShowQueue;
 		NullCheck(L_7);
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_8;
 		L_8 = Queue_1_Dequeue_m11F75D84C5BAC39C7B433215A25DFC2818603B24(L_7, Queue_1_Dequeue_m11F75D84C5BAC39C7B433215A25DFC2818603B24_RuntimeMethod_var);
 		__this->___m_CurrentUIInGlass = L_8;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___m_CurrentUIInGlass), (void*)L_8);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogController.cs:23>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogController.cs:23>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_9 = __this->___m_CurrentUIInGlass;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_10;
@@ -6277,7 +6277,7 @@ IL_0031:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogController.cs:24>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogController.cs:24>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_12 = __this->___m_CurrentUIInGlass;
 		NullCheck(L_12);
 		GameObject_SetActive_m638E92E1E75E519E5B24CF150B08CA8E0CDFAB92(L_12, (bool)1, NULL);
@@ -6289,7 +6289,7 @@ IL_0064:
 
 IL_0065:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogController.cs:26>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogController.cs:26>
 		return;
 	}
 }
@@ -6304,7 +6304,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALDialogController_ShowOnScreen_m11B2
 	}
 	bool V_0 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogController.cs:34>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogController.cs:34>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_0 = ___0_popupUI;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_1;
@@ -6317,11 +6317,11 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALDialogController_ShowOnScreen_m11B2
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogController.cs:36>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogController.cs:36>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_3 = ___0_popupUI;
 		NullCheck(L_3);
 		GameObject_SetActive_m638E92E1E75E519E5B24CF150B08CA8E0CDFAB92(L_3, (bool)1, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogController.cs:37>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogController.cs:37>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_4 = ___0_popupUI;
 		__this->___m_CurrentUIOnScreen = L_4;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___m_CurrentUIOnScreen), (void*)L_4);
@@ -6329,7 +6329,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALDialogController_ShowOnScreen_m11B2
 
 IL_001d:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogController.cs:39>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogController.cs:39>
 		return;
 	}
 }
@@ -6344,7 +6344,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALDialogController_ShowInGlasses_m5AA
 	}
 	bool V_0 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogController.cs:47>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogController.cs:47>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_0 = ___0_popupUI;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_1;
@@ -6357,11 +6357,11 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALDialogController_ShowInGlasses_m5AA
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogController.cs:49>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogController.cs:49>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_3 = ___0_popupUI;
 		__this->___m_CurrentUIInGlass = L_3;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___m_CurrentUIInGlass), (void*)L_3);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogController.cs:50>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogController.cs:50>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_4 = ___0_popupUI;
 		NullCheck(L_4);
 		GameObject_SetActive_m638E92E1E75E519E5B24CF150B08CA8E0CDFAB92(L_4, (bool)1, NULL);
@@ -6369,7 +6369,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALDialogController_ShowInGlasses_m5AA
 
 IL_001d:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogController.cs:52>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogController.cs:52>
 		return;
 	}
 }
@@ -6385,7 +6385,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALDialogController_ShowInGlassesQueue
 	}
 	bool V_0 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogController.cs:61>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogController.cs:61>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_0 = ___0_popupUI;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_1;
@@ -6398,7 +6398,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALDialogController_ShowInGlassesQueue
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogController.cs:62>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogController.cs:62>
 		Queue_1_t57484CF2A316F8471C210AA410F8270CCEFF92F4* L_3 = __this->___m_SpacePopupShowQueue;
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_4 = ___0_popupUI;
 		NullCheck(L_3);
@@ -6407,7 +6407,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALDialogController_ShowInGlassesQueue
 
 IL_0019:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogController.cs:63>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogController.cs:63>
 		return;
 	}
 }
@@ -6423,7 +6423,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALDialogController__ctor_mB95EDBDF219
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogController.cs:11>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogController.cs:11>
 		Queue_1_t57484CF2A316F8471C210AA410F8270CCEFF92F4* L_0 = (Queue_1_t57484CF2A316F8471C210AA410F8270CCEFF92F4*)il2cpp_codegen_object_new(Queue_1_t57484CF2A316F8471C210AA410F8270CCEFF92F4_il2cpp_TypeInfo_var);
 		Queue_1__ctor_m6C30DC4D1D969EDB9CB65C30AD26D6263B66DB82(L_0, Queue_1__ctor_m6C30DC4D1D969EDB9CB65C30AD26D6263B66DB82_RuntimeMethod_var);
 		__this->___m_SpacePopupShowQueue = L_0;
@@ -6617,7 +6617,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALDialogView_get_IsVisible_mAEF4E3ABC
 {
 	bool V_0 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:34>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:34>
 		bool L_0 = __this->___m_IsVisible;
 		V_0 = L_0;
 		goto IL_000a;
@@ -6625,7 +6625,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALDialogView_get_IsVisible_mAEF4E3ABC
 
 IL_000a:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:34>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:34>
 		bool L_1 = V_0;
 		return L_1;
 	}
@@ -6642,7 +6642,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALDialogView_Start_mA462892722BD579AD
 	}
 	bool V_0 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:38>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:38>
 		Button_t6786514A57F7AFDEE5431112FEA0CAB24F5AE098* L_0 = __this->___m_ConfirmBtn;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_1;
@@ -6655,7 +6655,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALDialogView_Start_mA462892722BD579AD
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:39>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:39>
 		Button_t6786514A57F7AFDEE5431112FEA0CAB24F5AE098* L_3 = __this->___m_ConfirmBtn;
 		NullCheck(L_3);
 		ButtonClickedEvent_t8EA72E90B3BD1392FB3B3EF167D5121C23569E4C* L_4;
@@ -6668,7 +6668,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALDialogView_Start_mA462892722BD579AD
 
 IL_002f:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:40>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:40>
 		return;
 	}
 }
@@ -6677,7 +6677,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALDialogView_OnEnable_m8A1169A20AD22C
 {
 	bool V_0 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:44>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:44>
 		bool L_0 = __this->___m_IsVisible;
 		V_0 = (bool)((((int32_t)L_0) == ((int32_t)0))? 1 : 0);
 		bool L_1 = V_0;
@@ -6687,15 +6687,15 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALDialogView_OnEnable_m8A1169A20AD22C
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:46>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:46>
 		VirtualActionInvoker0::Invoke(8, __this);
 	}
 
 IL_0017:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:48>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:48>
 		__this->___m_IsVisible = (bool)1;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:49>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:49>
 		return;
 	}
 }
@@ -6703,11 +6703,11 @@ IL_0017:
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALDialogView_OnDisable_mCA0943D53E7237EE04C1C34851036D906F50C9A8 (XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:53>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:53>
 		__this->___m_IsVisible = (bool)0;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:54>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:54>
 		XREALDialogView_ClearData_mA21C8BEC2A99BCFB08E32E24D174E1E1D29972EF(__this, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:55>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:55>
 		return;
 	}
 }
@@ -6717,7 +6717,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALDialogView_OnConfirmClick_mCF3D265A
 	Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* G_B2_0 = NULL;
 	Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* G_B1_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:59>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:59>
 		Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* L_0 = __this->___OnConfirm;
 		Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* L_1 = L_0;
 		if (L_1)
@@ -6739,9 +6739,9 @@ IL_000d:
 
 IL_0013:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:60>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:60>
 		VirtualActionInvoker0::Invoke(15, __this);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:61>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:61>
 		return;
 	}
 }
@@ -6760,7 +6760,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALDialogView_Show_m46441DEFFB64028234
 	bool V_2 = false;
 	bool V_3 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:65>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:65>
 		bool L_0 = __this->___m_IsVisible;
 		V_0 = L_0;
 		bool L_1 = V_0;
@@ -6770,15 +6770,15 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALDialogView_Show_m46441DEFFB64028234
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:67>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:67>
 		MonoBehaviour_CancelInvoke_m268FFD58AFF64C07FD4C9B9B8B85F58BD86F3A01(__this, _stringLiteralAB809C7BB2882FC25E378F25439FA6302AE73B9A, NULL);
 	}
 
 IL_0019:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:69>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:69>
 		__this->___m_IsVisible = (bool)1;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:70>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:70>
 		Text_tD60B2346DAA6666BF0D822FF607F0B220C2B9E62* L_2 = __this->___m_TitleUI;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_3;
@@ -6791,7 +6791,7 @@ IL_0019:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:71>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:71>
 		Text_tD60B2346DAA6666BF0D822FF607F0B220C2B9E62* L_5 = __this->___m_TitleUI;
 		String_t* L_6 = __this->___m_TitleExtra;
 		NullCheck(L_5);
@@ -6800,7 +6800,7 @@ IL_0019:
 
 IL_0042:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:72>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:72>
 		Text_tD60B2346DAA6666BF0D822FF607F0B220C2B9E62* L_7 = __this->___m_MessageUI;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_8;
@@ -6813,7 +6813,7 @@ IL_0042:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:73>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:73>
 		Text_tD60B2346DAA6666BF0D822FF607F0B220C2B9E62* L_10 = __this->___m_MessageUI;
 		String_t* L_11 = __this->___m_MessageExtra;
 		NullCheck(L_10);
@@ -6822,7 +6822,7 @@ IL_0042:
 
 IL_0064:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:74>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:74>
 		float L_12 = __this->___m_DurationExtra;
 		V_3 = (bool)((((float)L_12) > ((float)(0.0f)))? 1 : 0);
 		bool L_13 = V_3;
@@ -6832,19 +6832,19 @@ IL_0064:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:76>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:76>
 		float L_14 = __this->___m_DurationExtra;
 		MonoBehaviour_Invoke_mF724350C59362B0F1BFE26383209A274A29A63FB(__this, _stringLiteralAB809C7BB2882FC25E378F25439FA6302AE73B9A, L_14, NULL);
 	}
 
 IL_0089:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:78>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:78>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_15;
 		L_15 = Component_get_gameObject_m57AEFBB14DB39EC476F740BA000E170355DE691B(__this, NULL);
 		NullCheck(L_15);
 		GameObject_SetActive_m638E92E1E75E519E5B24CF150B08CA8E0CDFAB92(L_15, (bool)1, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:79>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:79>
 		return;
 	}
 }
@@ -6860,7 +6860,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALDialogView_ShowInQueue_m97FAD6EE3F1
 	}
 	bool V_0 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:88>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:88>
 		XREALDialogController_tCC9086045C388916D78B3F2B674E3D0EFCE5B550* L_0;
 		L_0 = SingletonMonoBehaviour_1_get_Singleton_mAFC312ACD035CE21AEEAA9D091F557C3812A80BA_inline(SingletonMonoBehaviour_1_get_Singleton_mAFC312ACD035CE21AEEAA9D091F557C3812A80BA_RuntimeMethod_var);
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
@@ -6874,7 +6874,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALDialogView_ShowInQueue_m97FAD6EE3F1
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:90>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:90>
 		XREALDialogController_tCC9086045C388916D78B3F2B674E3D0EFCE5B550* L_3;
 		L_3 = SingletonMonoBehaviour_1_get_Singleton_mAFC312ACD035CE21AEEAA9D091F557C3812A80BA_inline(SingletonMonoBehaviour_1_get_Singleton_mAFC312ACD035CE21AEEAA9D091F557C3812A80BA_RuntimeMethod_var);
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_4;
@@ -6886,13 +6886,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALDialogView_ShowInQueue_m97FAD6EE3F1
 
 IL_0025:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:94>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:94>
 		VirtualActionInvoker0::Invoke(8, __this);
 	}
 
 IL_002e:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:96>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:96>
 		return;
 	}
 }
@@ -6901,18 +6901,18 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A
 {
 	XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* V_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:105>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:105>
 		String_t* L_0 = ___0_title;
 		__this->___m_TitleExtra = L_0;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___m_TitleExtra), (void*)L_0);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:106>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:106>
 		V_0 = __this;
 		goto IL_000c;
 	}
 
 IL_000c:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:107>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:107>
 		XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* L_1 = V_0;
 		return L_1;
 	}
@@ -6922,18 +6922,18 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A
 {
 	XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* V_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:116>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:116>
 		String_t* L_0 = ___0_content;
 		__this->___m_MessageExtra = L_0;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___m_MessageExtra), (void*)L_0);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:117>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:117>
 		V_0 = __this;
 		goto IL_000c;
 	}
 
 IL_000c:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:118>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:118>
 		XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* L_1 = V_0;
 		return L_1;
 	}
@@ -6943,17 +6943,17 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A
 {
 	XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* V_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:128>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:128>
 		float L_0 = ___0_duration;
 		__this->___m_DurationExtra = L_0;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:129>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:129>
 		V_0 = __this;
 		goto IL_000c;
 	}
 
 IL_000c:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:130>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:130>
 		XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* L_1 = V_0;
 		return L_1;
 	}
@@ -6963,18 +6963,18 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A
 {
 	XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* V_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:139>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:139>
 		Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* L_0 = ___0_callback;
 		__this->___OnConfirm = L_0;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___OnConfirm), (void*)L_0);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:140>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:140>
 		V_0 = __this;
 		goto IL_000c;
 	}
 
 IL_000c:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:141>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:141>
 		XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* L_1 = V_0;
 		return L_1;
 	}
@@ -6984,18 +6984,18 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A
 {
 	XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* V_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:150>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:150>
 		Action_1_tE34F69633E24E804DB567185E1BF98B803E17806* L_0 = ___0_closeCallback;
 		__this->___ClosedCallback = L_0;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___ClosedCallback), (void*)L_0);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:151>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:151>
 		V_0 = __this;
 		goto IL_000c;
 	}
 
 IL_000c:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:152>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:152>
 		XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* L_1 = V_0;
 		return L_1;
 	}
@@ -7004,22 +7004,22 @@ IL_000c:
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALDialogView_ClearData_mA21C8BEC2A99BCFB08E32E24D174E1E1D29972EF (XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:156>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:156>
 		__this->___m_TitleExtra = (String_t*)NULL;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___m_TitleExtra), (void*)(String_t*)NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:157>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:157>
 		__this->___m_MessageExtra = (String_t*)NULL;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___m_MessageExtra), (void*)(String_t*)NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:158>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:158>
 		__this->___OnConfirm = (Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07*)NULL;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___OnConfirm), (void*)(Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07*)NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:159>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:159>
 		__this->___ClosedCallback = (Action_1_tE34F69633E24E804DB567185E1BF98B803E17806*)NULL;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___ClosedCallback), (void*)(Action_1_tE34F69633E24E804DB567185E1BF98B803E17806*)NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:160>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:160>
 		float L_0 = __this->___m_Duration;
 		__this->___m_DurationExtra = L_0;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:161>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:161>
 		return;
 	}
 }
@@ -7035,7 +7035,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALDialogView_HideSelf_mFA65DE115797A6
 	Action_1_tE34F69633E24E804DB567185E1BF98B803E17806* G_B2_0 = NULL;
 	Action_1_tE34F69633E24E804DB567185E1BF98B803E17806* G_B1_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:165>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:165>
 		Action_1_tE34F69633E24E804DB567185E1BF98B803E17806* L_0 = __this->___ClosedCallback;
 		Action_1_tE34F69633E24E804DB567185E1BF98B803E17806* L_1 = L_0;
 		if (L_1)
@@ -7057,12 +7057,12 @@ IL_000d:
 
 IL_0014:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:166>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:166>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_2;
 		L_2 = Component_get_gameObject_m57AEFBB14DB39EC476F740BA000E170355DE691B(__this, NULL);
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		Object_Destroy_mE97D0A766419A81296E8D4E5C23D01D3FE91ACBB(L_2, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:167>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:167>
 		return;
 	}
 }
@@ -7070,7 +7070,7 @@ IL_0014:
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALDialogView__ctor_m466CBFC4200848C130D7641CBFA7F437754C02B8 (XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALDialogView.cs:20>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALDialogView.cs:20>
 		__this->___m_Duration = (5.0f);
 		MonoBehaviour__ctor_m592DB0105CA0BC97AA1C5F4AD27B12D68A3B7C1E(__this, NULL);
 		return;
@@ -7099,7 +7099,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* XREALLocalizationTool_GetNotificati
 	bool V_3 = false;
 	bool V_4 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:58>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:58>
 		String_t* L_0 = ___0_keyStr;
 		bool L_1;
 		L_1 = String_IsNullOrEmpty_mEA9E3FB005AC28FE02E69FCF95A7B8456192B478(L_0, NULL);
@@ -7111,16 +7111,16 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* XREALLocalizationTool_GetNotificati
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:59>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:59>
 		V_2 = _stringLiteralDA39A3EE5E6B4B0D3255BFEF95601890AFD80709;
 		goto IL_0057;
 	}
 
 IL_0013:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:61>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:61>
 		V_0 = _stringLiteralDA39A3EE5E6B4B0D3255BFEF95601890AFD80709;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:62>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:62>
 		TranslateStrToStrDelegate_tF48D7323A91464F6B7FE4127727FA55BC37BD0D1* L_3 = __this->___NotificationStrGenerator;
 		V_3 = (bool)((!(((RuntimeObject*)(TranslateStrToStrDelegate_tF48D7323A91464F6B7FE4127727FA55BC37BD0D1*)L_3) <= ((RuntimeObject*)(RuntimeObject*)NULL)))? 1 : 0);
 		bool L_4 = V_3;
@@ -7130,7 +7130,7 @@ IL_0013:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:64>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:64>
 		TranslateStrToStrDelegate_tF48D7323A91464F6B7FE4127727FA55BC37BD0D1* L_5 = __this->___NotificationStrGenerator;
 		String_t* L_6 = ___0_keyStr;
 		NullCheck(L_5);
@@ -7144,7 +7144,7 @@ IL_0013:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:65>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:65>
 		String_t* L_9 = ___0_keyStr;
 		String_t* L_10;
 		L_10 = XREALLocalizationTool_GetValueByKey_mD8CEDCAF6F681CC12854744842C498EB377F41FB(__this, L_9, NULL);
@@ -7158,7 +7158,7 @@ IL_0046:
 
 IL_0049:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:69>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:69>
 		String_t* L_11 = ___0_keyStr;
 		String_t* L_12;
 		L_12 = XREALLocalizationTool_GetValueByKey_mD8CEDCAF6F681CC12854744842C498EB377F41FB(__this, L_11, NULL);
@@ -7167,7 +7167,7 @@ IL_0049:
 
 IL_0053:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:71>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:71>
 		String_t* L_13 = V_0;
 		V_2 = L_13;
 		goto IL_0057;
@@ -7175,7 +7175,7 @@ IL_0053:
 
 IL_0057:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:72>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:72>
 		String_t* L_14 = V_2;
 		return L_14;
 	}
@@ -7203,9 +7203,9 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* XREALLocalizationTool_GetValueByKey
 	uint32_t V_3 = 0;
 	String_t* V_4 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:76>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:76>
 		V_0 = _stringLiteralDA39A3EE5E6B4B0D3255BFEF95601890AFD80709;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:77>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:77>
 		String_t* L_0 = ___0_keyStr;
 		V_2 = L_0;
 		String_t* L_1 = V_2;
@@ -7443,79 +7443,79 @@ IL_0107:
 
 IL_0116:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:80>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:80>
 		String_t* L_31 = __this->___TemperatureTitle;
 		V_0 = L_31;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:81>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:81>
 		goto IL_015e;
 	}
 
 IL_011f:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:83>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:83>
 		String_t* L_32 = __this->___TemperatureMessage;
 		V_0 = L_32;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:84>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:84>
 		goto IL_015e;
 	}
 
 IL_0128:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:86>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:86>
 		String_t* L_33 = __this->___BatteryLowWarningTitle;
 		V_0 = L_33;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:87>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:87>
 		goto IL_015e;
 	}
 
 IL_0131:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:89>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:89>
 		String_t* L_34 = __this->___BatteryLowWarningMessage;
 		V_0 = L_34;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:90>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:90>
 		goto IL_015e;
 	}
 
 IL_013a:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:92>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:92>
 		String_t* L_35 = __this->___BatteryMiddleWarningTitle;
 		V_0 = L_35;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:93>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:93>
 		goto IL_015e;
 	}
 
 IL_0143:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:95>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:95>
 		String_t* L_36 = __this->___BatteryMiddleWarningMessage;
 		V_0 = L_36;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:96>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:96>
 		goto IL_015e;
 	}
 
 IL_014c:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:98>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:98>
 		String_t* L_37 = __this->___TrackingLoseTitle;
 		V_0 = L_37;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:99>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:99>
 		goto IL_015e;
 	}
 
 IL_0155:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:101>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:101>
 		String_t* L_38 = __this->___TrackingLoseMessage;
 		V_0 = L_38;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:102>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:102>
 		goto IL_015e;
 	}
 
 IL_015e:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:104>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:104>
 		String_t* L_39 = V_0;
 		V_4 = L_39;
 		goto IL_0163;
@@ -7523,7 +7523,7 @@ IL_015e:
 
 IL_0163:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:105>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:105>
 		String_t* L_40 = V_4;
 		return L_40;
 	}
@@ -7540,7 +7540,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALLocalizationTool_GetTitleFromErrorC
 	bool V_0 = false;
 	bool V_1 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:115>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:115>
 		NativeErrorToStrDelegate_tB8E4E5F1CF40DB91631E82E1ED48E3214A7B7EE7* L_0 = __this->___NativeErrorTitleGenerator;
 		V_0 = (bool)((!(((RuntimeObject*)(NativeErrorToStrDelegate_tB8E4E5F1CF40DB91631E82E1ED48E3214A7B7EE7*)L_0) <= ((RuntimeObject*)(RuntimeObject*)NULL)))? 1 : 0);
 		bool L_1 = V_0;
@@ -7550,7 +7550,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALLocalizationTool_GetTitleFromErrorC
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:116>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:116>
 		NativeErrorToStrDelegate_tB8E4E5F1CF40DB91631E82E1ED48E3214A7B7EE7* L_2 = __this->___NativeErrorTitleGenerator;
 		int32_t L_3 = ___0_code;
 		String_t** L_4 = ___1_title;
@@ -7563,18 +7563,18 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALLocalizationTool_GetTitleFromErrorC
 
 IL_001e:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:118>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:118>
 		String_t** L_6 = ___1_title;
 		*((String_t**)L_6) = (String_t*)_stringLiteralDA39A3EE5E6B4B0D3255BFEF95601890AFD80709;
 		Il2CppCodeGenWriteBarrier((void**)(String_t**)L_6, (void*)(String_t*)_stringLiteralDA39A3EE5E6B4B0D3255BFEF95601890AFD80709);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:119>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:119>
 		V_1 = (bool)0;
 		goto IL_0029;
 	}
 
 IL_0029:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:120>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:120>
 		bool L_7 = V_1;
 		return L_7;
 	}
@@ -7591,7 +7591,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALLocalizationTool_GetMessageFromErro
 	bool V_0 = false;
 	bool V_1 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:130>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:130>
 		NativeErrorToStrDelegate_tB8E4E5F1CF40DB91631E82E1ED48E3214A7B7EE7* L_0 = __this->___NativeErrorMessageGenerator;
 		V_0 = (bool)((!(((RuntimeObject*)(NativeErrorToStrDelegate_tB8E4E5F1CF40DB91631E82E1ED48E3214A7B7EE7*)L_0) <= ((RuntimeObject*)(RuntimeObject*)NULL)))? 1 : 0);
 		bool L_1 = V_0;
@@ -7601,7 +7601,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALLocalizationTool_GetMessageFromErro
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:131>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:131>
 		NativeErrorToStrDelegate_tB8E4E5F1CF40DB91631E82E1ED48E3214A7B7EE7* L_2 = __this->___NativeErrorMessageGenerator;
 		int32_t L_3 = ___0_code;
 		String_t** L_4 = ___1_message;
@@ -7614,18 +7614,18 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALLocalizationTool_GetMessageFromErro
 
 IL_001e:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:133>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:133>
 		String_t** L_6 = ___1_message;
 		*((String_t**)L_6) = (String_t*)_stringLiteralDA39A3EE5E6B4B0D3255BFEF95601890AFD80709;
 		Il2CppCodeGenWriteBarrier((void**)(String_t**)L_6, (void*)(String_t*)_stringLiteralDA39A3EE5E6B4B0D3255BFEF95601890AFD80709);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:134>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:134>
 		V_1 = (bool)0;
 		goto IL_0029;
 	}
 
 IL_0029:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:135>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:135>
 		bool L_7 = V_1;
 		return L_7;
 	}
@@ -7636,7 +7636,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALLocalizationTool_GetPopupUITypeFrom
 	bool V_0 = false;
 	bool V_1 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:145>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:145>
 		NativeErrorToPopupUITypeDelegate_tDE6284F585490966E1F647AC09BA05701AD8B2EF* L_0 = __this->___NativeErrorUITypeChange;
 		V_0 = (bool)((!(((RuntimeObject*)(NativeErrorToPopupUITypeDelegate_tDE6284F585490966E1F647AC09BA05701AD8B2EF*)L_0) <= ((RuntimeObject*)(RuntimeObject*)NULL)))? 1 : 0);
 		bool L_1 = V_0;
@@ -7646,7 +7646,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALLocalizationTool_GetPopupUITypeFrom
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:146>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:146>
 		NativeErrorToPopupUITypeDelegate_tDE6284F585490966E1F647AC09BA05701AD8B2EF* L_2 = __this->___NativeErrorUITypeChange;
 		int32_t L_3 = ___0_code;
 		int32_t* L_4 = ___1_popupUIType;
@@ -7659,17 +7659,17 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALLocalizationTool_GetPopupUITypeFrom
 
 IL_001e:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:147>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:147>
 		int32_t* L_6 = ___1_popupUIType;
 		*((int32_t*)L_6) = (int32_t)1;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:148>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:148>
 		V_1 = (bool)0;
 		goto IL_0025;
 	}
 
 IL_0025:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:149>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:149>
 		bool L_7 = V_1;
 		return L_7;
 	}
@@ -7692,28 +7692,28 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALLocalizationTool__ctor_m583FFC5B09F
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:19>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:19>
 		__this->___BatteryLowWarningTitle = _stringLiteral9B7515D7DC1417C5FAAAAA134DB8D20464A4A7C4;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___BatteryLowWarningTitle), (void*)_stringLiteral9B7515D7DC1417C5FAAAAA134DB8D20464A4A7C4);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:21>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:21>
 		__this->___BatteryLowWarningMessage = _stringLiteral64A94B48D4140849BA4B561C28C77B9A2A024C78;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___BatteryLowWarningMessage), (void*)_stringLiteral64A94B48D4140849BA4B561C28C77B9A2A024C78);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:23>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:23>
 		__this->___BatteryMiddleWarningTitle = _stringLiteral3F389AD95616868D8C1165DA8284FF3356C371F8;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___BatteryMiddleWarningTitle), (void*)_stringLiteral3F389AD95616868D8C1165DA8284FF3356C371F8);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:25>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:25>
 		__this->___BatteryMiddleWarningMessage = _stringLiteral0D542BCAFEF5CD33AC68D61A40A433991F58EAA7;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___BatteryMiddleWarningMessage), (void*)_stringLiteral0D542BCAFEF5CD33AC68D61A40A433991F58EAA7);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:28>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:28>
 		__this->___TemperatureTitle = _stringLiteral41A39D0C945A9076384321D6C17453C16D4FB7FA;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___TemperatureTitle), (void*)_stringLiteral41A39D0C945A9076384321D6C17453C16D4FB7FA);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:30>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:30>
 		__this->___TemperatureMessage = _stringLiteralB8E619A5F8BC5122656045936CC81061E0869BAB;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___TemperatureMessage), (void*)_stringLiteralB8E619A5F8BC5122656045936CC81061E0869BAB);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:33>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:33>
 		__this->___TrackingLoseTitle = _stringLiteral46394594D22FA19E9D226C3C5A5DF59E50AB24F8;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___TrackingLoseTitle), (void*)_stringLiteral46394594D22FA19E9D226C3C5A5DF59E50AB24F8);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:35>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALLocalizationTool.cs:35>
 		__this->___TrackingLoseMessage = _stringLiteral457BF981B52993B66DA7A12C7086B56CFBD6E754;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___TrackingLoseMessage), (void*)_stringLiteral457BF981B52993B66DA7A12C7086B56CFBD6E754);
 		SingletonMonoBehaviour_1__ctor_m92E6301CBD54BF84BCB6E5BF875D02C2CB2F459D(__this, SingletonMonoBehaviour_1__ctor_m92E6301CBD54BF84BCB6E5BF875D02C2CB2F459D_RuntimeMethod_var);
@@ -8156,11 +8156,11 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALNativeErrorNotification_OnEnable_m9
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:38>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:38>
 		XREALErrorCallback_t8D574ED31DAF80CA5599D71E7DC2BDF5FA0086F5* L_0 = (XREALErrorCallback_t8D574ED31DAF80CA5599D71E7DC2BDF5FA0086F5*)il2cpp_codegen_object_new(XREALErrorCallback_t8D574ED31DAF80CA5599D71E7DC2BDF5FA0086F5_il2cpp_TypeInfo_var);
 		XREALErrorCallback__ctor_mD0C46E923736FA85C265CD254C4048FFBFAB338C(L_0, __this, (intptr_t)((void*)XREALNativeErrorNotification_OnErrorCallback_m4FBAFCEF647B78C234C1F84BD706BA0F4A61C172_RuntimeMethod_var), NULL);
 		XREALCallbackHandler_add_OnXREALError_m8AC278C76AF330391A5FFA7BA16F48061080BBA7(L_0, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:39>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:39>
 		return;
 	}
 }
@@ -8170,8 +8170,8 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALNativeErrorNotification_Start_m3758
 	bool V_0 = false;
 	int32_t G_B3_0 = 0;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:44>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:45>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:44>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:45>
 		int32_t L_0;
 		L_0 = XREALPlugin_GetDeviceCategory_mCA3EAB0810EC5C5FDAB94F7C3B43E18F5E9C42EB(NULL);
 		if (!L_0)
@@ -8204,13 +8204,13 @@ IL_0018:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:46>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:46>
 		XREALCallbackHandler_InvokeXREALError_m1576E4B3329CC58DCD06DD69244C8D8947CE6C0E(((int32_t)10102), (String_t*)NULL, NULL);
 	}
 
 IL_0028:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:48>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:48>
 		return;
 	}
 }
@@ -8225,11 +8225,11 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALNativeErrorNotification_OnDisable_m
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:52>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:52>
 		XREALErrorCallback_t8D574ED31DAF80CA5599D71E7DC2BDF5FA0086F5* L_0 = (XREALErrorCallback_t8D574ED31DAF80CA5599D71E7DC2BDF5FA0086F5*)il2cpp_codegen_object_new(XREALErrorCallback_t8D574ED31DAF80CA5599D71E7DC2BDF5FA0086F5_il2cpp_TypeInfo_var);
 		XREALErrorCallback__ctor_mD0C46E923736FA85C265CD254C4048FFBFAB338C(L_0, __this, (intptr_t)((void*)XREALNativeErrorNotification_OnErrorCallback_m4FBAFCEF647B78C234C1F84BD706BA0F4A61C172_RuntimeMethod_var), NULL);
 		XREALCallbackHandler_remove_OnXREALError_m83E2A7C0BFEDD612C846823D2ECC99FD5E9EC38B(L_0, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:53>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:53>
 		return;
 	}
 }
@@ -8237,9 +8237,9 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALNativeErrorNotification_OnDisable_m
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALNativeErrorNotification_QuitApplication_m1DF83E4B47E21A0154C124CE8FA862C35E7CD259 (XREALNativeErrorNotification_t2A4CB06560DF51E74A7A8FEA1CE3380E79CAEF0C* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:57>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:57>
 		XREALPlugin_QuitApplication_mFCA4D6147098239B6FA8BFD111DD7F7E1E1DA512((bool)1, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:58>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:58>
 		return;
 	}
 }
@@ -8247,9 +8247,9 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALNativeErrorNotification_QuitApplica
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALNativeErrorNotification_MobileScreenPopupCloseCallback_mE8B62E7A430F9ADBD06997374764EB55FCD48376 (XREALNativeErrorNotification_t2A4CB06560DF51E74A7A8FEA1CE3380E79CAEF0C* __this, XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* ___0_view, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:62>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:62>
 		XREALNativeErrorNotification_QuitApplication_m1DF83E4B47E21A0154C124CE8FA862C35E7CD259(__this, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:63>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:63>
 		return;
 	}
 }
@@ -8288,7 +8288,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALNativeErrorNotification_OnErrorCall
 	Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* G_B9_0 = NULL;
 	Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* G_B8_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:67>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:67>
 		Il2CppFakeBox<int32_t> L_0(XREALErrorCode_t812066EA210DD0891A1B66C671AAE96639831E3D_il2cpp_TypeInfo_var, (&___0_errorCode));
 		String_t* L_1;
 		L_1 = Enum_ToString_m946B0B83C4470457D0FF555D862022C72BB55741((Enum_t2A1A94B24E3B776EEF4E5E485E290BB9D4D072E2*)(&L_0), NULL);
@@ -8296,12 +8296,12 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALNativeErrorNotification_OnErrorCall
 		L_2 = String_Concat_m9E3155FB84015C823606188F53B47CB44C444991(_stringLiteralAC083CE5D7F2307D8F2A1E0B4E8A63F7C32598AF, L_1, NULL);
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(L_2, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:69>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:69>
 		int32_t L_3 = ___0_errorCode;
 		int32_t L_4;
 		L_4 = XREALNativeErrorNotification_GetPopUIType_m55E2735461016815432334329249E9FA4B6AE9F4(__this, L_3, NULL);
 		V_0 = L_4;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:71>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:71>
 		int32_t L_5 = V_0;
 		V_2 = (bool)((((int32_t)L_5) == ((int32_t)0))? 1 : 0);
 		bool L_6 = V_2;
@@ -8311,19 +8311,19 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALNativeErrorNotification_OnErrorCall
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:72>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:72>
 		goto IL_0136;
 	}
 
 IL_0033:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:74>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:74>
 		int32_t L_7 = ___0_errorCode;
 		String_t* L_8 = ___1_defaultContent;
 		String_t* L_9;
 		L_9 = XREALNativeErrorNotification_ErrorCodeToMessage_m5810F0FA631A9E84122BD07C50D82ADB30A97E93(__this, L_7, L_8, NULL);
 		V_1 = L_9;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:75>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:75>
 		int32_t L_10 = V_0;
 		V_3 = (bool)((((int32_t)L_10) == ((int32_t)2))? 1 : 0);
 		bool L_11 = V_3;
@@ -8333,7 +8333,7 @@ IL_0033:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:77>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:77>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_12 = __this->___mobileScreenPopup;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_13;
@@ -8346,19 +8346,19 @@ IL_0033:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:79>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:79>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_15 = __this->___mobileScreenPopup;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_16;
 		L_16 = Object_Instantiate_TisGameObject_t76FEDD663AB33C991A9C9A23129337651094216F_m10D87C6E0708CA912BBB02555BF7D0FBC5D7A2B3(L_15, Object_Instantiate_TisGameObject_t76FEDD663AB33C991A9C9A23129337651094216F_m10D87C6E0708CA912BBB02555BF7D0FBC5D7A2B3_RuntimeMethod_var);
 		V_5 = L_16;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:80>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:80>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_17 = V_5;
 		NullCheck(L_17);
 		XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* L_18;
 		L_18 = GameObject_GetComponent_TisXREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484_m1E0422A0833E9528D8DFD9138E6E4CE2E2030042(L_17, GameObject_GetComponent_TisXREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484_m1E0422A0833E9528D8DFD9138E6E4CE2E2030042_RuntimeMethod_var);
 		V_6 = L_18;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:81>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:81>
 		XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* L_19 = V_6;
 		bool L_20;
 		L_20 = Object_op_Inequality_mD0BE578448EAA61948F25C32F8DD55AB1F778602(L_19, (Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C*)NULL, NULL);
@@ -8370,11 +8370,11 @@ IL_0033:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:83>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:84>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:85>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:86>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:87>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:83>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:84>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:85>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:86>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:87>
 		XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* L_22 = V_6;
 		String_t* L_23 = V_1;
 		NullCheck(L_22);
@@ -8404,7 +8404,7 @@ IL_00bc:
 
 IL_00bd:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:90>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:90>
 		Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* L_31 = ((XREALNativeErrorNotification_t2A4CB06560DF51E74A7A8FEA1CE3380E79CAEF0C_StaticFields*)il2cpp_codegen_static_fields_for(XREALNativeErrorNotification_t2A4CB06560DF51E74A7A8FEA1CE3380E79CAEF0C_il2cpp_TypeInfo_var))->___OnXREALSDKFailPreComfirm;
 		Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* L_32 = L_31;
 		if (L_32)
@@ -8431,7 +8431,7 @@ IL_00ce:
 
 IL_00d1:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:94>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:94>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_33 = ((XREALNotification_t2D86ABA12DA41D68278DDB714AD565BF0FA47518*)__this)->___glassesSpacePopup;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_34;
@@ -8444,24 +8444,24 @@ IL_00d1:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:96>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:96>
 		int32_t L_36 = ___0_errorCode;
 		String_t* L_37;
 		L_37 = XREALNativeErrorNotification_ErrorCodeToTitle_m33601E1C2DEF39EDF67DA84AFF5CAF6DC96249E3(__this, L_36, NULL);
 		V_9 = L_37;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:97>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:97>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_38 = ((XREALNotification_t2D86ABA12DA41D68278DDB714AD565BF0FA47518*)__this)->___glassesSpacePopup;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_39;
 		L_39 = Object_Instantiate_TisGameObject_t76FEDD663AB33C991A9C9A23129337651094216F_m10D87C6E0708CA912BBB02555BF7D0FBC5D7A2B3(L_38, Object_Instantiate_TisGameObject_t76FEDD663AB33C991A9C9A23129337651094216F_m10D87C6E0708CA912BBB02555BF7D0FBC5D7A2B3_RuntimeMethod_var);
 		V_10 = L_39;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:98>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:98>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_40 = V_10;
 		NullCheck(L_40);
 		XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* L_41;
 		L_41 = GameObject_GetComponent_TisXREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484_m1E0422A0833E9528D8DFD9138E6E4CE2E2030042(L_40, GameObject_GetComponent_TisXREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484_m1E0422A0833E9528D8DFD9138E6E4CE2E2030042_RuntimeMethod_var);
 		V_11 = L_41;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:99>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:99>
 		XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* L_42 = V_11;
 		bool L_43;
 		L_43 = Object_op_Inequality_mD0BE578448EAA61948F25C32F8DD55AB1F778602(L_42, (Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C*)NULL, NULL);
@@ -8473,10 +8473,10 @@ IL_00d1:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:101>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:102>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:103>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:104>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:101>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:102>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:103>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:104>
 		XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* L_45 = V_11;
 		String_t* L_46 = V_1;
 		NullCheck(L_45);
@@ -8504,7 +8504,7 @@ IL_0135:
 
 IL_0136:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:108>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:108>
 		return;
 	}
 }
@@ -8526,7 +8526,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* XREALNativeErrorNotification_ErrorC
 	bool V_4 = false;
 	int32_t G_B7_0 = 0;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:112>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:112>
 		XREALLocalizationTool_tB0831BE3836FCE62B79500228719068915D84B2F* L_0;
 		L_0 = SingletonMonoBehaviour_1_get_Singleton_m36368F3FC7E6C89EE098D9154E24F92F37261469_inline(SingletonMonoBehaviour_1_get_Singleton_m36368F3FC7E6C89EE098D9154E24F92F37261469_RuntimeMethod_var);
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
@@ -8540,7 +8540,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* XREALNativeErrorNotification_ErrorC
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:114>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:114>
 		XREALLocalizationTool_tB0831BE3836FCE62B79500228719068915D84B2F* L_3;
 		L_3 = SingletonMonoBehaviour_1_get_Singleton_m36368F3FC7E6C89EE098D9154E24F92F37261469_inline(SingletonMonoBehaviour_1_get_Singleton_m36368F3FC7E6C89EE098D9154E24F92F37261469_RuntimeMethod_var);
 		int32_t L_4 = ___0_errorCode;
@@ -8555,7 +8555,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* XREALNativeErrorNotification_ErrorC
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:115>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:115>
 		String_t* L_7 = V_1;
 		V_3 = L_7;
 		goto IL_0052;
@@ -8567,7 +8567,7 @@ IL_0026:
 
 IL_0027:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:118>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:118>
 		String_t* L_8 = ___1_defaultContent;
 		if (!L_8)
 		{
@@ -8598,7 +8598,7 @@ IL_003b:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:120>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:120>
 		String_t* L_12 = ___1_defaultContent;
 		V_3 = L_12;
 		goto IL_0052;
@@ -8606,7 +8606,7 @@ IL_003b:
 
 IL_0046:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:124>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:124>
 		int32_t L_13 = ___0_errorCode;
 		String_t* L_14 = ___1_defaultContent;
 		String_t* L_15;
@@ -8617,7 +8617,7 @@ IL_0046:
 
 IL_0052:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:126>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:126>
 		String_t* L_16 = V_3;
 		return L_16;
 	}
@@ -8638,7 +8638,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* XREALNativeErrorNotification_ErrorC
 	bool V_2 = false;
 	String_t* V_3 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:130>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:130>
 		XREALLocalizationTool_tB0831BE3836FCE62B79500228719068915D84B2F* L_0;
 		L_0 = SingletonMonoBehaviour_1_get_Singleton_m36368F3FC7E6C89EE098D9154E24F92F37261469_inline(SingletonMonoBehaviour_1_get_Singleton_m36368F3FC7E6C89EE098D9154E24F92F37261469_RuntimeMethod_var);
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
@@ -8652,7 +8652,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* XREALNativeErrorNotification_ErrorC
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:132>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:132>
 		XREALLocalizationTool_tB0831BE3836FCE62B79500228719068915D84B2F* L_3;
 		L_3 = SingletonMonoBehaviour_1_get_Singleton_m36368F3FC7E6C89EE098D9154E24F92F37261469_inline(SingletonMonoBehaviour_1_get_Singleton_m36368F3FC7E6C89EE098D9154E24F92F37261469_RuntimeMethod_var);
 		int32_t L_4 = ___0_errorCode;
@@ -8667,7 +8667,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* XREALNativeErrorNotification_ErrorC
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:133>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:133>
 		String_t* L_7 = V_1;
 		V_3 = L_7;
 		goto IL_0037;
@@ -8679,7 +8679,7 @@ IL_0026:
 
 IL_0027:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:135>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:135>
 		Il2CppFakeBox<int32_t> L_8(XREALErrorCode_t812066EA210DD0891A1B66C671AAE96639831E3D_il2cpp_TypeInfo_var, (&___0_errorCode));
 		String_t* L_9;
 		L_9 = Enum_ToString_m946B0B83C4470457D0FF555D862022C72BB55741((Enum_t2A1A94B24E3B776EEF4E5E485E290BB9D4D072E2*)(&L_8), NULL);
@@ -8689,7 +8689,7 @@ IL_0027:
 
 IL_0037:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:136>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:136>
 		String_t* L_10 = V_3;
 		return L_10;
 	}
@@ -8712,9 +8712,9 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t XREALNativeErrorNotification_GetPopUI
 	int32_t V_5 = 0;
 	int32_t V_6 = 0;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:140>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:140>
 		V_0 = 0;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:141>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:141>
 		XREALLocalizationTool_tB0831BE3836FCE62B79500228719068915D84B2F* L_0;
 		L_0 = SingletonMonoBehaviour_1_get_Singleton_m36368F3FC7E6C89EE098D9154E24F92F37261469_inline(SingletonMonoBehaviour_1_get_Singleton_m36368F3FC7E6C89EE098D9154E24F92F37261469_RuntimeMethod_var);
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
@@ -8728,7 +8728,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t XREALNativeErrorNotification_GetPopUI
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:143>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:143>
 		XREALLocalizationTool_tB0831BE3836FCE62B79500228719068915D84B2F* L_3;
 		L_3 = SingletonMonoBehaviour_1_get_Singleton_m36368F3FC7E6C89EE098D9154E24F92F37261469_inline(SingletonMonoBehaviour_1_get_Singleton_m36368F3FC7E6C89EE098D9154E24F92F37261469_RuntimeMethod_var);
 		int32_t L_4 = ___0_errorCode;
@@ -8736,7 +8736,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t XREALNativeErrorNotification_GetPopUI
 		bool L_5;
 		L_5 = XREALLocalizationTool_GetPopupUITypeFromErrorCode_m29AF56E96AFF7C075D94FBBE3368A4DCE31EEE45(L_3, L_4, (&V_0), NULL);
 		V_2 = L_5;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:144>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:144>
 		bool L_6 = V_2;
 		V_3 = L_6;
 		bool L_7 = V_3;
@@ -8746,7 +8746,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t XREALNativeErrorNotification_GetPopUI
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:145>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:145>
 		int32_t L_8 = V_0;
 		V_4 = L_8;
 		goto IL_00e9;
@@ -8758,7 +8758,7 @@ IL_002e:
 
 IL_002f:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:148>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:148>
 		int32_t L_9 = ___0_errorCode;
 		V_6 = L_9;
 		int32_t L_10 = V_6;
@@ -8925,39 +8925,39 @@ IL_00c9:
 
 IL_00d4:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:153>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:153>
 		V_0 = 0;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:154>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:154>
 		goto IL_00e4;
 	}
 
 IL_00d8:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:169>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:169>
 		V_0 = 2;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:170>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:170>
 		goto IL_00e4;
 	}
 
 IL_00dc:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:176>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:176>
 		V_0 = 1;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:177>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:177>
 		goto IL_00e4;
 	}
 
 IL_00e0:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:180>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:180>
 		V_0 = 0;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:181>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:181>
 		goto IL_00e4;
 	}
 
 IL_00e4:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:184>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:184>
 		int32_t L_17 = V_0;
 		V_4 = L_17;
 		goto IL_00e9;
@@ -8965,7 +8965,7 @@ IL_00e4:
 
 IL_00e9:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:185>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:185>
 		int32_t L_18 = V_4;
 		return L_18;
 	}
@@ -8986,9 +8986,9 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* XREALNativeErrorNotification_GetDef
 	int32_t V_2 = 0;
 	String_t* V_3 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:189>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:189>
 		V_0 = (String_t*)NULL;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:190>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:190>
 		int32_t L_0 = ___0_errorCode;
 		V_2 = L_0;
 		int32_t L_1 = V_2;
@@ -9171,172 +9171,172 @@ IL_00a7:
 
 IL_00b1:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:193>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:193>
 		goto IL_0125;
 	}
 
 IL_00b3:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:195>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:195>
 		goto IL_0125;
 	}
 
 IL_00b5:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:197>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:197>
 		goto IL_0125;
 	}
 
 IL_00b7:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:199>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:199>
 		il2cpp_codegen_runtime_class_init_inline(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var);
 		String_t* L_9 = ((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___NotEnoughMemory;
 		V_0 = L_9;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:200>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:200>
 		goto IL_0125;
 	}
 
 IL_00bf:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:203>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:203>
 		String_t* L_10 = ___1_defaultContent;
 		il2cpp_codegen_runtime_class_init_inline(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var);
 		String_t* L_11 = ((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___UnSupportedErrorTip;
 		String_t* L_12;
 		L_12 = String_Concat_m9E3155FB84015C823606188F53B47CB44C444991(L_10, L_11, NULL);
 		V_0 = L_12;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:204>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:204>
 		goto IL_0125;
 	}
 
 IL_00cd:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:210>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:210>
 		il2cpp_codegen_runtime_class_init_inline(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var);
 		String_t* L_13 = ((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___GlassesDisconnectErrorTip;
 		V_0 = L_13;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:211>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:211>
 		goto IL_0125;
 	}
 
 IL_00d5:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:213>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:213>
 		il2cpp_codegen_runtime_class_init_inline(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var);
 		String_t* L_14 = ((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___RGBCameraNotFindTip;
 		V_0 = L_14;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:214>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:214>
 		goto IL_0125;
 	}
 
 IL_00dd:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:216>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:216>
 		il2cpp_codegen_runtime_class_init_inline(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var);
 		String_t* L_15 = ((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___DPDeviceNotFindTip;
 		V_0 = L_15;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:217>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:217>
 		goto IL_0125;
 	}
 
 IL_00e5:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:219>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:219>
 		il2cpp_codegen_runtime_class_init_inline(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var);
 		String_t* L_16 = ((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___GetDisplayFailureErrorTip;
 		V_0 = L_16;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:220>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:220>
 		goto IL_0125;
 	}
 
 IL_00ed:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:223>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:223>
 		il2cpp_codegen_runtime_class_init_inline(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var);
 		String_t* L_17 = ((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___DisplayModeMismatchErrorTip;
 		V_0 = L_17;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:224>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:224>
 		goto IL_0125;
 	}
 
 IL_00f5:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:226>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:226>
 		goto IL_0125;
 	}
 
 IL_00f7:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:228>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:228>
 		goto IL_0125;
 	}
 
 IL_00f9:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:230>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:230>
 		il2cpp_codegen_runtime_class_init_inline(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var);
 		String_t* L_18 = ((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___SDKRuntimeNotFoundErrorTip;
 		V_0 = L_18;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:231>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:231>
 		goto IL_0125;
 	}
 
 IL_0101:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:233>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:233>
 		il2cpp_codegen_runtime_class_init_inline(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var);
 		String_t* L_19 = ((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___LicenseNotSupportRequestedFeature;
 		V_0 = L_19;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:234>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:234>
 		goto IL_0125;
 	}
 
 IL_0109:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:236>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:236>
 		il2cpp_codegen_runtime_class_init_inline(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var);
 		String_t* L_20 = ((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___LicenseNotSupportCurrentDevice;
 		V_0 = L_20;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:237>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:237>
 		goto IL_0125;
 	}
 
 IL_0111:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:239>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:239>
 		il2cpp_codegen_runtime_class_init_inline(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var);
 		String_t* L_21 = ((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___LicenseExpiredErrorTip;
 		V_0 = L_21;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:240>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:240>
 		goto IL_0125;
 	}
 
 IL_0119:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:242>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:242>
 		goto IL_0125;
 	}
 
 IL_011b:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:244>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:244>
 		il2cpp_codegen_runtime_class_init_inline(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var);
 		String_t* L_22 = ((NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_StaticFields*)il2cpp_codegen_static_fields_for(NativeConstants_tEEBB4924267B3C9A2DE763344200D5024DD427A2_il2cpp_TypeInfo_var))->___PermissionDenyErrorTip;
 		V_0 = L_22;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:245>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:245>
 		goto IL_0125;
 	}
 
 IL_0123:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:248>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:248>
 		goto IL_0125;
 	}
 
 IL_0125:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:250>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:250>
 		String_t* L_23 = V_0;
 		int32_t L_24 = ___0_errorCode;
 		int32_t L_25 = L_24;
@@ -9347,7 +9347,7 @@ IL_0125:
 		String_t* L_30;
 		L_30 = String_Format_mA0534D6E2AE4D67A6BD8D45B3321323930EB930C(_stringLiteralA076945921B6BCFDB51917BA989BEF4BD7F900F7, L_23, L_26, L_29, NULL);
 		V_0 = L_30;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:251>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:251>
 		String_t* L_31 = V_0;
 		V_3 = L_31;
 		goto IL_0141;
@@ -9355,7 +9355,7 @@ IL_0125:
 
 IL_0141:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:252>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNativeErrorNotification.cs:252>
 		String_t* L_32 = V_3;
 		return L_32;
 	}
@@ -9380,7 +9380,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALNativeErrorNotification__ctor_mBA58
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALNotification_NotifyTrigger_m1E936400013C908446F87D16BDE34DED6960076D (XREALNotification_t2D86ABA12DA41D68278DDB714AD565BF0FA47518* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNotification.cs:15>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNotification.cs:15>
 		return;
 	}
 }
@@ -9388,7 +9388,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALNotification_NotifyTrigger_m1E93640
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALNotification__ctor_mABE32F46B2C1655649AE44A6EAD301E69FC51EFF (XREALNotification_t2D86ABA12DA41D68278DDB714AD565BF0FA47518* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNotification.cs:11>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNotification.cs:11>
 		__this->___m_NotificationDisplayTime = (5.0f);
 		MonoBehaviour__ctor_m592DB0105CA0BC97AA1C5F4AD27B12D68A3B7C1E(__this, NULL);
 		return;
@@ -9407,7 +9407,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALNotificationListener_get_EnableLowP
 {
 	bool V_0 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:46>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:46>
 		bool L_0 = __this->___m_EnableLowPowerTips;
 		V_0 = L_0;
 		goto IL_000a;
@@ -9415,7 +9415,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALNotificationListener_get_EnableLowP
 
 IL_000a:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:46>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:46>
 		bool L_1 = V_0;
 		return L_1;
 	}
@@ -9427,7 +9427,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALNotificationListener_set_EnableLowP
 	XREALBatteryNotification_t086730199C08C9D455E0288E685E22438BD2BCF5* G_B3_0 = NULL;
 	XREALBatteryNotification_t086730199C08C9D455E0288E685E22438BD2BCF5* G_B2_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:49>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:49>
 		bool L_0 = __this->___m_EnableLowPowerTips;
 		bool L_1 = ___0_value;
 		V_0 = (bool)((((int32_t)((((int32_t)L_0) == ((int32_t)L_1))? 1 : 0)) == ((int32_t)0))? 1 : 0);
@@ -9438,10 +9438,10 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALNotificationListener_set_EnableLowP
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:51>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:51>
 		bool L_3 = ___0_value;
 		__this->___m_EnableLowPowerTips = L_3;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:52>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:52>
 		XREALBatteryNotification_t086730199C08C9D455E0288E685E22438BD2BCF5* L_4 = __this->___BatteryNotification;
 		XREALBatteryNotification_t086730199C08C9D455E0288E685E22438BD2BCF5* L_5 = L_4;
 		if (L_5)
@@ -9471,7 +9471,7 @@ IL_0036:
 
 IL_0037:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:54>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:54>
 		return;
 	}
 }
@@ -9480,7 +9480,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALNotificationListener_get_EnableHigh
 {
 	bool V_0 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:62>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:62>
 		bool L_0 = __this->___m_EnableHighTempTips;
 		V_0 = L_0;
 		goto IL_000a;
@@ -9488,7 +9488,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALNotificationListener_get_EnableHigh
 
 IL_000a:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:62>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:62>
 		bool L_1 = V_0;
 		return L_1;
 	}
@@ -9500,7 +9500,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALNotificationListener_set_EnableHigh
 	XREALTemperatureNotification_t92E70F5CAB958AA40004A8A0B1583A0EC60B19D5* G_B3_0 = NULL;
 	XREALTemperatureNotification_t92E70F5CAB958AA40004A8A0B1583A0EC60B19D5* G_B2_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:65>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:65>
 		bool L_0 = __this->___m_EnableHighTempTips;
 		bool L_1 = ___0_value;
 		V_0 = (bool)((((int32_t)((((int32_t)L_0) == ((int32_t)L_1))? 1 : 0)) == ((int32_t)0))? 1 : 0);
@@ -9511,10 +9511,10 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALNotificationListener_set_EnableHigh
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:67>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:67>
 		bool L_3 = ___0_value;
 		__this->___m_EnableHighTempTips = L_3;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:68>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:68>
 		XREALTemperatureNotification_t92E70F5CAB958AA40004A8A0B1583A0EC60B19D5* L_4 = __this->___TemperatureNotification;
 		XREALTemperatureNotification_t92E70F5CAB958AA40004A8A0B1583A0EC60B19D5* L_5 = L_4;
 		if (L_5)
@@ -9544,7 +9544,7 @@ IL_0036:
 
 IL_0037:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:70>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:70>
 		return;
 	}
 }
@@ -9553,7 +9553,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALNotificationListener_get_EnableSlam
 {
 	bool V_0 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:78>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:78>
 		bool L_0 = __this->___m_EnableSlamStateTips;
 		V_0 = L_0;
 		goto IL_000a;
@@ -9561,7 +9561,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALNotificationListener_get_EnableSlam
 
 IL_000a:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:78>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:78>
 		bool L_1 = V_0;
 		return L_1;
 	}
@@ -9573,7 +9573,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALNotificationListener_set_EnableSlam
 	XREALSlamStateNotification_tDA0131F91569D8F05175D53F15E12A83EDD4978A* G_B3_0 = NULL;
 	XREALSlamStateNotification_tDA0131F91569D8F05175D53F15E12A83EDD4978A* G_B2_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:81>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:81>
 		bool L_0 = __this->___m_EnableSlamStateTips;
 		bool L_1 = ___0_value;
 		V_0 = (bool)((((int32_t)((((int32_t)L_0) == ((int32_t)L_1))? 1 : 0)) == ((int32_t)0))? 1 : 0);
@@ -9584,10 +9584,10 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALNotificationListener_set_EnableSlam
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:83>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:83>
 		bool L_3 = ___0_value;
 		__this->___m_EnableSlamStateTips = L_3;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:84>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:84>
 		XREALSlamStateNotification_tDA0131F91569D8F05175D53F15E12A83EDD4978A* L_4 = __this->___SlamStateNotification;
 		XREALSlamStateNotification_tDA0131F91569D8F05175D53F15E12A83EDD4978A* L_5 = L_4;
 		if (L_5)
@@ -9617,7 +9617,7 @@ IL_0036:
 
 IL_0037:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:86>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:86>
 		return;
 	}
 }
@@ -9626,7 +9626,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALNotificationListener_get_EnableNati
 {
 	bool V_0 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:94>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:94>
 		bool L_0 = __this->___m_EnableNativeErrorTips;
 		V_0 = L_0;
 		goto IL_000a;
@@ -9634,7 +9634,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALNotificationListener_get_EnableNati
 
 IL_000a:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:94>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:94>
 		bool L_1 = V_0;
 		return L_1;
 	}
@@ -9646,7 +9646,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALNotificationListener_set_EnableNati
 	XREALNativeErrorNotification_t2A4CB06560DF51E74A7A8FEA1CE3380E79CAEF0C* G_B3_0 = NULL;
 	XREALNativeErrorNotification_t2A4CB06560DF51E74A7A8FEA1CE3380E79CAEF0C* G_B2_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:97>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:97>
 		bool L_0 = __this->___m_EnableNativeErrorTips;
 		bool L_1 = ___0_value;
 		V_0 = (bool)((((int32_t)((((int32_t)L_0) == ((int32_t)L_1))? 1 : 0)) == ((int32_t)0))? 1 : 0);
@@ -9657,10 +9657,10 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALNotificationListener_set_EnableNati
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:99>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:99>
 		bool L_3 = ___0_value;
 		__this->___m_EnableNativeErrorTips = L_3;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:100>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:100>
 		XREALNativeErrorNotification_t2A4CB06560DF51E74A7A8FEA1CE3380E79CAEF0C* L_4 = __this->___NativeErrorNotification;
 		XREALNativeErrorNotification_t2A4CB06560DF51E74A7A8FEA1CE3380E79CAEF0C* L_5 = L_4;
 		if (L_5)
@@ -9690,7 +9690,7 @@ IL_0036:
 
 IL_0037:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:102>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:102>
 		return;
 	}
 }
@@ -9706,7 +9706,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALNotificationListener_Awake_m5ACBE86
 	XREALNativeErrorNotification_t2A4CB06560DF51E74A7A8FEA1CE3380E79CAEF0C* G_B11_0 = NULL;
 	XREALNativeErrorNotification_t2A4CB06560DF51E74A7A8FEA1CE3380E79CAEF0C* G_B10_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:107>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:107>
 		XREALBatteryNotification_t086730199C08C9D455E0288E685E22438BD2BCF5* L_0 = __this->___BatteryNotification;
 		XREALBatteryNotification_t086730199C08C9D455E0288E685E22438BD2BCF5* L_1 = L_0;
 		if (L_1)
@@ -9732,7 +9732,7 @@ IL_000d:
 
 IL_001e:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:108>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:108>
 		XREALTemperatureNotification_t92E70F5CAB958AA40004A8A0B1583A0EC60B19D5* L_4 = __this->___TemperatureNotification;
 		XREALTemperatureNotification_t92E70F5CAB958AA40004A8A0B1583A0EC60B19D5* L_5 = L_4;
 		if (L_5)
@@ -9758,7 +9758,7 @@ IL_002a:
 
 IL_003b:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:109>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:109>
 		XREALSlamStateNotification_tDA0131F91569D8F05175D53F15E12A83EDD4978A* L_8 = __this->___SlamStateNotification;
 		XREALSlamStateNotification_tDA0131F91569D8F05175D53F15E12A83EDD4978A* L_9 = L_8;
 		if (L_9)
@@ -9784,7 +9784,7 @@ IL_0047:
 
 IL_0058:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:110>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:110>
 		XREALNativeErrorNotification_t2A4CB06560DF51E74A7A8FEA1CE3380E79CAEF0C* L_12 = __this->___NativeErrorNotification;
 		XREALNativeErrorNotification_t2A4CB06560DF51E74A7A8FEA1CE3380E79CAEF0C* L_13 = L_12;
 		if (L_13)
@@ -9810,7 +9810,7 @@ IL_0064:
 
 IL_0075:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:111>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:111>
 		return;
 	}
 }
@@ -9818,13 +9818,13 @@ IL_0075:
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALNotificationListener__ctor_m0DED8D98918DAF00EDA8B5C487C5C2D630E7E7F5 (XREALNotificationListener_tC11825737B074169E78D4670206FCDE123874B2D* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:13>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:13>
 		__this->___m_EnableLowPowerTips = (bool)1;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:21>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:21>
 		__this->___m_EnableHighTempTips = (bool)1;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:29>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:29>
 		__this->___m_EnableSlamStateTips = (bool)1;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:36>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALNotificationListener.cs:36>
 		__this->___m_EnableNativeErrorTips = (bool)1;
 		MonoBehaviour__ctor_m592DB0105CA0BC97AA1C5F4AD27B12D68A3B7C1E(__this, NULL);
 		return;
@@ -9851,19 +9851,19 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALSlamStateNotification_OnEnable_mA2D
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:26>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:26>
 		int32_t L_0;
 		L_0 = XREALPlugin_GetTrackingType_mBED998A75848E9E22A3683380C07F6F274EF626E(NULL);
 		__this->___m_TrackingType = L_0;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:27>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:27>
 		BeginChangeTrackingTypeEvent_t3A8DAC24DC0DFF7930DA463D3CE25A4A2DF1F543* L_1 = (BeginChangeTrackingTypeEvent_t3A8DAC24DC0DFF7930DA463D3CE25A4A2DF1F543*)il2cpp_codegen_object_new(BeginChangeTrackingTypeEvent_t3A8DAC24DC0DFF7930DA463D3CE25A4A2DF1F543_il2cpp_TypeInfo_var);
 		BeginChangeTrackingTypeEvent__ctor_m02CE2F0977FA220099433055492FA8E8F1F0BC92(L_1, __this, (intptr_t)((void*)XREALSlamStateNotification_OnBeginChangeTrackingType_m00C69DD4B874EA48369CBCC7D5523F59AFA7B30E_RuntimeMethod_var), NULL);
 		XREALPlugin_add_OnBeginChangeTrackingType_m5E512066A563F8D45BB2B27C38C82201E8AFBC16(L_1, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:28>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:28>
 		TrackingTypeChangedCallback_t9AB11EB9CC989F6D91B2868E525F273F8C3F7C3E* L_2 = (TrackingTypeChangedCallback_t9AB11EB9CC989F6D91B2868E525F273F8C3F7C3E*)il2cpp_codegen_object_new(TrackingTypeChangedCallback_t9AB11EB9CC989F6D91B2868E525F273F8C3F7C3E_il2cpp_TypeInfo_var);
 		TrackingTypeChangedCallback__ctor_m74037937C7974185F639CCE69BF2A367C7ED2508(L_2, __this, (intptr_t)((void*)XREALSlamStateNotification_OnTrackingTypeChanged_m8081F6DDF3D331B22B3D1E01335B28F5E642DF9B_RuntimeMethod_var), NULL);
 		XREALPlugin_add_OnTrackingTypeChanged_mF84409294A4B573F03A70019D642504497ED6784(L_2, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:29>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:29>
 		return;
 	}
 }
@@ -9880,15 +9880,15 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALSlamStateNotification_OnDisable_m33
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:33>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:33>
 		BeginChangeTrackingTypeEvent_t3A8DAC24DC0DFF7930DA463D3CE25A4A2DF1F543* L_0 = (BeginChangeTrackingTypeEvent_t3A8DAC24DC0DFF7930DA463D3CE25A4A2DF1F543*)il2cpp_codegen_object_new(BeginChangeTrackingTypeEvent_t3A8DAC24DC0DFF7930DA463D3CE25A4A2DF1F543_il2cpp_TypeInfo_var);
 		BeginChangeTrackingTypeEvent__ctor_m02CE2F0977FA220099433055492FA8E8F1F0BC92(L_0, __this, (intptr_t)((void*)XREALSlamStateNotification_OnBeginChangeTrackingType_m00C69DD4B874EA48369CBCC7D5523F59AFA7B30E_RuntimeMethod_var), NULL);
 		XREALPlugin_remove_OnBeginChangeTrackingType_m3D656D97824DC4F66440F3FE3DF0256DC2CD3A0F(L_0, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:34>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:34>
 		TrackingTypeChangedCallback_t9AB11EB9CC989F6D91B2868E525F273F8C3F7C3E* L_1 = (TrackingTypeChangedCallback_t9AB11EB9CC989F6D91B2868E525F273F8C3F7C3E*)il2cpp_codegen_object_new(TrackingTypeChangedCallback_t9AB11EB9CC989F6D91B2868E525F273F8C3F7C3E_il2cpp_TypeInfo_var);
 		TrackingTypeChangedCallback__ctor_m74037937C7974185F639CCE69BF2A367C7ED2508(L_1, __this, (intptr_t)((void*)XREALSlamStateNotification_OnTrackingTypeChanged_m8081F6DDF3D331B22B3D1E01335B28F5E642DF9B_RuntimeMethod_var), NULL);
 		XREALPlugin_remove_OnTrackingTypeChanged_mFC101751E74EF6C486B77D2C2B582446F9930EDA(L_1, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:35>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:35>
 		return;
 	}
 }
@@ -9903,7 +9903,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALSlamStateNotification_Update_mF1F48
 	bool V_5 = false;
 	int32_t G_B4_0 = 0;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:40>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:40>
 		bool L_0 = __this->___m_IgnoreLostTrackingDialog;
 		if (L_0)
 		{
@@ -9938,17 +9938,17 @@ IL_001e:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:41>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:41>
 		goto IL_007a;
 	}
 
 IL_0024:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:43>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:43>
 		int32_t L_4;
 		L_4 = XREALPlugin_GetTrackingReason_m21D0DD5ED629E581868649B3DE7215E2B3C1D071(NULL);
 		V_0 = L_4;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:44>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:44>
 		int32_t L_5 = V_0;
 		int32_t L_6 = __this->___m_LastReason;
 		V_2 = (bool)((((int32_t)((((int32_t)L_5) == ((int32_t)L_6))? 1 : 0)) == ((int32_t)0))? 1 : 0);
@@ -9959,7 +9959,7 @@ IL_0024:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:46>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:46>
 		bool L_8 = __this->___m_TrackingReady;
 		V_3 = (bool)((((int32_t)L_8) == ((int32_t)0))? 1 : 0);
 		bool L_9 = V_3;
@@ -9969,7 +9969,7 @@ IL_0024:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:48>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:48>
 		int32_t L_10 = V_0;
 		V_4 = (bool)((((int32_t)L_10) == ((int32_t)0))? 1 : 0);
 		bool L_11 = V_4;
@@ -9979,7 +9979,7 @@ IL_0024:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:49>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:49>
 		__this->___m_TrackingReady = (bool)1;
 	}
 
@@ -9990,7 +9990,7 @@ IL_005a:
 
 IL_005d:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:53>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:53>
 		int32_t L_12 = V_0;
 		V_5 = (bool)((!(((uint32_t)L_12) <= ((uint32_t)0)))? 1 : 0);
 		bool L_13 = V_5;
@@ -10000,7 +10000,7 @@ IL_005d:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:55>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:55>
 		VirtualActionInvoker0::Invoke(4, __this);
 	}
 
@@ -10010,14 +10010,14 @@ IL_0071:
 
 IL_0072:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:58>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:58>
 		int32_t L_14 = V_0;
 		__this->___m_LastReason = L_14;
 	}
 
 IL_007a:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:61>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:61>
 		return;
 	}
 }
@@ -10043,7 +10043,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALSlamStateNotification_NotifyTrigger
 	bool V_5 = false;
 	bool V_6 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:65>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:65>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_0 = ((XREALNotification_t2D86ABA12DA41D68278DDB714AD565BF0FA47518*)__this)->___glassesSpacePopup;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_1;
@@ -10056,7 +10056,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALSlamStateNotification_NotifyTrigger
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:67>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:67>
 		XREALLocalizationTool_tB0831BE3836FCE62B79500228719068915D84B2F* L_3;
 		L_3 = SingletonMonoBehaviour_1_get_Singleton_m36368F3FC7E6C89EE098D9154E24F92F37261469_inline(SingletonMonoBehaviour_1_get_Singleton_m36368F3FC7E6C89EE098D9154E24F92F37261469_RuntimeMethod_var);
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
@@ -10070,21 +10070,21 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALSlamStateNotification_NotifyTrigger
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:69>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:69>
 		XREALLocalizationTool_tB0831BE3836FCE62B79500228719068915D84B2F* L_6;
 		L_6 = SingletonMonoBehaviour_1_get_Singleton_m36368F3FC7E6C89EE098D9154E24F92F37261469_inline(SingletonMonoBehaviour_1_get_Singleton_m36368F3FC7E6C89EE098D9154E24F92F37261469_RuntimeMethod_var);
 		NullCheck(L_6);
 		String_t* L_7;
 		L_7 = XREALLocalizationTool_GetNotificationContent_m98E6F25D4F783D0A48D90266A656775DFF8AA55C(L_6, _stringLiteralF465FAD08D3E96A40EB32D7AEB06C74F3B3E2CCC, NULL);
 		V_2 = L_7;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:70>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:70>
 		XREALLocalizationTool_tB0831BE3836FCE62B79500228719068915D84B2F* L_8;
 		L_8 = SingletonMonoBehaviour_1_get_Singleton_m36368F3FC7E6C89EE098D9154E24F92F37261469_inline(SingletonMonoBehaviour_1_get_Singleton_m36368F3FC7E6C89EE098D9154E24F92F37261469_RuntimeMethod_var);
 		NullCheck(L_8);
 		String_t* L_9;
 		L_9 = XREALLocalizationTool_GetNotificationContent_m98E6F25D4F783D0A48D90266A656775DFF8AA55C(L_8, _stringLiteralE84612F2D398156E6FBA845F8BF2BA1CFCC0D2AB, NULL);
 		V_3 = L_9;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:72>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:72>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_10 = __this->___m_SpacePopupObj;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_11;
@@ -10097,7 +10097,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALSlamStateNotification_NotifyTrigger
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:74>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:74>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_13 = ((XREALNotification_t2D86ABA12DA41D68278DDB714AD565BF0FA47518*)__this)->___glassesSpacePopup;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_14;
@@ -10108,13 +10108,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALSlamStateNotification_NotifyTrigger
 
 IL_006c:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:76>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:76>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_15 = __this->___m_SpacePopupObj;
 		NullCheck(L_15);
 		XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* L_16;
 		L_16 = GameObject_GetComponent_TisXREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484_m1E0422A0833E9528D8DFD9138E6E4CE2E2030042(L_15, GameObject_GetComponent_TisXREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484_m1E0422A0833E9528D8DFD9138E6E4CE2E2030042_RuntimeMethod_var);
 		V_4 = L_16;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:77>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:77>
 		XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* L_17 = V_4;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_18;
@@ -10127,25 +10127,25 @@ IL_006c:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:79>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:79>
 		XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* L_20 = V_4;
 		String_t* L_21 = V_2;
 		NullCheck(L_20);
 		XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* L_22;
 		L_22 = VirtualFuncInvoker1< XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484*, String_t* >::Invoke(10, L_20, L_21);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:80>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:80>
 		XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* L_23 = V_4;
 		String_t* L_24 = V_3;
 		NullCheck(L_23);
 		XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* L_25;
 		L_25 = VirtualFuncInvoker1< XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484*, String_t* >::Invoke(11, L_23, L_24);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:81>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:81>
 		XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* L_26 = V_4;
 		float L_27 = ((XREALNotification_t2D86ABA12DA41D68278DDB714AD565BF0FA47518*)__this)->___m_NotificationDisplayTime;
 		NullCheck(L_26);
 		XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* L_28;
 		L_28 = VirtualFuncInvoker1< XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484*, float >::Invoke(12, L_26, L_27);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:82>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:82>
 		XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* L_29 = V_4;
 		NullCheck(L_29);
 		VirtualActionInvoker0::Invoke(8, L_29);
@@ -10161,7 +10161,7 @@ IL_00b2:
 
 IL_00b3:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:86>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:86>
 		return;
 	}
 }
@@ -10169,9 +10169,9 @@ IL_00b3:
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALSlamStateNotification_OnBeginChangeTrackingType_m00C69DD4B874EA48369CBCC7D5523F59AFA7B30E (XREALSlamStateNotification_tDA0131F91569D8F05175D53F15E12A83EDD4978A* __this, int32_t ___0_from, int32_t ___1_to, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:95>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:95>
 		__this->___m_IgnoreLostTrackingDialog = (bool)1;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:96>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:96>
 		return;
 	}
 }
@@ -10190,7 +10190,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALSlamStateNotification_OnTrackingTyp
 	bool V_0 = false;
 	bool V_1 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:105>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:105>
 		bool L_0 = ___0_result;
 		V_0 = L_0;
 		bool L_1 = V_0;
@@ -10200,14 +10200,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALSlamStateNotification_OnTrackingTyp
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:107>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:107>
 		int32_t L_2 = ___1_targetTrackingType;
 		__this->___m_TrackingType = L_2;
 	}
 
 IL_000f:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:109>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:109>
 		XREALMainThreadDispatcher_t55029193FA11AF0A4699225BB118CC6DC151A480* L_3;
 		L_3 = SingletonMonoBehaviour_1_get_Singleton_m92A59E21C8B8644EEE5C948CE64FC278E64508A9_inline(SingletonMonoBehaviour_1_get_Singleton_m92A59E21C8B8644EEE5C948CE64FC278E64508A9_RuntimeMethod_var);
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
@@ -10221,10 +10221,10 @@ IL_000f:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:111>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:112>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:113>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:114>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:111>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:112>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:113>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:114>
 		XREALMainThreadDispatcher_t55029193FA11AF0A4699225BB118CC6DC151A480* L_6;
 		L_6 = SingletonMonoBehaviour_1_get_Singleton_m92A59E21C8B8644EEE5C948CE64FC278E64508A9_inline(SingletonMonoBehaviour_1_get_Singleton_m92A59E21C8B8644EEE5C948CE64FC278E64508A9_RuntimeMethod_var);
 		Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* L_7 = (Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07*)il2cpp_codegen_object_new(Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07_il2cpp_TypeInfo_var);
@@ -10236,13 +10236,13 @@ IL_000f:
 
 IL_003f:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:118>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:118>
 		__this->___m_IgnoreLostTrackingDialog = (bool)0;
 	}
 
 IL_0048:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:120>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:120>
 		return;
 	}
 }
@@ -10250,7 +10250,7 @@ IL_0048:
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALSlamStateNotification__ctor_m5229C8A5FFB43D3C7D034D9A5A5C1A3CACA640FF (XREALSlamStateNotification_tDA0131F91569D8F05175D53F15E12A83EDD4978A* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:15>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:15>
 		__this->___m_TrackingReady = (bool)0;
 		XREALNotification__ctor_mABE32F46B2C1655649AE44A6EAD301E69FC51EFF(__this, NULL);
 		return;
@@ -10260,9 +10260,9 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALSlamStateNotification__ctor_m5229C8
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALSlamStateNotification_U3COnTrackingTypeChangedU3Eb__10_0_mE15B673C22B2116812C0596F953E0A8E529BBF0F (XREALSlamStateNotification_tDA0131F91569D8F05175D53F15E12A83EDD4978A* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:113>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:113>
 		__this->___m_IgnoreLostTrackingDialog = (bool)0;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:114>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALSlamStateNotification.cs:114>
 		return;
 	}
 }
@@ -10285,11 +10285,11 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALTemperatureNotification_OnEnable_mE
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALTemperatureNotification.cs:12>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALTemperatureNotification.cs:12>
 		XREALGlassesTemperatureLevelCallback_t1E1F87D27CEB2DB4A08623097BCF28123E6A7FFA* L_0 = (XREALGlassesTemperatureLevelCallback_t1E1F87D27CEB2DB4A08623097BCF28123E6A7FFA*)il2cpp_codegen_object_new(XREALGlassesTemperatureLevelCallback_t1E1F87D27CEB2DB4A08623097BCF28123E6A7FFA_il2cpp_TypeInfo_var);
 		XREALGlassesTemperatureLevelCallback__ctor_m8B42F488CF763EC11C561B6D02AF0C2D0A61BE73(L_0, __this, (intptr_t)((void*)XREALTemperatureNotification_OnXREALGlassesTemperatureLevel_mEB648746E946FFAE0591BFFADCF230B73EDCA4E5_RuntimeMethod_var), NULL);
 		XREALCallbackHandler_add_OnXREALGlassesTemperatureLevel_m1BA8036A4902E627A91F3041BA4A6203E02F6A1D(L_0, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALTemperatureNotification.cs:13>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALTemperatureNotification.cs:13>
 		return;
 	}
 }
@@ -10304,11 +10304,11 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALTemperatureNotification_OnDisable_m
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALTemperatureNotification.cs:17>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALTemperatureNotification.cs:17>
 		XREALGlassesTemperatureLevelCallback_t1E1F87D27CEB2DB4A08623097BCF28123E6A7FFA* L_0 = (XREALGlassesTemperatureLevelCallback_t1E1F87D27CEB2DB4A08623097BCF28123E6A7FFA*)il2cpp_codegen_object_new(XREALGlassesTemperatureLevelCallback_t1E1F87D27CEB2DB4A08623097BCF28123E6A7FFA_il2cpp_TypeInfo_var);
 		XREALGlassesTemperatureLevelCallback__ctor_m8B42F488CF763EC11C561B6D02AF0C2D0A61BE73(L_0, __this, (intptr_t)((void*)XREALTemperatureNotification_OnXREALGlassesTemperatureLevel_mEB648746E946FFAE0591BFFADCF230B73EDCA4E5_RuntimeMethod_var), NULL);
 		XREALCallbackHandler_remove_OnXREALGlassesTemperatureLevel_m62B8FA6500E4E72C905DDBB32758813F3A7848A7(L_0, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALTemperatureNotification.cs:18>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALTemperatureNotification.cs:18>
 		return;
 	}
 }
@@ -10318,7 +10318,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALTemperatureNotification_OnXREALGlas
 	bool V_0 = false;
 	int32_t G_B3_0 = 0;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALTemperatureNotification.cs:22>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALTemperatureNotification.cs:22>
 		int32_t L_0 = ___0_level;
 		if ((((int32_t)L_0) == ((int32_t)1)))
 		{
@@ -10346,13 +10346,13 @@ IL_000c:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALTemperatureNotification.cs:24>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALTemperatureNotification.cs:24>
 		VirtualActionInvoker0::Invoke(4, __this);
 	}
 
 IL_0019:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALTemperatureNotification.cs:26>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALTemperatureNotification.cs:26>
 		return;
 	}
 }
@@ -10378,7 +10378,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALTemperatureNotification_NotifyTrigg
 	XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* V_5 = NULL;
 	bool V_6 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALTemperatureNotification.cs:30>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALTemperatureNotification.cs:30>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_0 = ((XREALNotification_t2D86ABA12DA41D68278DDB714AD565BF0FA47518*)__this)->___glassesSpacePopup;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_1;
@@ -10391,7 +10391,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALTemperatureNotification_NotifyTrigg
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALTemperatureNotification.cs:32>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALTemperatureNotification.cs:32>
 		XREALLocalizationTool_tB0831BE3836FCE62B79500228719068915D84B2F* L_3;
 		L_3 = SingletonMonoBehaviour_1_get_Singleton_m36368F3FC7E6C89EE098D9154E24F92F37261469_inline(SingletonMonoBehaviour_1_get_Singleton_m36368F3FC7E6C89EE098D9154E24F92F37261469_RuntimeMethod_var);
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
@@ -10405,33 +10405,33 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALTemperatureNotification_NotifyTrigg
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALTemperatureNotification.cs:34>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALTemperatureNotification.cs:34>
 		XREALLocalizationTool_tB0831BE3836FCE62B79500228719068915D84B2F* L_6;
 		L_6 = SingletonMonoBehaviour_1_get_Singleton_m36368F3FC7E6C89EE098D9154E24F92F37261469_inline(SingletonMonoBehaviour_1_get_Singleton_m36368F3FC7E6C89EE098D9154E24F92F37261469_RuntimeMethod_var);
 		NullCheck(L_6);
 		String_t* L_7;
 		L_7 = XREALLocalizationTool_GetNotificationContent_m98E6F25D4F783D0A48D90266A656775DFF8AA55C(L_6, _stringLiteral45E1ADDDB3DEFBCF731C75EADBC769B20E7DCA5C, NULL);
 		V_2 = L_7;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALTemperatureNotification.cs:35>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALTemperatureNotification.cs:35>
 		XREALLocalizationTool_tB0831BE3836FCE62B79500228719068915D84B2F* L_8;
 		L_8 = SingletonMonoBehaviour_1_get_Singleton_m36368F3FC7E6C89EE098D9154E24F92F37261469_inline(SingletonMonoBehaviour_1_get_Singleton_m36368F3FC7E6C89EE098D9154E24F92F37261469_RuntimeMethod_var);
 		NullCheck(L_8);
 		String_t* L_9;
 		L_9 = XREALLocalizationTool_GetNotificationContent_m98E6F25D4F783D0A48D90266A656775DFF8AA55C(L_8, _stringLiteralBD03AA2CB4530B8D818D5C98CB5C47265F141A9D, NULL);
 		V_3 = L_9;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALTemperatureNotification.cs:37>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALTemperatureNotification.cs:37>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_10 = ((XREALNotification_t2D86ABA12DA41D68278DDB714AD565BF0FA47518*)__this)->___glassesSpacePopup;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_11;
 		L_11 = Object_Instantiate_TisGameObject_t76FEDD663AB33C991A9C9A23129337651094216F_m10D87C6E0708CA912BBB02555BF7D0FBC5D7A2B3(L_10, Object_Instantiate_TisGameObject_t76FEDD663AB33C991A9C9A23129337651094216F_m10D87C6E0708CA912BBB02555BF7D0FBC5D7A2B3_RuntimeMethod_var);
 		V_4 = L_11;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALTemperatureNotification.cs:38>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALTemperatureNotification.cs:38>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_12 = V_4;
 		NullCheck(L_12);
 		XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* L_13;
 		L_13 = GameObject_GetComponent_TisXREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484_m1E0422A0833E9528D8DFD9138E6E4CE2E2030042(L_12, GameObject_GetComponent_TisXREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484_m1E0422A0833E9528D8DFD9138E6E4CE2E2030042_RuntimeMethod_var);
 		V_5 = L_13;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALTemperatureNotification.cs:39>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALTemperatureNotification.cs:39>
 		XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* L_14 = V_5;
 		bool L_15;
 		L_15 = Object_op_Inequality_mD0BE578448EAA61948F25C32F8DD55AB1F778602(L_14, (Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C*)NULL, NULL);
@@ -10443,25 +10443,25 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALTemperatureNotification_NotifyTrigg
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALTemperatureNotification.cs:41>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALTemperatureNotification.cs:41>
 		XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* L_17 = V_5;
 		String_t* L_18 = V_2;
 		NullCheck(L_17);
 		XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* L_19;
 		L_19 = VirtualFuncInvoker1< XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484*, String_t* >::Invoke(10, L_17, L_18);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALTemperatureNotification.cs:42>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALTemperatureNotification.cs:42>
 		XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* L_20 = V_5;
 		String_t* L_21 = V_3;
 		NullCheck(L_20);
 		XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* L_22;
 		L_22 = VirtualFuncInvoker1< XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484*, String_t* >::Invoke(11, L_20, L_21);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALTemperatureNotification.cs:43>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALTemperatureNotification.cs:43>
 		XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* L_23 = V_5;
 		float L_24 = ((XREALNotification_t2D86ABA12DA41D68278DDB714AD565BF0FA47518*)__this)->___m_NotificationDisplayTime;
 		NullCheck(L_23);
 		XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* L_25;
 		L_25 = VirtualFuncInvoker1< XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484*, float >::Invoke(12, L_23, L_24);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALTemperatureNotification.cs:44>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALTemperatureNotification.cs:44>
 		XREALDialogView_tA015FDB531E9E8718BADB3E3AB0A20DC823E0484* L_26 = V_5;
 		NullCheck(L_26);
 		VirtualActionInvoker0::Invoke(8, L_26);
@@ -10477,7 +10477,7 @@ IL_0093:
 
 IL_0094:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Notification/XREALTemperatureNotification.cs:48>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Notification/XREALTemperatureNotification.cs:48>
 		return;
 	}
 }
@@ -10501,17 +10501,17 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALTemperatureNotification__ctor_mFDC5
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XRDisplayListener__ctor_m1AD10E5D99F62A1CF731D2ECFDE8AA8F52E40811 (XRDisplayListener_t8C4946F2FB13D48DE023CC25ED0A9C71B488057E* __this, onXRDisplayAddedCB_t73371C8752B83E94D38A9FE8C5A280E0831D47C0* ___0_onAdded, onXRDisplayRemovedCB_tB29544DD886029821732973AA12A8CC2201EE572* ___1_onRemoved, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:20>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:20>
 		Object__ctor_mE837C6B9FA8C6D5D109F4B2EC885D79919AC0EA2(__this, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:22>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:22>
 		onXRDisplayAddedCB_t73371C8752B83E94D38A9FE8C5A280E0831D47C0* L_0 = ___0_onAdded;
 		__this->___onDisplayAdded = L_0;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___onDisplayAdded), (void*)L_0);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:23>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:23>
 		onXRDisplayRemovedCB_tB29544DD886029821732973AA12A8CC2201EE572* L_1 = ___1_onRemoved;
 		__this->___onDisplayRemoved = L_1;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___onDisplayRemoved), (void*)L_1);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:24>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:24>
 		return;
 	}
 }
@@ -10521,7 +10521,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XRDisplayListener_onXRDisplayAdded_m2ED3
 	onXRDisplayAddedCB_t73371C8752B83E94D38A9FE8C5A280E0831D47C0* G_B2_0 = NULL;
 	onXRDisplayAddedCB_t73371C8752B83E94D38A9FE8C5A280E0831D47C0* G_B1_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:28>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:28>
 		onXRDisplayAddedCB_t73371C8752B83E94D38A9FE8C5A280E0831D47C0* L_0 = __this->___onDisplayAdded;
 		onXRDisplayAddedCB_t73371C8752B83E94D38A9FE8C5A280E0831D47C0* L_1 = L_0;
 		if (L_1)
@@ -10546,7 +10546,7 @@ IL_000d:
 
 IL_0016:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:29>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:29>
 		return;
 	}
 }
@@ -10556,7 +10556,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XRDisplayListener_onXRDisplayRemoved_m0E
 	onXRDisplayRemovedCB_tB29544DD886029821732973AA12A8CC2201EE572* G_B2_0 = NULL;
 	onXRDisplayRemovedCB_tB29544DD886029821732973AA12A8CC2201EE572* G_B1_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:33>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:33>
 		onXRDisplayRemovedCB_tB29544DD886029821732973AA12A8CC2201EE572* L_0 = __this->___onDisplayRemoved;
 		onXRDisplayRemovedCB_tB29544DD886029821732973AA12A8CC2201EE572* L_1 = L_0;
 		if (L_1)
@@ -10579,7 +10579,7 @@ IL_000d:
 
 IL_0014:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:34>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:34>
 		return;
 	}
 }
@@ -10772,17 +10772,17 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XRDisplayProxy__ctor_m1861D600639AD686D9
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:42>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:42>
 		il2cpp_codegen_runtime_class_init_inline(AndroidJavaProxy_tE5521F9761F7B95444B9C39FB15FDFC23F80A78D_il2cpp_TypeInfo_var);
 		AndroidJavaProxy__ctor_m2832886A0E1BBF6702653A7C6A4609F11FB712C7(__this, _stringLiteral92BA4D02814BF08EDD0D0FC5BB11A37E053138CA, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:44>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:44>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(_stringLiteralF1B3E5A7A6D05F17D7EA8368ED7F6717B3EAD860, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:45>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:45>
 		AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03* L_0 = ___0_nativeInstance;
 		__this->___m_NativeInstance = L_0;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___m_NativeInstance), (void*)L_0);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:46>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:46>
 		return;
 	}
 }
@@ -10805,7 +10805,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XRDisplayProxy_AddListener_m232172AEEBCB
 	bool V_1 = false;
 	bool V_2 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:50>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:50>
 		List_1_tEAFAE0BAA24B49811738C526A0CEF4E9A8254FB0* L_0 = __this->___m_XRDisplayListenerList;
 		V_0 = (bool)((((RuntimeObject*)(List_1_tEAFAE0BAA24B49811738C526A0CEF4E9A8254FB0*)L_0) == ((RuntimeObject*)(RuntimeObject*)NULL))? 1 : 0);
 		bool L_1 = V_0;
@@ -10815,7 +10815,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XRDisplayProxy_AddListener_m232172AEEBCB
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:52>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:52>
 		List_1_tEAFAE0BAA24B49811738C526A0CEF4E9A8254FB0* L_2 = (List_1_tEAFAE0BAA24B49811738C526A0CEF4E9A8254FB0*)il2cpp_codegen_object_new(List_1_tEAFAE0BAA24B49811738C526A0CEF4E9A8254FB0_il2cpp_TypeInfo_var);
 		List_1__ctor_m7E32336BDCC3C749E9B271B09EF11D163E4EDBC0(L_2, List_1__ctor_m7E32336BDCC3C749E9B271B09EF11D163E4EDBC0_RuntimeMethod_var);
 		__this->___m_XRDisplayListenerList = L_2;
@@ -10824,7 +10824,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XRDisplayProxy_AddListener_m232172AEEBCB
 
 IL_001b:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:54>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:54>
 		List_1_tEAFAE0BAA24B49811738C526A0CEF4E9A8254FB0* L_3 = __this->___m_XRDisplayListenerList;
 		NullCheck(L_3);
 		int32_t L_4;
@@ -10837,7 +10837,7 @@ IL_001b:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:57>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:57>
 		AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03* L_6 = __this->___m_NativeInstance;
 		ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_7 = (ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918*)(ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918*)SZArrayNew(ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918_il2cpp_TypeInfo_var, (uint32_t)1);
 		ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_8 = L_7;
@@ -10850,7 +10850,7 @@ IL_001b:
 
 IL_004a:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:60>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:60>
 		List_1_tEAFAE0BAA24B49811738C526A0CEF4E9A8254FB0* L_9 = __this->___m_XRDisplayListenerList;
 		RuntimeObject* L_10 = ___0_callback;
 		NullCheck(L_9);
@@ -10864,7 +10864,7 @@ IL_004a:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:61>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:61>
 		List_1_tEAFAE0BAA24B49811738C526A0CEF4E9A8254FB0* L_13 = __this->___m_XRDisplayListenerList;
 		RuntimeObject* L_14 = ___0_callback;
 		NullCheck(L_13);
@@ -10873,7 +10873,7 @@ IL_004a:
 
 IL_006a:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:62>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:62>
 		return;
 	}
 }
@@ -10897,7 +10897,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XRDisplayProxy_RemoveListener_m1E6BD87FC
 	jvalueU5BU5D_t2232DC04C2D2643358141038962889D92D3B5E6F* V_3 = NULL;
 	int32_t G_B3_0 = 0;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:66>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:66>
 		List_1_tEAFAE0BAA24B49811738C526A0CEF4E9A8254FB0* L_0 = __this->___m_XRDisplayListenerList;
 		if (!L_0)
 		{
@@ -10928,13 +10928,13 @@ IL_001a:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:68>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:68>
 		List_1_tEAFAE0BAA24B49811738C526A0CEF4E9A8254FB0* L_4 = __this->___m_XRDisplayListenerList;
 		RuntimeObject* L_5 = ___0_callback;
 		NullCheck(L_4);
 		bool L_6;
 		L_6 = List_1_Remove_mD3B8F91D65FDA0DD7158B977D9BB1A94A1FD509B(L_4, L_5, List_1_Remove_mD3B8F91D65FDA0DD7158B977D9BB1A94A1FD509B_RuntimeMethod_var);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:69>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:69>
 		List_1_tEAFAE0BAA24B49811738C526A0CEF4E9A8254FB0* L_7 = __this->___m_XRDisplayListenerList;
 		NullCheck(L_7);
 		int32_t L_8;
@@ -10947,7 +10947,7 @@ IL_001a:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:74>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:74>
 		AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03* L_10 = __this->___m_NativeInstance;
 		NullCheck(L_10);
 		intptr_t L_11;
@@ -10955,14 +10955,14 @@ IL_001a:
 		intptr_t L_12;
 		L_12 = AndroidJNI_GetStaticMethodID_mA13B58796C4E210B46956723FE664B6D0130C5A3(L_11, _stringLiteralC29F6D8CA5BB826CF84560575061F9C9B9169F39, _stringLiteral8D55A2DC8DA1244795F6B16C5CEC5964133584F3, NULL);
 		V_2 = L_12;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:75>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:75>
 		jvalueU5BU5D_t2232DC04C2D2643358141038962889D92D3B5E6F* L_13 = (jvalueU5BU5D_t2232DC04C2D2643358141038962889D92D3B5E6F*)(jvalueU5BU5D_t2232DC04C2D2643358141038962889D92D3B5E6F*)SZArrayNew(jvalueU5BU5D_t2232DC04C2D2643358141038962889D92D3B5E6F_il2cpp_TypeInfo_var, (uint32_t)1);
 		V_3 = L_13;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:76>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:76>
 		jvalueU5BU5D_t2232DC04C2D2643358141038962889D92D3B5E6F* L_14 = V_3;
 		NullCheck(L_14);
 		((L_14)->GetAddressAt(static_cast<il2cpp_array_size_t>(0)))->___l = 0;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:77>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:77>
 		AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03* L_15 = __this->___m_NativeInstance;
 		NullCheck(L_15);
 		intptr_t L_16;
@@ -10978,7 +10978,7 @@ IL_0086:
 
 IL_0087:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:81>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:81>
 		return;
 	}
 }
@@ -10997,7 +10997,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XRDisplayProxy_onXRDisplayAdded_m8D82766
 	int32_t V_1 = 0;
 	bool V_2 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:85>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:85>
 		List_1_tEAFAE0BAA24B49811738C526A0CEF4E9A8254FB0* L_0 = __this->___m_XRDisplayListenerList;
 		V_0 = (bool)((!(((RuntimeObject*)(List_1_tEAFAE0BAA24B49811738C526A0CEF4E9A8254FB0*)L_0) <= ((RuntimeObject*)(RuntimeObject*)NULL)))? 1 : 0);
 		bool L_1 = V_0;
@@ -11007,14 +11007,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XRDisplayProxy_onXRDisplayAdded_m8D82766
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:87>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:87>
 		V_1 = 0;
 		goto IL_002e;
 	}
 
 IL_0013:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:89>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:89>
 		List_1_tEAFAE0BAA24B49811738C526A0CEF4E9A8254FB0* L_2 = __this->___m_XRDisplayListenerList;
 		int32_t L_3 = V_1;
 		NullCheck(L_2);
@@ -11025,14 +11025,14 @@ IL_0013:
 		int32_t L_7 = ___2_height;
 		NullCheck(L_4);
 		InterfaceActionInvoker3< int32_t, int32_t, int32_t >::Invoke(0, IXRDisplayListener_tBA7716E5DAEDAB54D813A777E98BCE797B1AED98_il2cpp_TypeInfo_var, L_4, L_5, L_6, L_7);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:87>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:87>
 		int32_t L_8 = V_1;
 		V_1 = ((int32_t)il2cpp_codegen_add(L_8, 1));
 	}
 
 IL_002e:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:87>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:87>
 		int32_t L_9 = V_1;
 		List_1_tEAFAE0BAA24B49811738C526A0CEF4E9A8254FB0* L_10 = __this->___m_XRDisplayListenerList;
 		NullCheck(L_10);
@@ -11050,7 +11050,7 @@ IL_002e:
 
 IL_0041:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:92>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:92>
 		return;
 	}
 }
@@ -11069,7 +11069,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XRDisplayProxy_onXRDisplayRemoved_m5AF82
 	int32_t V_1 = 0;
 	bool V_2 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:96>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:96>
 		List_1_tEAFAE0BAA24B49811738C526A0CEF4E9A8254FB0* L_0 = __this->___m_XRDisplayListenerList;
 		V_0 = (bool)((!(((RuntimeObject*)(List_1_tEAFAE0BAA24B49811738C526A0CEF4E9A8254FB0*)L_0) <= ((RuntimeObject*)(RuntimeObject*)NULL)))? 1 : 0);
 		bool L_1 = V_0;
@@ -11079,14 +11079,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XRDisplayProxy_onXRDisplayRemoved_m5AF82
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:98>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:98>
 		V_1 = 0;
 		goto IL_002c;
 	}
 
 IL_0013:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:100>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:100>
 		List_1_tEAFAE0BAA24B49811738C526A0CEF4E9A8254FB0* L_2 = __this->___m_XRDisplayListenerList;
 		int32_t L_3 = V_1;
 		NullCheck(L_2);
@@ -11095,14 +11095,14 @@ IL_0013:
 		int32_t L_5 = ___0_dpID;
 		NullCheck(L_4);
 		InterfaceActionInvoker1< int32_t >::Invoke(1, IXRDisplayListener_tBA7716E5DAEDAB54D813A777E98BCE797B1AED98_il2cpp_TypeInfo_var, L_4, L_5);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:98>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:98>
 		int32_t L_6 = V_1;
 		V_1 = ((int32_t)il2cpp_codegen_add(L_6, 1));
 	}
 
 IL_002c:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:98>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:98>
 		int32_t L_7 = V_1;
 		List_1_tEAFAE0BAA24B49811738C526A0CEF4E9A8254FB0* L_8 = __this->___m_XRDisplayListenerList;
 		NullCheck(L_8);
@@ -11120,7 +11120,7 @@ IL_002c:
 
 IL_003f:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:103>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALDisplayListenerProxy.cs:103>
 		return;
 	}
 }
@@ -11150,19 +11150,19 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALDefaultFloatingViewProxy__ctor_mDE6
 	AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03* V_0 = NULL;
 	AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0* V_1 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:28>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:28>
 		Object__ctor_mE837C6B9FA8C6D5D109F4B2EC885D79919AC0EA2(__this, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:30>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:30>
 		AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03* L_0 = (AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03*)il2cpp_codegen_object_new(AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03_il2cpp_TypeInfo_var);
 		AndroidJavaClass__ctor_mB5466169E1151B8CC44C8FED234D79984B431389(L_0, _stringLiteral4D613657609485AE586A3379BA0E3FC13C1E1078, NULL);
 		V_0 = L_0;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:31>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:31>
 		AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03* L_1 = V_0;
 		NullCheck(L_1);
 		AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0* L_2;
 		L_2 = AndroidJavaObject_GetStatic_TisAndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0_mD7D192A35EB2B2DA3775FAB081958B72088251DD(L_1, _stringLiteralFB4AE4F77150C3A8E8E4F8B23E734E0C7277B7D9, AndroidJavaObject_GetStatic_TisAndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0_mD7D192A35EB2B2DA3775FAB081958B72088251DD_RuntimeMethod_var);
 		V_1 = L_2;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:32>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:32>
 		ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_3 = (ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918*)(ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918*)SZArrayNew(ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918_il2cpp_TypeInfo_var, (uint32_t)1);
 		ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_4 = L_3;
 		AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0* L_5 = V_1;
@@ -11173,7 +11173,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALDefaultFloatingViewProxy__ctor_mDE6
 		AndroidJavaObject__ctor_m5A65B5D325C2CEFAC4097A0D3813F8E158178DD7(L_6, _stringLiteral0A57CFD42A794EC587F5C1039E49E88DD0F584A6, L_4, NULL);
 		__this->___mJavaProxyObject = L_6;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___mJavaProxyObject), (void*)L_6);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:33>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:33>
 		return;
 	}
 }
@@ -11190,7 +11190,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR AndroidJavaObject_t8FFB930F335C1178405B82AC2B
 	}
 	AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0* V_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:38>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:38>
 		AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0* L_0 = __this->___mJavaProxyObject;
 		ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_1;
 		L_1 = Array_Empty_TisRuntimeObject_mFB8A63D602BB6974D31E20300D9EB89C6FE7C278_inline(Array_Empty_TisRuntimeObject_mFB8A63D602BB6974D31E20300D9EB89C6FE7C278_RuntimeMethod_var);
@@ -11203,7 +11203,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR AndroidJavaObject_t8FFB930F335C1178405B82AC2B
 
 IL_0019:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:39>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:39>
 		AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0* L_3 = V_0;
 		return L_3;
 	}
@@ -11219,13 +11219,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALDefaultFloatingViewProxy_Hide_m88C5
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:44>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:44>
 		AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0* L_0 = __this->___mJavaProxyObject;
 		ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_1;
 		L_1 = Array_Empty_TisRuntimeObject_mFB8A63D602BB6974D31E20300D9EB89C6FE7C278_inline(Array_Empty_TisRuntimeObject_mFB8A63D602BB6974D31E20300D9EB89C6FE7C278_RuntimeMethod_var);
 		NullCheck(L_0);
 		AndroidJavaObject_Call_mDEF7846E2AB1C5379069BB21049ED55A9D837B1C(L_0, _stringLiteralCA5EF003C43724A30EBD3751479853EC15EA99A5, L_1, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:45>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:45>
 		return;
 	}
 }
@@ -11240,13 +11240,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALDefaultFloatingViewProxy_Show_m9994
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:50>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:50>
 		AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0* L_0 = __this->___mJavaProxyObject;
 		ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_1;
 		L_1 = Array_Empty_TisRuntimeObject_mFB8A63D602BB6974D31E20300D9EB89C6FE7C278_inline(Array_Empty_TisRuntimeObject_mFB8A63D602BB6974D31E20300D9EB89C6FE7C278_RuntimeMethod_var);
 		NullCheck(L_0);
 		AndroidJavaObject_Call_mDEF7846E2AB1C5379069BB21049ED55A9D837B1C(L_0, _stringLiteralBEF1F71BD3C21C53860EC6863B3105336E4D873B, L_1, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:51>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:51>
 		return;
 	}
 }
@@ -11261,13 +11261,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALDefaultFloatingViewProxy_DestroyFlo
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:56>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:56>
 		AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0* L_0 = __this->___mJavaProxyObject;
 		ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_1;
 		L_1 = Array_Empty_TisRuntimeObject_mFB8A63D602BB6974D31E20300D9EB89C6FE7C278_inline(Array_Empty_TisRuntimeObject_mFB8A63D602BB6974D31E20300D9EB89C6FE7C278_RuntimeMethod_var);
 		NullCheck(L_0);
 		AndroidJavaObject_Call_mDEF7846E2AB1C5379069BB21049ED55A9D837B1C(L_0, _stringLiteralA50516210ABC15720CCAFE93260B9A37AB8C1C7E, L_1, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:57>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:57>
 		return;
 	}
 }
@@ -11296,7 +11296,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR AndroidJavaObject_t8FFB930F335C1178405B82AC2B
 	AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03* V_1 = NULL;
 	AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0* V_2 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:71>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:71>
 		AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0* L_0 = __this->___mJavaFloatingViewManager;
 		V_0 = (bool)((((RuntimeObject*)(AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0*)L_0) == ((RuntimeObject*)(RuntimeObject*)NULL))? 1 : 0);
 		bool L_1 = V_0;
@@ -11306,11 +11306,11 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR AndroidJavaObject_t8FFB930F335C1178405B82AC2B
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:73>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:73>
 		AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03* L_2 = (AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03*)il2cpp_codegen_object_new(AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03_il2cpp_TypeInfo_var);
 		AndroidJavaClass__ctor_mB5466169E1151B8CC44C8FED234D79984B431389(L_2, _stringLiteral20685B82E3A907F8524A66F0E129607BB8B2BD84, NULL);
 		V_1 = L_2;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:74>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:74>
 		AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03* L_3 = V_1;
 		ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_4;
 		L_4 = Array_Empty_TisRuntimeObject_mFB8A63D602BB6974D31E20300D9EB89C6FE7C278_inline(Array_Empty_TisRuntimeObject_mFB8A63D602BB6974D31E20300D9EB89C6FE7C278_RuntimeMethod_var);
@@ -11323,7 +11323,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR AndroidJavaObject_t8FFB930F335C1178405B82AC2B
 
 IL_0031:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:76>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:76>
 		AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0* L_6 = __this->___mJavaFloatingViewManager;
 		V_2 = L_6;
 		goto IL_003a;
@@ -11331,7 +11331,7 @@ IL_0031:
 
 IL_003a:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:77>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:77>
 		AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0* L_7 = V_2;
 		return L_7;
 	}
@@ -11348,13 +11348,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALFloatingViewProvider_RegisterFloatV
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:125>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:125>
 		RuntimeObject* L_0 = ___0_proxy;
 		XREALFloatingViewProxyWrapper_t92C65FC790A4185B86DDE8EE93CE340B2FE0EDE5* L_1 = (XREALFloatingViewProxyWrapper_t92C65FC790A4185B86DDE8EE93CE340B2FE0EDE5*)il2cpp_codegen_object_new(XREALFloatingViewProxyWrapper_t92C65FC790A4185B86DDE8EE93CE340B2FE0EDE5_il2cpp_TypeInfo_var);
 		XREALFloatingViewProxyWrapper__ctor_mE2ED7FD5C4890182FEF7D98121D32A521E77A937(L_1, L_0, NULL);
 		__this->___mProxyWrapper = L_1;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___mProxyWrapper), (void*)L_1);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:126>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:126>
 		AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0* L_2;
 		L_2 = XREALFloatingViewProvider_get_JavaFloatingViewManager_mD1551942EB2659ED2022CB51CCF0BB6B55179202(__this, NULL);
 		ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_3 = (ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918*)(ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918*)SZArrayNew(ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918_il2cpp_TypeInfo_var, (uint32_t)1);
@@ -11365,7 +11365,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALFloatingViewProvider_RegisterFloatV
 		(L_4)->SetAt(static_cast<il2cpp_array_size_t>(0), (RuntimeObject*)L_5);
 		NullCheck(L_2);
 		AndroidJavaObject_Call_mDEF7846E2AB1C5379069BB21049ED55A9D837B1C(L_2, _stringLiteral7349F1B77BD7CD7F851C89AA560C2B76DFE194A3, L_4, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:127>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:127>
 		return;
 	}
 }
@@ -11377,7 +11377,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* XREALFloatingViewProvider_GetC
 	XREALFloatingViewProxyWrapper_t92C65FC790A4185B86DDE8EE93CE340B2FE0EDE5* G_B1_0 = NULL;
 	RuntimeObject* G_B3_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:133>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:133>
 		XREALFloatingViewProxyWrapper_t92C65FC790A4185B86DDE8EE93CE340B2FE0EDE5* L_0 = __this->___mProxyWrapper;
 		XREALFloatingViewProxyWrapper_t92C65FC790A4185B86DDE8EE93CE340B2FE0EDE5* L_1 = L_0;
 		if (L_1)
@@ -11408,7 +11408,7 @@ IL_0013:
 
 IL_0016:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:134>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:134>
 		RuntimeObject* L_3 = V_0;
 		return L_3;
 	}
@@ -11424,7 +11424,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALFloatingViewProvider__ctor_m70848F9
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:119>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:119>
 		__this->___mProxyWrapper = (XREALFloatingViewProxyWrapper_t92C65FC790A4185B86DDE8EE93CE340B2FE0EDE5*)NULL;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___mProxyWrapper), (void*)(XREALFloatingViewProxyWrapper_t92C65FC790A4185B86DDE8EE93CE340B2FE0EDE5*)NULL);
 		il2cpp_codegen_runtime_class_init_inline(Singleton_1_tFA42BBAB462F65D6369E29B52081450A6F3EFE39_il2cpp_TypeInfo_var);
@@ -11444,7 +11444,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALFloatingViewProvider__ctor_m70848F9
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* XREALFloatingViewProxyWrapper_get_FloatingViewProxy_mFA89C8365674D1838BB05E3DDEDC8418F2B7D2FF (XREALFloatingViewProxyWrapper_t92C65FC790A4185B86DDE8EE93CE340B2FE0EDE5* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:85>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:85>
 		RuntimeObject* L_0 = __this->___mProxy;
 		return L_0;
 	}
@@ -11460,14 +11460,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALFloatingViewProxyWrapper__ctor_mE2E
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:89>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:89>
 		il2cpp_codegen_runtime_class_init_inline(AndroidJavaProxy_tE5521F9761F7B95444B9C39FB15FDFC23F80A78D_il2cpp_TypeInfo_var);
 		AndroidJavaProxy__ctor_m2832886A0E1BBF6702653A7C6A4609F11FB712C7(__this, _stringLiteral4FB58D8A0DDF4A22DD620C54CA29D708A51A621A, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:91>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:91>
 		RuntimeObject* L_0 = ___0_proxy;
 		__this->___mProxy = L_0;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___mProxy), (void*)L_0);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:92>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:92>
 		return;
 	}
 }
@@ -11485,7 +11485,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR AndroidJavaObject_t8FFB930F335C1178405B82AC2B
 	RuntimeObject* G_B1_0 = NULL;
 	AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0* G_B3_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:97>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:97>
 		RuntimeObject* L_0 = __this->___mProxy;
 		RuntimeObject* L_1 = L_0;
 		if (L_1)
@@ -11516,7 +11516,7 @@ IL_0013:
 
 IL_0016:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:98>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:98>
 		AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0* L_3 = V_0;
 		return L_3;
 	}
@@ -11533,7 +11533,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALFloatingViewProxyWrapper_Show_mD5CD
 	RuntimeObject* G_B2_0 = NULL;
 	RuntimeObject* G_B1_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:103>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:103>
 		RuntimeObject* L_0 = __this->___mProxy;
 		RuntimeObject* L_1 = L_0;
 		if (L_1)
@@ -11555,7 +11555,7 @@ IL_000d:
 
 IL_0013:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:104>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:104>
 		return;
 	}
 }
@@ -11571,7 +11571,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALFloatingViewProxyWrapper_Hide_mD185
 	RuntimeObject* G_B2_0 = NULL;
 	RuntimeObject* G_B1_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:109>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:109>
 		RuntimeObject* L_0 = __this->___mProxy;
 		RuntimeObject* L_1 = L_0;
 		if (L_1)
@@ -11593,7 +11593,7 @@ IL_000d:
 
 IL_0013:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:110>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:110>
 		return;
 	}
 }
@@ -11609,7 +11609,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALFloatingViewProxyWrapper_DestroyFlo
 	RuntimeObject* G_B2_0 = NULL;
 	RuntimeObject* G_B1_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:115>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:115>
 		RuntimeObject* L_0 = __this->___mProxy;
 		RuntimeObject* L_1 = L_0;
 		if (L_1)
@@ -11631,7 +11631,7 @@ IL_000d:
 
 IL_0013:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:116>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:116>
 		return;
 	}
 }
@@ -11655,7 +11655,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALHomeMenu_Start_m9BE304D965EB71467D2
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALHomeMenu.cs:19>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALHomeMenu.cs:19>
 		Button_t6786514A57F7AFDEE5431112FEA0CAB24F5AE098* L_0 = __this->___m_ConfirmBtn;
 		NullCheck(L_0);
 		ButtonClickedEvent_t8EA72E90B3BD1392FB3B3EF167D5121C23569E4C* L_1;
@@ -11664,7 +11664,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALHomeMenu_Start_m9BE304D965EB71467D2
 		UnityAction__ctor_mC53E20D6B66E0D5688CD81B88DBB34F5A58B7131(L_2, __this, (intptr_t)((void*)XREALHomeMenu_OnComfirmButtonClick_mBEFD8BBA68D0EF9003C22199343886E4F63CA6D0_RuntimeMethod_var), NULL);
 		NullCheck(L_1);
 		UnityEvent_AddListener_m8AA4287C16628486B41DA41CA5E7A856A706D302(L_1, L_2, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALHomeMenu.cs:20>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALHomeMenu.cs:20>
 		Button_t6786514A57F7AFDEE5431112FEA0CAB24F5AE098* L_3 = __this->___m_CancelBtn;
 		NullCheck(L_3);
 		ButtonClickedEvent_t8EA72E90B3BD1392FB3B3EF167D5121C23569E4C* L_4;
@@ -11673,7 +11673,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALHomeMenu_Start_m9BE304D965EB71467D2
 		UnityAction__ctor_mC53E20D6B66E0D5688CD81B88DBB34F5A58B7131(L_5, __this, (intptr_t)((void*)XREALHomeMenu_OnCancelButtonClick_mE20D107E2DBDB67281552B733FB94910D1DCF223_RuntimeMethod_var), NULL);
 		NullCheck(L_4);
 		UnityEvent_AddListener_m8AA4287C16628486B41DA41CA5E7A856A706D302(L_4, L_5, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALHomeMenu.cs:21>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALHomeMenu.cs:21>
 		return;
 	}
 }
@@ -11681,9 +11681,9 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALHomeMenu_Start_m9BE304D965EB71467D2
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALHomeMenu_OnCancelButtonClick_mE20D107E2DBDB67281552B733FB94910D1DCF223 (XREALHomeMenu_t153D3622F894C225597DE44AB1B6F331C7FE06A2* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALHomeMenu.cs:25>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALHomeMenu.cs:25>
 		XREALHomeMenu_Show_mE93274E954C09285304C454F00B6C34032AA7DDE(__this, (bool)0, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALHomeMenu.cs:26>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALHomeMenu.cs:26>
 		return;
 	}
 }
@@ -11691,11 +11691,11 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALHomeMenu_OnCancelButtonClick_mE20D1
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALHomeMenu_OnComfirmButtonClick_mBEFD8BBA68D0EF9003C22199343886E4F63CA6D0 (XREALHomeMenu_t153D3622F894C225597DE44AB1B6F331C7FE06A2* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALHomeMenu.cs:30>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALHomeMenu.cs:30>
 		XREALHomeMenu_Show_mE93274E954C09285304C454F00B6C34032AA7DDE(__this, (bool)0, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALHomeMenu.cs:31>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALHomeMenu.cs:31>
 		XREALPlugin_QuitApplication_mFCA4D6147098239B6FA8BFD111DD7F7E1E1DA512((bool)1, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALHomeMenu.cs:32>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALHomeMenu.cs:32>
 		return;
 	}
 }
@@ -11703,14 +11703,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALHomeMenu_OnComfirmButtonClick_mBEFD
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALHomeMenu_Toggle_mC3567596692B5624414196E8A5ADC4E174B1BAD5 (XREALHomeMenu_t153D3622F894C225597DE44AB1B6F331C7FE06A2* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALHomeMenu.cs:36>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALHomeMenu.cs:36>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_0;
 		L_0 = Component_get_gameObject_m57AEFBB14DB39EC476F740BA000E170355DE691B(__this, NULL);
 		NullCheck(L_0);
 		bool L_1;
 		L_1 = GameObject_get_activeSelf_m4F3E5240E138B66AAA080EA30759A3D0517DA368(L_0, NULL);
 		XREALHomeMenu_Show_mE93274E954C09285304C454F00B6C34032AA7DDE(__this, (bool)((((int32_t)L_1) == ((int32_t)0))? 1 : 0), NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALHomeMenu.cs:37>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALHomeMenu.cs:37>
 		return;
 	}
 }
@@ -11718,13 +11718,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALHomeMenu_Toggle_mC3567596692B562441
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALHomeMenu_Show_mE93274E954C09285304C454F00B6C34032AA7DDE (XREALHomeMenu_t153D3622F894C225597DE44AB1B6F331C7FE06A2* __this, bool ___0_show, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALHomeMenu.cs:41>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALHomeMenu.cs:41>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_0;
 		L_0 = Component_get_gameObject_m57AEFBB14DB39EC476F740BA000E170355DE691B(__this, NULL);
 		bool L_1 = ___0_show;
 		NullCheck(L_0);
 		GameObject_SetActive_m638E92E1E75E519E5B24CF150B08CA8E0CDFAB92(L_0, L_1, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALHomeMenu.cs:42>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALHomeMenu.cs:42>
 		return;
 	}
 }
@@ -11754,7 +11754,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALHomeMenu__ctor_m7511DF310A959668E85
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALMultiResumeMediator_get_IsMultiResumeBackground_mACA5D01157AD31C3752F6D0C4598773A9A944914 (XREALMultiResumeMediator_tC336A3F029FCF4FCBBFEC14308CEB3EEEA49C676* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:11>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:11>
 		bool L_0 = __this->___U3CIsMultiResumeBackgroundU3Ek__BackingField;
 		return L_0;
 	}
@@ -11763,7 +11763,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALMultiResumeMediator_get_IsMultiResu
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALMultiResumeMediator_set_IsMultiResumeBackground_m221F1208D45F4D6F4A20C714A5373B5F5910F0F6 (XREALMultiResumeMediator_tC336A3F029FCF4FCBBFEC14308CEB3EEEA49C676* __this, bool ___0_value, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:11>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:11>
 		bool L_0 = ___0_value;
 		__this->___U3CIsMultiResumeBackgroundU3Ek__BackingField = L_0;
 		return;
@@ -11953,7 +11953,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR AndroidJavaClass_tE6296B30CC4BF84434A9B765267
 	}
 	AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03* V_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:30>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:30>
 		AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03* L_0 = __this->___m_MultiResumeNativeInstance;
 		if (L_0)
 		{
@@ -11969,7 +11969,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR AndroidJavaClass_tE6296B30CC4BF84434A9B765267
 
 IL_0019:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:31>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:31>
 		AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03* L_2 = __this->___m_MultiResumeNativeInstance;
 		V_0 = L_2;
 		goto IL_0022;
@@ -11977,7 +11977,7 @@ IL_0019:
 
 IL_0022:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:32>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:32>
 		AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03* L_3 = V_0;
 		return L_3;
 	}
@@ -12008,10 +12008,10 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALMultiResumeMediator_OnLoad_m1AABD4B
 	AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03* V_1 = NULL;
 	bool V_2 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:56>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:56>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(_stringLiteralCEC7669C9F7E11010ABFA8D2F459C94F61F81C68, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:57>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:57>
 		XREALSettings_t66841252ECAE5495315B14671E7F86A2F5656945* L_0;
 		L_0 = XREALSettings_GetSettings_m51C1CB3FC50BC194F63FBD1BC08017C30908BA41(NULL);
 		NullCheck(L_0);
@@ -12024,7 +12024,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALMultiResumeMediator_OnLoad_m1AABD4B
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:59>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:59>
 		XREALMultiResumeMediator_tC336A3F029FCF4FCBBFEC14308CEB3EEEA49C676* L_3;
 		L_3 = SingletonMonoBehaviour_1_get_Singleton_m241234FDF82CC93001C23617C3BFE312C605F635_inline(SingletonMonoBehaviour_1_get_Singleton_m241234FDF82CC93001C23617C3BFE312C605F635_RuntimeMethod_var);
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
@@ -12038,14 +12038,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALMultiResumeMediator_OnLoad_m1AABD4B
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:60>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:60>
 		XREALMultiResumeMediator_tC336A3F029FCF4FCBBFEC14308CEB3EEEA49C676* L_6;
 		L_6 = SingletonMonoBehaviour_1_CreateSingleton_m40067557A3A8B5B31ECEA2829943F2F48D8BCC21(SingletonMonoBehaviour_1_CreateSingleton_m40067557A3A8B5B31ECEA2829943F2F48D8BCC21_RuntimeMethod_var);
 	}
 
 IL_0030:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:61>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:61>
 		XREALMultiResumeMediator_tC336A3F029FCF4FCBBFEC14308CEB3EEEA49C676* L_7;
 		L_7 = SingletonMonoBehaviour_1_get_Singleton_m241234FDF82CC93001C23617C3BFE312C605F635_inline(SingletonMonoBehaviour_1_get_Singleton_m241234FDF82CC93001C23617C3BFE312C605F635_RuntimeMethod_var);
 		NullCheck(L_7);
@@ -12053,11 +12053,11 @@ IL_0030:
 		L_8 = Component_get_gameObject_m57AEFBB14DB39EC476F740BA000E170355DE691B(L_7, NULL);
 		NullCheck(L_8);
 		Object_set_name_mC79E6DC8FFD72479C90F0C4CC7F42A0FEAF5AE47(L_8, _stringLiteral053402D76D0CB7AABF9E3751B7AD85838C5F04E4, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:63>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:63>
 		AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03* L_9 = (AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03*)il2cpp_codegen_object_new(AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03_il2cpp_TypeInfo_var);
 		AndroidJavaClass__ctor_mB5466169E1151B8CC44C8FED234D79984B431389(L_9, _stringLiteral20685B82E3A907F8524A66F0E129607BB8B2BD84, NULL);
 		V_1 = L_9;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:64>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:64>
 		AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03* L_10 = V_1;
 		ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_11 = (ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918*)(ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918*)SZArrayNew(ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918_il2cpp_TypeInfo_var, (uint32_t)1);
 		ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_12 = L_11;
@@ -12068,7 +12068,7 @@ IL_0030:
 		(L_12)->SetAt(static_cast<il2cpp_array_size_t>(0), (RuntimeObject*)L_13);
 		NullCheck(L_10);
 		AndroidJavaObject_CallStatic_mB677DE04369EDD8E6DECAF2F233116EE1F06555C(L_10, _stringLiteral6B2674408128B00B12F0D2ADCE725657B4BDC2D7, L_12, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:65>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:65>
 		il2cpp_codegen_runtime_class_init_inline(Singleton_1_tFA42BBAB462F65D6369E29B52081450A6F3EFE39_il2cpp_TypeInfo_var);
 		XREALFloatingViewProvider_tFD9F6DF021AF95DFBCE7EBDDDC07736397CF4C02* L_14;
 		L_14 = Singleton_1_get_Instance_mA8ACABFA769BB7396D28189779CFF1A8905D53C9(Singleton_1_get_Instance_mA8ACABFA769BB7396D28189779CFF1A8905D53C9_RuntimeMethod_var);
@@ -12080,7 +12080,7 @@ IL_0030:
 
 IL_007b:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:67>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:67>
 		return;
 	}
 }
@@ -12097,12 +12097,12 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALMultiResumeMediator_SetMultiResumeB
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:75>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:75>
 		String_t* L_0 = ___0_state;
 		bool L_1;
 		L_1 = String_op_Equality_m030E1B219352228970A076136E455C4E568C02C1(L_0, _stringLiteralB7C45DD316C68ABF3429C20058C2981C652192F2, NULL);
 		XREALMultiResumeMediator_set_IsMultiResumeBackground_m221F1208D45F4D6F4A20C714A5373B5F5910F0F6_inline(__this, L_1, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:76>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:76>
 		ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_2 = (ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918*)(ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918*)SZArrayNew(ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918_il2cpp_TypeInfo_var, (uint32_t)2);
 		ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_3 = L_2;
 		String_t* L_4 = ___0_state;
@@ -12119,7 +12119,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALMultiResumeMediator_SetMultiResumeB
 		(L_5)->SetAt(static_cast<il2cpp_array_size_t>(1), (RuntimeObject*)L_8);
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_LogFormat_mD555556327B42AA3482D077EFAEB16B0AFDF72C7(_stringLiteral308064C16828D7BFA8D09805B6F820548D03850C, L_5, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:77>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:77>
 		return;
 	}
 }
@@ -12134,7 +12134,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALMultiResumeMediator_BroadcastContro
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:83>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:83>
 		AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03* L_0;
 		L_0 = XREALMultiResumeMediator_get_NativeInstance_m57460CD1996FA9D5C8598BAFBCD532C2BF9555D5(__this, NULL);
 		ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_1 = (ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918*)(ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918*)SZArrayNew(ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918_il2cpp_TypeInfo_var, (uint32_t)1);
@@ -12147,7 +12147,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALMultiResumeMediator_BroadcastContro
 		(L_2)->SetAt(static_cast<il2cpp_array_size_t>(0), (RuntimeObject*)L_5);
 		NullCheck(L_0);
 		AndroidJavaObject_CallStatic_mB677DE04369EDD8E6DECAF2F233116EE1F06555C(L_0, _stringLiteral148649A93A02CF19E3BBCD90A9C7294FF4546E24, L_2, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:84>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:84>
 		return;
 	}
 }
@@ -12162,14 +12162,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALMultiResumeMediator_BroadcastDynami
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:89>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:89>
 		AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03* L_0;
 		L_0 = XREALMultiResumeMediator_get_NativeInstance_m57460CD1996FA9D5C8598BAFBCD532C2BF9555D5(__this, NULL);
 		ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_1;
 		L_1 = Array_Empty_TisRuntimeObject_mFB8A63D602BB6974D31E20300D9EB89C6FE7C278_inline(Array_Empty_TisRuntimeObject_mFB8A63D602BB6974D31E20300D9EB89C6FE7C278_RuntimeMethod_var);
 		NullCheck(L_0);
 		AndroidJavaObject_CallStatic_mB677DE04369EDD8E6DECAF2F233116EE1F06555C(L_0, _stringLiteralE895F36F680EC5C5C1B7BCCB758522BCC387F3C3, L_1, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:90>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:90>
 		return;
 	}
 }
@@ -12189,7 +12189,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALMultiResumeMediator_ForceKill_mC1DA
 	}
 	try
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:97>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:97>
 		AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03* L_0;
 		L_0 = XREALMultiResumeMediator_get_NativeInstance_m57460CD1996FA9D5C8598BAFBCD532C2BF9555D5(__this, NULL);
 		ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_1;
@@ -12211,9 +12211,9 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALMultiResumeMediator_ForceKill_mC1DA
 CATCH_001b:
 	{
 		Exception_t* L_2 = ((Exception_t*)IL2CPP_GET_ACTIVE_EXCEPTION(Exception_t*));;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:99>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:99>
 		V_0 = L_2;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:101>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:101>
 		ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_3 = (ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918*)(ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918*)SZArrayNew(((RuntimeClass*)il2cpp_codegen_initialize_runtime_metadata_inline((uintptr_t*)&ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918_il2cpp_TypeInfo_var)), (uint32_t)1);
 		ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_4 = L_3;
 		Exception_t* L_5 = V_0;
@@ -12231,7 +12231,7 @@ CATCH_001b:
 
 IL_003a:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:103>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:103>
 		return;
 	}
 }
@@ -12246,14 +12246,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALMultiResumeMediator_MoveToBackOnNR_
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:108>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:108>
 		AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03* L_0;
 		L_0 = XREALMultiResumeMediator_get_NativeInstance_m57460CD1996FA9D5C8598BAFBCD532C2BF9555D5(__this, NULL);
 		ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_1;
 		L_1 = Array_Empty_TisRuntimeObject_mFB8A63D602BB6974D31E20300D9EB89C6FE7C278_inline(Array_Empty_TisRuntimeObject_mFB8A63D602BB6974D31E20300D9EB89C6FE7C278_RuntimeMethod_var);
 		NullCheck(L_0);
 		AndroidJavaObject_CallStatic_mB677DE04369EDD8E6DECAF2F233116EE1F06555C(L_0, _stringLiteral9B74D50FE64E1F4B989FF0BC8D054FCA08DF50C7, L_1, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:109>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:109>
 		return;
 	}
 }
@@ -12270,7 +12270,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR AndroidJavaObject_t8FFB930F335C1178405B82AC2B
 	}
 	AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0* V_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:115>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:115>
 		AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03* L_0;
 		L_0 = XREALMultiResumeMediator_get_NativeInstance_m57460CD1996FA9D5C8598BAFBCD532C2BF9555D5(__this, NULL);
 		ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_1;
@@ -12284,7 +12284,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR AndroidJavaObject_t8FFB930F335C1178405B82AC2B
 
 IL_0019:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:116>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:116>
 		AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0* L_3 = V_0;
 		return L_3;
 	}
@@ -12302,7 +12302,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t XREALMultiResumeMediator_GetXrealGlas
 	}
 	int32_t V_0 = 0;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:122>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:122>
 		AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03* L_0;
 		L_0 = XREALMultiResumeMediator_get_NativeInstance_m57460CD1996FA9D5C8598BAFBCD532C2BF9555D5(__this, NULL);
 		ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_1;
@@ -12316,7 +12316,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t XREALMultiResumeMediator_GetXrealGlas
 
 IL_0019:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:123>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:123>
 		int32_t L_3 = V_0;
 		return L_3;
 	}
@@ -12332,14 +12332,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALMultiResumeMediator_PrepareDynamicS
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:128>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:128>
 		AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03* L_0;
 		L_0 = XREALMultiResumeMediator_get_NativeInstance_m57460CD1996FA9D5C8598BAFBCD532C2BF9555D5(__this, NULL);
 		ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_1;
 		L_1 = Array_Empty_TisRuntimeObject_mFB8A63D602BB6974D31E20300D9EB89C6FE7C278_inline(Array_Empty_TisRuntimeObject_mFB8A63D602BB6974D31E20300D9EB89C6FE7C278_RuntimeMethod_var);
 		NullCheck(L_0);
 		AndroidJavaObject_CallStatic_mB677DE04369EDD8E6DECAF2F233116EE1F06555C(L_0, _stringLiteral8A726D095E38DF329E8DC5BC019F8E8197C9AFF6, L_1, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:129>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:129>
 		return;
 	}
 }
@@ -12356,7 +12356,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALMultiResumeMediator_ReadyForDynamic
 	}
 	bool V_0 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:135>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:135>
 		AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03* L_0;
 		L_0 = XREALMultiResumeMediator_get_NativeInstance_m57460CD1996FA9D5C8598BAFBCD532C2BF9555D5(__this, NULL);
 		ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_1;
@@ -12370,7 +12370,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALMultiResumeMediator_ReadyForDynamic
 
 IL_0019:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:136>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:136>
 		bool L_3 = V_0;
 		return L_3;
 	}
@@ -12388,7 +12388,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALMultiResumeMediator_ReadyForRestart
 	}
 	bool V_0 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:142>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:142>
 		AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03* L_0;
 		L_0 = XREALMultiResumeMediator_get_NativeInstance_m57460CD1996FA9D5C8598BAFBCD532C2BF9555D5(__this, NULL);
 		ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_1;
@@ -12402,7 +12402,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALMultiResumeMediator_ReadyForRestart
 
 IL_0019:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:143>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:143>
 		bool L_3 = V_0;
 		return L_3;
 	}
@@ -12418,7 +12418,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALMultiResumeMediator_AddXRDisplayLis
 	}
 	bool V_0 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:149>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:149>
 		XRDisplayProxy_tCFCF793FCB50B69929724130A16AFCD8E9E4D417* L_0 = __this->___mXRDisplayProxy;
 		V_0 = (bool)((((RuntimeObject*)(XRDisplayProxy_tCFCF793FCB50B69929724130A16AFCD8E9E4D417*)L_0) == ((RuntimeObject*)(RuntimeObject*)NULL))? 1 : 0);
 		bool L_1 = V_0;
@@ -12428,7 +12428,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALMultiResumeMediator_AddXRDisplayLis
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:150>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:150>
 		AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03* L_2;
 		L_2 = XREALMultiResumeMediator_get_NativeInstance_m57460CD1996FA9D5C8598BAFBCD532C2BF9555D5(__this, NULL);
 		XRDisplayProxy_tCFCF793FCB50B69929724130A16AFCD8E9E4D417* L_3 = (XRDisplayProxy_tCFCF793FCB50B69929724130A16AFCD8E9E4D417*)il2cpp_codegen_object_new(XRDisplayProxy_tCFCF793FCB50B69929724130A16AFCD8E9E4D417_il2cpp_TypeInfo_var);
@@ -12439,12 +12439,12 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALMultiResumeMediator_AddXRDisplayLis
 
 IL_001f:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:151>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:151>
 		XRDisplayProxy_tCFCF793FCB50B69929724130A16AFCD8E9E4D417* L_4 = __this->___mXRDisplayProxy;
 		RuntimeObject* L_5 = ___0_listener;
 		NullCheck(L_4);
 		XRDisplayProxy_AddListener_m232172AEEBCB5B7A505B222B6DA0FE660CAEE074(L_4, L_5, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:152>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:152>
 		return;
 	}
 }
@@ -12454,7 +12454,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALMultiResumeMediator_RemoveXRDisplay
 	XRDisplayProxy_tCFCF793FCB50B69929724130A16AFCD8E9E4D417* G_B2_0 = NULL;
 	XRDisplayProxy_tCFCF793FCB50B69929724130A16AFCD8E9E4D417* G_B1_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:158>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:158>
 		XRDisplayProxy_tCFCF793FCB50B69929724130A16AFCD8E9E4D417* L_0 = __this->___mXRDisplayProxy;
 		XRDisplayProxy_tCFCF793FCB50B69929724130A16AFCD8E9E4D417* L_1 = L_0;
 		if (L_1)
@@ -12477,7 +12477,7 @@ IL_000d:
 
 IL_0014:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:159>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:159>
 		return;
 	}
 }
@@ -12491,9 +12491,9 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALMultiResumeMediator__ctor_mC284E88D
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:11>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:11>
 		__this->___U3CIsMultiResumeBackgroundU3Ek__BackingField = (bool)0;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:20>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:20>
 		__this->___mXRDisplayProxy = (XRDisplayProxy_tCFCF793FCB50B69929724130A16AFCD8E9E4D417*)NULL;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___mXRDisplayProxy), (void*)(XRDisplayProxy_tCFCF793FCB50B69929724130A16AFCD8E9E4D417*)NULL);
 		SingletonMonoBehaviour_1__ctor_m56391827AAE6E8B22FC3F59016B30F24E89CFF81(__this, SingletonMonoBehaviour_1__ctor_m56391827AAE6E8B22FC3F59016B30F24E89CFF81_RuntimeMethod_var);
@@ -12519,10 +12519,10 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void FloatingManagerListener__ctor_mD69C3B826
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:39>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:39>
 		il2cpp_codegen_runtime_class_init_inline(AndroidJavaProxy_tE5521F9761F7B95444B9C39FB15FDFC23F80A78D_il2cpp_TypeInfo_var);
 		AndroidJavaProxy__ctor_m2832886A0E1BBF6702653A7C6A4609F11FB712C7(__this, _stringLiteralF34409BBC25986D81822A67A4D5DBA36F426948C, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:39>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:39>
 		return;
 	}
 }
@@ -12538,7 +12538,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void FloatingManagerListener_onFloatingViewSh
 	Action_1_t10DCB0C07D0D3C565CEACADC80D1152B35A45F6C* G_B2_0 = NULL;
 	Action_1_t10DCB0C07D0D3C565CEACADC80D1152B35A45F6C* G_B1_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:42>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:42>
 		Action_1_t10DCB0C07D0D3C565CEACADC80D1152B35A45F6C* L_0 = ((XREALMultiResumeMediator_tC336A3F029FCF4FCBBFEC14308CEB3EEEA49C676_StaticFields*)il2cpp_codegen_static_fields_for(XREALMultiResumeMediator_tC336A3F029FCF4FCBBFEC14308CEB3EEEA49C676_il2cpp_TypeInfo_var))->___FloatingWindowStateChanged;
 		Action_1_t10DCB0C07D0D3C565CEACADC80D1152B35A45F6C* L_1 = L_0;
 		if (L_1)
@@ -12575,7 +12575,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void FloatingManagerListener_onFloatingViewDi
 	Action_1_t10DCB0C07D0D3C565CEACADC80D1152B35A45F6C* G_B2_0 = NULL;
 	Action_1_t10DCB0C07D0D3C565CEACADC80D1152B35A45F6C* G_B1_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:45>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:45>
 		Action_1_t10DCB0C07D0D3C565CEACADC80D1152B35A45F6C* L_0 = ((XREALMultiResumeMediator_tC336A3F029FCF4FCBBFEC14308CEB3EEEA49C676_StaticFields*)il2cpp_codegen_static_fields_for(XREALMultiResumeMediator_tC336A3F029FCF4FCBBFEC14308CEB3EEEA49C676_il2cpp_TypeInfo_var))->___FloatingWindowStateChanged;
 		Action_1_t10DCB0C07D0D3C565CEACADC80D1152B35A45F6C* L_1 = L_0;
 		if (L_1)
@@ -12612,7 +12612,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void FloatingManagerListener_onFloatingViewCl
 	Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* G_B2_0 = NULL;
 	Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* G_B1_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:48>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:48>
 		Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* L_0 = ((XREALMultiResumeMediator_tC336A3F029FCF4FCBBFEC14308CEB3EEEA49C676_StaticFields*)il2cpp_codegen_static_fields_for(XREALMultiResumeMediator_tC336A3F029FCF4FCBBFEC14308CEB3EEEA49C676_il2cpp_TypeInfo_var))->___FloatingWindowClicked;
 		Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* L_1 = L_0;
 		if (L_1)
@@ -12656,7 +12656,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALSessionManager_Start_m317B6D6401A83
 	}
 	bool V_0 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:45>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:45>
 		Camera_tA92CC927D7439999BC82DBEDC0AA45B470F9E184* L_0;
 		L_0 = XREALUtility_get_MainCamera_mA1A6B932FC5F81C5AFBCF333C4F93EF2330F0D76(NULL);
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
@@ -12670,7 +12670,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALSessionManager_Start_m317B6D6401A83
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:47>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:47>
 		Camera_tA92CC927D7439999BC82DBEDC0AA45B470F9E184* L_3;
 		L_3 = XREALUtility_get_MainCamera_mA1A6B932FC5F81C5AFBCF333C4F93EF2330F0D76(NULL);
 		NullCheck(L_3);
@@ -12678,7 +12678,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALSessionManager_Start_m317B6D6401A83
 		L_4 = Component_get_transform_m2919A1D81931E6932C7F06D4C2F0AB8DDA9A5371(L_3, NULL);
 		__this->___m_Camera = L_4;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___m_Camera), (void*)L_4);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:48>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:48>
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_5 = __this->___m_Camera;
 		NullCheck(L_5);
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_6;
@@ -12689,7 +12689,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALSessionManager_Start_m317B6D6401A83
 
 IL_0033:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:50>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:50>
 		return;
 	}
 }
@@ -12712,7 +12712,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALSessionManager_OnEnable_m932C8E1A72
 	int32_t G_B3_0 = 0;
 	int32_t G_B8_0 = 0;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:54>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:54>
 		InputActionReference_t64730C6B41271E0983FC21BFB416169F5D6BC4A1* L_0 = __this->___m_MenuAction;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_1;
@@ -12746,7 +12746,7 @@ IL_0020:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:56>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:56>
 		InputActionReference_t64730C6B41271E0983FC21BFB416169F5D6BC4A1* L_5 = __this->___m_MenuAction;
 		NullCheck(L_5);
 		InputAction_t1B550AD2B55AF322AFB53CD28DA64081220D01CD* L_6;
@@ -12759,7 +12759,7 @@ IL_0020:
 
 IL_0043:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:58>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:58>
 		InputActionReference_t64730C6B41271E0983FC21BFB416169F5D6BC4A1* L_8 = __this->___m_RecenterAction;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_9;
@@ -12793,7 +12793,7 @@ IL_0062:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:60>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:60>
 		InputActionReference_t64730C6B41271E0983FC21BFB416169F5D6BC4A1* L_13 = __this->___m_RecenterAction;
 		NullCheck(L_13);
 		InputAction_t1B550AD2B55AF322AFB53CD28DA64081220D01CD* L_14;
@@ -12806,11 +12806,11 @@ IL_0062:
 
 IL_0085:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:62>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:62>
 		TrackingTypeChangedCallback_t9AB11EB9CC989F6D91B2868E525F273F8C3F7C3E* L_16 = (TrackingTypeChangedCallback_t9AB11EB9CC989F6D91B2868E525F273F8C3F7C3E*)il2cpp_codegen_object_new(TrackingTypeChangedCallback_t9AB11EB9CC989F6D91B2868E525F273F8C3F7C3E_il2cpp_TypeInfo_var);
 		TrackingTypeChangedCallback__ctor_m74037937C7974185F639CCE69BF2A367C7ED2508(L_16, __this, (intptr_t)((void*)XREALSessionManager_OnTrackingTypeChangedInternal_mFCC7BFA31A6FDBB33C7B1AE3DD0743F2E50F50BE_RuntimeMethod_var), NULL);
 		XREALPlugin_add_OnTrackingTypeChangedInternal_mBE1BFD8FBBCD6890C8FC563B0BE95DD3FBCFB5E6(L_16, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:63>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:63>
 		return;
 	}
 }
@@ -12833,7 +12833,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALSessionManager_OnDisable_m4909C2D91
 	int32_t G_B3_0 = 0;
 	int32_t G_B8_0 = 0;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:67>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:67>
 		InputActionReference_t64730C6B41271E0983FC21BFB416169F5D6BC4A1* L_0 = __this->___m_MenuAction;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_1;
@@ -12867,7 +12867,7 @@ IL_0020:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:69>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:69>
 		InputActionReference_t64730C6B41271E0983FC21BFB416169F5D6BC4A1* L_5 = __this->___m_MenuAction;
 		NullCheck(L_5);
 		InputAction_t1B550AD2B55AF322AFB53CD28DA64081220D01CD* L_6;
@@ -12880,7 +12880,7 @@ IL_0020:
 
 IL_0043:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:71>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:71>
 		InputActionReference_t64730C6B41271E0983FC21BFB416169F5D6BC4A1* L_8 = __this->___m_RecenterAction;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_9;
@@ -12914,7 +12914,7 @@ IL_0062:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:73>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:73>
 		InputActionReference_t64730C6B41271E0983FC21BFB416169F5D6BC4A1* L_13 = __this->___m_RecenterAction;
 		NullCheck(L_13);
 		InputAction_t1B550AD2B55AF322AFB53CD28DA64081220D01CD* L_14;
@@ -12927,11 +12927,11 @@ IL_0062:
 
 IL_0085:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:75>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:75>
 		TrackingTypeChangedCallback_t9AB11EB9CC989F6D91B2868E525F273F8C3F7C3E* L_16 = (TrackingTypeChangedCallback_t9AB11EB9CC989F6D91B2868E525F273F8C3F7C3E*)il2cpp_codegen_object_new(TrackingTypeChangedCallback_t9AB11EB9CC989F6D91B2868E525F273F8C3F7C3E_il2cpp_TypeInfo_var);
 		TrackingTypeChangedCallback__ctor_m74037937C7974185F639CCE69BF2A367C7ED2508(L_16, __this, (intptr_t)((void*)XREALSessionManager_OnTrackingTypeChangedInternal_mFCC7BFA31A6FDBB33C7B1AE3DD0743F2E50F50BE_RuntimeMethod_var), NULL);
 		XREALPlugin_remove_OnTrackingTypeChangedInternal_mC15DC36B3DF240049EE141BA651920A3241DB1B2(L_16, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:76>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:76>
 		return;
 	}
 }
@@ -12951,7 +12951,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALSessionManager_OnMenuActionPerforme
 	bool V_1 = false;
 	bool V_2 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:80>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:80>
 		RuntimeObject* L_0;
 		L_0 = CallbackContext_get_interaction_mF05241B8F876487AC3A631CBE900BC3C80D6F1F8((&___0_context), NULL);
 		V_0 = (bool)((!(((RuntimeObject*)(PressInteraction_tE406520D829C4937F95489EFE3F022194A42A8B5*)((PressInteraction_tE406520D829C4937F95489EFE3F022194A42A8B5*)IsInstClass((RuntimeObject*)L_0, PressInteraction_tE406520D829C4937F95489EFE3F022194A42A8B5_il2cpp_TypeInfo_var))) <= ((RuntimeObject*)(RuntimeObject*)NULL)))? 1 : 0);
@@ -12962,7 +12962,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALSessionManager_OnMenuActionPerforme
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:82>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:82>
 		XREALHomeMenu_t153D3622F894C225597DE44AB1B6F331C7FE06A2* L_2;
 		L_2 = SingletonMonoBehaviour_1_get_Singleton_mC44D89EBC3EA72810395A0EA2936B7DC7E02CB48_inline(SingletonMonoBehaviour_1_get_Singleton_mC44D89EBC3EA72810395A0EA2936B7DC7E02CB48_RuntimeMethod_var);
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
@@ -12976,7 +12976,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALSessionManager_OnMenuActionPerforme
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:84>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:84>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_5 = __this->___m_MenuPrefab;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_6;
@@ -12989,7 +12989,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALSessionManager_OnMenuActionPerforme
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:85>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:85>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_8 = __this->___m_MenuPrefab;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_9;
@@ -13003,7 +13003,7 @@ IL_0041:
 
 IL_0044:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:89>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:89>
 		XREALHomeMenu_t153D3622F894C225597DE44AB1B6F331C7FE06A2* L_10;
 		L_10 = SingletonMonoBehaviour_1_get_Singleton_mC44D89EBC3EA72810395A0EA2936B7DC7E02CB48_inline(SingletonMonoBehaviour_1_get_Singleton_mC44D89EBC3EA72810395A0EA2936B7DC7E02CB48_RuntimeMethod_var);
 		NullCheck(L_10);
@@ -13016,7 +13016,7 @@ IL_0051:
 
 IL_0052:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:92>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:92>
 		return;
 	}
 }
@@ -13037,7 +13037,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALSessionManager_OnRecenterActionPerf
 	memset((&V_2), 0, sizeof(V_2));
 	int32_t G_B4_0 = 0;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:96>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:96>
 		RuntimeObject* L_0;
 		L_0 = CallbackContext_get_interaction_mF05241B8F876487AC3A631CBE900BC3C80D6F1F8((&___0_context), NULL);
 		V_0 = (bool)((!(((RuntimeObject*)(HoldInteraction_t636DDC457955E74454991E73F9B048F8B5B2BE4E*)((HoldInteraction_t636DDC457955E74454991E73F9B048F8B5B2BE4E*)IsInstClass((RuntimeObject*)L_0, HoldInteraction_t636DDC457955E74454991E73F9B048F8B5B2BE4E_il2cpp_TypeInfo_var))) <= ((RuntimeObject*)(RuntimeObject*)NULL)))? 1 : 0);
@@ -13048,10 +13048,10 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALSessionManager_OnRecenterActionPerf
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:98>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:98>
 		bool L_2;
 		L_2 = XREALPlugin_RecenterController_mF2EE2A1542267C0FAD4E92DF696F2A9C2C4963A4(NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:99>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:99>
 		bool L_3 = __this->___m_RecenterVibrationEnabled;
 		if (!L_3)
 		{
@@ -13083,7 +13083,7 @@ IL_0031:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:100>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:100>
 		XREALVirtualController_tB9DF68A13F410A7B3E9B5C29E91CD0FEA68AF730* L_7;
 		L_7 = SingletonMonoBehaviour_1_get_Singleton_mE0D949D6906C04535171B77BAE468A332D6F828C_inline(SingletonMonoBehaviour_1_get_Singleton_mE0D949D6906C04535171B77BAE468A332D6F828C_RuntimeMethod_var);
 		NullCheck(L_7);
@@ -13102,7 +13102,7 @@ IL_0055:
 
 IL_0056:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:102>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:102>
 		return;
 	}
 }
@@ -13132,7 +13132,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALSessionManager_OnApplicationPause_m
 	int32_t G_B26_0 = 0;
 	int32_t G_B31_0 = 0;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:106>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:106>
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_0 = __this->___m_Camera;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_1;
@@ -13166,13 +13166,13 @@ IL_001e:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:107>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:107>
 		goto IL_01a1;
 	}
 
 IL_0027:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:108>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:108>
 		bool L_5 = ___0_pause;
 		V_1 = L_5;
 		bool L_6 = V_1;
@@ -13182,7 +13182,7 @@ IL_0027:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:110>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:110>
 		bool L_7 = __this->___m_CacheCameraXRotation;
 		if (L_7)
 		{
@@ -13210,7 +13210,7 @@ IL_0041:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:112>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:112>
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_10 = __this->___m_CameraOffset;
 		NullCheck(L_10);
 		Quaternion_tDA59F214EF07D7700B26E40E562F267AF7306974 L_11;
@@ -13222,7 +13222,7 @@ IL_0041:
 		Quaternion_tDA59F214EF07D7700B26E40E562F267AF7306974 L_14;
 		L_14 = Quaternion_op_Multiply_mCB375FCCC12A2EC8F9EB824A1BFB4453B58C2012_inline(L_11, L_13, NULL);
 		V_3 = L_14;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:113>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:113>
 		bool L_15 = __this->___m_CacheCameraXRotation;
 		V_4 = L_15;
 		bool L_16 = V_4;
@@ -13232,7 +13232,7 @@ IL_0041:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:114>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:114>
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_17;
 		L_17 = Quaternion_get_eulerAngles_m2DB5158B5C3A71FD60FC8A6EE43D3AAA1CFED122_inline((&V_3), NULL);
 		float L_18 = L_17.___x;
@@ -13241,7 +13241,7 @@ IL_0041:
 
 IL_0080:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:115>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:115>
 		bool L_19 = __this->___m_CacheCameraYRotation;
 		V_5 = L_19;
 		bool L_20 = V_5;
@@ -13251,7 +13251,7 @@ IL_0080:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:116>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:116>
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_21;
 		L_21 = Quaternion_get_eulerAngles_m2DB5158B5C3A71FD60FC8A6EE43D3AAA1CFED122_inline((&V_3), NULL);
 		float L_22 = L_21.___y;
@@ -13264,7 +13264,7 @@ IL_009e:
 
 IL_009f:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:118>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:118>
 		bool L_23 = __this->___m_CacheCameraPosition;
 		if (!L_23)
 		{
@@ -13293,7 +13293,7 @@ IL_00b2:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:120>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:120>
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_26 = __this->___m_CameraOffset;
 		NullCheck(L_26);
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_27;
@@ -13311,7 +13311,7 @@ IL_00b2:
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_33;
 		L_33 = Vector3_op_Addition_m78C0EC70CB66E8DCAC225743D82B268DAEE92067_inline(L_27, L_32, NULL);
 		__this->___m_CachePosition = L_33;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:121>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:121>
 		Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B* L_34 = __this->___m_CacheCoroutine;
 		V_7 = (bool)((!(((RuntimeObject*)(Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B*)L_34) <= ((RuntimeObject*)(RuntimeObject*)NULL)))? 1 : 0);
 		bool L_35 = V_7;
@@ -13321,10 +13321,10 @@ IL_00b2:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:123>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:123>
 		Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B* L_36 = __this->___m_CacheCoroutine;
 		MonoBehaviour_StopCoroutine_mB0FC91BE84203BD8E360B3FBAE5B958B4C5ED22A(__this, L_36, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:124>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:124>
 		__this->___m_CacheCoroutine = (Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B*)NULL;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___m_CacheCoroutine), (void*)(Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B*)NULL);
 	}
@@ -13340,7 +13340,7 @@ IL_0110:
 
 IL_0116:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:130>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:130>
 		bool L_37 = __this->___m_CacheCameraXRotation;
 		if (L_37)
 		{
@@ -13368,7 +13368,7 @@ IL_0128:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:131>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:131>
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_40 = __this->___m_CameraOffset;
 		float L_41 = __this->___m_CacheXRotation;
 		float L_42 = __this->___m_CacheYRotation;
@@ -13381,7 +13381,7 @@ IL_0128:
 
 IL_0150:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:132>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:132>
 		bool L_44 = __this->___m_CacheCameraPosition;
 		if (!L_44)
 		{
@@ -13410,18 +13410,18 @@ IL_0163:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:134>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:134>
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_47 = __this->___m_CameraOffset;
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_48 = __this->___m_CachePosition;
 		NullCheck(L_47);
 		Transform_set_localPosition_mDE1C997F7D79C0885210B7732B4BA50EE7D73134(L_47, L_48, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:135>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:135>
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_49 = __this->___m_Camera;
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_50;
 		L_50 = Vector3_get_zero_m0C1249C3F25B1C70EAD3CC8B31259975A457AE39_inline(NULL);
 		NullCheck(L_49);
 		Transform_set_localPosition_mDE1C997F7D79C0885210B7732B4BA50EE7D73134(L_49, L_50, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:136>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:136>
 		RuntimeObject* L_51;
 		L_51 = XREALSessionManager_AdjustCameraOffset_m469A05378EC349DA1F4CF0BFE05FE89974F52A91(__this, NULL);
 		Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B* L_52;
@@ -13436,7 +13436,7 @@ IL_01a0:
 
 IL_01a1:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:139>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:139>
 		return;
 	}
 }
@@ -13475,7 +13475,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALSessionManager_OnTrackingTypeChange
 	bool V_3 = false;
 	int32_t G_B4_0 = 0;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:151>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:151>
 		bool L_0 = ___0_result;
 		V_0 = L_0;
 		bool L_1 = V_0;
@@ -13485,7 +13485,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALSessionManager_OnTrackingTypeChange
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:153>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:153>
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_2 = __this->___m_CameraOffset;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_3;
@@ -13521,7 +13521,7 @@ IL_002b:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:154>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:154>
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_8 = __this->___m_CameraOffset;
 		XROrigin_t5E534A6D886991AF3C1C64127E19A3A510009CFE* L_9 = V_1;
 		NullCheck(L_9);
@@ -13539,15 +13539,15 @@ IL_002b:
 
 IL_0050:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:155>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:155>
 		__this->___m_CacheXRotation = (0.0f);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:156>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:156>
 		__this->___m_CacheYRotation = (0.0f);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:157>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:157>
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_14;
 		L_14 = Vector3_get_zero_m0C1249C3F25B1C70EAD3CC8B31259975A457AE39_inline(NULL);
 		__this->___m_CachePosition = L_14;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:158>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:158>
 		Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B* L_15 = __this->___m_CacheCoroutine;
 		V_3 = (bool)((!(((RuntimeObject*)(Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B*)L_15) <= ((RuntimeObject*)(RuntimeObject*)NULL)))? 1 : 0);
 		bool L_16 = V_3;
@@ -13557,10 +13557,10 @@ IL_0050:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:160>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:160>
 		Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B* L_17 = __this->___m_CacheCoroutine;
 		MonoBehaviour_StopCoroutine_mB0FC91BE84203BD8E360B3FBAE5B958B4C5ED22A(__this, L_17, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:161>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:161>
 		__this->___m_CacheCoroutine = (Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B*)NULL;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___m_CacheCoroutine), (void*)(Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B*)NULL);
 	}
@@ -13571,7 +13571,7 @@ IL_0094:
 
 IL_0095:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:164>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:164>
 		return;
 	}
 }
@@ -13585,23 +13585,23 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALSessionManager__ctor_mC6024A9154748
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:24>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:24>
 		__this->___m_RecenterVibrationEnabled = (bool)1;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:26>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:26>
 		__this->___m_VibrationAmplitude = (0.25f);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:28>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:28>
 		__this->___m_VibrationDuration = (0.150000006f);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:30>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:30>
 		__this->___m_CacheCameraXRotation = (bool)0;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:32>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:32>
 		__this->___m_CacheCameraYRotation = (bool)1;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:34>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:34>
 		__this->___m_CacheCameraPosition = (bool)1;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:38>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:38>
 		__this->___m_CacheXRotation = (0.0f);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:39>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:39>
 		__this->___m_CacheYRotation = (0.0f);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:40>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:40>
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_0;
 		L_0 = Vector3_get_zero_m0C1249C3F25B1C70EAD3CC8B31259975A457AE39_inline(NULL);
 		__this->___m_CachePosition = L_0;
@@ -13687,7 +13687,7 @@ IL_0018:
 
 IL_0022:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:144>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:144>
 		__this->___U3CU3E2__current = NULL;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___U3CU3E2__current), (void*)NULL);
 		__this->___U3CU3E1__state = 1;
@@ -13701,7 +13701,7 @@ IL_0032:
 
 IL_0039:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:143>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:143>
 		XREALSessionManager_t67C0CD3FCA3969B7AE12BF5AAC019C4F1CF72E0F* L_3 = __this->___U3CU3E4__this;
 		NullCheck(L_3);
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_4 = L_3->___m_Camera;
@@ -13720,7 +13720,7 @@ IL_0039:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:145>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:145>
 		XREALSessionManager_t67C0CD3FCA3969B7AE12BF5AAC019C4F1CF72E0F* L_9 = __this->___U3CU3E4__this;
 		NullCheck(L_9);
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_10 = L_9->___m_CameraOffset;
@@ -13746,12 +13746,12 @@ IL_0039:
 		L_20 = Vector3_op_Subtraction_mE42023FF80067CB44A1D4A27EB7CF2B24CABB828_inline(L_12, L_19, NULL);
 		NullCheck(L_11);
 		Transform_set_localPosition_mDE1C997F7D79C0885210B7732B4BA50EE7D73134(L_11, L_20, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:146>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:146>
 		XREALSessionManager_t67C0CD3FCA3969B7AE12BF5AAC019C4F1CF72E0F* L_21 = __this->___U3CU3E4__this;
 		NullCheck(L_21);
 		L_21->___m_CacheCoroutine = (Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B*)NULL;
 		Il2CppCodeGenWriteBarrier((void**)(&L_21->___m_CacheCoroutine), (void*)(Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B*)NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALSessionManager.cs:147>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALSessionManager.cs:147>
 		return (bool)0;
 	}
 }
@@ -13809,7 +13809,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALDisplaySubsystemExtensions_EnableTe
 {
 	bool V_0 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALDisplaySubsystemExtensions.cs:16>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALDisplaySubsystemExtensions.cs:16>
 		bool L_0 = ___1_enabled;
 		bool L_1;
 		L_1 = XREALPlugin_EnableTearedFrameCount_mDDA8BD0EEF897712B5F4024A6A03649C00A3B4F6(L_0, NULL);
@@ -13819,7 +13819,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALDisplaySubsystemExtensions_EnableTe
 
 IL_000a:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALDisplaySubsystemExtensions.cs:17>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALDisplaySubsystemExtensions.cs:17>
 		bool L_2 = V_0;
 		return L_2;
 	}
@@ -13829,7 +13829,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALDisplaySubsystemExtensions_EnableRe
 {
 	bool V_0 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALDisplaySubsystemExtensions.cs:27>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALDisplaySubsystemExtensions.cs:27>
 		bool L_0 = ___1_enabled;
 		bool L_1;
 		L_1 = XREALPlugin_EnableRenderBackColor_mE86F80CF14D861B919AF4D31365718D473BE86F2(L_0, NULL);
@@ -13839,7 +13839,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALDisplaySubsystemExtensions_EnableRe
 
 IL_000a:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALDisplaySubsystemExtensions.cs:28>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALDisplaySubsystemExtensions.cs:28>
 		bool L_2 = V_0;
 		return L_2;
 	}
@@ -13868,7 +13868,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR InputAction_t1B550AD2B55AF322AFB53CD28DA64081
 	InputActionMap_tFCE82E0E014319D4DED9F8962B06655DD0420A09* G_B1_0 = NULL;
 	InputAction_t1B550AD2B55AF322AFB53CD28DA64081220D01CD* G_B3_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALInputSystemExtension.cs:17>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALInputSystemExtension.cs:17>
 		InputActionAsset_tF217AC5223B4AAA46EBCB44B33E9259FB117417D* L_0 = ___0_actionAsset;
 		String_t* L_1 = ___1_actionMapName;
 		NullCheck(L_0);
@@ -13904,7 +13904,7 @@ IL_0017:
 
 IL_001a:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALInputSystemExtension.cs:18>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALInputSystemExtension.cs:18>
 		InputAction_t1B550AD2B55AF322AFB53CD28DA64081220D01CD* L_6 = V_0;
 		return L_6;
 	}
@@ -13932,7 +13932,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALTrackingModeChangeListener_Start_mA
 	}
 	bool V_0 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:21>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:21>
 		XREALTrackingTypeChangeMask_t199E6C71320D7828FA781BD7B7E1852D0E4EBFF2* L_0 = __this->___m_TrackingTypeChangePrefab;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_1;
@@ -13945,11 +13945,11 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALTrackingModeChangeListener_Start_mA
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:23>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:23>
 		BeginChangeTrackingTypeEvent_t3A8DAC24DC0DFF7930DA463D3CE25A4A2DF1F543* L_3 = (BeginChangeTrackingTypeEvent_t3A8DAC24DC0DFF7930DA463D3CE25A4A2DF1F543*)il2cpp_codegen_object_new(BeginChangeTrackingTypeEvent_t3A8DAC24DC0DFF7930DA463D3CE25A4A2DF1F543_il2cpp_TypeInfo_var);
 		BeginChangeTrackingTypeEvent__ctor_m02CE2F0977FA220099433055492FA8E8F1F0BC92(L_3, __this, (intptr_t)((void*)XREALTrackingModeChangeListener_OnBeginTrackingTypeChanged_m46D95FF2EBC6478F4B85D85537287D762CD9928E_RuntimeMethod_var), NULL);
 		XREALPlugin_add_OnBeginChangeTrackingType_m5E512066A563F8D45BB2B27C38C82201E8AFBC16(L_3, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:24>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:24>
 		TrackingTypeChangedCallback_t9AB11EB9CC989F6D91B2868E525F273F8C3F7C3E* L_4 = (TrackingTypeChangedCallback_t9AB11EB9CC989F6D91B2868E525F273F8C3F7C3E*)il2cpp_codegen_object_new(TrackingTypeChangedCallback_t9AB11EB9CC989F6D91B2868E525F273F8C3F7C3E_il2cpp_TypeInfo_var);
 		TrackingTypeChangedCallback__ctor_m74037937C7974185F639CCE69BF2A367C7ED2508(L_4, __this, (intptr_t)((void*)XREALTrackingModeChangeListener_OnTrackingTypeChanged_m3340A43218F4C0FA6E7EBC805E4CA8ADAD849EC7_RuntimeMethod_var), NULL);
 		XREALPlugin_add_OnTrackingTypeChanged_mF84409294A4B573F03A70019D642504497ED6784(L_4, NULL);
@@ -13957,7 +13957,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALTrackingModeChangeListener_Start_mA
 
 IL_0037:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:26>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:26>
 		return;
 	}
 }
@@ -13974,7 +13974,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALTrackingModeChangeListener_OnBeginT
 	bool V_0 = false;
 	bool V_1 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:30>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:30>
 		XREALTrackingTypeChangeMask_t199E6C71320D7828FA781BD7B7E1852D0E4EBFF2* L_0 = __this->___m_TrackingTypeChangeMask;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_1;
@@ -13987,7 +13987,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALTrackingModeChangeListener_OnBeginT
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:32>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:32>
 		XREALTrackingTypeChangeMask_t199E6C71320D7828FA781BD7B7E1852D0E4EBFF2* L_3 = __this->___m_TrackingTypeChangePrefab;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		XREALTrackingTypeChangeMask_t199E6C71320D7828FA781BD7B7E1852D0E4EBFF2* L_4;
@@ -13998,7 +13998,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALTrackingModeChangeListener_OnBeginT
 
 IL_0024:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:34>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:34>
 		Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B* L_5 = __this->___m_FadeCoroutine;
 		V_1 = (bool)((!(((RuntimeObject*)(Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B*)L_5) <= ((RuntimeObject*)(RuntimeObject*)NULL)))? 1 : 0);
 		bool L_6 = V_1;
@@ -14008,23 +14008,23 @@ IL_0024:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:36>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:36>
 		Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B* L_7 = __this->___m_FadeCoroutine;
 		MonoBehaviour_StopCoroutine_mB0FC91BE84203BD8E360B3FBAE5B958B4C5ED22A(__this, L_7, NULL);
 	}
 
 IL_0040:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:38>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:38>
 		__this->___m_IsTrackingTypeChanging = (bool)1;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:39>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:39>
 		RuntimeObject* L_8;
 		L_8 = XREALTrackingModeChangeListener_Fade_m6B2B51475CE9B44B3E8F7F8648FF1396E058107D(__this, NULL);
 		Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B* L_9;
 		L_9 = MonoBehaviour_StartCoroutine_m4CAFF732AA28CD3BDC5363B44A863575530EC812(__this, L_8, NULL);
 		__this->___m_FadeCoroutine = L_9;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___m_FadeCoroutine), (void*)L_9);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:40>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:40>
 		return;
 	}
 }
@@ -14032,9 +14032,9 @@ IL_0040:
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALTrackingModeChangeListener_OnTrackingTypeChanged_m3340A43218F4C0FA6E7EBC805E4CA8ADAD849EC7 (XREALTrackingModeChangeListener_t9860ECA7BDB42CFA44CD8C724D8BDE7D13B8BF68* __this, bool ___0_result, int32_t ___1_targetTrackingType, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:44>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:44>
 		__this->___m_IsTrackingTypeChanging = (bool)0;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:45>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:45>
 		return;
 	}
 }
@@ -14073,15 +14073,15 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALTrackingModeChangeListener_OnDestro
 	bool V_0 = false;
 	bool V_1 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:68>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:68>
 		BeginChangeTrackingTypeEvent_t3A8DAC24DC0DFF7930DA463D3CE25A4A2DF1F543* L_0 = (BeginChangeTrackingTypeEvent_t3A8DAC24DC0DFF7930DA463D3CE25A4A2DF1F543*)il2cpp_codegen_object_new(BeginChangeTrackingTypeEvent_t3A8DAC24DC0DFF7930DA463D3CE25A4A2DF1F543_il2cpp_TypeInfo_var);
 		BeginChangeTrackingTypeEvent__ctor_m02CE2F0977FA220099433055492FA8E8F1F0BC92(L_0, __this, (intptr_t)((void*)XREALTrackingModeChangeListener_OnBeginTrackingTypeChanged_m46D95FF2EBC6478F4B85D85537287D762CD9928E_RuntimeMethod_var), NULL);
 		XREALPlugin_remove_OnBeginChangeTrackingType_m3D656D97824DC4F66440F3FE3DF0256DC2CD3A0F(L_0, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:69>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:69>
 		TrackingTypeChangedCallback_t9AB11EB9CC989F6D91B2868E525F273F8C3F7C3E* L_1 = (TrackingTypeChangedCallback_t9AB11EB9CC989F6D91B2868E525F273F8C3F7C3E*)il2cpp_codegen_object_new(TrackingTypeChangedCallback_t9AB11EB9CC989F6D91B2868E525F273F8C3F7C3E_il2cpp_TypeInfo_var);
 		TrackingTypeChangedCallback__ctor_m74037937C7974185F639CCE69BF2A367C7ED2508(L_1, __this, (intptr_t)((void*)XREALTrackingModeChangeListener_OnTrackingTypeChanged_m3340A43218F4C0FA6E7EBC805E4CA8ADAD849EC7_RuntimeMethod_var), NULL);
 		XREALPlugin_remove_OnTrackingTypeChanged_mFC101751E74EF6C486B77D2C2B582446F9930EDA(L_1, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:71>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:71>
 		Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B* L_2 = __this->___m_FadeCoroutine;
 		V_0 = (bool)((!(((RuntimeObject*)(Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B*)L_2) <= ((RuntimeObject*)(RuntimeObject*)NULL)))? 1 : 0);
 		bool L_3 = V_0;
@@ -14091,17 +14091,17 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALTrackingModeChangeListener_OnDestro
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:73>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:73>
 		Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B* L_4 = __this->___m_FadeCoroutine;
 		MonoBehaviour_StopCoroutine_mB0FC91BE84203BD8E360B3FBAE5B958B4C5ED22A(__this, L_4, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:74>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:74>
 		__this->___m_FadeCoroutine = (Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B*)NULL;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___m_FadeCoroutine), (void*)(Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B*)NULL);
 	}
 
 IL_0048:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:76>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:76>
 		XREALTrackingTypeChangeMask_t199E6C71320D7828FA781BD7B7E1852D0E4EBFF2* L_5 = __this->___m_TrackingTypeChangeMask;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_6;
@@ -14114,21 +14114,21 @@ IL_0048:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:78>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:78>
 		XREALTrackingTypeChangeMask_t199E6C71320D7828FA781BD7B7E1852D0E4EBFF2* L_8 = __this->___m_TrackingTypeChangeMask;
 		NullCheck(L_8);
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_9;
 		L_9 = Component_get_gameObject_m57AEFBB14DB39EC476F740BA000E170355DE691B(L_8, NULL);
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		Object_Destroy_mE97D0A766419A81296E8D4E5C23D01D3FE91ACBB(L_9, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:79>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:79>
 		__this->___m_TrackingTypeChangeMask = (XREALTrackingTypeChangeMask_t199E6C71320D7828FA781BD7B7E1852D0E4EBFF2*)NULL;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___m_TrackingTypeChangeMask), (void*)(XREALTrackingTypeChangeMask_t199E6C71320D7828FA781BD7B7E1852D0E4EBFF2*)NULL);
 	}
 
 IL_0072:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:81>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:81>
 		return;
 	}
 }
@@ -14142,9 +14142,9 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALTrackingModeChangeListener__ctor_mA
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:16>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:16>
 		__this->___m_IsTrackingTypeChanging = (bool)0;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:17>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:17>
 		WaitForSeconds_tF179DF251655B8DF044952E70A60DF4B358A3DD3* L_0 = (WaitForSeconds_tF179DF251655B8DF044952E70A60DF4B358A3DD3*)il2cpp_codegen_object_new(WaitForSeconds_tF179DF251655B8DF044952E70A60DF4B358A3DD3_il2cpp_TypeInfo_var);
 		WaitForSeconds__ctor_m579F95BADEDBAB4B3A7E302C6EE3995926EF2EFC(L_0, (0.100000001f), NULL);
 		__this->___m_Delay = L_0;
@@ -14258,13 +14258,13 @@ IL_0039:
 IL_003b:
 	{
 		__this->___U3CU3E1__state = (-1);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:49>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:49>
 		XREALTrackingModeChangeListener_t9860ECA7BDB42CFA44CD8C724D8BDE7D13B8BF68* L_2 = __this->___U3CU3E4__this;
 		NullCheck(L_2);
 		XREALTrackingTypeChangeMask_t199E6C71320D7828FA781BD7B7E1852D0E4EBFF2* L_3 = L_2->___m_TrackingTypeChangeMask;
 		NullCheck(L_3);
 		XREALTrackingTypeChangeMask_Show_mD584050CAB4BAC7FF60BA7EA6B99B90C5F9A383B(L_3, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:50>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:50>
 		__this->___U3CU3E2__current = NULL;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___U3CU3E2__current), (void*)NULL);
 		__this->___U3CU3E1__state = 1;
@@ -14274,7 +14274,7 @@ IL_003b:
 IL_0064:
 	{
 		__this->___U3CU3E1__state = (-1);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:51>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:51>
 		__this->___U3CU3E2__current = NULL;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___U3CU3E2__current), (void*)NULL);
 		__this->___U3CU3E1__state = 2;
@@ -14284,7 +14284,7 @@ IL_0064:
 IL_007b:
 	{
 		__this->___U3CU3E1__state = (-1);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:52>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:52>
 		__this->___U3CU3E2__current = NULL;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___U3CU3E2__current), (void*)NULL);
 		__this->___U3CU3E1__state = 3;
@@ -14294,19 +14294,19 @@ IL_007b:
 IL_0092:
 	{
 		__this->___U3CU3E1__state = (-1);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:54>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:54>
 		__this->___U3CtimeElapseU3E5__1 = (0.0f);
 		goto IL_00d1;
 	}
 
 IL_00a6:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:58>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:58>
 		float L_4 = __this->___U3CtimeElapseU3E5__1;
 		float L_5;
 		L_5 = Time_get_deltaTime_mC3195000401F0FD167DD2F948FD2BC58330D0865(NULL);
 		__this->___U3CtimeElapseU3E5__1 = ((float)il2cpp_codegen_add(L_4, L_5));
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:59>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:59>
 		__this->___U3CU3E2__current = NULL;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___U3CU3E2__current), (void*)NULL);
 		__this->___U3CU3E1__state = 4;
@@ -14320,7 +14320,7 @@ IL_00c9:
 
 IL_00d1:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:56>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:56>
 		XREALTrackingModeChangeListener_t9860ECA7BDB42CFA44CD8C724D8BDE7D13B8BF68* L_6 = __this->___U3CU3E4__this;
 		NullCheck(L_6);
 		bool L_7 = L_6->___m_IsTrackingTypeChanging;
@@ -14350,7 +14350,7 @@ IL_00ee:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:61>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:61>
 		XREALTrackingModeChangeListener_t9860ECA7BDB42CFA44CD8C724D8BDE7D13B8BF68* L_10 = __this->___U3CU3E4__this;
 		NullCheck(L_10);
 		WaitForSeconds_tF179DF251655B8DF044952E70A60DF4B358A3DD3* L_11 = L_10->___m_Delay;
@@ -14363,18 +14363,18 @@ IL_00ee:
 IL_010c:
 	{
 		__this->___U3CU3E1__state = (-1);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:62>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:62>
 		XREALTrackingModeChangeListener_t9860ECA7BDB42CFA44CD8C724D8BDE7D13B8BF68* L_12 = __this->___U3CU3E4__this;
 		NullCheck(L_12);
 		XREALTrackingTypeChangeMask_t199E6C71320D7828FA781BD7B7E1852D0E4EBFF2* L_13 = L_12->___m_TrackingTypeChangeMask;
 		NullCheck(L_13);
 		XREALTrackingTypeChangeMask_Hide_m2933D2713D6FBC8274221AF0858D35E79BF2A671(L_13, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:63>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:63>
 		XREALTrackingModeChangeListener_t9860ECA7BDB42CFA44CD8C724D8BDE7D13B8BF68* L_14 = __this->___U3CU3E4__this;
 		NullCheck(L_14);
 		L_14->___m_FadeCoroutine = (Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B*)NULL;
 		Il2CppCodeGenWriteBarrier((void**)(&L_14->___m_FadeCoroutine), (void*)(Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B*)NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:64>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingModeChangeListener.cs:64>
 		return (bool)0;
 	}
 }
@@ -14423,7 +14423,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALTrackingTypeChangeMask_Awake_m997E3
 	bool V_0 = false;
 	Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* V_1 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:19>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:19>
 		Camera_tA92CC927D7439999BC82DBEDC0AA45B470F9E184* L_0;
 		L_0 = XREALUtility_get_MainCamera_mA1A6B932FC5F81C5AFBCF333C4F93EF2330F0D76(NULL);
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
@@ -14437,20 +14437,20 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALTrackingTypeChangeMask_Awake_m997E3
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:21>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:21>
 		Camera_tA92CC927D7439999BC82DBEDC0AA45B470F9E184* L_3;
 		L_3 = XREALUtility_get_MainCamera_mA1A6B932FC5F81C5AFBCF333C4F93EF2330F0D76(NULL);
 		NullCheck(L_3);
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_4;
 		L_4 = Component_get_transform_m2919A1D81931E6932C7F06D4C2F0AB8DDA9A5371(L_3, NULL);
 		V_1 = L_4;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:22>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:22>
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_5;
 		L_5 = Component_get_transform_m2919A1D81931E6932C7F06D4C2F0AB8DDA9A5371(__this, NULL);
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_6 = V_1;
 		NullCheck(L_5);
 		Transform_SetParent_m9BDD7B7476714B2D7919B10BDC22CE75C0A0A195(L_5, L_6, (bool)0, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:23>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:23>
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_7;
 		L_7 = Component_get_transform_m2919A1D81931E6932C7F06D4C2F0AB8DDA9A5371(__this, NULL);
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_8;
@@ -14465,11 +14465,11 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALTrackingTypeChangeMask_Awake_m997E3
 
 IL_004b:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:25>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:25>
 		SpriteRenderer_t1DD7FE258F072E1FA87D6577BA27225892B8047B* L_11 = __this->___m_FullScreenMask;
 		NullCheck(L_11);
 		Renderer_set_sortingOrder_m4C67F002AD68CA0D55D20D6B78CDED3DB24467DA(L_11, ((int32_t)32767), NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:26>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:26>
 		return;
 	}
 }
@@ -14478,7 +14478,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALTrackingTypeChangeMask_Show_mD58405
 {
 	bool V_0 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:33>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:33>
 		Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B* L_0 = __this->___m_FadeCoroutine;
 		V_0 = (bool)((!(((RuntimeObject*)(Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B*)L_0) <= ((RuntimeObject*)(RuntimeObject*)NULL)))? 1 : 0);
 		bool L_1 = V_0;
@@ -14488,21 +14488,21 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALTrackingTypeChangeMask_Show_mD58405
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:35>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:35>
 		Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B* L_2 = __this->___m_FadeCoroutine;
 		MonoBehaviour_StopCoroutine_mB0FC91BE84203BD8E360B3FBAE5B958B4C5ED22A(__this, L_2, NULL);
 	}
 
 IL_001d:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:37>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:37>
 		RuntimeObject* L_3;
 		L_3 = XREALTrackingTypeChangeMask_Fade_m09445253B4C3BA412422AECBC3CB04B02674E79B(__this, (1.0f), (0.0f), NULL);
 		Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B* L_4;
 		L_4 = MonoBehaviour_StartCoroutine_m4CAFF732AA28CD3BDC5363B44A863575530EC812(__this, L_3, NULL);
 		__this->___m_FadeCoroutine = L_4;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___m_FadeCoroutine), (void*)L_4);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:38>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:38>
 		return;
 	}
 }
@@ -14511,7 +14511,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALTrackingTypeChangeMask_Hide_m2933D2
 {
 	bool V_0 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:45>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:45>
 		Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B* L_0 = __this->___m_FadeCoroutine;
 		V_0 = (bool)((!(((RuntimeObject*)(Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B*)L_0) <= ((RuntimeObject*)(RuntimeObject*)NULL)))? 1 : 0);
 		bool L_1 = V_0;
@@ -14521,21 +14521,21 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALTrackingTypeChangeMask_Hide_m2933D2
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:47>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:47>
 		Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B* L_2 = __this->___m_FadeCoroutine;
 		MonoBehaviour_StopCoroutine_mB0FC91BE84203BD8E360B3FBAE5B958B4C5ED22A(__this, L_2, NULL);
 	}
 
 IL_001d:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:49>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:49>
 		RuntimeObject* L_3;
 		L_3 = XREALTrackingTypeChangeMask_Fade_m09445253B4C3BA412422AECBC3CB04B02674E79B(__this, (0.0f), (1.0f), NULL);
 		Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B* L_4;
 		L_4 = MonoBehaviour_StartCoroutine_m4CAFF732AA28CD3BDC5363B44A863575530EC812(__this, L_3, NULL);
 		__this->___m_FadeCoroutine = L_4;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___m_FadeCoroutine), (void*)L_4);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:50>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:50>
 		return;
 	}
 }
@@ -14648,13 +14648,13 @@ IL_0019:
 IL_001b:
 	{
 		__this->___U3CU3E1__state = (-1);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:54>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:54>
 		XREALTrackingTypeChangeMask_t199E6C71320D7828FA781BD7B7E1852D0E4EBFF2* L_3 = __this->___U3CU3E4__this;
 		NullCheck(L_3);
 		SpriteRenderer_t1DD7FE258F072E1FA87D6577BA27225892B8047B* L_4 = L_3->___m_FullScreenMask;
 		NullCheck(L_4);
 		Renderer_set_enabled_m015E6D7B825528A31182F267234CC6A925F71DA8(L_4, (bool)1, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:55>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:55>
 		XREALTrackingTypeChangeMask_t199E6C71320D7828FA781BD7B7E1852D0E4EBFF2* L_5 = __this->___U3CU3E4__this;
 		NullCheck(L_5);
 		SpriteRenderer_t1DD7FE258F072E1FA87D6577BA27225892B8047B* L_6 = L_5->___m_FullScreenMask;
@@ -14667,28 +14667,28 @@ IL_001b:
 		Color__ctor_m3786F0D6E510D9CFA544523A955870BD2A514C8C_inline((&L_9), (0.0f), (0.0f), (0.0f), ((float)il2cpp_codegen_subtract((1.0f), L_8)), NULL);
 		NullCheck(L_7);
 		Material_set_color_m5C32DEBB215FF9EE35E7B575297D8C2F29CC2A2D(L_7, L_9, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:56>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:56>
 		__this->___U3CtimeElapseU3E5__1 = (0.0f);
 		goto IL_0143;
 	}
 
 IL_007b:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:59>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:59>
 		float L_10 = __this->___U3CtimeElapseU3E5__1;
 		float L_11;
 		L_11 = Time_get_deltaTime_mC3195000401F0FD167DD2F948FD2BC58330D0865(NULL);
 		__this->___U3CtimeElapseU3E5__1 = ((float)il2cpp_codegen_add(L_10, L_11));
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:60>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:60>
 		float L_12 = __this->___U3CtimeElapseU3E5__1;
 		float L_13 = __this->___fadeTime;
 		__this->___U3CpercentU3E5__2 = ((float)(L_12/L_13));
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:61>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:61>
 		float L_14 = __this->___U3CpercentU3E5__2;
 		float L_15;
 		L_15 = Mathf_Clamp_mEB9AEA827D27D20FCC787F7375156AF46BB12BBF_inline(L_14, (0.0f), (1.0f), NULL);
 		__this->___U3CpercentU3E5__2 = L_15;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:62>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:62>
 		XREALTrackingTypeChangeMask_t199E6C71320D7828FA781BD7B7E1852D0E4EBFF2* L_16 = __this->___U3CU3E4__this;
 		NullCheck(L_16);
 		AnimationCurve_tCBFFAAD05CEBB35EF8D8631BD99914BE1A6BB354* L_17 = L_16->___m_AnimationCurve;
@@ -14697,14 +14697,14 @@ IL_007b:
 		float L_19;
 		L_19 = AnimationCurve_Evaluate_m50B857043DE251A186032ADBCBB4CEF817F4EE3C(L_17, L_18, NULL);
 		__this->___U3CpercentU3E5__2 = L_19;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:63>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:63>
 		float L_20 = __this->___endAlpha;
 		float L_21 = __this->___endAlpha;
 		float L_22 = __this->___U3CpercentU3E5__2;
 		float L_23;
 		L_23 = Mathf_Lerp_m47EF2FFB7647BD0A1FDC26DC03E28B19812139B5_inline(((float)il2cpp_codegen_subtract((1.0f), L_20)), L_21, L_22, NULL);
 		__this->___U3CpercentU3E5__2 = L_23;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:64>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:64>
 		XREALTrackingTypeChangeMask_t199E6C71320D7828FA781BD7B7E1852D0E4EBFF2* L_24 = __this->___U3CU3E4__this;
 		NullCheck(L_24);
 		SpriteRenderer_t1DD7FE258F072E1FA87D6577BA27225892B8047B* L_25 = L_24->___m_FullScreenMask;
@@ -14717,7 +14717,7 @@ IL_007b:
 		Color__ctor_m3786F0D6E510D9CFA544523A955870BD2A514C8C_inline((&L_28), (0.0f), (0.0f), (0.0f), L_27, NULL);
 		NullCheck(L_26);
 		Material_set_color_m5C32DEBB215FF9EE35E7B575297D8C2F29CC2A2D(L_26, L_28, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:65>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:65>
 		__this->___U3CU3E2__current = NULL;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___U3CU3E2__current), (void*)NULL);
 		__this->___U3CU3E1__state = 1;
@@ -14731,7 +14731,7 @@ IL_013b:
 
 IL_0143:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:57>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:57>
 		float L_29 = __this->___U3CtimeElapseU3E5__1;
 		float L_30 = __this->___fadeTime;
 		V_1 = (bool)((((int32_t)((!(((float)L_29) <= ((float)L_30)))? 1 : 0)) == ((int32_t)0))? 1 : 0);
@@ -14742,7 +14742,7 @@ IL_0143:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:67>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:67>
 		float L_32 = __this->___endAlpha;
 		V_2 = (bool)((((float)L_32) == ((float)(0.0f)))? 1 : 0);
 		bool L_33 = V_2;
@@ -14752,7 +14752,7 @@ IL_0143:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:68>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:68>
 		XREALTrackingTypeChangeMask_t199E6C71320D7828FA781BD7B7E1852D0E4EBFF2* L_34 = __this->___U3CU3E4__this;
 		NullCheck(L_34);
 		SpriteRenderer_t1DD7FE258F072E1FA87D6577BA27225892B8047B* L_35 = L_34->___m_FullScreenMask;
@@ -14762,12 +14762,12 @@ IL_0143:
 
 IL_017e:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:69>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:69>
 		XREALTrackingTypeChangeMask_t199E6C71320D7828FA781BD7B7E1852D0E4EBFF2* L_36 = __this->___U3CU3E4__this;
 		NullCheck(L_36);
 		L_36->___m_FadeCoroutine = (Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B*)NULL;
 		Il2CppCodeGenWriteBarrier((void**)(&L_36->___m_FadeCoroutine), (void*)(Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B*)NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:70>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALTrackingTypeChangeMask.cs:70>
 		return (bool)0;
 	}
 }
@@ -14820,7 +14820,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Camera_tA92CC927D7439999BC82DBEDC0AA45B470F9E
 	Camera_tA92CC927D7439999BC82DBEDC0AA45B470F9E184* V_2 = NULL;
 	Camera_tA92CC927D7439999BC82DBEDC0AA45B470F9E184* G_B4_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:24>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:24>
 		Camera_tA92CC927D7439999BC82DBEDC0AA45B470F9E184* L_0 = ((XREALUtility_t04215B1AF93ED59824349F751FD7E8EE4A765397_StaticFields*)il2cpp_codegen_static_fields_for(XREALUtility_t04215B1AF93ED59824349F751FD7E8EE4A765397_il2cpp_TypeInfo_var))->___mainCamera;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_1;
@@ -14833,11 +14833,11 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Camera_tA92CC927D7439999BC82DBEDC0AA45B470F9E
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:26>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:26>
 		XROrigin_t5E534A6D886991AF3C1C64127E19A3A510009CFE* L_3;
 		L_3 = XREALUtility_FindAnyObjectByType_TisXROrigin_t5E534A6D886991AF3C1C64127E19A3A510009CFE_m02CA6743183FC2556783F5DFB9862572C70CFC0B(XREALUtility_FindAnyObjectByType_TisXROrigin_t5E534A6D886991AF3C1C64127E19A3A510009CFE_m02CA6743183FC2556783F5DFB9862572C70CFC0B_RuntimeMethod_var);
 		V_1 = L_3;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:27>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:27>
 		XROrigin_t5E534A6D886991AF3C1C64127E19A3A510009CFE* L_4 = V_1;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_5;
@@ -14869,7 +14869,7 @@ IL_0029:
 
 IL_002f:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:29>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:29>
 		Camera_tA92CC927D7439999BC82DBEDC0AA45B470F9E184* L_8 = ((XREALUtility_t04215B1AF93ED59824349F751FD7E8EE4A765397_StaticFields*)il2cpp_codegen_static_fields_for(XREALUtility_t04215B1AF93ED59824349F751FD7E8EE4A765397_il2cpp_TypeInfo_var))->___mainCamera;
 		V_2 = L_8;
 		goto IL_0037;
@@ -14877,7 +14877,7 @@ IL_002f:
 
 IL_0037:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:30>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:30>
 		Camera_tA92CC927D7439999BC82DBEDC0AA45B470F9E184* L_9 = V_2;
 		return L_9;
 	}
@@ -14896,7 +14896,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR XRLoader_t80B1B1934C40561C5352ABC95D567DC2A7C
 	XRLoader_t80B1B1934C40561C5352ABC95D567DC2A7C9C976* V_1 = NULL;
 	int32_t G_B3_0 = 0;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:53>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:53>
 		il2cpp_codegen_runtime_class_init_inline(XRGeneralSettings_t8F8D096944606B5AD845D010706BF7094ADEC8CE_il2cpp_TypeInfo_var);
 		XRGeneralSettings_t8F8D096944606B5AD845D010706BF7094ADEC8CE* L_0;
 		L_0 = XRGeneralSettings_get_Instance_m9F222F982E62E066E119754858D8E73CFE42048C(NULL);
@@ -14937,7 +14937,7 @@ IL_0021:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:55>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:55>
 		il2cpp_codegen_runtime_class_init_inline(XRGeneralSettings_t8F8D096944606B5AD845D010706BF7094ADEC8CE_il2cpp_TypeInfo_var);
 		XRGeneralSettings_t8F8D096944606B5AD845D010706BF7094ADEC8CE* L_6;
 		L_6 = XRGeneralSettings_get_Instance_m9F222F982E62E066E119754858D8E73CFE42048C(NULL);
@@ -14953,14 +14953,14 @@ IL_0021:
 
 IL_0038:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:58>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:58>
 		V_1 = (XRLoader_t80B1B1934C40561C5352ABC95D567DC2A7C9C976*)NULL;
 		goto IL_003c;
 	}
 
 IL_003c:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:59>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:59>
 		XRLoader_t80B1B1934C40561C5352ABC95D567DC2A7C9C976* L_9 = V_1;
 		return L_9;
 	}
@@ -14976,7 +14976,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALUtility_IsLoaderActive_mDC682AA6CB4
 	}
 	bool V_0 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:72>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:72>
 		XRLoader_t80B1B1934C40561C5352ABC95D567DC2A7C9C976* L_0;
 		L_0 = XREALUtility_GetActiveLoader_mB249AC549BCF4E28EC659BAFE8834F1C423D3276(NULL);
 		V_0 = (bool)((!(((RuntimeObject*)(XREALXRLoader_t82E1123E8369F1ECCB047ACAAF1B258F2C071064*)((XREALXRLoader_t82E1123E8369F1ECCB047ACAAF1B258F2C071064*)IsInstClass((RuntimeObject*)L_0, XREALXRLoader_t82E1123E8369F1ECCB047ACAAF1B258F2C071064_il2cpp_TypeInfo_var))) <= ((RuntimeObject*)(RuntimeObject*)NULL)))? 1 : 0);
@@ -14985,7 +14985,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALUtility_IsLoaderActive_mDC682AA6CB4
 
 IL_0011:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:74>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:74>
 		bool L_1 = V_0;
 		return L_1;
 	}
@@ -15013,14 +15013,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALUtility_GetXRRenderParameter_m8E2B0
 	int32_t G_B8_0 = 0;
 	int32_t G_B14_0 = 0;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:99>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:99>
 		XRRenderParameter_t0C786C9DBEFFCAD6204039BD181B412B69F95260* L_0 = ___1_parameter;
 		il2cpp_codegen_initobj(L_0, sizeof(XRRenderParameter_t0C786C9DBEFFCAD6204039BD181B412B69F95260));
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:100>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:100>
 		XRDisplaySubsystem_t4B00B0BF1894A039ACFA8DDC2C2EB9301118C1F1* L_1;
 		L_1 = XREALUtility_GetLoadedSubsystem_TisXRDisplaySubsystem_t4B00B0BF1894A039ACFA8DDC2C2EB9301118C1F1_m62849A1562B193BC92EDC7289B5BAF411E4D36A9(XREALUtility_GetLoadedSubsystem_TisXRDisplaySubsystem_t4B00B0BF1894A039ACFA8DDC2C2EB9301118C1F1_m62849A1562B193BC92EDC7289B5BAF411E4D36A9_RuntimeMethod_var);
 		V_0 = L_1;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:101>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:101>
 		XRDisplaySubsystem_t4B00B0BF1894A039ACFA8DDC2C2EB9301118C1F1* L_2 = V_0;
 		V_6 = (bool)((((RuntimeObject*)(XRDisplaySubsystem_t4B00B0BF1894A039ACFA8DDC2C2EB9301118C1F1*)L_2) == ((RuntimeObject*)(RuntimeObject*)NULL))? 1 : 0);
 		bool L_3 = V_6;
@@ -15030,20 +15030,20 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALUtility_GetXRRenderParameter_m8E2B0
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:102>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:102>
 		V_7 = (bool)0;
 		goto IL_0087;
 	}
 
 IL_001d:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:104>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:104>
 		XRDisplaySubsystem_t4B00B0BF1894A039ACFA8DDC2C2EB9301118C1F1* L_4 = V_0;
 		NullCheck(L_4);
 		int32_t L_5;
 		L_5 = XRDisplaySubsystem_GetRenderPassCount_m75514B28F1542BF4999E1BC0EEBF9561DA1835C6(L_4, NULL);
 		V_1 = L_5;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:105>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:105>
 		int32_t L_6 = V_1;
 		V_8 = (bool)((((int32_t)L_6) == ((int32_t)0))? 1 : 0);
 		bool L_7 = V_8;
@@ -15053,14 +15053,14 @@ IL_001d:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:106>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:106>
 		V_7 = (bool)0;
 		goto IL_0087;
 	}
 
 IL_0033:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:108>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:108>
 		int32_t L_8 = V_1;
 		if ((!(((uint32_t)L_8) == ((uint32_t)2))))
 		{
@@ -15089,16 +15089,16 @@ IL_003e:
 IL_003f:
 	{
 		V_2 = G_B8_0;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:109>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:109>
 		XRDisplaySubsystem_t4B00B0BF1894A039ACFA8DDC2C2EB9301118C1F1* L_10 = V_0;
 		int32_t L_11 = V_2;
 		NullCheck(L_10);
 		XRDisplaySubsystem_GetRenderPass_m81F4AE299700BFE74AD54F8B036D87CD439E8874(L_10, L_11, (&V_3), NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:110>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:110>
 		int32_t L_12;
 		L_12 = XRRenderPass_GetRenderParameterCount_m8FECAAF96CD4DF45B0786CB19CD169C1C46BE10A((&V_3), NULL);
 		V_4 = L_12;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:111>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:111>
 		int32_t L_13 = V_4;
 		V_9 = (bool)((((int32_t)L_13) == ((int32_t)0))? 1 : 0);
 		bool L_14 = V_9;
@@ -15108,14 +15108,14 @@ IL_003f:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:112>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:112>
 		V_7 = (bool)0;
 		goto IL_0087;
 	}
 
 IL_0063:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:114>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:114>
 		int32_t L_15 = V_4;
 		if ((!(((uint32_t)L_15) == ((uint32_t)2))))
 		{
@@ -15144,20 +15144,20 @@ IL_006f:
 IL_0070:
 	{
 		V_5 = G_B14_0;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:115>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:115>
 		Camera_tA92CC927D7439999BC82DBEDC0AA45B470F9E184* L_17;
 		L_17 = XREALUtility_get_MainCamera_mA1A6B932FC5F81C5AFBCF333C4F93EF2330F0D76(NULL);
 		int32_t L_18 = V_5;
 		XRRenderParameter_t0C786C9DBEFFCAD6204039BD181B412B69F95260* L_19 = ___1_parameter;
 		XRRenderPass_GetRenderParameter_m3526E26F8ABDA52C52BDF163F4EA74B7DE4B6A0B((&V_3), L_17, L_18, L_19, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:116>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:116>
 		V_7 = (bool)1;
 		goto IL_0087;
 	}
 
 IL_0087:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:117>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:117>
 		bool L_20 = V_7;
 		return L_20;
 	}
@@ -15177,14 +15177,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALUtility_IsChildOfCamera_m9FC8DAFA17
 	bool V_3 = false;
 	bool V_4 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:126>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:126>
 		Camera_tA92CC927D7439999BC82DBEDC0AA45B470F9E184* L_0;
 		L_0 = XREALUtility_get_MainCamera_mA1A6B932FC5F81C5AFBCF333C4F93EF2330F0D76(NULL);
 		NullCheck(L_0);
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_1;
 		L_1 = Component_get_transform_m2919A1D81931E6932C7F06D4C2F0AB8DDA9A5371(L_0, NULL);
 		V_0 = L_1;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:127>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:127>
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_2 = ___0_transform;
 		V_1 = L_2;
 		goto IL_0029;
@@ -15192,7 +15192,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALUtility_IsChildOfCamera_m9FC8DAFA17
 
 IL_0010:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:131>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:131>
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_3 = V_1;
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_4 = V_0;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
@@ -15206,14 +15206,14 @@ IL_0010:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:133>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:133>
 		V_3 = (bool)1;
 		goto IL_003a;
 	}
 
 IL_0021:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:135>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:135>
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_7 = V_1;
 		NullCheck(L_7);
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_8;
@@ -15223,7 +15223,7 @@ IL_0021:
 
 IL_0029:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:129>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:129>
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_9 = V_1;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_10;
@@ -15236,14 +15236,14 @@ IL_0029:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:138>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:138>
 		V_3 = (bool)0;
 		goto IL_003a;
 	}
 
 IL_003a:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:139>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:139>
 		bool L_12 = V_3;
 		return L_12;
 	}
@@ -15259,14 +15259,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Pose_t06BA69EAA6E9FAF60056D519A87D25F54AFE797
 	Pose_t06BA69EAA6E9FAF60056D519A87D25F54AFE7971 V_3;
 	memset((&V_3), 0, sizeof(V_3));
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:148>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:148>
 		Camera_tA92CC927D7439999BC82DBEDC0AA45B470F9E184* L_0;
 		L_0 = XREALUtility_get_MainCamera_mA1A6B932FC5F81C5AFBCF333C4F93EF2330F0D76(NULL);
 		NullCheck(L_0);
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_1;
 		L_1 = Component_get_transform_m2919A1D81931E6932C7F06D4C2F0AB8DDA9A5371(L_0, NULL);
 		V_0 = L_1;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:149>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:149>
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_2 = V_0;
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_3 = ___0_transform;
 		NullCheck(L_3);
@@ -15276,7 +15276,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Pose_t06BA69EAA6E9FAF60056D519A87D25F54AFE797
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_5;
 		L_5 = Transform_InverseTransformPoint_m18CD395144D9C78F30E15A5B82B6670E792DBA5D(L_2, L_4, NULL);
 		V_1 = L_5;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:150>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:150>
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_6 = V_0;
 		NullCheck(L_6);
 		Quaternion_tDA59F214EF07D7700B26E40E562F267AF7306974 L_7;
@@ -15290,7 +15290,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Pose_t06BA69EAA6E9FAF60056D519A87D25F54AFE797
 		Quaternion_tDA59F214EF07D7700B26E40E562F267AF7306974 L_11;
 		L_11 = Quaternion_op_Multiply_mCB375FCCC12A2EC8F9EB824A1BFB4453B58C2012_inline(L_8, L_10, NULL);
 		V_2 = L_11;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:152>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:152>
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_12 = V_1;
 		Quaternion_tDA59F214EF07D7700B26E40E562F267AF7306974 L_13 = V_2;
 		Pose_t06BA69EAA6E9FAF60056D519A87D25F54AFE7971 L_14;
@@ -15302,7 +15302,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Pose_t06BA69EAA6E9FAF60056D519A87D25F54AFE797
 
 IL_003a:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:153>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:153>
 		Pose_t06BA69EAA6E9FAF60056D519A87D25F54AFE7971 L_15 = V_3;
 		return L_15;
 	}
@@ -15325,14 +15325,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Pose_t06BA69EAA6E9FAF60056D519A87D25F54AFE797
 	Pose_t06BA69EAA6E9FAF60056D519A87D25F54AFE7971 V_4;
 	memset((&V_4), 0, sizeof(V_4));
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:162>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:162>
 		Camera_tA92CC927D7439999BC82DBEDC0AA45B470F9E184* L_0;
 		L_0 = XREALUtility_get_MainCamera_mA1A6B932FC5F81C5AFBCF333C4F93EF2330F0D76(NULL);
 		NullCheck(L_0);
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_1;
 		L_1 = Component_get_transform_m2919A1D81931E6932C7F06D4C2F0AB8DDA9A5371(L_0, NULL);
 		V_0 = L_1;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:164>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:164>
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_2 = V_0;
 		NullCheck(L_2);
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_3;
@@ -15348,7 +15348,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Pose_t06BA69EAA6E9FAF60056D519A87D25F54AFE797
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:166>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:166>
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_6 = V_0;
 		NullCheck(L_6);
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_7;
@@ -15361,7 +15361,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Pose_t06BA69EAA6E9FAF60056D519A87D25F54AFE797
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_10;
 		L_10 = Transform_InverseTransformPoint_m18CD395144D9C78F30E15A5B82B6670E792DBA5D(L_7, L_9, NULL);
 		V_2 = L_10;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:167>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:167>
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_11 = V_0;
 		NullCheck(L_11);
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_12;
@@ -15378,7 +15378,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Pose_t06BA69EAA6E9FAF60056D519A87D25F54AFE797
 		Quaternion_tDA59F214EF07D7700B26E40E562F267AF7306974 L_17;
 		L_17 = Quaternion_op_Multiply_mCB375FCCC12A2EC8F9EB824A1BFB4453B58C2012_inline(L_14, L_16, NULL);
 		V_3 = L_17;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:168>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:168>
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_18 = V_2;
 		Quaternion_tDA59F214EF07D7700B26E40E562F267AF7306974 L_19 = V_3;
 		Pose_t06BA69EAA6E9FAF60056D519A87D25F54AFE7971 L_20;
@@ -15390,7 +15390,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Pose_t06BA69EAA6E9FAF60056D519A87D25F54AFE797
 
 IL_0056:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:172>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:172>
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_21 = ___0_transform;
 		NullCheck(L_21);
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_22;
@@ -15408,7 +15408,7 @@ IL_0056:
 
 IL_006c:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:174>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:174>
 		Pose_t06BA69EAA6E9FAF60056D519A87D25F54AFE7971 L_26 = V_4;
 		return L_26;
 	}
@@ -15429,7 +15429,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALUtility_SaveRenderTextureToFile_m15
 	RenderTexture_tBA90C4C3AD9EECCFDDCC632D97C29FAB80D60D27* V_1 = NULL;
 	ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* V_2 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:212>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:212>
 		RenderTexture_tBA90C4C3AD9EECCFDDCC632D97C29FAB80D60D27* L_0 = ___0_renderTexture;
 		NullCheck(L_0);
 		int32_t L_1;
@@ -15441,14 +15441,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALUtility_SaveRenderTextureToFile_m15
 		Texture2D_tE6505BC111DD8A424A9DBE8E05D7D09E11FFFCF4* L_4 = (Texture2D_tE6505BC111DD8A424A9DBE8E05D7D09E11FFFCF4*)il2cpp_codegen_object_new(Texture2D_tE6505BC111DD8A424A9DBE8E05D7D09E11FFFCF4_il2cpp_TypeInfo_var);
 		Texture2D__ctor_mECF60A9EC0638EC353C02C8E99B6B465D23BE917(L_4, L_1, L_3, 3, (bool)0, NULL);
 		V_0 = L_4;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:213>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:213>
 		RenderTexture_tBA90C4C3AD9EECCFDDCC632D97C29FAB80D60D27* L_5;
 		L_5 = RenderTexture_get_active_mA4434B3E79DEF2C01CAE0A53061598B16443C9E7(NULL);
 		V_1 = L_5;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:214>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:214>
 		RenderTexture_tBA90C4C3AD9EECCFDDCC632D97C29FAB80D60D27* L_6 = ___0_renderTexture;
 		RenderTexture_set_active_m5EE8E2327EF9B306C1425014CC34C41A8384E7AB(L_6, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:215>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:215>
 		Texture2D_tE6505BC111DD8A424A9DBE8E05D7D09E11FFFCF4* L_7 = V_0;
 		RenderTexture_tBA90C4C3AD9EECCFDDCC632D97C29FAB80D60D27* L_8 = ___0_renderTexture;
 		NullCheck(L_8);
@@ -15463,33 +15463,33 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALUtility_SaveRenderTextureToFile_m15
 		Rect__ctor_m18C3033D135097BEE424AAA68D91C706D2647F23_inline((&L_12), (0.0f), (0.0f), ((float)L_9), ((float)L_11), NULL);
 		NullCheck(L_7);
 		Texture2D_ReadPixels_m6B45DF7C051BF599C72ED09691F21A6C769EEBD9(L_7, L_12, 0, 0, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:216>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:216>
 		Texture2D_tE6505BC111DD8A424A9DBE8E05D7D09E11FFFCF4* L_13 = V_0;
 		NullCheck(L_13);
 		Texture2D_Apply_mA014182C9EE0BBF6EEE3B286854F29E50EB972DC(L_13, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:217>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:217>
 		RenderTexture_tBA90C4C3AD9EECCFDDCC632D97C29FAB80D60D27* L_14 = V_1;
 		RenderTexture_set_active_m5EE8E2327EF9B306C1425014CC34C41A8384E7AB(L_14, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:218>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:218>
 		Texture2D_tE6505BC111DD8A424A9DBE8E05D7D09E11FFFCF4* L_15 = V_0;
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_16;
 		L_16 = ImageConversion_EncodeToPNG_m0804AD31B83C653AEBB234F6CC31A02D4FA7C945(L_15, NULL);
 		V_2 = L_16;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:222>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:222>
 		Texture2D_tE6505BC111DD8A424A9DBE8E05D7D09E11FFFCF4* L_17 = V_0;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		Object_Destroy_mE97D0A766419A81296E8D4E5C23D01D3FE91ACBB(L_17, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:224>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:224>
 		String_t* L_18 = ___1_filePath;
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_19 = V_2;
 		File_WriteAllBytes_mC491031DA14AA9B591F62D6AD0181D090E081077(L_18, L_19, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:225>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:225>
 		String_t* L_20 = ___1_filePath;
 		String_t* L_21;
 		L_21 = String_Concat_m9E3155FB84015C823606188F53B47CB44C444991(_stringLiteralC4FA8C51E70B6D24C4FAA44E2B024E20BFEFD05F, L_20, NULL);
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(L_21, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:226>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:226>
 		return;
 	}
 }
@@ -15511,11 +15511,11 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALUtility_SaveXRRenderTextureToFile_m
 	bool V_2 = false;
 	bool V_3 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:235>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:235>
 		XRDisplaySubsystem_t4B00B0BF1894A039ACFA8DDC2C2EB9301118C1F1* L_0;
 		L_0 = XREALUtility_GetLoadedSubsystem_TisXRDisplaySubsystem_t4B00B0BF1894A039ACFA8DDC2C2EB9301118C1F1_m62849A1562B193BC92EDC7289B5BAF411E4D36A9(XREALUtility_GetLoadedSubsystem_TisXRDisplaySubsystem_t4B00B0BF1894A039ACFA8DDC2C2EB9301118C1F1_m62849A1562B193BC92EDC7289B5BAF411E4D36A9_RuntimeMethod_var);
 		V_0 = L_0;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:236>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:236>
 		XRDisplaySubsystem_t4B00B0BF1894A039ACFA8DDC2C2EB9301118C1F1* L_1 = V_0;
 		V_2 = (bool)((((RuntimeObject*)(XRDisplaySubsystem_t4B00B0BF1894A039ACFA8DDC2C2EB9301118C1F1*)L_1) == ((RuntimeObject*)(RuntimeObject*)NULL))? 1 : 0);
 		bool L_2 = V_2;
@@ -15525,23 +15525,23 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALUtility_SaveXRRenderTextureToFile_m
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:238>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:238>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_LogError_mB00B2B4468EF3CAF041B038D840820FB84C924B2(_stringLiteral24ED3D70F8C3ECBF14F5A4AAC9C0E483F8FBF68D, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:239>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:239>
 		goto IL_0049;
 	}
 
 IL_001d:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:241>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:241>
 		XRDisplaySubsystem_t4B00B0BF1894A039ACFA8DDC2C2EB9301118C1F1* L_3 = V_0;
 		int32_t L_4 = ___1_renderPassIndex;
 		NullCheck(L_3);
 		RenderTexture_tBA90C4C3AD9EECCFDDCC632D97C29FAB80D60D27* L_5;
 		L_5 = XRDisplaySubsystem_GetRenderTextureForRenderPass_mC51FADA3F1607DF45ECDBF8018049819E09850DE(L_3, L_4, NULL);
 		V_1 = L_5;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:242>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:242>
 		RenderTexture_tBA90C4C3AD9EECCFDDCC632D97C29FAB80D60D27* L_6 = V_1;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_7;
@@ -15554,7 +15554,7 @@ IL_001d:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:244>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:244>
 		RenderTexture_tBA90C4C3AD9EECCFDDCC632D97C29FAB80D60D27* L_9 = V_1;
 		String_t* L_10 = ___0_filePath;
 		XREALUtility_SaveRenderTextureToFile_m15D2A0512153A32694A6AEC515405F5D96850998(L_9, L_10, NULL);
@@ -15563,14 +15563,14 @@ IL_001d:
 
 IL_003c:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:248>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:248>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_LogError_mB00B2B4468EF3CAF041B038D840820FB84C924B2(_stringLiteralCFE48E1933B9A70DF20EADD012F61C94600EFAAE, NULL);
 	}
 
 IL_0049:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:250>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:250>
 		return;
 	}
 }
@@ -15592,7 +15592,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR AndroidJavaObject_t8FFB930F335C1178405B82AC2B
 	AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03* V_1 = NULL;
 	AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0* V_2 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:262>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:262>
 		AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0* L_0 = ((XREALUtility_t04215B1AF93ED59824349F751FD7E8EE4A765397_StaticFields*)il2cpp_codegen_static_fields_for(XREALUtility_t04215B1AF93ED59824349F751FD7E8EE4A765397_il2cpp_TypeInfo_var))->___s_UnityActivity;
 		V_0 = (bool)((((RuntimeObject*)(AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0*)L_0) == ((RuntimeObject*)(RuntimeObject*)NULL))? 1 : 0);
 		bool L_1 = V_0;
@@ -15602,7 +15602,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR AndroidJavaObject_t8FFB930F335C1178405B82AC2B
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:264>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:264>
 		AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03* L_2 = (AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03*)il2cpp_codegen_object_new(AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03_il2cpp_TypeInfo_var);
 		AndroidJavaClass__ctor_mB5466169E1151B8CC44C8FED234D79984B431389(L_2, _stringLiteral4D613657609485AE586A3379BA0E3FC13C1E1078, NULL);
 		V_1 = L_2;
@@ -15634,7 +15634,7 @@ IL_0035:
 		});
 		try
 		{
-			//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:265>
+			//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:265>
 			AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03* L_5 = V_1;
 			NullCheck(L_5);
 			AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0* L_6;
@@ -15655,7 +15655,7 @@ IL_0036:
 
 IL_0037:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:267>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:267>
 		AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0* L_7 = ((XREALUtility_t04215B1AF93ED59824349F751FD7E8EE4A765397_StaticFields*)il2cpp_codegen_static_fields_for(XREALUtility_t04215B1AF93ED59824349F751FD7E8EE4A765397_il2cpp_TypeInfo_var))->___s_UnityActivity;
 		V_2 = L_7;
 		goto IL_003f;
@@ -15663,7 +15663,7 @@ IL_0037:
 
 IL_003f:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:268>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:268>
 		AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0* L_8 = V_2;
 		return L_8;
 	}
@@ -15681,7 +15681,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALUtility_RunOnUiThread_m88FC4AD4A503
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:277>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:277>
 		AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0* L_0;
 		L_0 = XREALUtility_get_UnityActivity_m3861E3FA2E9AD84614351BEA55C2C45E440BEC35(NULL);
 		ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_1 = (ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918*)(ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918*)SZArrayNew(ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918_il2cpp_TypeInfo_var, (uint32_t)1);
@@ -15694,7 +15694,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALUtility_RunOnUiThread_m88FC4AD4A503
 		(L_2)->SetAt(static_cast<il2cpp_array_size_t>(0), (RuntimeObject*)L_4);
 		NullCheck(L_0);
 		AndroidJavaObject_Call_mDEF7846E2AB1C5379069BB21049ED55A9D837B1C(L_0, _stringLiteral7D5D6BBF8281151C9F5F57DE5D5BABB7140A651D, L_2, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:278>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:278>
 		return;
 	}
 }
@@ -15713,7 +15713,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALUtility_StartAutoLogcat_m23BC9CC6BF
 	}
 	AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03* V_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:282>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:282>
 		AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03* L_0 = (AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03*)il2cpp_codegen_object_new(AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03_il2cpp_TypeInfo_var);
 		AndroidJavaClass__ctor_mB5466169E1151B8CC44C8FED234D79984B431389(L_0, _stringLiteral9B1D9ABF6FE8127C954CC1FCFB242200F624F199, NULL);
 		V_0 = L_0;
@@ -15745,7 +15745,7 @@ IL_0032:
 		});
 		try
 		{
-			//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:283>
+			//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:283>
 			AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03* L_3 = V_0;
 			ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_4 = (ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918*)(ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918*)SZArrayNew(ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918_il2cpp_TypeInfo_var, (uint32_t)1);
 			ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_5 = L_4;
@@ -15756,7 +15756,7 @@ IL_0032:
 			(L_5)->SetAt(static_cast<il2cpp_array_size_t>(0), (RuntimeObject*)L_6);
 			NullCheck(L_3);
 			AndroidJavaObject_CallStatic_mB677DE04369EDD8E6DECAF2F233116EE1F06555C(L_3, _stringLiteral2AD47C03F7A83F82E3B2ADFE8A60F1727FD3BEFD, L_5, NULL);
-			//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:284>
+			//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:284>
 			goto IL_0033;
 		}
 		catch(Il2CppExceptionWrapper& e)
@@ -15767,7 +15767,7 @@ IL_0032:
 
 IL_0033:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:284>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:284>
 		return;
 	}
 }
@@ -15786,7 +15786,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALUtility_StopAutoLogcat_m58779895C3F
 	}
 	AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03* V_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:288>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:288>
 		AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03* L_0 = (AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03*)il2cpp_codegen_object_new(AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03_il2cpp_TypeInfo_var);
 		AndroidJavaClass__ctor_mB5466169E1151B8CC44C8FED234D79984B431389(L_0, _stringLiteral9B1D9ABF6FE8127C954CC1FCFB242200F624F199, NULL);
 		V_0 = L_0;
@@ -15818,13 +15818,13 @@ IL_0029:
 		});
 		try
 		{
-			//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:289>
+			//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:289>
 			AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03* L_3 = V_0;
 			ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_4;
 			L_4 = Array_Empty_TisRuntimeObject_mFB8A63D602BB6974D31E20300D9EB89C6FE7C278_inline(Array_Empty_TisRuntimeObject_mFB8A63D602BB6974D31E20300D9EB89C6FE7C278_RuntimeMethod_var);
 			NullCheck(L_3);
 			AndroidJavaObject_CallStatic_mB677DE04369EDD8E6DECAF2F233116EE1F06555C(L_3, _stringLiteral7FB065FC47DDCF8134948800A310281E12F058C7, L_4, NULL);
-			//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:290>
+			//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:290>
 			goto IL_002a;
 		}
 		catch(Il2CppExceptionWrapper& e)
@@ -15835,7 +15835,7 @@ IL_0029:
 
 IL_002a:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/XREALUtility.cs:290>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/XREALUtility.cs:290>
 		return;
 	}
 }
@@ -18171,18 +18171,18 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALCallbackHandler_OnLoad_m123947B695B
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:161>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:161>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(_stringLiteral676247BC052220787478DD50C367329236431215, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:162>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:162>
 		XREALGlassesEventCallback_t3A314C692DCAB3D61B560CE6023D4FCC3E5CD831* L_0 = (XREALGlassesEventCallback_t3A314C692DCAB3D61B560CE6023D4FCC3E5CD831*)il2cpp_codegen_object_new(XREALGlassesEventCallback_t3A314C692DCAB3D61B560CE6023D4FCC3E5CD831_il2cpp_TypeInfo_var);
 		XREALGlassesEventCallback__ctor_m79D332F48A9882E431A990E37E0D9C77EEE7FF4F(L_0, NULL, (intptr_t)((void*)XREALCallbackHandler_OnGlassesEventCallback_m39CB77FE8AC3401149EA83506660B63E07590CCE_RuntimeMethod_var), NULL);
 		XREALPlugin_SetGlassesEventCallback_mBDD0245B3740FC752F80264F639945C333DD5D84(L_0, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:163>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:163>
 		XREALErrorCallback_t8D574ED31DAF80CA5599D71E7DC2BDF5FA0086F5* L_1 = (XREALErrorCallback_t8D574ED31DAF80CA5599D71E7DC2BDF5FA0086F5*)il2cpp_codegen_object_new(XREALErrorCallback_t8D574ED31DAF80CA5599D71E7DC2BDF5FA0086F5_il2cpp_TypeInfo_var);
 		XREALErrorCallback__ctor_mD0C46E923736FA85C265CD254C4048FFBFAB338C(L_1, NULL, (intptr_t)((void*)XREALCallbackHandler_OnNativeErrorCallback_m85A39EAA0765A42FE4F989E7A0448687D7941BD6_RuntimeMethod_var), NULL);
 		XREALPlugin_SetNativeErrorCallback_m5FBB62CD17B60995AE012CDF14CEB5FCAF79E54C(L_1, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:164>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:164>
 		return;
 	}
 }
@@ -18216,7 +18216,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALCallbackHandler_OnGlassesEventCallb
 		GlassesEventData_t6B8D4A69359299F07F2B70ABDCA8DD47CC403893 L_2 = ___0_data;
 		NullCheck(L_1);
 		L_1->___data = L_2;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:169>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:169>
 		XREALMainThreadDispatcher_t55029193FA11AF0A4699225BB118CC6DC151A480* L_3;
 		L_3 = SingletonMonoBehaviour_1_get_Singleton_m92A59E21C8B8644EEE5C948CE64FC278E64508A9_inline(SingletonMonoBehaviour_1_get_Singleton_m92A59E21C8B8644EEE5C948CE64FC278E64508A9_RuntimeMethod_var);
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
@@ -18230,7 +18230,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALCallbackHandler_OnGlassesEventCallb
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:171>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:171>
 		XREALMainThreadDispatcher_t55029193FA11AF0A4699225BB118CC6DC151A480* L_6;
 		L_6 = SingletonMonoBehaviour_1_get_Singleton_m92A59E21C8B8644EEE5C948CE64FC278E64508A9_inline(SingletonMonoBehaviour_1_get_Singleton_m92A59E21C8B8644EEE5C948CE64FC278E64508A9_RuntimeMethod_var);
 		NullCheck(L_6);
@@ -18265,10 +18265,10 @@ IL_003f:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:173>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:174>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:175>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:176>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:173>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:174>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:175>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:176>
 		il2cpp_codegen_runtime_class_init_inline(U3CU3Ec_t1DEF3994DAEB65E13232D4F8F8EC119778CC8650_il2cpp_TypeInfo_var);
 		Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* L_12 = ((U3CU3Ec_t1DEF3994DAEB65E13232D4F8F8EC119778CC8650_StaticFields*)il2cpp_codegen_static_fields_for(U3CU3Ec_t1DEF3994DAEB65E13232D4F8F8EC119778CC8650_il2cpp_TypeInfo_var))->___U3CU3E9__40_0;
 		Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* L_13 = L_12;
@@ -18300,17 +18300,17 @@ IL_0063:
 
 IL_006c:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:180>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:181>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:182>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:183>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:184>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:185>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:186>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:187>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:188>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:189>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:190>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:180>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:181>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:182>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:183>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:184>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:185>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:186>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:187>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:188>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:189>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:190>
 		XREALMainThreadDispatcher_t55029193FA11AF0A4699225BB118CC6DC151A480* L_18;
 		L_18 = SingletonMonoBehaviour_1_get_Singleton_m92A59E21C8B8644EEE5C948CE64FC278E64508A9_inline(SingletonMonoBehaviour_1_get_Singleton_m92A59E21C8B8644EEE5C948CE64FC278E64508A9_RuntimeMethod_var);
 		U3CU3Ec__DisplayClass40_0_t70E75F85BFF953C80C90DC2900F877329829F1BD* L_19 = V_0;
@@ -18326,7 +18326,7 @@ IL_0085:
 
 IL_0086:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:193>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:193>
 		return;
 	}
 }
@@ -18361,7 +18361,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALCallbackHandler_OnNativeErrorCallba
 		NullCheck(L_3);
 		L_3->___message = L_4;
 		Il2CppCodeGenWriteBarrier((void**)(&L_3->___message), (void*)L_4);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:198>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:198>
 		U3CU3Ec__DisplayClass41_0_t3E200401E6913BC037AC966C7464F80569E827AB* L_5 = V_0;
 		NullCheck(L_5);
 		int32_t L_6 = L_5->___errorCode;
@@ -18374,7 +18374,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALCallbackHandler_OnNativeErrorCallba
 		L_11 = String_Format_mFB7DA489BD99F4670881FF50EC017BFB0A5C0987(_stringLiteral47017BB22EA96D8E84B14C17832253D5E6D1243A, L_8, L_10, NULL);
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(L_11, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:199>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:199>
 		XREALMainThreadDispatcher_t55029193FA11AF0A4699225BB118CC6DC151A480* L_12;
 		L_12 = SingletonMonoBehaviour_1_get_Singleton_m92A59E21C8B8644EEE5C948CE64FC278E64508A9_inline(SingletonMonoBehaviour_1_get_Singleton_m92A59E21C8B8644EEE5C948CE64FC278E64508A9_RuntimeMethod_var);
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
@@ -18388,10 +18388,10 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALCallbackHandler_OnNativeErrorCallba
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:201>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:202>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:203>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:204>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:201>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:202>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:203>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:204>
 		XREALMainThreadDispatcher_t55029193FA11AF0A4699225BB118CC6DC151A480* L_15;
 		L_15 = SingletonMonoBehaviour_1_get_Singleton_m92A59E21C8B8644EEE5C948CE64FC278E64508A9_inline(SingletonMonoBehaviour_1_get_Singleton_m92A59E21C8B8644EEE5C948CE64FC278E64508A9_RuntimeMethod_var);
 		U3CU3Ec__DisplayClass41_0_t3E200401E6913BC037AC966C7464F80569E827AB* L_16 = V_0;
@@ -18403,7 +18403,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALCallbackHandler_OnNativeErrorCallba
 
 IL_005e:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:206>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:206>
 		return;
 	}
 }
@@ -18427,13 +18427,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALCallbackHandler_LogCallback_m5E278C
 	try
 	{
 		{
-			//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:213>
+			//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:213>
 			intptr_t L_0 = ___1_messagePtr;
 			il2cpp_codegen_runtime_class_init_inline(Marshal_tD976A56A90263C3CE2B780D4B1CADADE2E70B4A7_il2cpp_TypeInfo_var);
 			String_t* L_1;
 			L_1 = Marshal_PtrToStringUTF8_m92FA83079A246F29B31EBE30268D67CFD7E1870A(L_0, NULL);
 			V_0 = L_1;
-			//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:214>
+			//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:214>
 			int32_t L_2 = ___0_logType;
 			V_2 = L_2;
 			int32_t L_3 = V_2;
@@ -18462,31 +18462,31 @@ IL_0012_1:
 
 IL_0018_1:
 		{
-			//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:217>
+			//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:217>
 			String_t* L_6 = V_0;
 			il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 			Debug_LogError_mB00B2B4468EF3CAF041B038D840820FB84C924B2(L_6, NULL);
-			//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:218>
+			//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:218>
 			goto IL_0033_1;
 		}
 
 IL_0021_1:
 		{
-			//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:220>
+			//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:220>
 			String_t* L_7 = V_0;
 			il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 			Debug_LogWarning_m33EF1B897E0C7C6FF538989610BFAFFEF4628CA9(L_7, NULL);
-			//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:221>
+			//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:221>
 			goto IL_0033_1;
 		}
 
 IL_002a_1:
 		{
-			//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:223>
+			//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:223>
 			String_t* L_8 = V_0;
 			il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 			Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(L_8, NULL);
-			//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:224>
+			//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:224>
 			goto IL_0033_1;
 		}
 
@@ -18508,9 +18508,9 @@ IL_0033_1:
 CATCH_0036:
 	{
 		Exception_t* L_9 = ((Exception_t*)IL2CPP_GET_ACTIVE_EXCEPTION(Exception_t*));;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:227>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:227>
 		V_3 = L_9;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:229>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:229>
 		Exception_t* L_10 = V_3;
 		NullCheck(L_10);
 		String_t* L_11;
@@ -18525,7 +18525,7 @@ CATCH_0036:
 
 IL_0051:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:231>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:231>
 		return;
 	}
 }
@@ -18541,7 +18541,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALCallbackHandler_InvokeXREALError_m1
 	XREALErrorCallback_t8D574ED31DAF80CA5599D71E7DC2BDF5FA0086F5* G_B2_0 = NULL;
 	XREALErrorCallback_t8D574ED31DAF80CA5599D71E7DC2BDF5FA0086F5* G_B1_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:240>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:240>
 		XREALErrorCallback_t8D574ED31DAF80CA5599D71E7DC2BDF5FA0086F5* L_0 = ((XREALCallbackHandler_t754689F0CC254701F7B4B90BD910699926ED5BCF_StaticFields*)il2cpp_codegen_static_fields_for(XREALCallbackHandler_t754689F0CC254701F7B4B90BD910699926ED5BCF_il2cpp_TypeInfo_var))->___OnXREALError;
 		XREALErrorCallback_t8D574ED31DAF80CA5599D71E7DC2BDF5FA0086F5* L_1 = L_0;
 		if (L_1)
@@ -18565,7 +18565,7 @@ IL_000c:
 
 IL_0014:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:241>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:241>
 		return;
 	}
 }
@@ -18618,7 +18618,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALCallbackHandler_OnGlassesEventHandl
 	XREALGlassesEventCallback_t3A314C692DCAB3D61B560CE6023D4FCC3E5CD831* G_B71_0 = NULL;
 	XREALGlassesEventCallback_t3A314C692DCAB3D61B560CE6023D4FCC3E5CD831* G_B70_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:245>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:245>
 		GlassesEventData_t6B8D4A69359299F07F2B70ABDCA8DD47CC403893 L_0 = ___0_data;
 		int32_t L_1 = L_0.___actionType;
 		V_2 = L_1;
@@ -18757,7 +18757,7 @@ IL_0069:
 
 IL_009a:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:248>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:248>
 		XREALGlassesKeyClickCallback_tACC990962A8C66467B19250A3DBF30546964116B* L_8 = ((XREALCallbackHandler_t754689F0CC254701F7B4B90BD910699926ED5BCF_StaticFields*)il2cpp_codegen_static_fields_for(XREALCallbackHandler_t754689F0CC254701F7B4B90BD910699926ED5BCF_il2cpp_TypeInfo_var))->___OnXREALGlassesKeyClick;
 		XREALGlassesKeyClickCallback_tACC990962A8C66467B19250A3DBF30546964116B* L_9 = L_8;
 		if (L_9)
@@ -18781,13 +18781,13 @@ IL_00a5:
 
 IL_00b2:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:249>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:249>
 		goto IL_0296;
 	}
 
 IL_00b7:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:251>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:251>
 		XREALGlassesKeyClickCallback_tACC990962A8C66467B19250A3DBF30546964116B* L_12 = ((XREALCallbackHandler_t754689F0CC254701F7B4B90BD910699926ED5BCF_StaticFields*)il2cpp_codegen_static_fields_for(XREALCallbackHandler_t754689F0CC254701F7B4B90BD910699926ED5BCF_il2cpp_TypeInfo_var))->___OnXREALGlassesKeyClick;
 		XREALGlassesKeyClickCallback_tACC990962A8C66467B19250A3DBF30546964116B* L_13 = L_12;
 		if (L_13)
@@ -18811,13 +18811,13 @@ IL_00c2:
 
 IL_00cf:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:252>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:252>
 		goto IL_0296;
 	}
 
 IL_00d4:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:254>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:254>
 		XREALGlassesKeyClickCallback_tACC990962A8C66467B19250A3DBF30546964116B* L_16 = ((XREALCallbackHandler_t754689F0CC254701F7B4B90BD910699926ED5BCF_StaticFields*)il2cpp_codegen_static_fields_for(XREALCallbackHandler_t754689F0CC254701F7B4B90BD910699926ED5BCF_il2cpp_TypeInfo_var))->___OnXREALGlassesKeyClick;
 		XREALGlassesKeyClickCallback_tACC990962A8C66467B19250A3DBF30546964116B* L_17 = L_16;
 		if (L_17)
@@ -18841,13 +18841,13 @@ IL_00df:
 
 IL_00ec:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:255>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:255>
 		goto IL_0296;
 	}
 
 IL_00f1:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:258>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:258>
 		XREALGlassesBrightnessCallback_t250D21F7EFEA30EF6C88BE5A2FEF2537A984F670* L_20 = ((XREALCallbackHandler_t754689F0CC254701F7B4B90BD910699926ED5BCF_StaticFields*)il2cpp_codegen_static_fields_for(XREALCallbackHandler_t754689F0CC254701F7B4B90BD910699926ED5BCF_il2cpp_TypeInfo_var))->___OnXREALGlassesBrightness;
 		XREALGlassesBrightnessCallback_t250D21F7EFEA30EF6C88BE5A2FEF2537A984F670* L_21 = L_20;
 		if (L_21)
@@ -18871,13 +18871,13 @@ IL_00fc:
 
 IL_0108:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:259>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:259>
 		goto IL_0296;
 	}
 
 IL_010d:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:262>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:262>
 		XREALGlassesVolumeCallback_t6469980B1DD2307059554B123E1E01AF890EA596* L_24 = ((XREALCallbackHandler_t754689F0CC254701F7B4B90BD910699926ED5BCF_StaticFields*)il2cpp_codegen_static_fields_for(XREALCallbackHandler_t754689F0CC254701F7B4B90BD910699926ED5BCF_il2cpp_TypeInfo_var))->___OnXREALGlassesVolume;
 		XREALGlassesVolumeCallback_t6469980B1DD2307059554B123E1E01AF890EA596* L_25 = L_24;
 		if (L_25)
@@ -18901,13 +18901,13 @@ IL_0118:
 
 IL_0124:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:263>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:263>
 		goto IL_0296;
 	}
 
 IL_0129:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:265>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:265>
 		XREALGlassesECLevelCallback_t497E1C630FCCCA044940A48C813299C9458089AA* L_28 = ((XREALCallbackHandler_t754689F0CC254701F7B4B90BD910699926ED5BCF_StaticFields*)il2cpp_codegen_static_fields_for(XREALCallbackHandler_t754689F0CC254701F7B4B90BD910699926ED5BCF_il2cpp_TypeInfo_var))->___OnXREALGlassesECLevel;
 		XREALGlassesECLevelCallback_t497E1C630FCCCA044940A48C813299C9458089AA* L_29 = L_28;
 		if (L_29)
@@ -18931,13 +18931,13 @@ IL_0134:
 
 IL_0140:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:266>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:266>
 		goto IL_0296;
 	}
 
 IL_0145:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:268>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:268>
 		XREALGlassesDisconnectCallback_t745D3BB4184944ED7BF6EE11111EC822C86401A8* L_32 = ((XREALCallbackHandler_t754689F0CC254701F7B4B90BD910699926ED5BCF_StaticFields*)il2cpp_codegen_static_fields_for(XREALCallbackHandler_t754689F0CC254701F7B4B90BD910699926ED5BCF_il2cpp_TypeInfo_var))->___OnXREALGlassesDisconnect;
 		XREALGlassesDisconnectCallback_t745D3BB4184944ED7BF6EE11111EC822C86401A8* L_33 = L_32;
 		if (L_33)
@@ -18959,15 +18959,15 @@ IL_0150:
 
 IL_0157:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:270>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:270>
 		XREALPlugin_QuitApplication_mFCA4D6147098239B6FA8BFD111DD7F7E1E1DA512((bool)1, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:272>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:272>
 		goto IL_0296;
 	}
 
 IL_0163:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:274>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:274>
 		XREALGlassesDisconnectCallback_t745D3BB4184944ED7BF6EE11111EC822C86401A8* L_34 = ((XREALCallbackHandler_t754689F0CC254701F7B4B90BD910699926ED5BCF_StaticFields*)il2cpp_codegen_static_fields_for(XREALCallbackHandler_t754689F0CC254701F7B4B90BD910699926ED5BCF_il2cpp_TypeInfo_var))->___OnXREALGlassesDisconnect;
 		XREALGlassesDisconnectCallback_t745D3BB4184944ED7BF6EE11111EC822C86401A8* L_35 = L_34;
 		if (L_35)
@@ -18989,15 +18989,15 @@ IL_016e:
 
 IL_0175:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:276>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:276>
 		XREALPlugin_QuitApplication_mFCA4D6147098239B6FA8BFD111DD7F7E1E1DA512((bool)1, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:278>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:278>
 		goto IL_0296;
 	}
 
 IL_0181:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:280>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:280>
 		XREALGlassesKeyStateCallback_t66600EC278D6710874288CA6F5FBB8F57D33F8EE* L_36 = ((XREALCallbackHandler_t754689F0CC254701F7B4B90BD910699926ED5BCF_StaticFields*)il2cpp_codegen_static_fields_for(XREALCallbackHandler_t754689F0CC254701F7B4B90BD910699926ED5BCF_il2cpp_TypeInfo_var))->___OnXREALGlassesKeyState;
 		XREALGlassesKeyStateCallback_t66600EC278D6710874288CA6F5FBB8F57D33F8EE* L_37 = L_36;
 		if (L_37)
@@ -19023,17 +19023,17 @@ IL_018c:
 
 IL_019e:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:281>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:281>
 		goto IL_0296;
 	}
 
 IL_01a3:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:283>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:283>
 		GlassesEventData_t6B8D4A69359299F07F2B70ABDCA8DD47CC403893 L_42 = ___0_data;
 		uint32_t L_43 = L_42.___para;
 		V_0 = L_43;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:284>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:284>
 		int32_t L_44 = V_0;
 		if ((((int32_t)L_44) == ((int32_t)1)))
 		{
@@ -19061,7 +19061,7 @@ IL_01b5:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:285>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:285>
 		XREALGlassesWearingStateCallback_tE0D7409358C79AB9DEBCD0F68789A777E7D6CA4E* L_47 = ((XREALCallbackHandler_t754689F0CC254701F7B4B90BD910699926ED5BCF_StaticFields*)il2cpp_codegen_static_fields_for(XREALCallbackHandler_t754689F0CC254701F7B4B90BD910699926ED5BCF_il2cpp_TypeInfo_var))->___OnXREALGlassesWearingState;
 		XREALGlassesWearingStateCallback_tE0D7409358C79AB9DEBCD0F68789A777E7D6CA4E* L_48 = L_47;
 		if (L_48)
@@ -19084,13 +19084,13 @@ IL_01c4:
 
 IL_01cb:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:286>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:286>
 		goto IL_0296;
 	}
 
 IL_01d0:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:288>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:288>
 		XREALGlassesRGBCameraPlugStateCallback_tBE36E50B4E43E954C9A6A8207BC13700FC8DFAEF* L_50 = ((XREALCallbackHandler_t754689F0CC254701F7B4B90BD910699926ED5BCF_StaticFields*)il2cpp_codegen_static_fields_for(XREALCallbackHandler_t754689F0CC254701F7B4B90BD910699926ED5BCF_il2cpp_TypeInfo_var))->___OnXREALGlassesRGBCameraPlugState;
 		XREALGlassesRGBCameraPlugStateCallback_tBE36E50B4E43E954C9A6A8207BC13700FC8DFAEF* L_51 = L_50;
 		if (L_51)
@@ -19114,13 +19114,13 @@ IL_01db:
 
 IL_01e7:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:289>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:289>
 		goto IL_0296;
 	}
 
 IL_01ec:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:291>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:291>
 		Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* L_54 = ((XREALCallbackHandler_t754689F0CC254701F7B4B90BD910699926ED5BCF_StaticFields*)il2cpp_codegen_static_fields_for(XREALCallbackHandler_t754689F0CC254701F7B4B90BD910699926ED5BCF_il2cpp_TypeInfo_var))->___OnXREALGlassesPowerSave;
 		Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* L_55 = L_54;
 		if (L_55)
@@ -19142,13 +19142,13 @@ IL_01f7:
 
 IL_01fd:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:292>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:292>
 		goto IL_0296;
 	}
 
 IL_0202:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:294>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:294>
 		XREALGlassesTemperatureLevelCallback_t1E1F87D27CEB2DB4A08623097BCF28123E6A7FFA* L_56 = ((XREALCallbackHandler_t754689F0CC254701F7B4B90BD910699926ED5BCF_StaticFields*)il2cpp_codegen_static_fields_for(XREALCallbackHandler_t754689F0CC254701F7B4B90BD910699926ED5BCF_il2cpp_TypeInfo_var))->___OnXREALGlassesTemperatureLevel;
 		XREALGlassesTemperatureLevelCallback_t1E1F87D27CEB2DB4A08623097BCF28123E6A7FFA* L_57 = L_56;
 		if (L_57)
@@ -19172,13 +19172,13 @@ IL_020d:
 
 IL_0219:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:295>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:295>
 		goto IL_0296;
 	}
 
 IL_021b:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:297>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:297>
 		ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_60 = (ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918*)(ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918*)SZArrayNew(ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918_il2cpp_TypeInfo_var, (uint32_t)4);
 		ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_61 = L_60;
 		GlassesEventData_t6B8D4A69359299F07F2B70ABDCA8DD47CC403893 L_62 = ___0_data;
@@ -19216,7 +19216,7 @@ IL_021b:
 		L_81 = String_Format_m918500C1EFB475181349A79989BB79BB36102894(_stringLiteral20988F92B06375CB373241D551D1EB94889BC86D, L_76, NULL);
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(L_81, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:298>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:298>
 		XREALGlassesScreenStatusCallback_t9BEB31CC52FC276D21186B4CC074DE34ABE0B70E* L_82 = ((XREALCallbackHandler_t754689F0CC254701F7B4B90BD910699926ED5BCF_StaticFields*)il2cpp_codegen_static_fields_for(XREALCallbackHandler_t754689F0CC254701F7B4B90BD910699926ED5BCF_il2cpp_TypeInfo_var))->___OnXREALGlassesScreenStatus;
 		XREALGlassesScreenStatusCallback_t9BEB31CC52FC276D21186B4CC074DE34ABE0B70E* L_83 = L_82;
 		if (L_83)
@@ -19240,13 +19240,13 @@ IL_0274:
 
 IL_0280:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:299>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:299>
 		goto IL_0296;
 	}
 
 IL_0282:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:301>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:301>
 		XREALGlassesEventCallback_t3A314C692DCAB3D61B560CE6023D4FCC3E5CD831* L_86 = ((XREALCallbackHandler_t754689F0CC254701F7B4B90BD910699926ED5BCF_StaticFields*)il2cpp_codegen_static_fields_for(XREALCallbackHandler_t754689F0CC254701F7B4B90BD910699926ED5BCF_il2cpp_TypeInfo_var))->___OnGlassesEventExt;
 		XREALGlassesEventCallback_t3A314C692DCAB3D61B560CE6023D4FCC3E5CD831* L_87 = L_86;
 		if (L_87)
@@ -19269,13 +19269,13 @@ IL_028d:
 
 IL_0294:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:302>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:302>
 		goto IL_0296;
 	}
 
 IL_0296:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:304>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:304>
 		return;
 	}
 }
@@ -19316,9 +19316,9 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CU3Ec__ctor_m22BCABD7C0E58D01AF6E1CC54
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CU3Ec_U3COnGlassesEventCallbackU3Eb__40_0_m2B0F511D0E99159DDB059D5572935CECC7E40354 (U3CU3Ec_t1DEF3994DAEB65E13232D4F8F8EC119778CC8650* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:175>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:175>
 		XREALPlugin_QuitApplication_mFCA4D6147098239B6FA8BFD111DD7F7E1E1DA512((bool)0, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:176>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:176>
 		return;
 	}
 }
@@ -19347,7 +19347,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CU3Ec__DisplayClass40_0_U3COnGlassesEv
 	}
 	try
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:184>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:184>
 		GlassesEventData_t6B8D4A69359299F07F2B70ABDCA8DD47CC403893 L_0 = __this->___data;
 		XREALCallbackHandler_OnGlassesEventHandler_m69AFA3491AB099123A7AD1AFDB983CCD485397F5(L_0, NULL);
 		goto IL_001d;
@@ -19365,9 +19365,9 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CU3Ec__DisplayClass40_0_U3COnGlassesEv
 CATCH_0011:
 	{
 		Exception_t* L_1 = ((Exception_t*)IL2CPP_GET_ACTIVE_EXCEPTION(Exception_t*));;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:186>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:186>
 		V_0 = L_1;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:188>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:188>
 		Exception_t* L_2 = V_0;
 		il2cpp_codegen_runtime_class_init_inline(((RuntimeClass*)il2cpp_codegen_initialize_runtime_metadata_inline((uintptr_t*)&Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var)));
 		Debug_LogException_mAB3F4DC7297ED8FBB49DAA718B70E59A6B0171B0(L_2, NULL);
@@ -19377,7 +19377,7 @@ CATCH_0011:
 
 IL_001d:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:190>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:190>
 		return;
 	}
 }
@@ -19401,11 +19401,11 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CU3Ec__DisplayClass41_0__ctor_m40695B9
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CU3Ec__DisplayClass41_0_U3COnNativeErrorCallbackU3Eb__0_mD36F69F47EE4934EE22522C9894509E1E29DB767 (U3CU3Ec__DisplayClass41_0_t3E200401E6913BC037AC966C7464F80569E827AB* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:203>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:203>
 		int32_t L_0 = __this->___errorCode;
 		String_t* L_1 = __this->___message;
 		XREALCallbackHandler_InvokeXREALError_m1576E4B3329CC58DCD06DD69244C8D8947CE6C0E(L_0, L_1, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALCallbackHandler.cs:204>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALCallbackHandler.cs:204>
 		return;
 	}
 }
@@ -19513,12 +19513,12 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALMainThreadDispatcher_QueueOnMainThr
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALMainThreadDispatcher.cs:28>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALMainThreadDispatcher.cs:28>
 		ConcurrentQueue_1_tC8B0BCCEA7ED64CA00454B9EB2F35771723A00D3* L_0 = __this->___m_Actions;
 		Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* L_1 = ___0_action;
 		NullCheck(L_0);
 		ConcurrentQueue_1_Enqueue_mB2A5332EE6591094624C43E356CF17B5D82C55A7(L_0, L_1, ConcurrentQueue_1_Enqueue_mB2A5332EE6591094624C43E356CF17B5D82C55A7_RuntimeMethod_var);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALMainThreadDispatcher.cs:29>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALMainThreadDispatcher.cs:29>
 		return;
 	}
 }
@@ -19526,7 +19526,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALMainThreadDispatcher_QueueOnMainThr
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALMainThreadDispatcher_get_IsPaused_mAE4E56E7C4C04FC6D1C60AB8F2AC30ADB27EFE13 (XREALMainThreadDispatcher_t55029193FA11AF0A4699225BB118CC6DC151A480* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALMainThreadDispatcher.cs:34>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALMainThreadDispatcher.cs:34>
 		bool L_0 = __this->___U3CIsPausedU3Ek__BackingField;
 		return L_0;
 	}
@@ -19535,7 +19535,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALMainThreadDispatcher_get_IsPaused_m
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALMainThreadDispatcher_set_IsPaused_m6114FB7CA8CBFDF5D2510342B42316BA181F3E0D (XREALMainThreadDispatcher_t55029193FA11AF0A4699225BB118CC6DC151A480* __this, bool ___0_value, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALMainThreadDispatcher.cs:34>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALMainThreadDispatcher.cs:34>
 		bool L_0 = ___0_value;
 		__this->___U3CIsPausedU3Ek__BackingField = L_0;
 		return;
@@ -19576,19 +19576,19 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALMainThreadDispatcher_QueueOnMainThr
 		NullCheck(L_6);
 		L_6->___action = L_7;
 		Il2CppCodeGenWriteBarrier((void**)(&L_6->___action), (void*)L_7);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALMainThreadDispatcher.cs:45>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALMainThreadDispatcher.cs:46>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALMainThreadDispatcher.cs:47>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALMainThreadDispatcher.cs:48>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALMainThreadDispatcher.cs:49>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALMainThreadDispatcher.cs:50>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALMainThreadDispatcher.cs:45>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALMainThreadDispatcher.cs:46>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALMainThreadDispatcher.cs:47>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALMainThreadDispatcher.cs:48>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALMainThreadDispatcher.cs:49>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALMainThreadDispatcher.cs:50>
 		U3CU3Ec__DisplayClass10_0_t48AF795575A32CBA7F63E5057CF3FCF514732676* L_8 = V_0;
 		Func_1_t60B0B212E646FAA748170ABB47E557CC31788685* L_9 = (Func_1_t60B0B212E646FAA748170ABB47E557CC31788685*)il2cpp_codegen_object_new(Func_1_t60B0B212E646FAA748170ABB47E557CC31788685_il2cpp_TypeInfo_var);
 		Func_1__ctor_m6980BCC56FF4CA762C712085B3CCD3CE13C5C67E(L_9, L_8, (intptr_t)((void*)U3CU3Ec__DisplayClass10_0_U3CQueueOnMainThreadWithDelayU3Eb__0_mFD7B6D6BC31B3DC32FE7F9A81DFC2B08D95659AC_RuntimeMethod_var), NULL);
 		il2cpp_codegen_runtime_class_init_inline(Task_t751C4CC3ECD055BABA8A0B6A5DFBB4283DCA8572_il2cpp_TypeInfo_var);
 		Task_t751C4CC3ECD055BABA8A0B6A5DFBB4283DCA8572* L_10;
 		L_10 = Task_Run_m59DCF6061E31E90EE85393BE82E6907EC60B6958(L_9, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALMainThreadDispatcher.cs:51>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALMainThreadDispatcher.cs:51>
 		return;
 	}
 }
@@ -19613,7 +19613,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALMainThreadDispatcher_Update_m772FCA
 	Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* G_B2_0 = NULL;
 	Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* G_B1_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALMainThreadDispatcher.cs:55>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALMainThreadDispatcher.cs:55>
 		Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* L_0 = ((XREALMainThreadDispatcher_t55029193FA11AF0A4699225BB118CC6DC151A480_StaticFields*)il2cpp_codegen_static_fields_for(XREALMainThreadDispatcher_t55029193FA11AF0A4699225BB118CC6DC151A480_il2cpp_TypeInfo_var))->___OnUpdate;
 		Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* L_1 = L_0;
 		if (L_1)
@@ -19635,7 +19635,7 @@ IL_000c:
 
 IL_0012:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALMainThreadDispatcher.cs:56>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALMainThreadDispatcher.cs:56>
 		ConcurrentQueue_1_tC8B0BCCEA7ED64CA00454B9EB2F35771723A00D3* L_2 = __this->___m_Actions;
 		NullCheck(L_2);
 		int32_t L_3;
@@ -19648,7 +19648,7 @@ IL_0012:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALMainThreadDispatcher.cs:58>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALMainThreadDispatcher.cs:58>
 		ConcurrentQueue_1_tC8B0BCCEA7ED64CA00454B9EB2F35771723A00D3* L_5 = __this->___m_RunningActions;
 		V_1 = L_5;
 		ConcurrentQueue_1_tC8B0BCCEA7ED64CA00454B9EB2F35771723A00D3* L_6 = __this->___m_Actions;
@@ -19663,7 +19663,7 @@ IL_0012:
 
 IL_0041:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALMainThreadDispatcher.cs:59>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALMainThreadDispatcher.cs:59>
 		ConcurrentQueue_1_tC8B0BCCEA7ED64CA00454B9EB2F35771723A00D3* L_9 = __this->___m_RunningActions;
 		NullCheck(L_9);
 		bool L_10;
@@ -19679,7 +19679,7 @@ IL_0041:
 	}
 	try
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALMainThreadDispatcher.cs:63>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALMainThreadDispatcher.cs:63>
 		Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* L_12 = V_3;
 		NullCheck(L_12);
 		Action_Invoke_m7126A54DACA72B845424072887B5F3A51FC3808E_inline(L_12, NULL);
@@ -19698,9 +19698,9 @@ IL_0041:
 CATCH_0060:
 	{
 		Exception_t* L_13 = ((Exception_t*)IL2CPP_GET_ACTIVE_EXCEPTION(Exception_t*));;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALMainThreadDispatcher.cs:65>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALMainThreadDispatcher.cs:65>
 		V_5 = L_13;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALMainThreadDispatcher.cs:67>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALMainThreadDispatcher.cs:67>
 		Exception_t* L_14 = V_5;
 		il2cpp_codegen_runtime_class_init_inline(((RuntimeClass*)il2cpp_codegen_initialize_runtime_metadata_inline((uintptr_t*)&Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var)));
 		Debug_LogException_mAB3F4DC7297ED8FBB49DAA718B70E59A6B0171B0(L_14, NULL);
@@ -19719,7 +19719,7 @@ IL_0071:
 
 IL_0072:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALMainThreadDispatcher.cs:71>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALMainThreadDispatcher.cs:71>
 		return;
 	}
 }
@@ -19735,7 +19735,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALMainThreadDispatcher_OnApplicationP
 	}
 	bool V_0 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALMainThreadDispatcher.cs:76>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALMainThreadDispatcher.cs:76>
 		bool L_0 = ___0_pause;
 		bool L_1 = L_0;
 		RuntimeObject* L_2 = Box(il2cpp_defaults.boolean_class, &L_1);
@@ -19743,10 +19743,10 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALMainThreadDispatcher_OnApplicationP
 		L_3 = String_Format_mA8DBB4C2516B9723C5A41E6CB1E2FAF4BBE96DD8(_stringLiteral90760CCAD74E30A1E78C4C72BDAB31B8F0B1A1FC, L_2, NULL);
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(L_3, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALMainThreadDispatcher.cs:77>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALMainThreadDispatcher.cs:77>
 		bool L_4 = ___0_pause;
 		XREALMainThreadDispatcher_set_IsPaused_m6114FB7CA8CBFDF5D2510342B42316BA181F3E0D_inline(__this, L_4, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALMainThreadDispatcher.cs:78>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALMainThreadDispatcher.cs:78>
 		bool L_5 = ___0_pause;
 		V_0 = L_5;
 		bool L_6 = V_0;
@@ -19756,20 +19756,20 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALMainThreadDispatcher_OnApplicationP
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALMainThreadDispatcher.cs:80>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALMainThreadDispatcher.cs:80>
 		XREALPlugin_PauseSession_m9C6A45D718B3FAA29DDAA798FD79A948DCE7FAF9(NULL);
 		goto IL_0036;
 	}
 
 IL_002e:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALMainThreadDispatcher.cs:84>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALMainThreadDispatcher.cs:84>
 		XREALPlugin_ResumeSession_m63E0250F6FDF30A1BAF1093D7A27FB80C3FDC347(NULL);
 	}
 
 IL_0036:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALMainThreadDispatcher.cs:86>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALMainThreadDispatcher.cs:86>
 		return;
 	}
 }
@@ -19785,17 +19785,17 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALMainThreadDispatcher__ctor_mACDFBCC
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALMainThreadDispatcher.cs:14>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALMainThreadDispatcher.cs:14>
 		ConcurrentQueue_1_tC8B0BCCEA7ED64CA00454B9EB2F35771723A00D3* L_0 = (ConcurrentQueue_1_tC8B0BCCEA7ED64CA00454B9EB2F35771723A00D3*)il2cpp_codegen_object_new(ConcurrentQueue_1_tC8B0BCCEA7ED64CA00454B9EB2F35771723A00D3_il2cpp_TypeInfo_var);
 		ConcurrentQueue_1__ctor_mE1A62800E8BFDED5BDB15A6C54416077BF8D7374(L_0, ConcurrentQueue_1__ctor_mE1A62800E8BFDED5BDB15A6C54416077BF8D7374_RuntimeMethod_var);
 		__this->___m_Actions = L_0;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___m_Actions), (void*)L_0);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALMainThreadDispatcher.cs:15>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALMainThreadDispatcher.cs:15>
 		ConcurrentQueue_1_tC8B0BCCEA7ED64CA00454B9EB2F35771723A00D3* L_1 = (ConcurrentQueue_1_tC8B0BCCEA7ED64CA00454B9EB2F35771723A00D3*)il2cpp_codegen_object_new(ConcurrentQueue_1_tC8B0BCCEA7ED64CA00454B9EB2F35771723A00D3_il2cpp_TypeInfo_var);
 		ConcurrentQueue_1__ctor_mE1A62800E8BFDED5BDB15A6C54416077BF8D7374(L_1, ConcurrentQueue_1__ctor_mE1A62800E8BFDED5BDB15A6C54416077BF8D7374_RuntimeMethod_var);
 		__this->___m_RunningActions = L_1;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___m_RunningActions), (void*)L_1);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALMainThreadDispatcher.cs:34>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALMainThreadDispatcher.cs:34>
 		__this->___U3CIsPausedU3Ek__BackingField = (bool)0;
 		SingletonMonoBehaviour_1__ctor_m8A20C44E9B9593A00465A5B907A4B91858EEF72F(__this, SingletonMonoBehaviour_1__ctor_m8A20C44E9B9593A00465A5B907A4B91858EEF72F_RuntimeMethod_var);
 		return;
@@ -19926,7 +19926,7 @@ IL_000c_1:
 
 IL_000e_1:
 		{
-			//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALMainThreadDispatcher.cs:47>
+			//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALMainThreadDispatcher.cs:47>
 			U3CU3Ec__DisplayClass10_0_t48AF795575A32CBA7F63E5057CF3FCF514732676* L_2 = __this->___U3CU3E4__this;
 			NullCheck(L_2);
 			float L_3 = L_2->___delaySeconds;
@@ -19975,7 +19975,7 @@ IL_005b_1:
 IL_0077_1:
 		{
 			TaskAwaiter_GetResult_mC1D712500AE49B4A89C85D6B79D87D1BA9A6B94D((&V_1), NULL);
-			//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALMainThreadDispatcher.cs:48>
+			//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALMainThreadDispatcher.cs:48>
 			U3CU3Ec__DisplayClass10_0_t48AF795575A32CBA7F63E5057CF3FCF514732676* L_14 = __this->___U3CU3E4__this;
 			NullCheck(L_14);
 			CancellationTokenSource_tAAE1E0033BCFC233801F8CB4CED5C852B350CB7B* L_15 = L_14->___ctSource;
@@ -20010,7 +20010,7 @@ IL_00a2_1:
 			}
 		}
 		{
-			//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALMainThreadDispatcher.cs:49>
+			//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALMainThreadDispatcher.cs:49>
 			U3CU3Ec__DisplayClass10_0_t48AF795575A32CBA7F63E5057CF3FCF514732676* L_20 = __this->___U3CU3E4__this;
 			NullCheck(L_20);
 			XREALMainThreadDispatcher_t55029193FA11AF0A4699225BB118CC6DC151A480* L_21 = L_20->___U3CU3E4__this;
@@ -20053,7 +20053,7 @@ CATCH_00c9:
 
 IL_00e3:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALMainThreadDispatcher.cs:50>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALMainThreadDispatcher.cs:50>
 		__this->___U3CU3E1__state = ((int32_t)-2);
 		AsyncTaskMethodBuilder_t7A5128C134547B5918EB1AA24FE47ED4C1DF3F06* L_28 = (AsyncTaskMethodBuilder_t7A5128C134547B5918EB1AA24FE47ED4C1DF3F06*)(&__this->___U3CU3Et__builder);
 		il2cpp_codegen_runtime_class_init_inline(AsyncTaskMethodBuilder_t7A5128C134547B5918EB1AA24FE47ED4C1DF3F06_il2cpp_TypeInfo_var);
@@ -20498,10 +20498,10 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALSettings_OnLoad_m53AB733BC584458DA6
 	bool V_2 = false;
 	int32_t G_B4_0 = 0;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALSettings.cs:42>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALSettings.cs:42>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(_stringLiteral7348CA18E185E9FA5558565F89867E398D4AE83B, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALSettings.cs:44>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALSettings.cs:44>
 		bool L_0;
 		L_0 = XREALUtility_IsLoaderActive_mDC682AA6CB4D6E584C4AB6AB96D74CF13192CE42(NULL);
 		V_0 = L_0;
@@ -20512,7 +20512,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALSettings_OnLoad_m53AB733BC584458DA6
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALSettings.cs:46>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALSettings.cs:46>
 		XREALSettings_t66841252ECAE5495315B14671E7F86A2F5656945* L_2;
 		L_2 = XREALSettings_GetSettings_m51C1CB3FC50BC194F63FBD1BC08017C30908BA41(NULL);
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
@@ -20550,7 +20550,7 @@ IL_0036:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALSettings.cs:48>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALSettings.cs:48>
 		XREALSettings_t66841252ECAE5495315B14671E7F86A2F5656945* L_8;
 		L_8 = XREALSettings_GetSettings_m51C1CB3FC50BC194F63FBD1BC08017C30908BA41(NULL);
 		NullCheck(L_8);
@@ -20563,7 +20563,7 @@ IL_0036:
 
 IL_004e:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALSettings.cs:52>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALSettings.cs:52>
 		XREALVirtualController_tB9DF68A13F410A7B3E9B5C29E91CD0FEA68AF730* L_11;
 		L_11 = SingletonMonoBehaviour_1_CreateSingleton_m25D1B044FA369FF3243F85CE50FD36B959A25D6C(SingletonMonoBehaviour_1_CreateSingleton_m25D1B044FA369FF3243F85CE50FD36B959A25D6C_RuntimeMethod_var);
 	}
@@ -20574,7 +20574,7 @@ IL_0056:
 
 IL_0057:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALSettings.cs:62>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALSettings.cs:62>
 		XREALMainThreadDispatcher_t55029193FA11AF0A4699225BB118CC6DC151A480* L_12;
 		L_12 = SingletonMonoBehaviour_1_get_Singleton_m92A59E21C8B8644EEE5C948CE64FC278E64508A9_inline(SingletonMonoBehaviour_1_get_Singleton_m92A59E21C8B8644EEE5C948CE64FC278E64508A9_RuntimeMethod_var);
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
@@ -20588,14 +20588,14 @@ IL_0057:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALSettings.cs:64>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALSettings.cs:64>
 		XREALMainThreadDispatcher_t55029193FA11AF0A4699225BB118CC6DC151A480* L_15;
 		L_15 = SingletonMonoBehaviour_1_CreateSingleton_mFABE4BE914BC46015C300363C12D9F9EBE05E2A7(SingletonMonoBehaviour_1_CreateSingleton_mFABE4BE914BC46015C300363C12D9F9EBE05E2A7_RuntimeMethod_var);
 	}
 
 IL_006e:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALSettings.cs:66>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALSettings.cs:66>
 		return;
 	}
 }
@@ -20609,10 +20609,10 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALSettings_Awake_mE2D2541A3CC28147C44
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALSettings.cs:73>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALSettings.cs:73>
 		((XREALSettings_t66841252ECAE5495315B14671E7F86A2F5656945_StaticFields*)il2cpp_codegen_static_fields_for(XREALSettings_t66841252ECAE5495315B14671E7F86A2F5656945_il2cpp_TypeInfo_var))->___s_Settings = __this;
 		Il2CppCodeGenWriteBarrier((void**)(&((XREALSettings_t66841252ECAE5495315B14671E7F86A2F5656945_StaticFields*)il2cpp_codegen_static_fields_for(XREALSettings_t66841252ECAE5495315B14671E7F86A2F5656945_il2cpp_TypeInfo_var))->___s_Settings), (void*)__this);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALSettings.cs:74>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALSettings.cs:74>
 		return;
 	}
 }
@@ -20642,9 +20642,9 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALSettings_InitLicenseData_m699096AC1
 	int32_t G_B8_0 = 0;
 	int32_t G_B13_0 = 0;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALSettings.cs:79>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALSettings.cs:79>
 		V_0 = (ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031*)NULL;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALSettings.cs:80>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALSettings.cs:80>
 		il2cpp_codegen_runtime_class_init_inline(Application_tDB03BE91CDF0ACA614A5E0B67CFB77C44EB19B21_il2cpp_TypeInfo_var);
 		String_t* L_0;
 		L_0 = Application_get_persistentDataPath_mC58BD3E1A20732E0A536491DBCAE6505B1624399(NULL);
@@ -20652,7 +20652,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALSettings_InitLicenseData_m699096AC1
 		String_t* L_1;
 		L_1 = Path_Combine_m1ADAC05CDA2D1D61B172DF65A81E86592696BEAE(L_0, _stringLiteral1680B489FE586A0DB2E4B20288D0B07A9187B3FE, NULL);
 		V_1 = L_1;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALSettings.cs:81>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALSettings.cs:81>
 		String_t* L_2 = V_1;
 		bool L_3;
 		L_3 = File_Exists_m95E329ABBE3EAD6750FE1989BBA6884457136D4A(L_2, NULL);
@@ -20667,7 +20667,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALSettings_InitLicenseData_m699096AC1
 	}
 	try
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALSettings.cs:85>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALSettings.cs:85>
 		String_t* L_5 = V_1;
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_6;
 		L_6 = File_ReadAllBytes_m704CBBA3F130C94F5A3E0BE2A93D9E9D79DC3E24(L_5, NULL);
@@ -20687,9 +20687,9 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALSettings_InitLicenseData_m699096AC1
 CATCH_0029:
 	{
 		Exception_t* L_7 = ((Exception_t*)IL2CPP_GET_ACTIVE_EXCEPTION(Exception_t*));;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALSettings.cs:87>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALSettings.cs:87>
 		V_3 = L_7;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALSettings.cs:89>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALSettings.cs:89>
 		Exception_t* L_8 = V_3;
 		il2cpp_codegen_runtime_class_init_inline(((RuntimeClass*)il2cpp_codegen_initialize_runtime_metadata_inline((uintptr_t*)&Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var)));
 		Debug_LogException_mAB3F4DC7297ED8FBB49DAA718B70E59A6B0171B0(L_8, NULL);
@@ -20703,7 +20703,7 @@ IL_0035:
 
 IL_0036:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALSettings.cs:92>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALSettings.cs:92>
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_9 = V_0;
 		if (L_9)
 		{
@@ -20734,7 +20734,7 @@ IL_0048:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALSettings.cs:93>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALSettings.cs:93>
 		TextAsset_t2C64E93DA366D9DE5A8209E1802FA4884AC1BD69* L_13 = __this->___LicenseAsset;
 		NullCheck(L_13);
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_14;
@@ -20744,7 +20744,7 @@ IL_0048:
 
 IL_005a:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALSettings.cs:94>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALSettings.cs:94>
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_15 = V_0;
 		if (!L_15)
 		{
@@ -20773,7 +20773,7 @@ IL_0065:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALSettings.cs:96>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALSettings.cs:96>
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_18 = V_0;
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_19 = L_18;
 		V_7 = L_19;
@@ -20806,11 +20806,11 @@ IL_007e:
 
 IL_0089:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALSettings.cs:98>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALSettings.cs:99>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALSettings.cs:100>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALSettings.cs:101>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALSettings.cs:102>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALSettings.cs:98>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALSettings.cs:99>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALSettings.cs:100>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALSettings.cs:101>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALSettings.cs:102>
 		il2cpp_codegen_initobj((&V_8), sizeof(NativeView_t46BF4DC998D34CF415F952E4D3895CC8F9000D7C));
 		uint8_t* L_22 = V_6;
 		(&V_8)->___data = (void*)L_22;
@@ -20824,7 +20824,7 @@ IL_0089:
 
 IL_00b2:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALSettings.cs:105>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALSettings.cs:105>
 		return;
 	}
 }
@@ -20846,15 +20846,15 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALSettings_IsDeviceSupported_mAB3D3BF
 	int32_t V_1 = 0;
 	bool V_2 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALSettings.cs:117>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALSettings.cs:117>
 		int32_t L_0;
 		L_0 = XREALPlugin_GetDeviceCategory_mCA3EAB0810EC5C5FDAB94F7C3B43E18F5E9C42EB(NULL);
 		V_0 = L_0;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALSettings.cs:118>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALSettings.cs:118>
 		int32_t L_1;
 		L_1 = XREALPlugin_GetDeviceType_m7D95FDDE1F86FF717DEDD24E7D60483CAC48995E(NULL);
 		V_1 = L_1;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALSettings.cs:119>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALSettings.cs:119>
 		ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_2 = (ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918*)(ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918*)SZArrayNew(ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918_il2cpp_TypeInfo_var, (uint32_t)2);
 		ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_3 = L_2;
 		int32_t L_4 = V_0;
@@ -20872,7 +20872,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALSettings_IsDeviceSupported_mAB3D3BF
 		(L_7)->SetAt(static_cast<il2cpp_array_size_t>(1), (RuntimeObject*)L_10);
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_LogFormat_mD555556327B42AA3482D077EFAEB16B0AFDF72C7(_stringLiteral232FE3CCEBBA046F2567476D11AD862F802F8EE8, L_7, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALSettings.cs:120>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALSettings.cs:120>
 		List_1_t4FB6D790EAC554F2934286FBBBEB0BF07E4388DA* L_11 = __this->___SupportDevices;
 		int32_t L_12 = V_0;
 		NullCheck(L_11);
@@ -20884,7 +20884,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALSettings_IsDeviceSupported_mAB3D3BF
 
 IL_003f:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALSettings.cs:121>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALSettings.cs:121>
 		bool L_14 = V_2;
 		return L_14;
 	}
@@ -20900,7 +20900,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR XREALSettings_t66841252ECAE5495315B14671E7F86
 	}
 	XREALSettings_t66841252ECAE5495315B14671E7F86A2F5656945* V_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALSettings.cs:128>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALSettings.cs:128>
 		XREALSettings_t66841252ECAE5495315B14671E7F86A2F5656945* L_0 = ((XREALSettings_t66841252ECAE5495315B14671E7F86A2F5656945_StaticFields*)il2cpp_codegen_static_fields_for(XREALSettings_t66841252ECAE5495315B14671E7F86A2F5656945_il2cpp_TypeInfo_var))->___s_Settings;
 		V_0 = L_0;
 		goto IL_0009;
@@ -20908,7 +20908,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR XREALSettings_t66841252ECAE5495315B14671E7F86
 
 IL_0009:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALSettings.cs:130>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALSettings.cs:130>
 		XREALSettings_t66841252ECAE5495315B14671E7F86A2F5656945* L_1 = V_0;
 		return L_1;
 	}
@@ -20927,24 +20927,24 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALSettings__ctor_m7F7D3454D77136EBF31
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALSettings.cs:21>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALSettings.cs:21>
 		__this->___StereoRendering = 2;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALSettings.cs:22>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALSettings.cs:22>
 		__this->___InitialTrackingType = 0;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALSettings.cs:24>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALSettings.cs:24>
 		__this->___InitialInputSource = 1;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALSettings.cs:26>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALSettings.cs:26>
 		__this->___SupportMultiResume = (bool)1;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALSettings.cs:27>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALSettings.cs:27>
 		List_1_tF470A3BE5C1B5B68E1325EF3F109D172E60BD7CD* L_0 = (List_1_tF470A3BE5C1B5B68E1325EF3F109D172E60BD7CD*)il2cpp_codegen_object_new(List_1_tF470A3BE5C1B5B68E1325EF3F109D172E60BD7CD_il2cpp_TypeInfo_var);
 		List_1__ctor_mCA8DD57EAC70C2B5923DBB9D5A77CEAC22E7068E(L_0, List_1__ctor_mCA8DD57EAC70C2B5923DBB9D5A77CEAC22E7068E_RuntimeMethod_var);
 		__this->___AddtionalPermissions = L_0;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___AddtionalPermissions), (void*)L_0);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALSettings.cs:29>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALSettings.cs:29>
 		__this->___EnableAutoLogcat = (bool)0;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALSettings.cs:30>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALSettings.cs:30>
 		__this->___EnableNativeSessionManager = (bool)0;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALSettings.cs:36>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALSettings.cs:36>
 		List_1_t4FB6D790EAC554F2934286FBBBEB0BF07E4388DA* L_1 = (List_1_t4FB6D790EAC554F2934286FBBBEB0BF07E4388DA*)il2cpp_codegen_object_new(List_1_t4FB6D790EAC554F2934286FBBBEB0BF07E4388DA_il2cpp_TypeInfo_var);
 		List_1__ctor_mA4F3D4508D41A87AD6B3551ABC33692EA704E6A9(L_1, List_1__ctor_mA4F3D4508D41A87AD6B3551ABC33692EA704E6A9_RuntimeMethod_var);
 		List_1_t4FB6D790EAC554F2934286FBBBEB0BF07E4388DA* L_2 = L_1;
@@ -20955,7 +20955,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALSettings__ctor_m7F7D3454D77136EBF31
 		List_1_Add_m80B94A07CC6406D0DF3066A88077771FA3D56092_inline(L_3, 2, List_1_Add_m80B94A07CC6406D0DF3066A88077771FA3D56092_RuntimeMethod_var);
 		__this->___SupportDevices = L_3;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___SupportDevices), (void*)L_3);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALSettings.cs:37>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALSettings.cs:37>
 		__this->___LicenseAsset = (TextAsset_t2C64E93DA366D9DE5A8209E1802FA4884AC1BD69*)NULL;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___LicenseAsset), (void*)(TextAsset_t2C64E93DA366D9DE5A8209E1802FA4884AC1BD69*)NULL);
 		ScriptableObject__ctor_mD037FDB0B487295EA47F79A4DB1BF1846C9087FF(__this, NULL);
@@ -20974,9 +20974,9 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALSettings__ctor_m7F7D3454D77136EBF31
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void InputLayoutLoader__cctor_m950A087B737184916445BC83DB00AE5739453D03 (const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:30>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:30>
 		InputLayoutLoader_RegisterInputLayouts_m92C66D20E7F598038992D61EE2CF881498CE713F(NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:31>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:31>
 		return;
 	}
 }
@@ -20999,10 +20999,10 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void InputLayoutLoader_RegisterInputLayouts_m
 	InputDeviceMatcher_tF9BA551C8BB4AE41672366A7EBEA951543E0C555 V_0;
 	memset((&V_0), 0, sizeof(V_0));
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:35>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:36>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:37>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:38>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:35>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:36>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:37>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:38>
 		InputDeviceMatcher_tF9BA551C8BB4AE41672366A7EBEA951543E0C555* L_0 = (&V_0);
 		il2cpp_codegen_initobj(L_0, sizeof(InputDeviceMatcher_tF9BA551C8BB4AE41672366A7EBEA951543E0C555));
 		il2cpp_codegen_runtime_class_init_inline(InputDeviceMatcher_tF9BA551C8BB4AE41672366A7EBEA951543E0C555_il2cpp_TypeInfo_var);
@@ -21016,10 +21016,10 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void InputLayoutLoader_RegisterInputLayouts_m
 		Nullable_1__ctor_mD369CAC1BA03979662923E5D5E9FAF1F98E252EB((&L_3), L_2, Nullable_1__ctor_mD369CAC1BA03979662923E5D5E9FAF1F98E252EB_RuntimeMethod_var);
 		il2cpp_codegen_runtime_class_init_inline(InputSystem_t4120CA4FE7DCFD56AF9391933FC3F1F485350164_il2cpp_TypeInfo_var);
 		InputSystem_RegisterLayout_TisXREALController_tFCB83FDE6BDE47429A8891050FBCDF317D48A95A_mA6399BB341AAC9AE02DB4E40A6D2A7F498A1113B((String_t*)NULL, L_3, InputSystem_RegisterLayout_TisXREALController_tFCB83FDE6BDE47429A8891050FBCDF317D48A95A_mA6399BB341AAC9AE02DB4E40A6D2A7F498A1113B_RuntimeMethod_var);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:39>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:40>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:41>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:42>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:39>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:40>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:41>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:42>
 		InputDeviceMatcher_tF9BA551C8BB4AE41672366A7EBEA951543E0C555* L_4 = (&V_0);
 		il2cpp_codegen_initobj(L_4, sizeof(InputDeviceMatcher_tF9BA551C8BB4AE41672366A7EBEA951543E0C555));
 		InputDeviceMatcher_tF9BA551C8BB4AE41672366A7EBEA951543E0C555 L_5;
@@ -21031,7 +21031,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void InputLayoutLoader_RegisterInputLayouts_m
 		memset((&L_7), 0, sizeof(L_7));
 		Nullable_1__ctor_mD369CAC1BA03979662923E5D5E9FAF1F98E252EB((&L_7), L_6, Nullable_1__ctor_mD369CAC1BA03979662923E5D5E9FAF1F98E252EB_RuntimeMethod_var);
 		InputSystem_RegisterLayout_TisXREALHandTracking_t9DC32FE10A0B06B02D276DBD0FE9ACB653564A5B_m33C4D8B7E100DE3FA83802EEC4ED8DA3A7220C9A((String_t*)NULL, L_7, InputSystem_RegisterLayout_TisXREALHandTracking_t9DC32FE10A0B06B02D276DBD0FE9ACB653564A5B_m33C4D8B7E100DE3FA83802EEC4ED8DA3A7220C9A_RuntimeMethod_var);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:43>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:43>
 		return;
 	}
 }
@@ -21269,13 +21269,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALXRLoader_Initialize_m64F4A7F002F0EA
 	bool V_10 = false;
 	bool V_11 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:89>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:89>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(_stringLiteralD7366CB06E53B6246FA15647DB8E25A41D2712E2, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:91>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:91>
 		il2cpp_codegen_runtime_class_init_inline(InputLayoutLoader_t897339CF1BFE1B4B3C57B008CFB1AD3BD0706F44_il2cpp_TypeInfo_var);
 		InputLayoutLoader_RegisterInputLayouts_m92C66D20E7F598038992D61EE2CF881498CE713F(NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:98>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:98>
 		TextAsset_t2C64E93DA366D9DE5A8209E1802FA4884AC1BD69* L_0;
 		L_0 = Resources_Load_TisTextAsset_t2C64E93DA366D9DE5A8209E1802FA4884AC1BD69_m55E770DF81AB6D40763121667DA5E743EF1036B2(_stringLiteral880A46DC3F42E907A5220F46B85F917BB29D5EE3, Resources_Load_TisTextAsset_t2C64E93DA366D9DE5A8209E1802FA4884AC1BD69_m55E770DF81AB6D40763121667DA5E743EF1036B2_RuntimeMethod_var);
 		V_0 = L_0;
@@ -21288,7 +21288,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALXRLoader_Initialize_m64F4A7F002F0EA
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:100>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:100>
 		ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_3 = (ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918*)(ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918*)SZArrayNew(ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918_il2cpp_TypeInfo_var, (uint32_t)1);
 		ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_4 = L_3;
 		TextAsset_t2C64E93DA366D9DE5A8209E1802FA4884AC1BD69* L_5 = V_0;
@@ -21305,21 +21305,21 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALXRLoader_Initialize_m64F4A7F002F0EA
 
 IL_0045:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:104>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:104>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_LogWarning_m33EF1B897E0C7C6FF538989610BFAFFEF4628CA9(_stringLiteral7B781662EABA4278FF6DD44DD3E648057674D44C, NULL);
 	}
 
 IL_0052:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:126>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:126>
 		intptr_t L_7;
 		L_7 = XREALPlugin_GetPluginVersion_m1C22A62D21B366B33A659179423D03DE73A84B6B(NULL);
 		il2cpp_codegen_runtime_class_init_inline(Marshal_tD976A56A90263C3CE2B780D4B1CADADE2E70B4A7_il2cpp_TypeInfo_var);
 		String_t* L_8;
 		L_8 = Marshal_PtrToStringAnsi_m8DF88D9F22FCF791C538A36C9233B3882F579B4A(L_7, NULL);
 		V_1 = L_8;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:127>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:127>
 		ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_9 = (ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918*)(ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918*)SZArrayNew(ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918_il2cpp_TypeInfo_var, (uint32_t)1);
 		ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_10 = L_9;
 		String_t* L_11 = V_1;
@@ -21328,11 +21328,11 @@ IL_0052:
 		(L_10)->SetAt(static_cast<il2cpp_array_size_t>(0), (RuntimeObject*)L_11);
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_LogFormat_mD555556327B42AA3482D077EFAEB16B0AFDF72C7(_stringLiteral91F7C7715ED6E639F28198559877B3FF7454123F, L_10, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:129>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:129>
 		XREALSettings_t66841252ECAE5495315B14671E7F86A2F5656945* L_12;
 		L_12 = XREALSettings_GetSettings_m51C1CB3FC50BC194F63FBD1BC08017C30908BA41(NULL);
 		V_2 = L_12;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:130>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:130>
 		XREALSettings_t66841252ECAE5495315B14671E7F86A2F5656945* L_13 = V_2;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_14;
@@ -21345,33 +21345,33 @@ IL_0052:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:132>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:132>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_LogError_mB00B2B4468EF3CAF041B038D840820FB84C924B2(_stringLiteral7D10880210585B3FFD675150F8C8F6E87125C233, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:133>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:133>
 		V_7 = (bool)0;
 		goto IL_019d;
 	}
 
 IL_0099:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:135>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:136>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:137>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:138>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:139>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:140>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:141>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:142>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:143>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:144>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:145>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:146>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:147>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:148>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:149>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:150>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:151>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:135>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:136>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:137>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:138>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:139>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:140>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:141>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:142>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:143>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:144>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:145>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:146>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:147>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:148>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:149>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:150>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:151>
 		il2cpp_codegen_initobj((&V_8), sizeof(UserDefinedSettings_tBAE04E732D85306C58E9F96237DCC32AAFD87181));
 		int32_t L_16;
 		L_16 = QualitySettings_get_activeColorSpace_m4F47784E7B0FE0A5497C8BAB9CA86BD576FB92F9(NULL);
@@ -21397,18 +21397,18 @@ IL_0099:
 		(&V_8)->___inputSource = L_24;
 		UserDefinedSettings_tBAE04E732D85306C58E9F96237DCC32AAFD87181 L_25 = V_8;
 		V_3 = L_25;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:153>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:153>
 		XREALSettings_t66841252ECAE5495315B14671E7F86A2F5656945* L_26 = V_2;
 		NullCheck(L_26);
 		XREALSettings_InitLicenseData_m699096AC1A0FD09FA229409F40991DB20BC3AE6D(L_26, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:155>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:155>
 		UserDefinedSettings_tBAE04E732D85306C58E9F96237DCC32AAFD87181 L_27 = V_3;
 		XREALPlugin_InitUserDefinedSettings_m10B7028A86DD6C4090695E924F18DD6C11720D3C(L_27, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:158>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:158>
 		XREALPlugin_SetNativeLogLevel_mFA47F6187E4DB1370C77DF93AB05E3A065E1F511(5, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:164>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:164>
 		V_4 = (bool)0;
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:166>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:166>
 		bool L_28 = V_4;
 		bool L_29;
 		L_29 = XREALPlugin_CreateSession_mE5315653F912EE17CB404A98D322110D6B44B472(L_28, NULL);
@@ -21420,21 +21420,21 @@ IL_0099:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:168>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:168>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_LogError_mB00B2B4468EF3CAF041B038D840820FB84C924B2(_stringLiteral123E737B803C91667489F08C39A2104A03E2DA27, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:169>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:169>
 		V_7 = (bool)0;
 		goto IL_019d;
 	}
 
 IL_0129:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:172>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:172>
 		il2cpp_codegen_runtime_class_init_inline(XREALXRLoader_t82E1123E8369F1ECCB047ACAAF1B258F2C071064_il2cpp_TypeInfo_var);
 		List_1_tE3AE94237CE649B47E1D52E1A3120E772255FF87* L_31 = ((XREALXRLoader_t82E1123E8369F1ECCB047ACAAF1B258F2C071064_StaticFields*)il2cpp_codegen_static_fields_for(XREALXRLoader_t82E1123E8369F1ECCB047ACAAF1B258F2C071064_il2cpp_TypeInfo_var))->___s_InputSubsystemDescriptors;
 		XRLoaderHelper_CreateSubsystem_TisXRInputSubsystemDescriptor_t42088DD6542C0BDD27C2951B911E4F69DD1F917D_TisXRInputSubsystem_tFECE6683FCAEBF05BAD05E5D612690095D8BAD34_mA9FE0AE2F98657CD075CD191BAB94910F963C08C(__this, L_31, _stringLiteralA35124994E7CBFE0F43596E5E83A6B8EFA6FE297, XRLoaderHelper_CreateSubsystem_TisXRInputSubsystemDescriptor_t42088DD6542C0BDD27C2951B911E4F69DD1F917D_TisXRInputSubsystem_tFECE6683FCAEBF05BAD05E5D612690095D8BAD34_mA9FE0AE2F98657CD075CD191BAB94910F963C08C_RuntimeMethod_var);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:173>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:173>
 		XRInputSubsystem_tFECE6683FCAEBF05BAD05E5D612690095D8BAD34* L_32;
 		L_32 = GenericVirtualFuncInvoker0< XRInputSubsystem_tFECE6683FCAEBF05BAD05E5D612690095D8BAD34* >::Invoke(XRLoaderHelper_GetLoadedSubsystem_TisXRInputSubsystem_tFECE6683FCAEBF05BAD05E5D612690095D8BAD34_mFFFE07D8A1F3526DB3003FFAE9681221AA4A876A_RuntimeMethod_var, __this);
 		V_10 = (bool)((((RuntimeObject*)(XRInputSubsystem_tFECE6683FCAEBF05BAD05E5D612690095D8BAD34*)L_32) == ((RuntimeObject*)(RuntimeObject*)NULL))? 1 : 0);
@@ -21445,21 +21445,21 @@ IL_0129:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:175>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:175>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_LogError_mB00B2B4468EF3CAF041B038D840820FB84C924B2(_stringLiteral477242355F2EDA3A0D44023C3352AFEF1ACDD120, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:176>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:176>
 		V_7 = (bool)0;
 		goto IL_019d;
 	}
 
 IL_015a:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:182>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:182>
 		il2cpp_codegen_runtime_class_init_inline(XREALXRLoader_t82E1123E8369F1ECCB047ACAAF1B258F2C071064_il2cpp_TypeInfo_var);
 		List_1_tC3F021D09EFA4F3516555517B5E0D39308C9C1B4* L_34 = ((XREALXRLoader_t82E1123E8369F1ECCB047ACAAF1B258F2C071064_StaticFields*)il2cpp_codegen_static_fields_for(XREALXRLoader_t82E1123E8369F1ECCB047ACAAF1B258F2C071064_il2cpp_TypeInfo_var))->___s_DisplaySubsystemDescriptors;
 		XRLoaderHelper_CreateSubsystem_TisXRDisplaySubsystemDescriptor_t72DD88EE9094488AE723A495F48884BA4EA8311A_TisXRDisplaySubsystem_t4B00B0BF1894A039ACFA8DDC2C2EB9301118C1F1_m47BB00ACEADFC3AF821DC1EE31F79CF6EEB4681A(__this, L_34, _stringLiteralB634504A22F14867AFD1783ED935F753AA1CCD3C, XRLoaderHelper_CreateSubsystem_TisXRDisplaySubsystemDescriptor_t72DD88EE9094488AE723A495F48884BA4EA8311A_TisXRDisplaySubsystem_t4B00B0BF1894A039ACFA8DDC2C2EB9301118C1F1_m47BB00ACEADFC3AF821DC1EE31F79CF6EEB4681A_RuntimeMethod_var);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:183>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:183>
 		XRDisplaySubsystem_t4B00B0BF1894A039ACFA8DDC2C2EB9301118C1F1* L_35;
 		L_35 = GenericVirtualFuncInvoker0< XRDisplaySubsystem_t4B00B0BF1894A039ACFA8DDC2C2EB9301118C1F1* >::Invoke(XRLoaderHelper_GetLoadedSubsystem_TisXRDisplaySubsystem_t4B00B0BF1894A039ACFA8DDC2C2EB9301118C1F1_m9FC253637CE85B86CE3DFA51346D7E4D49913E7B_RuntimeMethod_var, __this);
 		V_11 = (bool)((((RuntimeObject*)(XRDisplaySubsystem_t4B00B0BF1894A039ACFA8DDC2C2EB9301118C1F1*)L_35) == ((RuntimeObject*)(RuntimeObject*)NULL))? 1 : 0);
@@ -21470,27 +21470,27 @@ IL_015a:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:185>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:185>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_LogError_mB00B2B4468EF3CAF041B038D840820FB84C924B2(_stringLiteral5A08759EC86751E52C36E66728C841CC020709B3, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:186>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:186>
 		V_7 = (bool)0;
 		goto IL_019d;
 	}
 
 IL_018c:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:200>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:200>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(_stringLiteralD4D26480B8A4B840B6D91D44BB0F495B50EF38C3, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:201>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:201>
 		V_7 = (bool)1;
 		goto IL_019d;
 	}
 
 IL_019d:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:202>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:202>
 		bool L_37 = V_7;
 		return L_37;
 	}
@@ -21515,10 +21515,10 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALXRLoader_Start_mCC5EEFBED66C13E93F5
 	Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* G_B2_0 = NULL;
 	Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* G_B1_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:228>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:228>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(_stringLiteral433A9FC886D89A1036DE62EEEC7B8E40B555740E, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:229>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:229>
 		il2cpp_codegen_runtime_class_init_inline(XREALXRLoader_t82E1123E8369F1ECCB047ACAAF1B258F2C071064_il2cpp_TypeInfo_var);
 		Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* L_0 = ((XREALXRLoader_t82E1123E8369F1ECCB047ACAAF1B258F2C071064_StaticFields*)il2cpp_codegen_static_fields_for(XREALXRLoader_t82E1123E8369F1ECCB047ACAAF1B258F2C071064_il2cpp_TypeInfo_var))->___OnXRLoaderStart;
 		Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* L_1 = L_0;
@@ -21541,9 +21541,9 @@ IL_0017:
 
 IL_001d:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:230>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:230>
 		XRLoaderHelper_StartSubsystem_TisXRInputSubsystem_tFECE6683FCAEBF05BAD05E5D612690095D8BAD34_m08AC127201FE89396BD81BEA52D40790BC0CA3FA(__this, XRLoaderHelper_StartSubsystem_TisXRInputSubsystem_tFECE6683FCAEBF05BAD05E5D612690095D8BAD34_m08AC127201FE89396BD81BEA52D40790BC0CA3FA_RuntimeMethod_var);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:231>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:231>
 		XREALSettings_t66841252ECAE5495315B14671E7F86A2F5656945* L_2;
 		L_2 = XREALSettings_GetSettings_m51C1CB3FC50BC194F63FBD1BC08017C30908BA41(NULL);
 		NullCheck(L_2);
@@ -21557,29 +21557,29 @@ IL_001d:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:233>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:233>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_LogError_mB00B2B4468EF3CAF041B038D840820FB84C924B2(_stringLiteral13410F9C49C74F4DFA1BFC86B2F1D6B6957F2940, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:234>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:234>
 		V_1 = (bool)0;
 		goto IL_005d;
 	}
 
 IL_0045:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:241>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:241>
 		XRLoaderHelper_StartSubsystem_TisXRDisplaySubsystem_t4B00B0BF1894A039ACFA8DDC2C2EB9301118C1F1_mC1643794A5D3CC32BF1EE9C976CE5F23A6BB8962(__this, XRLoaderHelper_StartSubsystem_TisXRDisplaySubsystem_t4B00B0BF1894A039ACFA8DDC2C2EB9301118C1F1_mC1643794A5D3CC32BF1EE9C976CE5F23A6BB8962_RuntimeMethod_var);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:246>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:246>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(_stringLiteralA4556FD41906D51316D22DB0902E056BD2D57B18, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:247>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:247>
 		V_1 = (bool)1;
 		goto IL_005d;
 	}
 
 IL_005d:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:248>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:248>
 		bool L_5 = V_1;
 		return L_5;
 	}
@@ -21602,10 +21602,10 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALXRLoader_Stop_m42FEF63733446D15FB35
 	Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* G_B2_0 = NULL;
 	Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* G_B1_0 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:255>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:255>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(_stringLiteralAF4B876681B26ABD5C091766C8F333B9A2A92B77, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:256>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:256>
 		il2cpp_codegen_runtime_class_init_inline(XREALXRLoader_t82E1123E8369F1ECCB047ACAAF1B258F2C071064_il2cpp_TypeInfo_var);
 		Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* L_0 = ((XREALXRLoader_t82E1123E8369F1ECCB047ACAAF1B258F2C071064_StaticFields*)il2cpp_codegen_static_fields_for(XREALXRLoader_t82E1123E8369F1ECCB047ACAAF1B258F2C071064_il2cpp_TypeInfo_var))->___OnXRLoaderStop;
 		Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* L_1 = L_0;
@@ -21628,21 +21628,21 @@ IL_0017:
 
 IL_001d:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:262>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:262>
 		XRLoaderHelper_StopSubsystem_TisXRDisplaySubsystem_t4B00B0BF1894A039ACFA8DDC2C2EB9301118C1F1_m00A3A82597D484DE2EBB03EA9A2430AFDE44DE24(__this, XRLoaderHelper_StopSubsystem_TisXRDisplaySubsystem_t4B00B0BF1894A039ACFA8DDC2C2EB9301118C1F1_m00A3A82597D484DE2EBB03EA9A2430AFDE44DE24_RuntimeMethod_var);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:264>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:264>
 		XRLoaderHelper_StopSubsystem_TisXRInputSubsystem_tFECE6683FCAEBF05BAD05E5D612690095D8BAD34_mE6F3E85E0C64666EE9A517CD7CF3669FB7BAC750(__this, XRLoaderHelper_StopSubsystem_TisXRInputSubsystem_tFECE6683FCAEBF05BAD05E5D612690095D8BAD34_mE6F3E85E0C64666EE9A517CD7CF3669FB7BAC750_RuntimeMethod_var);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:268>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:268>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(_stringLiteral9F4982610D04567B84C39A96175A505940C50E9D, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:269>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:269>
 		V_0 = (bool)1;
 		goto IL_003c;
 	}
 
 IL_003c:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:270>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:270>
 		bool L_2 = V_0;
 		return L_2;
 	}
@@ -21662,25 +21662,25 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool XREALXRLoader_Deinitialize_m5AD656B8BBE8
 	}
 	bool V_0 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:277>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:277>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(_stringLiteralE41A40CE431838C803216636AA78484E7B616A48, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:282>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:282>
 		XRLoaderHelper_DestroySubsystem_TisXRDisplaySubsystem_t4B00B0BF1894A039ACFA8DDC2C2EB9301118C1F1_m8E2572BB5610CCE3B1DBA87453CFE09BB4B2B606(__this, XRLoaderHelper_DestroySubsystem_TisXRDisplaySubsystem_t4B00B0BF1894A039ACFA8DDC2C2EB9301118C1F1_m8E2572BB5610CCE3B1DBA87453CFE09BB4B2B606_RuntimeMethod_var);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:284>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:284>
 		XRLoaderHelper_DestroySubsystem_TisXRInputSubsystem_tFECE6683FCAEBF05BAD05E5D612690095D8BAD34_m22B2454EB0F4E32155EEE6022768B9781DB0085F(__this, XRLoaderHelper_DestroySubsystem_TisXRInputSubsystem_tFECE6683FCAEBF05BAD05E5D612690095D8BAD34_m22B2454EB0F4E32155EEE6022768B9781DB0085F_RuntimeMethod_var);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:297>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:297>
 		XREALPlugin_DestroySession_m11711DA5133A56610DAC34EB1B6ED89F2892D3A0(NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:299>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:299>
 		Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(_stringLiteral13D5AE0C3F85C23144A2D12AF76065D9C560AB45, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:301>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:301>
 		V_0 = (bool)1;
 		goto IL_0031;
 	}
 
 IL_0031:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:302>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:302>
 		bool L_0 = V_0;
 		return L_0;
 	}
@@ -21707,12 +21707,12 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void XREALXRLoader__cctor_mF5AF94CC285420063A
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:58>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:58>
 		List_1_tC3F021D09EFA4F3516555517B5E0D39308C9C1B4* L_0 = (List_1_tC3F021D09EFA4F3516555517B5E0D39308C9C1B4*)il2cpp_codegen_object_new(List_1_tC3F021D09EFA4F3516555517B5E0D39308C9C1B4_il2cpp_TypeInfo_var);
 		List_1__ctor_m3E15C72C5BBB246B014CD4F0B141BD78A648B773(L_0, List_1__ctor_m3E15C72C5BBB246B014CD4F0B141BD78A648B773_RuntimeMethod_var);
 		((XREALXRLoader_t82E1123E8369F1ECCB047ACAAF1B258F2C071064_StaticFields*)il2cpp_codegen_static_fields_for(XREALXRLoader_t82E1123E8369F1ECCB047ACAAF1B258F2C071064_il2cpp_TypeInfo_var))->___s_DisplaySubsystemDescriptors = L_0;
 		Il2CppCodeGenWriteBarrier((void**)(&((XREALXRLoader_t82E1123E8369F1ECCB047ACAAF1B258F2C071064_StaticFields*)il2cpp_codegen_static_fields_for(XREALXRLoader_t82E1123E8369F1ECCB047ACAAF1B258F2C071064_il2cpp_TypeInfo_var))->___s_DisplaySubsystemDescriptors), (void*)L_0);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALXRLoader.cs:59>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALXRLoader.cs:59>
 		List_1_tE3AE94237CE649B47E1D52E1A3120E772255FF87* L_1 = (List_1_tE3AE94237CE649B47E1D52E1A3120E772255FF87*)il2cpp_codegen_object_new(List_1_tE3AE94237CE649B47E1D52E1A3120E772255FF87_il2cpp_TypeInfo_var);
 		List_1__ctor_m2211D9F948E2002179E205222318FE448863F2CD(L_1, List_1__ctor_m2211D9F948E2002179E205222318FE448863F2CD_RuntimeMethod_var);
 		((XREALXRLoader_t82E1123E8369F1ECCB047ACAAF1B258F2C071064_StaticFields*)il2cpp_codegen_static_fields_for(XREALXRLoader_t82E1123E8369F1ECCB047ACAAF1B258F2C071064_il2cpp_TypeInfo_var))->___s_InputSubsystemDescriptors = L_1;
@@ -21898,7 +21898,7 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void UniversalAdditionalCameraDat
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void XREALVirtualController_set_Controller_m0E35EA37BAD33C940D0711C785DD05B61A900B50_inline (XREALVirtualController_tB9DF68A13F410A7B3E9B5C29E91CD0FEA68AF730* __this, InputDevice_t882EE3EE8A71D8F5F38BA3F9356A49F24510E8BD ___0_value, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:47>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:47>
 		InputDevice_t882EE3EE8A71D8F5F38BA3F9356A49F24510E8BD L_0 = ___0_value;
 		__this->___U3CControllerU3Ek__BackingField = L_0;
 		return;
@@ -21908,7 +21908,7 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void XREALVirtualController_set_C
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR InputDevice_t882EE3EE8A71D8F5F38BA3F9356A49F24510E8BD XREALVirtualController_get_Controller_m0BEC0B3928D675375F1333201B356D515053D366_inline (XREALVirtualController_tB9DF68A13F410A7B3E9B5C29E91CD0FEA68AF730* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:47>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Controller/XREALVirtualController.cs:47>
 		InputDevice_t882EE3EE8A71D8F5F38BA3F9356A49F24510E8BD L_0 = __this->___U3CControllerU3Ek__BackingField;
 		return L_0;
 	}
@@ -21978,7 +21978,7 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void onXRDisplayRemovedCB_Invoke_
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR RuntimeObject* XREALFloatingViewProxyWrapper_get_FloatingViewProxy_mFA89C8365674D1838BB05E3DDEDC8418F2B7D2FF_inline (XREALFloatingViewProxyWrapper_t92C65FC790A4185B86DDE8EE93CE340B2FE0EDE5* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:85>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALFloatingViewProvider.cs:85>
 		RuntimeObject* L_0 = __this->___mProxy;
 		return L_0;
 	}
@@ -21987,7 +21987,7 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR RuntimeObject* XREALFloatingViewP
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void XREALMultiResumeMediator_set_IsMultiResumeBackground_m221F1208D45F4D6F4A20C714A5373B5F5910F0F6_inline (XREALMultiResumeMediator_tC336A3F029FCF4FCBBFEC14308CEB3EEEA49C676* __this, bool ___0_value, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:11>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:11>
 		bool L_0 = ___0_value;
 		__this->___U3CIsMultiResumeBackgroundU3Ek__BackingField = L_0;
 		return;
@@ -21997,7 +21997,7 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void XREALMultiResumeMediator_set
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR bool XREALMultiResumeMediator_get_IsMultiResumeBackground_mACA5D01157AD31C3752F6D0C4598773A9A944914_inline (XREALMultiResumeMediator_tC336A3F029FCF4FCBBFEC14308CEB3EEEA49C676* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:11>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/XREALMultiResumeMediator.cs:11>
 		bool L_0 = __this->___U3CIsMultiResumeBackgroundU3Ek__BackingField;
 		return L_0;
 	}
@@ -22445,7 +22445,7 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void Rect__ctor_m18C3033D135097BE
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR bool XREALMainThreadDispatcher_get_IsPaused_mAE4E56E7C4C04FC6D1C60AB8F2AC30ADB27EFE13_inline (XREALMainThreadDispatcher_t55029193FA11AF0A4699225BB118CC6DC151A480* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALMainThreadDispatcher.cs:34>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALMainThreadDispatcher.cs:34>
 		bool L_0 = __this->___U3CIsPausedU3Ek__BackingField;
 		return L_0;
 	}
@@ -22526,7 +22526,7 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void XREALGlassesEventCallback_In
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void XREALMainThreadDispatcher_set_IsPaused_m6114FB7CA8CBFDF5D2510342B42316BA181F3E0D_inline (XREALMainThreadDispatcher_t55029193FA11AF0A4699225BB118CC6DC151A480* __this, bool ___0_value, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/XREALMainThreadDispatcher.cs:34>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/XREALMainThreadDispatcher.cs:34>
 		bool L_0 = ___0_value;
 		__this->___U3CIsPausedU3Ek__BackingField = L_0;
 		return;
@@ -22558,7 +22558,7 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void Action_3_Invoke_mB80AB2A94EE
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR RuntimeObject* SingletonMonoBehaviour_1_get_Singleton_m8E56B121F9894A204F755FB0C20C7F09DC4B147C_gshared_inline (const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/SingletonMonoBehaviour.cs:17>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/SingletonMonoBehaviour.cs:17>
 		RuntimeObject* L_0 = ((SingletonMonoBehaviour_1_tDE14633018EC6C1ADF8C0D6A4216766981964A37_StaticFields*)il2cpp_codegen_static_fields_for(il2cpp_rgctx_data(InitializedTypeInfo(method->klass)->rgctx_data, 2)))->___s_Singleton;
 		return L_0;
 	}

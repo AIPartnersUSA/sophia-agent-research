@@ -14112,7 +14112,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t ShortEnumEqualityComparer_1_GetHashCo
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* SingletonMonoBehaviour_1_get_Singleton_m8E56B121F9894A204F755FB0C20C7F09DC4B147C_gshared (const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/SingletonMonoBehaviour.cs:17>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/SingletonMonoBehaviour.cs:17>
 		RuntimeObject* L_0 = ((SingletonMonoBehaviour_1_tDE14633018EC6C1ADF8C0D6A4216766981964A37_StaticFields*)il2cpp_codegen_static_fields_for(il2cpp_rgctx_data(InitializedTypeInfo(method->klass)->rgctx_data, 2)))->___s_Singleton;
 		return L_0;
 	}
@@ -14131,7 +14131,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* SingletonMonoBehaviour_1_Creat
 	bool V_0 = false;
 	RuntimeObject* V_1 = NULL;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/SingletonMonoBehaviour.cs:25>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/SingletonMonoBehaviour.cs:25>
 		RuntimeObject* L_0 = ((SingletonMonoBehaviour_1_tDE14633018EC6C1ADF8C0D6A4216766981964A37_StaticFields*)il2cpp_codegen_static_fields_for(il2cpp_rgctx_data(InitializedTypeInfo(method->klass)->rgctx_data, 2)))->___s_Singleton;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_1;
@@ -14144,7 +14144,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* SingletonMonoBehaviour_1_Creat
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/SingletonMonoBehaviour.cs:27>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/SingletonMonoBehaviour.cs:27>
 		RuntimeTypeHandle_t332A452B8B6179E4469B69525D0FE82A88030F7B L_3 = { reinterpret_cast<intptr_t> (il2cpp_rgctx_type(InitializedTypeInfo(method->klass)->rgctx_data, 3)) };
 		il2cpp_codegen_runtime_class_init_inline(il2cpp_defaults.systemtype_class);
 		Type_t* L_4;
@@ -14166,7 +14166,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* SingletonMonoBehaviour_1_Creat
 
 IL_003f:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/SingletonMonoBehaviour.cs:30>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/SingletonMonoBehaviour.cs:30>
 		RuntimeObject* L_11 = ((SingletonMonoBehaviour_1_tDE14633018EC6C1ADF8C0D6A4216766981964A37_StaticFields*)il2cpp_codegen_static_fields_for(il2cpp_rgctx_data(InitializedTypeInfo(method->klass)->rgctx_data, 2)))->___s_Singleton;
 		V_1 = L_11;
 		goto IL_0047;
@@ -14174,7 +14174,7 @@ IL_003f:
 
 IL_0047:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/SingletonMonoBehaviour.cs:31>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/SingletonMonoBehaviour.cs:31>
 		RuntimeObject* L_12 = V_1;
 		return L_12;
 	}
@@ -14193,7 +14193,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void SingletonMonoBehaviour_1_Awake_mAC295119
 	bool V_0 = false;
 	bool V_1 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/SingletonMonoBehaviour.cs:35>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/SingletonMonoBehaviour.cs:35>
 		RuntimeObject* L_0 = ((SingletonMonoBehaviour_1_tDE14633018EC6C1ADF8C0D6A4216766981964A37_StaticFields*)il2cpp_codegen_static_fields_for(il2cpp_rgctx_data(method->klass->rgctx_data, 2)))->___s_Singleton;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_1;
@@ -14206,7 +14206,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void SingletonMonoBehaviour_1_Awake_mAC295119
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/SingletonMonoBehaviour.cs:37>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/SingletonMonoBehaviour.cs:37>
 		RuntimeTypeHandle_t332A452B8B6179E4469B69525D0FE82A88030F7B L_3 = { reinterpret_cast<intptr_t> (il2cpp_rgctx_type(method->klass->rgctx_data, 3)) };
 		il2cpp_codegen_runtime_class_init_inline(il2cpp_defaults.systemtype_class);
 		Type_t* L_4;
@@ -14218,19 +14218,19 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void SingletonMonoBehaviour_1_Awake_mAC295119
 		L_6 = String_Concat_m9E3155FB84015C823606188F53B47CB44C444991(_stringLiteralB15BD7D46E4BDF843DBBCCEB01974534B196CD18, L_5, NULL);
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_LogWarning_m33EF1B897E0C7C6FF538989610BFAFFEF4628CA9((RuntimeObject*)L_6, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/SingletonMonoBehaviour.cs:38>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/SingletonMonoBehaviour.cs:38>
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		Object_Destroy_mE97D0A766419A81296E8D4E5C23D01D3FE91ACBB((Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C*)__this, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/SingletonMonoBehaviour.cs:39>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/SingletonMonoBehaviour.cs:39>
 		goto IL_0074;
 	}
 
 IL_003e:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/SingletonMonoBehaviour.cs:41>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/SingletonMonoBehaviour.cs:41>
 		((SingletonMonoBehaviour_1_tDE14633018EC6C1ADF8C0D6A4216766981964A37_StaticFields*)il2cpp_codegen_static_fields_for(il2cpp_rgctx_data(method->klass->rgctx_data, 2)))->___s_Singleton = ((RuntimeObject*)IsInst((RuntimeObject*)__this, il2cpp_rgctx_data(method->klass->rgctx_data, 1)));
 		Il2CppCodeGenWriteBarrier((void**)(&((SingletonMonoBehaviour_1_tDE14633018EC6C1ADF8C0D6A4216766981964A37_StaticFields*)il2cpp_codegen_static_fields_for(il2cpp_rgctx_data(method->klass->rgctx_data, 2)))->___s_Singleton), (void*)((RuntimeObject*)IsInst((RuntimeObject*)__this, il2cpp_rgctx_data(method->klass->rgctx_data, 1))));
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/SingletonMonoBehaviour.cs:42>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/SingletonMonoBehaviour.cs:42>
 		NullCheck((Component_t39FBE53E5EFCF4409111FB22C15FF73717632EC3*)__this);
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_7;
 		L_7 = Component_get_gameObject_m57AEFBB14DB39EC476F740BA000E170355DE691B((Component_t39FBE53E5EFCF4409111FB22C15FF73717632EC3*)__this, NULL);
@@ -14251,7 +14251,7 @@ IL_003e:
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/SingletonMonoBehaviour.cs:43>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/SingletonMonoBehaviour.cs:43>
 		NullCheck((Component_t39FBE53E5EFCF4409111FB22C15FF73717632EC3*)__this);
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_12;
 		L_12 = Component_get_gameObject_m57AEFBB14DB39EC476F740BA000E170355DE691B((Component_t39FBE53E5EFCF4409111FB22C15FF73717632EC3*)__this, NULL);
@@ -14261,7 +14261,7 @@ IL_003e:
 
 IL_0074:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/SingletonMonoBehaviour.cs:44>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/SingletonMonoBehaviour.cs:44>
 		return;
 	}
 }
@@ -14278,7 +14278,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void SingletonMonoBehaviour_1_OnDestroy_mAC20
 	}
 	bool V_0 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/SingletonMonoBehaviour.cs:48>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/SingletonMonoBehaviour.cs:48>
 		RuntimeTypeHandle_t332A452B8B6179E4469B69525D0FE82A88030F7B L_0 = { reinterpret_cast<intptr_t> (il2cpp_rgctx_type(method->klass->rgctx_data, 3)) };
 		il2cpp_codegen_runtime_class_init_inline(il2cpp_defaults.systemtype_class);
 		Type_t* L_1;
@@ -14290,7 +14290,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void SingletonMonoBehaviour_1_OnDestroy_mAC20
 		L_3 = String_Concat_m9E3155FB84015C823606188F53B47CB44C444991(_stringLiteralB193E1E1E2AF17E606C6255B90A1A6D5DC87EA9E, L_2, NULL);
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_LogWarning_m33EF1B897E0C7C6FF538989610BFAFFEF4628CA9((RuntimeObject*)L_3, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/SingletonMonoBehaviour.cs:49>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/SingletonMonoBehaviour.cs:49>
 		RuntimeObject* L_4 = ((SingletonMonoBehaviour_1_tDE14633018EC6C1ADF8C0D6A4216766981964A37_StaticFields*)il2cpp_codegen_static_fields_for(il2cpp_rgctx_data(method->klass->rgctx_data, 2)))->___s_Singleton;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_5;
@@ -14303,13 +14303,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void SingletonMonoBehaviour_1_OnDestroy_mAC20
 		}
 	}
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/SingletonMonoBehaviour.cs:51>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/SingletonMonoBehaviour.cs:51>
 		il2cpp_codegen_initobj((&((SingletonMonoBehaviour_1_tDE14633018EC6C1ADF8C0D6A4216766981964A37_StaticFields*)il2cpp_codegen_static_fields_for(il2cpp_rgctx_data(method->klass->rgctx_data, 2)))->___s_Singleton), sizeof(RuntimeObject*));
 	}
 
 IL_0050:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/SingletonMonoBehaviour.cs:53>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/SingletonMonoBehaviour.cs:53>
 		return;
 	}
 }
@@ -14333,7 +14333,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void SingletonMonoBehaviour_1__ctor_m20AE553E
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* Singleton_1_get_Instance_m71E53A6CF207D25CD9901FF3C3A65062527F7F82_gshared (const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/SingletonMonoBehaviour.cs:66>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/SingletonMonoBehaviour.cs:66>
 		il2cpp_codegen_runtime_class_init_inline(il2cpp_rgctx_data(InitializedTypeInfo(method->klass)->rgctx_data, 2));
 		Lazy_1_tAD66CD7CC97BB996411F4FE0F49A1817031B906E* L_0 = ((Singleton_1_tC1107DA076564D922F8B915F07B0BACF713DE6D7_StaticFields*)il2cpp_codegen_static_fields_for(il2cpp_rgctx_data(InitializedTypeInfo(method->klass)->rgctx_data, 2)))->____lazyInstance;
 		NullCheck(L_0);
@@ -14354,7 +14354,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Singleton_1__ctor_mF1C5E15748FB12C20DD5E
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Singleton_1__cctor_m3E43784667A8D4AAB6A27B1F9B8813BCAA9C7E4B_gshared (const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/SingletonMonoBehaviour.cs:61>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/SingletonMonoBehaviour.cs:61>
 		Lazy_1_tAD66CD7CC97BB996411F4FE0F49A1817031B906E* L_0 = (Lazy_1_tAD66CD7CC97BB996411F4FE0F49A1817031B906E*)il2cpp_codegen_object_new(il2cpp_rgctx_data(InitializedTypeInfo(method->klass)->rgctx_data, 1));
 		Lazy_1__ctor_m0A69D62E0AB1EFF80F5B751D6A94033D0C7487F2(L_0, il2cpp_rgctx_method(InitializedTypeInfo(method->klass)->rgctx_data, 5));
 		((Singleton_1_tC1107DA076564D922F8B915F07B0BACF713DE6D7_StaticFields*)il2cpp_codegen_static_fields_for(il2cpp_rgctx_data(InitializedTypeInfo(method->klass)->rgctx_data, 2)))->____lazyInstance = L_0;

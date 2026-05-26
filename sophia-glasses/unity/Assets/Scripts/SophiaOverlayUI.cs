@@ -229,7 +229,7 @@ public class SophiaOverlayUI : MonoBehaviour
         _subtitleText.fontSize = subtitleFontSize;
         _subtitleText.alignment = TextAlignmentOptions.MidlineLeft;
         _subtitleText.color = new Color(1f, 1f, 1f, 1f);
-        _subtitleText.enableWordWrapping = true;
+        _subtitleText.textWrappingMode = TextWrappingModes.Normal;
         _subtitleText.overflowMode = TextOverflowModes.Ellipsis;
         _subtitleText.maxVisibleLines = 2;
 
@@ -308,7 +308,7 @@ public class SophiaOverlayUI : MonoBehaviour
         t.fontSize = chipFontSize;
         t.alignment = TextAlignmentOptions.Center;
         t.color = new Color(0.92f, 0.95f, 1f, 1f);
-        t.enableWordWrapping = false;
+        t.textWrappingMode = TextWrappingModes.NoWrap;
         t.overflowMode = TextOverflowModes.Ellipsis;
 
         return go;

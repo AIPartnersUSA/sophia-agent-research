@@ -239,7 +239,7 @@
       "url": "https://packages.unity.com"
     },
     "com.xreal.xr": {
-      "version": "file:/Users/avinashbolleddula/Downloads/package",
+      "version": "file:../../xreal-sdk",
       "depth": 0,
       "source": "local",
       "dependencies": {
@@ -248,7 +248,7 @@
       }
     },
     "io.livekit.livekit-sdk": {
-      "version": "file:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/client-sdk-unity",
+      "version": "file:../../client-sdk-unity",
       "depth": 0,
       "source": "local",
       "dependencies": {

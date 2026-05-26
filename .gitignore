@@ -48,9 +48,6 @@ agent-starter-react/coverage/
 # package-lock.json IS tracked (pin deps reproducibly)
 
 # ============================================================
-# Unity client (Phase A skips this entirely)
-# Remove or relax these in Phase B
-# ============================================================
 # Unity client (Phase B)
 # Keep: Assets/, Packages/, ProjectSettings/
 # Drop: Library/, Temp/, Logs/, obj/, UserSettings/, Build/, .vs/

@@ -385,7 +385,7 @@ public class SessionPicker : MonoBehaviour
         t.fontStyle = style;
         t.color = color;
         t.alignment = alignment;
-        t.enableWordWrapping = true;
+        t.textWrappingMode = TextWrappingModes.Normal;
         t.overflowMode = TextOverflowModes.Ellipsis;
         return t;
     }
@@ -436,7 +436,7 @@ public class SessionPicker : MonoBehaviour
         lbl.fontSize = fontSize;
         lbl.alignment = TextAlignmentOptions.Center;
         lbl.color = Color.white;
-        lbl.enableWordWrapping = false;
+        lbl.textWrappingMode = TextWrappingModes.NoWrap;
         lbl.overflowMode = TextOverflowModes.Ellipsis;
         if (bold) lbl.fontStyle = FontStyles.Bold;
     }

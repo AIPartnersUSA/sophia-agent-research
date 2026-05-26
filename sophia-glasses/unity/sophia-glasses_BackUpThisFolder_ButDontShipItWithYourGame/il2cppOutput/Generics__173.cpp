@@ -17405,13 +17405,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void VolumeParameter_1_op_Explicit_m06E2D8024
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void WaitForTaskCompletionYieldInstruction_1__ctor_m50B733A4433BC9464A73D6C897E07BA50900E29A_gshared (WaitForTaskCompletionYieldInstruction_1_t3326504877750A2A824062F9D75AEC606832A420* __this, AsyncTask_1_t0AE0B7AB5AFE61F44467F751449C4FA9761E8CD7* ___0_task, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/WaitForTaskCompletionYieldInstruction.cs:15>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/WaitForTaskCompletionYieldInstruction.cs:15>
 		CustomYieldInstruction__ctor_mB64531EC09E871EF60BFAC16918A774C977C7B50((CustomYieldInstruction_t6B81A50D5D210C1ACAAE247FB53B65CDFFEB7617*)__this, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/WaitForTaskCompletionYieldInstruction.cs:17>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/WaitForTaskCompletionYieldInstruction.cs:17>
 		AsyncTask_1_t0AE0B7AB5AFE61F44467F751449C4FA9761E8CD7* L_0 = ___0_task;
 		__this->___m_Task = L_0;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___m_Task), (void*)L_0);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/WaitForTaskCompletionYieldInstruction.cs:18>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/WaitForTaskCompletionYieldInstruction.cs:18>
 		return;
 	}
 }
@@ -17420,7 +17420,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool WaitForTaskCompletionYieldInstruction_1_
 {
 	bool V_0 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/WaitForTaskCompletionYieldInstruction.cs:27>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/WaitForTaskCompletionYieldInstruction.cs:27>
 		AsyncTask_1_t0AE0B7AB5AFE61F44467F751449C4FA9761E8CD7* L_0 = __this->___m_Task;
 		NullCheck(L_0);
 		bool L_1;
@@ -17431,7 +17431,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool WaitForTaskCompletionYieldInstruction_1_
 
 IL_0012:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/WaitForTaskCompletionYieldInstruction.cs:28>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/WaitForTaskCompletionYieldInstruction.cs:28>
 		bool L_2 = V_0;
 		return L_2;
 	}
@@ -17448,13 +17448,13 @@ IL_0012:
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void WaitForTaskCompletionYieldInstruction_1__ctor_m9089713B1592F18EF905D196C6704F59628A7520_gshared (WaitForTaskCompletionYieldInstruction_1_t98B8F189144F36CE5884FECE450F4503593C277C* __this, AsyncTask_1_t752166623852A9111EEF677050C5C8D5AF93E09B* ___0_task, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/WaitForTaskCompletionYieldInstruction.cs:15>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/WaitForTaskCompletionYieldInstruction.cs:15>
 		CustomYieldInstruction__ctor_mB64531EC09E871EF60BFAC16918A774C977C7B50((CustomYieldInstruction_t6B81A50D5D210C1ACAAE247FB53B65CDFFEB7617*)__this, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/WaitForTaskCompletionYieldInstruction.cs:17>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/WaitForTaskCompletionYieldInstruction.cs:17>
 		AsyncTask_1_t752166623852A9111EEF677050C5C8D5AF93E09B* L_0 = ___0_task;
 		__this->___m_Task = L_0;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___m_Task), (void*)L_0);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/WaitForTaskCompletionYieldInstruction.cs:18>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/WaitForTaskCompletionYieldInstruction.cs:18>
 		return;
 	}
 }
@@ -17463,7 +17463,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool WaitForTaskCompletionYieldInstruction_1_
 {
 	bool V_0 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/WaitForTaskCompletionYieldInstruction.cs:27>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/WaitForTaskCompletionYieldInstruction.cs:27>
 		AsyncTask_1_t752166623852A9111EEF677050C5C8D5AF93E09B* L_0 = __this->___m_Task;
 		NullCheck(L_0);
 		bool L_1;
@@ -17474,7 +17474,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool WaitForTaskCompletionYieldInstruction_1_
 
 IL_0012:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/WaitForTaskCompletionYieldInstruction.cs:28>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/WaitForTaskCompletionYieldInstruction.cs:28>
 		bool L_2 = V_0;
 		return L_2;
 	}
@@ -17491,13 +17491,13 @@ IL_0012:
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void WaitForTaskCompletionYieldInstruction_1__ctor_m946C99A525AC4BF65B28B6C105B21AEFB29B9E36_gshared (WaitForTaskCompletionYieldInstruction_1_t9AB48B22227E91482A27DF6701A97702C7AB2108* __this, AsyncTask_1_tF18E2DE0D3059E1ED2673B36A951F138BE490AC1* ___0_task, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/WaitForTaskCompletionYieldInstruction.cs:15>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/WaitForTaskCompletionYieldInstruction.cs:15>
 		CustomYieldInstruction__ctor_mB64531EC09E871EF60BFAC16918A774C977C7B50((CustomYieldInstruction_t6B81A50D5D210C1ACAAE247FB53B65CDFFEB7617*)__this, NULL);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/WaitForTaskCompletionYieldInstruction.cs:17>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/WaitForTaskCompletionYieldInstruction.cs:17>
 		AsyncTask_1_tF18E2DE0D3059E1ED2673B36A951F138BE490AC1* L_0 = ___0_task;
 		__this->___m_Task = L_0;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___m_Task), (void*)L_0);
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/WaitForTaskCompletionYieldInstruction.cs:18>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/WaitForTaskCompletionYieldInstruction.cs:18>
 		return;
 	}
 }
@@ -17506,7 +17506,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool WaitForTaskCompletionYieldInstruction_1_
 {
 	bool V_0 = false;
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/WaitForTaskCompletionYieldInstruction.cs:27>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/WaitForTaskCompletionYieldInstruction.cs:27>
 		AsyncTask_1_tF18E2DE0D3059E1ED2673B36A951F138BE490AC1* L_0 = __this->___m_Task;
 		NullCheck(L_0);
 		bool L_1;
@@ -17517,7 +17517,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool WaitForTaskCompletionYieldInstruction_1_
 
 IL_0012:
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/WaitForTaskCompletionYieldInstruction.cs:28>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/WaitForTaskCompletionYieldInstruction.cs:28>
 		bool L_2 = V_0;
 		return L_2;
 	}
@@ -30534,7 +30534,7 @@ IL_0019:
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR bool AsyncTask_1_get_IsComplete_m67157FD592D06EF0B4376E07A2539043DC8581D3_gshared_inline (AsyncTask_1_t0AE0B7AB5AFE61F44467F751449C4FA9761E8CD7* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:55>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:55>
 		bool L_0 = __this->___U3CIsCompleteU3Ek__BackingField;
 		return L_0;
 	}
@@ -30543,7 +30543,7 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR bool AsyncTask_1_get_IsComplete_m
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR bool AsyncTask_1_get_IsComplete_mFD32A4920EC4A268A42FC8743143084E1373160F_gshared_inline (AsyncTask_1_t752166623852A9111EEF677050C5C8D5AF93E09B* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:55>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Android/Camera Features/AsyncTask.cs:55>
 		bool L_0 = __this->___U3CIsCompleteU3Ek__BackingField;
 		return L_0;
 	}

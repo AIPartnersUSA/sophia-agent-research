@@ -4404,11 +4404,11 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR NativeView_t46BF4DC998D34CF415F952E4D3895CC8F
 	NativeView_t46BF4DC998D34CF415F952E4D3895CC8F9000D7C V_0;
 	memset((&V_0), 0, sizeof(V_0));
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/NativeView.cs:14>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/NativeView.cs:15>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/NativeView.cs:16>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/NativeView.cs:17>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/NativeView.cs:18>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/NativeView.cs:14>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/NativeView.cs:15>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/NativeView.cs:16>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/NativeView.cs:17>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/NativeView.cs:18>
 		il2cpp_codegen_initobj((&V_0), sizeof(NativeView_t46BF4DC998D34CF415F952E4D3895CC8F9000D7C));
 		NativeArray_1_tDB8B8DC66CC8E16ED6D9A8C75D2C1AFC80AC1E18 L_0 = ___0_array;
 		void* L_1;
@@ -4428,11 +4428,11 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR NativeView_t46BF4DC998D34CF415F952E4D3895CC8F
 	NativeView_t46BF4DC998D34CF415F952E4D3895CC8F9000D7C V_0;
 	memset((&V_0), 0, sizeof(V_0));
 	{
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/NativeView.cs:20>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/NativeView.cs:21>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/NativeView.cs:22>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/NativeView.cs:23>
-		//<source_info:/Users/avinashbolleddula/Downloads/package/Runtime/Scripts/Utility/NativeView.cs:24>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/NativeView.cs:20>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/NativeView.cs:21>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/NativeView.cs:22>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/NativeView.cs:23>
+		//<source_info:/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/xreal-sdk/Runtime/Scripts/Utility/NativeView.cs:24>
 		il2cpp_codegen_initobj((&V_0), sizeof(NativeView_t46BF4DC998D34CF415F952E4D3895CC8F9000D7C));
 		NativeSlice_1_tA54E5D259EBCC7CD8512AA352C6F3709EB237B52 L_0 = ___0_slice;
 		void* L_1;
