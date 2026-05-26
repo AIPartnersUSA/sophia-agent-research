@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Custom Main Manifest for sophia-glasses. Unity treats this file as the
+     unityLibrary base manifest, not as an additive overlay. That means any
+     element we omit drops out of the merged result. So we must redeclare the
+     full UnityPlayerGameActivity exactly as Unity 6's auto-generator would,
+     and then layer on the tools:node="remove" for the XREAL Auto Logcat
+     ContentProvider. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools">
+
+    <application>
+
+        <activity android:name="com.unity3d.player.UnityPlayerGameActivity"
+                  android:theme="@style/BaseUnityGameActivityTheme"
+                  android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale|layoutDirection|density"
+                  android:enabled="true"
+                  android:exported="true"
+                  android:hardwareAccelerated="false"
+                  android:launchMode="singleTask"
+                  android:resizeableActivity="true"
+                  android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <meta-data android:name="unityplayer.UnityActivity" android:value="true" />
+            <meta-data android:name="android.app.lib_name" android:value="game" />
+            <meta-data android:name="WindowManagerPreference:FreeformWindowSize"
+                       android:value="@string/FreeformWindowSize_maximize" />
+            <meta-data android:name="WindowManagerPreference:FreeformWindowOrientation"
+                       android:value="@string/FreeformWindowOrientation_landscape" />
+            <meta-data android:name="notch_support" android:value="true" />
+            <layout android:minHeight="300px" android:minWidth="400px" />
+        </activity>
+
+        <provider android:name="com.xreal.evapro.autologcat.AutoLogProvider"
+                  android:authorities="${applicationId}.auto_log"
+                  tools:node="remove" />
+
+    </application>
+
+</manifest>

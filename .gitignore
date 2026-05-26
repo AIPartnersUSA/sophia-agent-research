@@ -51,8 +51,22 @@ agent-starter-react/coverage/
 # Unity client (Phase A skips this entirely)
 # Remove or relax these in Phase B
 # ============================================================
-sophia-glasses/unity/
-sophia-glasses/client-sdk-unity/
+# Unity client (Phase B)
+# Keep: Assets/, Packages/, ProjectSettings/
+# Drop: Library/, Temp/, Logs/, obj/, UserSettings/, Build/, .vs/
+sophia-glasses/unity/Library/
+sophia-glasses/unity/Temp/
+sophia-glasses/unity/Logs/
+sophia-glasses/unity/obj/
+sophia-glasses/unity/UserSettings/
+sophia-glasses/unity/Build/
+sophia-glasses/unity/Builds/
+sophia-glasses/unity/.vs/
+sophia-glasses/unity/*.csproj
+sophia-glasses/unity/*.sln
+
+# Unity build output - track via LFS if you want, otherwise drop
+sophia-glasses/unity/sophia-glasses.apk
 
 # ============================================================
 # Reference clones (read-only, not our code)

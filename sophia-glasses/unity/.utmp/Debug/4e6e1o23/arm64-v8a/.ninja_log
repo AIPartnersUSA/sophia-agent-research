@@ -1,0 +1,10 @@
+# ninja log v5
+1	416	1779739470679499860	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	f046ce1eea892985
+1	419	1779739470685155098	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	72cfaf5cbb4e6ca8
+0	420	1779739470685027264	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	d75784b647c84383
+1	420	1779739470688085822	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	f24b88639cebb02f
+0	426	1779739470696208073	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	b4f1aa457ac3b264
+1	441	1779739470712060949	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	e5aad6660e11ad91
+1	471	1779739470741676981	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	69830f94e34ce323
+0	499	1779739470768291830	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	bd74ffcc272e9138
+499	542	1779739470812616648	/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/unity/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/Debug/4e6e1o23/obj/arm64-v8a/libgame.so	2a08422148eeddf8

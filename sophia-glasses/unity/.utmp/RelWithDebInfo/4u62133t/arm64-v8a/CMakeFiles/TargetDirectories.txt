@@ -1,0 +1,5 @@
+/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/unity/.utmp/RelWithDebInfo/4u62133t/arm64-v8a/CMakeFiles/edit_cache.dir
+/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/unity/.utmp/RelWithDebInfo/4u62133t/arm64-v8a/CMakeFiles/rebuild_cache.dir
+/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/unity/.utmp/RelWithDebInfo/4u62133t/arm64-v8a/GameActivity/CMakeFiles/game.dir
+/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/unity/.utmp/RelWithDebInfo/4u62133t/arm64-v8a/GameActivity/CMakeFiles/edit_cache.dir
+/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/unity/.utmp/RelWithDebInfo/4u62133t/arm64-v8a/GameActivity/CMakeFiles/rebuild_cache.dir

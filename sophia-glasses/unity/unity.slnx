@@ -1,0 +1,8 @@
+﻿<Solution>
+  <Project Path="LiveKit.csproj" />
+  <Project Path="Editor.csproj" />
+  <Project Path="Unity.XR.XREAL.csproj" />
+  <Project Path="Unity.XR.XREAL.Editor.csproj" />
+  <Project Path="Assembly-CSharp-Editor.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
+</Solution>
