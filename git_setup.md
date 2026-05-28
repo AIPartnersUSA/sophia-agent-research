@@ -395,3 +395,58 @@ Once Phase B lands, also:
 4. Verify the push in browser per Step 5.
 
 Total time: 10-15 minutes. Then read `production_deployment.md` for the EC2 deploy plan.
+
+---
+
+## Gotchas we actually hit (2026-05-25 setup session)
+
+The setup wasn't all-smooth. Two gotchas worth knowing about so future-you doesn't waste an hour rediscovering them.
+
+### Gotcha 1: the submodule trap when a folder has its own .git/
+
+What happened: `agent-starter-react/` and `sophia-glasses/client-sdk-unity/` were both originally cloned from upstream repos, so each had its own `.git/` directory inside. When we ran `git add agent-starter-react/` at the outer project root, git noticed the inner `.git` and recorded only a "gitlink" (a 40-character commit SHA pointing into the other repo's history). It did NOT actually stage the files. The first push to GitHub uploaded a gitlink entry — anyone cloning got an EMPTY `agent-starter-react/` folder with no source code, and no `.gitmodules` to tell them where to find it.
+
+How we found it: `git status` showed `modified: agent-starter-react (modified content, untracked content)` with submodule wording. `git ls-tree HEAD agent-starter-react` returned `160000 commit <sha>	agent-starter-react` — mode 160000 is the gitlink mode. Source files were nowhere on the remote.
+
+How to fix:
+```bash
+# 1. Remove the inner .git directories (severs the submodule link).
+rm -rf agent-starter-react/.git
+rm -rf sophia-glasses/client-sdk-unity/.git
+
+# 2. Tell the outer repo to forget the gitlink entries.
+git rm --cached agent-starter-react
+git rm --cached sophia-glasses/client-sdk-unity
+
+# 3. Re-stage everything inside as regular files.
+git add agent-starter-react/
+git add sophia-glasses/client-sdk-unity/
+
+# 4. Verify LFS is catching binaries.
+git lfs ls-files | grep client-sdk-unity | head
+
+# 5. Commit and push.
+git commit -m "Vendor agent-starter-react and client-sdk-unity as files (not submodules)"
+git push
+```
+
+This is destructive in the sense that you lose the inner subproject's git history (you can no longer `git log` the upstream commits of agent-starter-react inside the outer repo). The WORKING TREE files are preserved, including any local edits.
+
+How to prevent it next time: BEFORE `git add`-ing a directory that came from a clone, run `find <dir> -name .git -type d` and remove any inner `.git/` directories first. Or use `git submodule add` if you genuinely want it as a submodule (different workflow, requires a `.gitmodules` file).
+
+### Gotcha 2: macOS Privacy & Security blocks Terminal from ~/Downloads
+
+What happened: We tried `cp -R ~/Downloads/package <repo>/sophia-glasses/xreal-sdk` and got `cp: /Users/.../Downloads/package: Operation not permitted`. Same `ls -la ~/Downloads/` failed with "Operation not permitted" — even though Finder could see the folder fine.
+
+Cause: macOS Sequoia (and recent Sonoma) treats `~/Downloads/`, `~/Documents/`, `~/Desktop/` as protected folders. Apps need explicit "Files and Folders" or "Full Disk Access" permission to read from them. Terminal.app doesn't have this by default. Same applies to any subprocess Terminal launches (`cp`, `ls`, `git`, etc.).
+
+How to fix (one-time setup):
+1. Apple menu > System Settings > Privacy & Security > Full Disk Access.
+2. Click +, navigate to Applications > Utilities > Terminal, add it.
+3. Quit Terminal completely (Cmd+Q, not just close window) and reopen.
+
+After that, Terminal can read all of `~/Downloads/`, `~/Documents/`, etc. without prompting.
+
+Workaround if you don't want to grant Full Disk Access: do the file copy in Finder (drag-and-drop or Copy/Paste). Finder is allowed by default. This is what we did for the XREAL SDK copy.
+
+How this manifests in Claude Code: my Bash tool inherits the parent Terminal's permissions, so when Terminal doesn't have Full Disk Access, I see "Operation not permitted" too. I was confused for a couple turns thinking the source folder was actually empty.

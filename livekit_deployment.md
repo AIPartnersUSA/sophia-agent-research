@@ -1459,3 +1459,123 @@ var text = readAll.Text;  // NOT ReadAllText
   - P1-8: build APK
   - P1-8b: adb install on Beam Pro
   - P1-9: write RUNBOOK.md for sophia-glasses
+
+## Q28 (2026-05-26): MVP deployment on a shared GPU EC2 — pre-deploy code changes, prod yaml, AWS SG, current pending state
+
+Goal: get the LiveKit voice agent stack running on AWS so the team can demo it remotely. Decided NOT to do full production (no TLS, no domain, no Secrets Manager, no auto-deploy) because this is an MVP to validate the architecture before the team approves the real production migration. Lives on a shared GPU EC2 (`g5.2xlarge`, 3.227.63.49, also used by Ivana for ML experimentation) in `/workspace/avinash/sophia/`. The canonical runbook is `deploy_to_ec2.md` at the project root; this Q captures the decision rationale and key learnings.
+
+### Why MVP-on-shared-box and not full production
+
+The original `production_deployment.md` plan was for a dedicated t3.large + domain + Let's Encrypt + nginx + Vercel + Secrets Manager. ~4-6 hours of setup, ~$70-120/mo. User wanted to demo to the team FIRST, then move to real production if the team approves.
+
+So we reused an existing shared GPU box already provisioned by infra for general experimentation. Trade-offs:
+- Pro: zero infra-provisioning lead time, lives next to the EKS inference cluster, $0 incremental cost (already paid for).
+- Con: shared with another teammate, so we have to coordinate port usage and contain everything to `/workspace/avinash/`. No TLS means browsers will warn about insecure origin (workaround via chrome://flags for the demo). Over-provisioned (g5.2xlarge has a GPU we don't use; SFU + agent + token-mint are CPU-bound).
+
+When the team approves the move to real production, follow `production_deployment.md` for the proper setup. The MVP work is the bridge.
+
+### Pre-deploy code changes (production-readiness, shipped 2026-05-26 BEFORE the deploy)
+
+Three changes in `sophia-agent/` to make the code safe to deploy beyond localhost:
+
+**1. Auth on token-mint.** `sophia-agent/src/token_mint.py` had zero auth — anyone reaching the endpoint could mint tokens for any room. Added:
+- `SOPHIA_TOKEN_API_KEY` env var. When set, /token requires `X-API-Key` header matching the env value; missing/wrong returns 401. When unset, no auth (dev mode preserved).
+- `SOPHIA_CORS_ORIGINS` env var (comma-separated). Replaces hardcoded `["*"]` so prod can narrow.
+- New `_require_api_key()` helper. Endpoint signature now takes `x_api_key: Optional[str] = Header(default=None, alias="X-API-Key")` and calls the helper first.
+
+**2. Env-driven inference URLs.** `sophia-agent/src/agent.py` had hardcoded `http://localhost:8080`, `:18080`, `:8122`, `:8106` inline at the AgentSession construction. Replaced with module-level constants that read from env vars (with the localhost defaults preserved):
+
+```python
+SOPHIA_RAG_URL = os.environ.get("SOPHIA_RAG_URL", "http://localhost:8106")
+WHISPER_URL = os.environ.get("WHISPER_URL", "http://localhost:8080")
+QWEN3_URL = os.environ.get("QWEN3_URL", "http://localhost:18080")
+KOKORO_URL = os.environ.get("KOKORO_URL", "http://localhost:8122")
+```
+
+Then `f"{WHISPER_URL}/v1"` etc. in the openai plugin calls. Production sets the env vars to VPC-internal DNS names of the inference services.
+
+**3. Split Dockerfile.** New file `sophia-agent/Dockerfile.token-mint` builds a slimmer image for the token-mint service. Skips `download-files` (token-mint doesn't load Silero or turn-detector). Uses `uv sync --locked --no-dev` for leaner install. CMD runs `uvicorn src.token_mint:app --host 0.0.0.0 --port 8001`. The original Dockerfile stays as the agent worker image.
+
+All three changes are dev-safe: with no env vars set, behavior is identical to before. Production sets the env vars.
+
+### LiveKit prod yaml differences from dev
+
+`sophia-agent/infra/livekit.yaml` (dev) is for laptop use: smaller UDP port range (50000-50100), `use_external_ip: false`, hardcoded dev keys. For the EC2 we created a separate `sophia-agent/infra/livekit.prod.yaml` (chmod 600, NOT committed to git) with:
+
+```yaml
+port: 7880
+
+rtc:
+  tcp_port: 7881
+  port_range_start: 50000
+  port_range_end: 60000          # 10x the dev range for real concurrent traffic
+  use_external_ip: false         # we set --node-ip on CLI which overrides
+
+keys:
+  <production-key>: <production-secret>
+
+logging:
+  level: info
+  json: false
+```
+
+Key behavioral note: `use_external_ip: false` is intentional even though we want WebRTC to advertise the public IP. The reason: we pass `--node-ip 3.227.63.49` on the docker-compose CMD line, which overrides any STUN discovery from `use_external_ip`. Setting `use_external_ip: true` would force the SFU to query STUN at startup which is slower and unnecessary when --node-ip is explicit.
+
+### AWS Security Group dependency
+
+Even when the SFU + token-mint are running and bound to 0.0.0.0 inside the EC2, external traffic from the laptop or browser is dropped at the AWS network edge by the security group. The SG is AWS's network firewall; by default it allows only ports explicitly listed in its inbound rules. The instance we got had only ports 22 (SSH) and 8888 (Jupyter) open. To make the voice agent reachable, we asked infra to add to SG `sophiaspatialai-gpu-20260511165512897100000004`:
+
+- TCP 3000 (frontend), 7880 (SFU WS), 7881 (TURN/TCP), 8001 (token-mint)
+- UDP 50000-60000 (WebRTC media)
+
+Until those are opened, `curl http://3.227.63.49:7880` from a laptop times out, even though `curl http://127.0.0.1:7880` from the EC2 itself works. This is the most common "looks running, doesn't respond externally" failure mode.
+
+### Production secrets handling (MVP-grade)
+
+For real production, secrets belong in AWS Secrets Manager with IAM-controlled access. For MVP we use `chmod 600` files on the EC2: `sophia-agent/.env.production` for app env, `sophia-agent/infra/livekit.prod.yaml` for SFU. Neither is committed to git. Acceptable for MVP because the box is shared with one trusted teammate (Ivana); not acceptable for real prod.
+
+Generation pattern:
+
+```bash
+LIVEKIT_KEY=$(openssl rand -hex 16)
+LIVEKIT_SECRET=$(openssl rand -hex 32)
+TOKEN_API_KEY=$(openssl rand -hex 16)
+```
+
+### Current state at session end 2026-05-26
+
+- SFU + token-mint built and running on EC2 via `docker compose up -d livekit-server token-mint`.
+- Local curl smoke tests pass (`curl http://127.0.0.1:8001/health` returns 200, `curl http://127.0.0.1:7880/` returns 200).
+- External access pending SG opens.
+- Agent worker container NOT yet started (depends on inference URLs which depend on infra's answer about whether the EC2 is in the same VPC as the EKS cluster).
+- Frontend NOT yet deployed (Option A: same EC2 with `npm run dev` on port 3000; Option B: Vercel; Option C: user's laptop). Will choose after SG is open.
+- Glasses NOT yet repointed at production URL.
+
+### Open questions to infra (blocking)
+
+1. Is EC2 `i-0748ed7c188c337cc` (VPC `vpc-0eeab16713f4f744d`) in the same VPC as the EKS cluster running Whisper/Qwen3/Kokoro/sophia-spatial-ai? Needed to know whether to point the agent worker at `*.svc.cluster.local` DNS (same VPC) or at NLB hostnames (different VPC).
+2. Open SG inbound rules listed above.
+
+Until both are answered, agent worker can't start and external clients can't reach the box.
+
+### Files written/touched 2026-05-26
+
+- `sophia-agent/src/token_mint.py` — auth + CORS env vars
+- `sophia-agent/src/agent.py` — env-driven inference URLs + `import os` added
+- `sophia-agent/Dockerfile.token-mint` — new file
+- `mvp_deployment_shared_ec2.md` — original MVP plan + architecture (project root)
+- `deploy_to_ec2.md` — comprehensive runbook with all 13 phases + maintenance + troubleshooting (project root)
+- On the EC2 (NOT in git): `/workspace/avinash/sophia/` with `.env.production`, `infra/livekit.prod.yaml`, `docker-compose.yml`
+
+### What's NOT covered by this MVP (deferred to real production)
+
+- TLS / HTTPS / WSS — getUserMedia in Chrome will warn / require workaround over plain HTTP from public IP.
+- Domain (using IP directly).
+- AWS Secrets Manager (using chmod 600 local files instead).
+- High availability (single EC2, single SFU process).
+- Auto-deploy from GitHub Actions (manual `git pull && docker compose up -d --build` for now).
+- Multi-tenant room namespacing per client (Appendix C Q1 in unity_approach.md).
+- CloudWatch log aggregation.
+- Egress recording.
+
+When the team approves the move past MVP, layer those on per `production_deployment.md`.

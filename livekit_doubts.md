@@ -4529,3 +4529,93 @@ Result: Sophia plays on the glasses speakers as in Scenario B, while the browser
 ### Pending validation
 
 User to rebuild APK + reinstall + re-run Scenario A demo (`?room=demo-team` in browser + glasses' Team Session with code `demo-team`) and confirm Sophia plays on BOTH the glasses speakers and the Mac earphones simultaneously when either user speaks.
+
+## Q59 (2026-05-25): How do we vendor third-party Unity packages (XREAL SDK, LiveKit Unity SDK) into the project so the repo is portable, and what's the manifest.json path math?
+
+Two-part answer. (A) Copy the package contents into the repo under a stable folder name. (B) Update `Packages/manifest.json` with a relative `file:` URI, and remember Unity resolves these relative to the manifest's OWN location, not the project root.
+
+### Path math (the gotcha)
+
+`Packages/manifest.json` lives at `<unity-project>/Packages/manifest.json`. When you write `"com.xreal.xr": "file:../xreal-sdk"`, Unity resolves it as `<unity-project>/Packages/../xreal-sdk` = `<unity-project>/xreal-sdk`. That's almost certainly NOT where you put the vendored SDK.
+
+If you vendored to `<unity-project>/../xreal-sdk` (one level above the unity project), the correct relative path is TWO levels up:
+
+```json
+"com.xreal.xr": "file:../../xreal-sdk"
+```
+
+This resolves to `<unity-project>/Packages/../../xreal-sdk` = `<unity-project>/../xreal-sdk`. Same logic for any sibling-of-unity-project location.
+
+Failure mode: Unity shows "An error occurred while resolving packages: Project has invalid dependencies: ... the file [<resolved path>]/package.json cannot be found". Read the resolved path in the error; if it's missing one level of `..`, that's the fix.
+
+### Vendoring step by step (working pattern)
+
+1. Copy the package contents into a stable folder in the repo. Layout: the folder you point at MUST contain `package.json` directly (no extra wrapper folder).
+2. Update `Packages/manifest.json` with the relative `file:` URI per the path math above.
+3. Install Git LFS (`brew install git-lfs && git lfs install`).
+4. Create or update `.gitattributes` at the repo root with LFS patterns for the binary types the package contains:
+   ```
+   <package-path>/**/*.aar     filter=lfs diff=lfs merge=lfs -text
+   <package-path>/**/*.dll     filter=lfs diff=lfs merge=lfs -text
+   <package-path>/**/*.so      filter=lfs diff=lfs merge=lfs -text
+   <package-path>/**/*.dylib   filter=lfs diff=lfs merge=lfs -text
+   <package-path>/**/*.bundle  filter=lfs diff=lfs merge=lfs -text
+   <package-path>/**/*.a       filter=lfs diff=lfs merge=lfs -text
+   ```
+   Or use broader `**/*.aar` etc. if you don't have other AARs in the repo.
+5. Open Unity, let it re-resolve (Library cache will rebuild). Watch the Console.
+6. Test build.
+7. Commit + push. First push uploads the binary contents to LFS.
+
+Refinement to think about later: `.meta` files (Unity's per-asset metadata) are tiny text files and should NOT be in LFS. The broad patterns above accidentally catch `*.dll.meta` and similar. Fix by adding negation patterns:
+```
+sophia-glasses/**/*.meta -filter -diff -merge text
+```
+
+### What was vendored 2026-05-25
+
+- `sophia-glasses/xreal-sdk/` — XREAL SDK 3.1.0 (was at `~/Downloads/package`, an environment-specific absolute path that broke portability).
+- `sophia-glasses/client-sdk-unity/` — LiveKit Unity SDK (already on disk in the project; needed the relative-path manifest fix).
+- `Packages/manifest.json` now has both as `file:../../xreal-sdk` and `file:../../client-sdk-unity`.
+
+After vendoring, anyone who clones the repo has both SDKs in-place and Unity resolves them without touching their `~/Downloads/`.
+
+### Files touched
+
+- `sophia-glasses/unity/Packages/manifest.json` — both package paths now relative `../../<vendored-folder>`.
+- `sophia-glasses/xreal-sdk/` (new directory, ~243 MB of XREAL SDK contents, ~10 AAR files via LFS).
+- `sophia-glasses/client-sdk-unity/` (already on disk, now tracked in git with ~30 FFI binaries via LFS).
+- `.gitattributes` at repo root.
+
+## Q60 (2026-05-25): Unity 6 deprecates `TMP_Text.enableWordWrapping`. What's the replacement and where in our code?
+
+`enableWordWrapping` is obsolete in TextMeshPro for Unity 6+. Replacement is `TMP_Text.textWrappingMode`, which takes an enum value from `TextWrappingModes`:
+- `enableWordWrapping = true` → `textWrappingMode = TextWrappingModes.Normal`
+- `enableWordWrapping = false` → `textWrappingMode = TextWrappingModes.NoWrap`
+
+Same runtime behaviour, just renamed for clarity (other modes exist too: PreserveWhitespace, etc.). Compile-time warning level only; old code keeps working but emits CS0618.
+
+### Fixed in our code 2026-05-25
+
+Four call sites:
+- `sophia-glasses/unity/Assets/Scripts/SophiaOverlayUI.cs` — subtitle text (Normal wrap) + chip text (NoWrap).
+- `sophia-glasses/unity/Assets/Scripts/SessionPicker.cs` — body text (Normal wrap) + button label text (NoWrap).
+
+### Other Unity 6 deprecations seen in build warnings (not our code, not blocking)
+
+- `Object.FindObjectOfType<T>()` → `Object.FindFirstObjectByType<T>()` / `Object.FindAnyObjectByType<T>()`. Used inside LiveKit Unity SDK + XREAL SDK. Vendor upgrade needed; ignore for now.
+- `SystemInfo.GetCompatibleFormat(GraphicsFormat, FormatUsage)` → overload with `GraphicsFormatUsage`. Used in LiveKit video sources (WebCameraSource, ScreenVideoSource, etc.) we don't activate. Ignore.
+- `GraphicsDeviceType.OpenGLES2` is obsolete. Used in LiveKit's `Utils.cs`. Ignore.
+- `RoomOptions.E2Ee` is obsolete. Used in LiveKit `Room.cs`. Ignore — we don't use E2EE.
+- `PlayerSettings.GetScriptingBackend(BuildTargetGroup)` → `GetScriptingBackend(NamedBuildTarget)`. Used in XREAL's `XREALProjectValidator.cs`. Ignore.
+
+All of these are CS0618 warnings, none cause runtime issues. They'll either go away when LiveKit + XREAL ship Unity-6-compatible versions, or quietly stay as warnings forever.
+
+### Two XREAL prefab errors (also seen 2026-05-25, not blocking)
+
+```
+Problem detected while importing the Prefab file: 'Packages/com.xreal.xr/Runtime/Prefabs/XR Interaction Hands Setup.prefab'.
+Missing Nested Prefab Asset: 'XR Origin (XR Rig) (Missing Prefab with guid: ...)'.
+```
+
+These prefabs reference `XR Origin` from `com.unity.xr.interaction.toolkit` which we don't install. Scoped to those specific prefabs (hand-tracking, XR controller setup) which we don't use. Safe to ignore unless we add hand tracking. To resolve: install XR Interaction Toolkit via Package Manager.
