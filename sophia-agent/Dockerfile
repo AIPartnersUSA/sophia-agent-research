@@ -18,7 +18,7 @@ RUN mkdir -p src
 RUN uv sync --locked
 
 COPY . .
-
+ENV HF_HOME=/app/.cache/huggingface
 # Pre-download Silero VAD and turn-detector ONNX so containers start fast.
 RUN uv run "src/agent.py" download-files
 
@@ -35,5 +35,5 @@ RUN adduser \
 COPY --from=build --chown=appuser:appuser /app /app
 WORKDIR /app
 USER appuser
-
+ENV HF_HOME=/app/.cache/huggingface
 CMD ["uv", "run", "src/agent.py", "start"]
