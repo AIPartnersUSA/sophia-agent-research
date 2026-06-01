@@ -625,3 +625,20 @@ Some git workflow lessons surfaced during the EC2 deployment (not the initial gi
 - **`.gitattributes`** at the repo root declares the LFS patterns for the two vendored Unity SDKs. Add new patterns here if vendoring more binaries.
 
 - Daily workflow assumption: edit on Mac, push to GitHub, pull on EC2. Avoid the Problem-12 pattern by NEVER editing the same file in two places without committing in between.
+
+### `git_sync.md` (added 2026-05-29, validated 2026-06-01)
+
+The operational follow-on to this file. While `git_setup.md` is about getting the repo started, **`git_sync.md` is about reconciling Mac + EC2 + GitHub when they drift** (which happens any time you edit code directly on EC2 during a demo or live session). 8-step procedure with triage rules for unexpected dirty files, secret handling for untracked files, Unity build-artifact cleanup, and recovery paths for push-rejected / pull-overlap scenarios. Read this when `git status` looks confusing on either side.
+
+### `HANDOFF.md` (added 2026-06-01)
+
+The infra-team onboarding doc. Hand a fresh infra engineer this file before they touch anything — it tells them what's in the repo, what's intentionally not in the repo (the gitignored secret files + their schemas), what architecture to preserve (e.g. host networking for the SFU), what they need to build for production (k8s manifests, ArgoCD, real auth, TLS, CI/CD), and 8 anti-patterns to avoid (don't put SFU behind ALB, don't reuse MVP keys, don't `npm install` in container builds — use `npm ci`). The 12-step migration sequence at the bottom is the recommended order.
+
+### `.env.*.example` template files (added 2026-06-01)
+
+Three template files document the schema of the gitignored secret files, with `openssl rand` commands inline:
+- `sophia-agent/.env.production.example`
+- `sophia-agent/infra/livekit.prod.yaml.example`
+- `agent-starter-react/.env.local.example`
+
+For fresh setups, copy each `.example` to its non-example sibling and fill in values. The subfolder `.gitignore` files were patched with `!.env.*.example` negation patterns so the templates stay tracked while the real `.env.*` files stay ignored.

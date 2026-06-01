@@ -1,11 +1,32 @@
 # steps_to_run.md
 
-Two run sequences for the Sophia voice agent:
+Two run sequences for the Sophia voice agent **on your Mac (LOCAL DEV mode)**:
 
 1. **Local browser application** (5 terminals on Mac, open http://localhost:3000)
 2. **XREAL glasses + Beam Pro** (depends on the same Mac backend being up)
 
 Always run the browser path first to confirm the backend is healthy, then move to glasses.
+
+---
+
+## Local-dev vs shared-EC2 demo — two parallel deployments
+
+This file (`steps_to_run.md`) is for the LOCAL-DEV path — backend running on YOUR Mac, glasses point at your Mac via Tailscale. Good for: writing code, debugging, validating before pushing.
+
+The SHARED-EC2 path lives in a separate runbook (`mvp_deployment_shared_ec2.md`) — backend running on the team's EC2 at `3.227.63.49`, glasses point at the public IP, no Mac in the loop. Good for: team demos, viewer share-link, glasses-from-anywhere.
+
+The SAME APK + SophiaConfig.asset is used by both modes. The switch is which URL is baked into SophiaConfig.asset at build time.
+
+**Current state of SophiaConfig.asset (check before rebuilding APK):**
+
+```bash
+grep -E "liveKitUrl|tokenEndpoint|tokenApiKey" '/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/unity/Assets/Settings/SophiaConfig.asset'
+```
+
+- If `liveKitUrl: ws://100.69.34.194:7880` and `tokenApiKey: ""` → asset is set for LOCAL DEV. Follow this doc directly.
+- If `liveKitUrl: ws://3.227.63.49:7880` and `tokenApiKey:` has a value → asset is set for SHARED EC2. Before doing LOCAL DEV glasses testing, you must change the asset back to Tailscale URLs (see "Switching SophiaConfig between modes" at the bottom of this file) AND rebuild the APK.
+
+As of 2026-06-01, SophiaConfig.asset is set for SHARED EC2 by default. So a typical LOCAL-DEV glasses test today requires the switch-back first.
 
 ---
 
@@ -250,3 +271,23 @@ adb logcat --pid=<pid>                                  # only this app's logs
 
 - App on Beam Pro: `adb shell am force-stop com.UnityTechnologies.com.unity.template.urpblank`
 - All Mac terminals: Ctrl-C in each (and `./infra/pf-gpu.sh stop` for Terminal 2)
+
+---
+
+## Switching SophiaConfig between modes
+
+The same Unity project + SophiaConfig.asset serves both local-dev and shared-EC2. Three fields change between modes — open `sophia-glasses/unity/Assets/Settings/SophiaConfig.asset` in Unity Inspector (or text-edit the YAML if you're careful) and update:
+
+**LOCAL DEV mode** (Mac is the backend, glasses connect via Tailscale):
+- `liveKitUrl: ws://100.69.34.194:7880` (your Mac's Tailscale IP)
+- `tokenEndpoint: http://100.69.34.194:8001/token`
+- `tokenApiKey: ` (empty — local token-mint has no auth)
+
+**SHARED EC2 mode** (team demo, glasses connect over public internet):
+- `liveKitUrl: ws://3.227.63.49:7880`
+- `tokenEndpoint: http://3.227.63.49:8001/token`
+- `tokenApiKey: 9a11fdf5ce05e3cecad28f933d778971` (must match SOPHIA_TOKEN_API_KEY in EC2's .env.production)
+
+After changing values, save the asset (Cmd+S) and rebuild the APK (File > Build Profiles > Build). The previous APK still has the old URLs baked in; URL changes don't propagate to an already-installed app.
+
+Important: do NOT commit SophiaConfig.asset switches casually. Today the canonical committed value is SHARED EC2 mode. If you switch locally for testing, either revert before committing OR commit the switch as an intentional default change (and update mvp_deployment_shared_ec2.md to reflect it).

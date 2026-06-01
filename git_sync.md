@@ -304,6 +304,29 @@ docker compose down
 docker compose up -d
 ```
 
+### `echo >>` joined two lines because file had no trailing newline
+
+If a file's last line lacks a trailing newline (`\n`), `echo "newvalue" >> file` will concatenate the newvalue onto the existing last line instead of starting a new one. We hit this on `.gitignore` when both Mac and EC2 appended different lines — EC2's first append joined `READ_ME_NOW.md` and `frontend.log` into the single token `READ_ME_NOW.mdfrontend.log`. The merge conflict on pull then surfaced the joined line.
+
+Safe pattern when appending:
+
+```bash
+# Ensure a trailing newline exists BEFORE appending
+[ -z "$(tail -c1 path/to/file)" ] || echo >> path/to/file
+echo "new entry" >> path/to/file
+```
+
+Or just edit with `nano` / your IDE which always normalizes the trailing newline. Avoid raw `echo >>` for files you didn't write yourself.
+
+### Adding a new gitignored file pattern but the `.example` template gets caught too
+
+When you add a gitignore rule like `.env*` or `.env.*` to ignore a secret file, the same rule will ALSO catch any `.env.something.example` template files that document its schema. Two ways out:
+
+1. Add an explicit negation pattern below it: `!.env.*.example`. This is what we did in `sophia-agent/.gitignore` and `agent-starter-react/.gitignore`.
+2. Name the template file something that doesn't match the ignore rule (e.g. `env.production.template` instead of `.env.production.example`). Uglier.
+
+Verify with `git check-ignore -v <file>` — that command tells you which line in which `.gitignore` is matching, OR (if negated) which `!` rule is letting it through.
+
 ---
 
 ## Quick-reference for the common future case
