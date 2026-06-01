@@ -490,3 +490,380 @@ No, because then the Next.js frontend (which reads the same file via its own `.e
 ### Production-grade equivalent (k8s)
 
 In a Kubernetes setup with both SFU and worker on `hostNetwork: true` (same node), the same override applies: the worker's env would have `LIVEKIT_URL=ws://localhost:7880`. In a setup where the SFU runs as a Service (different Pod, ClusterIP), the worker would use `LIVEKIT_URL=ws://livekit-server.namespace.svc.cluster.local:7880`. The principle is the same: worker should reach the SFU via the FASTEST available path, which differs from what external clients should use. Encode that as a per-Pod env var.
+
+---
+
+## Q7 (2026-06-01): Complete end-to-end flow for the BROWSER application — who asks whom, who connects to whom, who sends what, who responds with what?
+
+User opens Chrome, types `http://3.227.63.49:3000`, clicks Start Call, asks "What's the safety procedure for the X-200?", Sophia answers ~3 seconds later. Every step that happens between, named at the protocol level.
+
+### Step 0 — One-time Chrome setup (per profile)
+
+- **Actor**: User on their laptop.
+- **Action**: Open `chrome://flags/#unsafely-treat-insecure-origin-as-secure`, paste `http://3.227.63.49:3000`, relaunch Chrome.
+- **Why**: Chrome blocks `navigator.mediaDevices.getUserMedia()` on non-secure-context pages. Our public-IP HTTP page qualifies as non-secure → the mic API is literally `undefined` in page JavaScript without this flag.
+- **Result**: That ONE origin is now treated as secure for this Chrome profile. The mic API becomes available. Flag persists until cleared.
+
+### Step 1 — Page load
+
+- **Actor**: Browser. **Target**: EC2's frontend on port 3000.
+- **Request**: `GET / HTTP/1.1` to `http://3.227.63.49:3000/`.
+- **Path through Docker**: AWS SG inbound rule for TCP 3000 → EC2 host → bypasses Docker (npm start runs natively, not in a container) → Next.js process bound on `0.0.0.0:3000`.
+- **Response**: `200 OK` with the prebuilt React HTML + a `<script>` tag pointing at the JS bundle. ~200 KB total.
+- **Result**: Browser starts loading + executing the React SPA. Page renders the welcome screen with a "Start Call" button.
+
+### Step 2 — User clicks Start Call
+
+- **Actor**: User clicks. **Target**: React component (`components/app/app.tsx` or similar).
+- **Action**: React calls the LiveKit Agents Starter's `useConnection` hook, which kicks off the connection flow.
+- **No network traffic yet** — purely client-side state change.
+
+### Step 3 — Browser asks for a JWT (the "token request")
+
+- **Actor**: Browser (JavaScript). **Target**: Next.js server-side route at SAME origin.
+- **Request**: `POST /api/token HTTP/1.1` to `http://3.227.63.49:3000/api/token` with body `{}` (empty JSON).
+- **Critically**: This is NOT the FastAPI token-mint at port 8001. Browser uses the Next.js built-in route at port 3000.
+- **Server-side handler** (`agent-starter-react/app/api/token/route.ts`, running inside the `npm start` process):
+  1. Reads `LIVEKIT_URL`, `LIVEKIT_API_KEY`, `LIVEKIT_API_SECRET` from its `.env.local`.
+  2. Generates random room name like `sophia-2025-XXXX`.
+  3. Generates random participant identity like `viewer-abc123`.
+  4. Uses `livekit-server-sdk` (npm package) to build an `AccessToken` with the room, identity, video grants (canPublish/Subscribe/PublishData), and TTL.
+  5. **Critically** adds `roomConfig.agents: [{agentName: 'sophia-agent'}]` — this is what tells the SFU to dispatch our worker.
+  6. Signs the JWT using HS256 with `LIVEKIT_API_SECRET`.
+- **Response**: `200 OK` with body `{ "serverUrl": "ws://3.227.63.49:7880", "participantToken": "eyJhbG...", "roomName": "...", "participantName": "..." }`.
+- **Auth**: None on this route. It's open. Anyone who can hit `:3000/api/token` gets a token.
+
+### Step 4 — Browser opens WebSocket to SFU
+
+- **Actor**: Browser. **Target**: livekit-server (SFU) on EC2 port 7880.
+- **Request**: WebSocket upgrade to `ws://3.227.63.49:7880/rtc?access_token=<jwt>&protocol=12&...`.
+- **Path through Docker**: AWS SG inbound TCP 7880 → EC2 host → SFU listening on `0.0.0.0:7880` (because host networking).
+- **SFU side**:
+  1. Receives the WS handshake with the JWT in the query string.
+  2. Decodes the JWT. Reads the `iss` claim = `LIVEKIT_API_KEY`. Looks up the matching secret in its `keys:` block (loaded from `livekit.prod.yaml`).
+  3. Verifies HS256 signature with that secret. **If signature fails → close WS with error.** Otherwise proceed.
+  4. Creates the room if it doesn't exist. Adds this participant.
+- **Response**: SFU sends back a `JoinResponse` LiveKit protocol message over the WS containing the SFU's connection parameters (ICE candidates, fingerprints, supported codecs).
+
+### Step 5 — SFU dispatches the agent worker (parallel to Step 4)
+
+- **Trigger**: When SFU processes the JoinRequest in Step 4, it sees `roomConfig.agents: [{agentName: 'sophia-agent'}]` in the JWT.
+- **Actor**: SFU. **Target**: agent-worker container on the same EC2.
+- **Path**: The worker registered at startup via its own long-lived WebSocket to `ws://localhost:7880/worker` (because of the host networking + LIVEKIT_URL=ws://localhost:7880 override from Q6). SFU sends a `JobOffer` over that WS.
+- **JobOffer payload** (LiveKit protobuf): `{job: {id, room: {name: ...}, participant: {identity, ...}}}`.
+- **Worker responds**: `JobAccept` over the same WS.
+- **SFU mints**: a server-side JWT for the worker (different from the one the browser got).
+- **Worker action**: Uses that JWT to open a SEPARATE WebSocket connection to `ws://localhost:7880/rtc` and join the room as a new participant with identity `agent-<sid>`. The `agent-` prefix is what glasses clients filter on for audio playback (Q58).
+
+Now the room has 2 participants: the browser (viewer) and the agent.
+
+### Step 6 — WebRTC negotiation (browser ↔ SFU)
+
+- **Actor**: Browser AND SFU together. Exchange SDP messages over the WS opened in Step 4.
+- **SDP offer** (browser → SFU): "I support Opus codec, here are my ICE candidates for receiving media, here's my DTLS fingerprint."
+- **SDP answer** (SFU → browser): "OK, here are MY ICE candidates, MY DTLS fingerprint, agreed codecs."
+- **ICE connectivity check**: Browser and SFU each try to send STUN binding requests to the other's candidate IPs over UDP. The SFU's host candidate is `3.227.63.49:<random-from-50000-60000>`. Browser's candidate is whatever NAT gives it.
+- **DTLS handshake** over UDP completes. SRTP encryption keys derived.
+- **Result**: A WebRTC peer connection exists between browser and SFU. UDP packets flow over the public internet to the EC2 SG inbound UDP 50000-60000 → SFU.
+
+### Step 7 — WebRTC negotiation (worker ↔ SFU, parallel)
+
+Same as Step 6 but happens inside the EC2:
+- Worker's ICE candidate is on the loopback / host interface.
+- SFU's candidate is on `127.0.0.1:<port>`.
+- DTLS + SRTP keys derived for the worker side too.
+- **Result**: A SEPARATE WebRTC peer connection between worker and SFU on the same EC2.
+
+### Step 8 — Browser requests microphone
+
+- **Actor**: Browser. **Target**: Operating system / Chrome's mic permission gate.
+- **Action**: `navigator.mediaDevices.getUserMedia({ audio: true })`.
+- **First time**: Chrome shows the mic permission dialog. User clicks Allow.
+- **Result**: Browser receives a `MediaStreamTrack` containing live mic audio frames at 48 kHz mono.
+
+### Step 9 — Browser publishes mic track
+
+- **Actor**: Browser. **Target**: SFU (via the existing peer connection).
+- **Action**: `room.localParticipant.publishTrack(track, { source: TrackSource.SourceMicrophone })`.
+- **What happens**: The browser starts encoding mic audio as Opus, packets it in SRTP, sends over the UDP peer connection.
+- **SFU side**: Receives the packets, notes "this participant just published an audio track." Notifies other participants in the room (the agent-worker).
+
+### Step 10 — Worker subscribes to user's audio
+
+- **Actor**: SFU notifies worker. **Target**: Worker auto-subscribes.
+- **Action**: SFU starts FORWARDING the browser's audio packets to the worker over the worker's peer connection.
+- **Worker side** (Python code): The LiveKit Agents framework's `AgentSession.input` consumes the incoming audio frames. They're routed to Silero VAD (CPU inference, ~1ms per frame).
+
+User starts speaking: "What's the safety procedure for the X-200?"
+
+Audio flows: browser mic → SRTP/UDP → SFU → SRTP/UDP → worker → AgentSession → VAD frame-by-frame.
+
+### Step 11 — Turn-detection fires end-of-turn
+
+- **Actor**: Worker's MultilingualModel turn-detector (an ONNX model running inside the worker).
+- **Input**: Accumulated audio + VAD state.
+- **Output**: Decision "user is done talking."
+- **Effect**: AgentSession finalizes the buffered audio (the full utterance) and triggers the STT call.
+
+### Step 12 — Worker calls Whisper STT
+
+- **Actor**: Worker. **Target**: whisper-inference service in EKS us-west-2, reached via kubectl port-forward.
+- **Request**: `POST http://localhost:8080/v1/audio/transcriptions` with multipart/form-data body containing `file=<audio bytes>` and `model=whisper-large-v3`.
+- **Path**: localhost:8080 → kubectl port-forward process on EC2 → EKS API endpoint (us-west-2, HTTPS public) → kube-proxy → whisper-inference Pod.
+- **Response**: `200 OK` with body `{ "text": "What's the safety procedure for the X-200?" }`.
+- **Latency**: ~400-600 ms total (includes cross-region hop).
+
+### Step 13 — `on_user_turn_completed` hook fires (RAG)
+
+- **Actor**: Worker. **Target**: sophia-spatial-ai in EKS, via port-forward at localhost:8106.
+- **Request**: `POST http://localhost:8106/retrieve` with body `{ "question": "What's the safety procedure for the X-200?", "top_k": 5 }`.
+- **Response**: `200 OK` with body like:
+  ```json
+  {
+    "question": "...",
+    "answer": "<pre-generated answer string>",
+    "hits": [
+      {"source": "manual_x200.pdf", "page": 42, "score": 0.78, "text": "..."},
+      {"source": "manual_x200.pdf", "page": 43, "score": 0.71, "text": "..."}
+    ],
+    "mode": "...",
+    "images": [...]
+  }
+  ```
+- **Logic in the hook**: If `max(hit.score for hit in hits) >= 0.10` (RAG_SCORE_THRESHOLD), inject the top chunks into the LLM `chat_ctx` as a system message: "Here is relevant context from the maintenance manual: ...". Below threshold, skip injection.
+- **Side effect**: Worker publishes a `sophia.rag_result` text-stream message over the data channel with the full payload. Browser subscribes and renders the RAG side panel.
+
+### Step 14 — Worker calls LLM (Qwen3-VL-8B-Instruct)
+
+- **Actor**: Worker. **Target**: qwen3-inference in EKS, via port-forward at localhost:18080.
+- **Request**: `POST http://localhost:18080/v1/chat/completions` with body:
+  ```json
+  {
+    "model": "qwen3-vl-8b-instruct",
+    "messages": [
+      {"role": "system", "content": "<system prompt>"},
+      {"role": "system", "content": "<RAG chunks if injected>"},
+      {"role": "user", "content": "What's the safety procedure for the X-200?"}
+    ],
+    "stream": true
+  }
+  ```
+- **Response**: Server-sent events stream. Each chunk is `data: {"choices": [{"delta": {"content": "Sa"}}]}\n\n`, terminated by `data: [DONE]\n\n`.
+- **Worker action**: Buffers tokens as they arrive, starts feeding them to TTS as complete sentence-fragments emerge (streaming TTS — doesn't wait for full LLM response).
+- **Latency**: First token ~1-1.5 s, full response ~2-3 s.
+
+### Step 15 — Worker calls TTS (Kokoro)
+
+- **Actor**: Worker. **Target**: kokoro-tts in EKS, via port-forward at localhost:8122.
+- **Request** (for each TTS chunk): `POST http://localhost:8122/v1/audio/speech` with body:
+  ```json
+  {
+    "model": "tts-1",
+    "voice": "serena",
+    "input": "<text fragment to speak>",
+    "response_format": "wav"
+  }
+  ```
+- **Response**: Binary WAV audio bytes (raw, not SSE).
+- **Worker action**: Receives WAV, hands it to a LiveKit `LocalAudioTrack` for publishing.
+
+### Step 16 — Worker publishes its audio track
+
+- **Actor**: Worker. **Target**: SFU (via the worker's WebRTC peer connection from Step 7).
+- **Action**: Wraps the WAV audio in a `LocalAudioTrack`, calls `room.localParticipant.publishTrack(track)` on the worker side.
+- **Effect**: Worker starts sending Opus-encoded TTS audio packets over its peer connection to the SFU.
+- **SFU action**: Forwards those packets to every OTHER participant in the room (the browser).
+
+### Step 17 — Browser subscribes to agent track
+
+- **Actor**: SFU notifies browser. Browser auto-subscribes.
+- **Action**: SFU forwards the worker's audio packets over the browser's peer connection (the one from Step 6).
+- **Browser side**: The LiveKit JS SDK creates a new `RemoteAudioTrack`, attaches it to an `<audio>` DOM element, the element auto-plays.
+- **Result**: User hears Sophia's voice through laptop speakers / headphones.
+
+Round-trip from "stopped talking" to "Sophia starts talking": ~2-3 seconds.
+
+### Step 18 — Text-stream side channel (throughout the whole flow)
+
+While the audio is flowing, the worker ALSO publishes data-channel messages on three topics:
+- **`sophia.agent_events`** — JSON events for state pill (`{kind: "agent_state", state: "thinking" | "speaking" | "listening"}`), user transcripts, metrics.
+- **`lk.transcription`** — incremental transcript text (built-in LiveKit topic).
+- **`sophia.rag_result`** — the full payload from Step 13.
+
+Browser components subscribe via `room.on('dataReceived', handler)` or LiveKit's text-stream API. The state pill, scrolling transcript, and RAG sources side panel update in real time.
+
+### Step 19 — End session
+
+- **Actor**: User clicks End Call (or closes tab).
+- **Action**: Browser sends `LeaveRequest` over its WS to the SFU.
+- **SFU side**: Removes the participant. Since the agent is the only other participant, the SFU sends `RoomDisconnected` to the agent. Worker's `sophia_agent(ctx)` function awaits a final cleanup and returns. Worker subprocess ends, parent worker process goes back to "available" state ready for the next room dispatch.
+
+### Quick summary of which connections exist during a session
+
+- Browser ↔ Next.js frontend: 1 TCP connection for HTML/JS load (Step 1). 1 short TCP for token POST (Step 3). Both closed after.
+- Browser ↔ SFU: 1 long-lived WS over TCP 7880 (Step 4). 1 long-lived WebRTC peer connection over UDP 50000-60000 (Steps 6, 9, 17).
+- Worker ↔ SFU: 1 long-lived worker-registration WS (set up at worker startup). 1 long-lived job WS for the room (Step 5). 1 long-lived WebRTC peer connection over UDP (Steps 7, 10, 16).
+- Worker ↔ Inference services: short-lived HTTP requests per turn (Steps 12, 13, 14, 15). All over localhost via kubectl port-forwards.
+- SFU ↔ AgentServer registration: 1 long-lived WS established at agent-worker startup (before any room exists).
+
+---
+
+## Q8 (2026-06-01): Complete end-to-end flow for the XREAL GLASSES + Beam Pro application — who asks whom, who connects to whom, who sends what, who responds with what?
+
+User puts on Beam Pro + XREAL One Pro glasses, taps the Sophia app icon, asks "What's the safety procedure for the X-200?", Sophia answers through the glasses temple speakers ~3 seconds later. Same backend, different client glue.
+
+### Step 0 — Prerequisites (already done)
+
+- Beam Pro has the Sophia APK installed via `adb install -r sophia-glasses.apk`.
+- The APK has `SophiaConfig.asset` baked in with: `liveKitUrl=ws://3.227.63.49:7880`, `tokenEndpoint=http://3.227.63.49:8001/token`, `tokenApiKey=9a11fdf5...` (matches `SOPHIA_TOKEN_API_KEY` on EC2), `agentName=sophia-agent`.
+- Beam Pro has RECORD_AUDIO permission either granted from a previous session or about to be granted on this launch.
+
+### Step 1 — App launch
+
+- **Actor**: User taps the app icon (or `adb shell am start -n com.UnityTechnologies.com.unity.template.urpblank/com.unity3d.player.UnityPlayerGameActivity`).
+- **Action**: Android starts the Unity activity. Unity loads `Assets/Scenes/sophia-scene.unity`.
+- **In the scene at startup**:
+  - `SessionPicker` GameObject ACTIVE → `OnEnable` builds the picker UI (landscape two-column card with Private / Team session buttons).
+  - `SophiaConnection` GameObject DEACTIVATED → not running yet.
+  - `SophiaOverlayUI` MonoBehaviour ACTIVE → builds the world-space HUD canvas (parented to Camera.main at 2m focal distance).
+- **No network traffic yet.**
+
+### Step 2 — User picks Private session
+
+- **Actor**: User taps the Private button (touch on Beam Pro screen).
+- **Action**: `SessionPicker.OnPrivateClicked` fires. It:
+  1. Sets `SophiaSessionContext.CurrentMode = Mode.Private`.
+  2. Hides the picker panel.
+  3. Calls `connectionGameObject.SetActive(true)` — activates SophiaConnection.
+- **Effect**: `SophiaConnection.OnEnable` starts the `ConnectFlow` coroutine.
+
+### Step 3 — Glasses request a JWT (the token request)
+
+- **Actor**: Beam Pro app (UnityWebRequest). **Target**: token-mint FastAPI on EC2 port 8001.
+- **Path**: Beam Pro Android mobile data / WiFi → public internet → AWS SG inbound TCP 8001 → EC2 host → Docker port-mapping → token-mint container port 8001.
+- **Request**: `POST http://3.227.63.49:8001/token HTTP/1.1`
+  - Header: `Content-Type: application/json`
+  - Header: `X-API-Key: 9a11fdf5ce05e3cecad28f933d778971` (added because `config.tokenApiKey` is non-empty)
+  - Body: `{ "identity": "glasses-<random>", "room": "sophia-glasses-<random>" }` (or whatever the Unity client generates)
+- **token-mint side** (`src/token_mint.py`):
+  1. FastAPI dependency injection extracts `x_api_key` from the X-API-Key header.
+  2. `_require_api_key(x_api_key)` compares against `SOPHIA_TOKEN_API_KEY` env var. Match → proceed. Mismatch → raise HTTP 401 with body `Missing or invalid X-API-Key header`.
+  3. Builds `VideoGrants(room_join=True, room=req.room, can_publish=True, can_subscribe=True, can_publish_data=True)`.
+  4. Builds `AccessToken(LIVEKIT_API_KEY, LIVEKIT_API_SECRET)` (these come from `env_file:.env.production`).
+  5. Chains identity, name, grants, TTL.
+  6. **Critically** adds `RoomConfiguration(agents=[RoomAgentDispatch(agent_name="sophia-agent")])` — same effect as the browser path.
+  7. Signs JWT, returns it.
+- **Response**: `200 OK` with body `{ "token": "eyJhbG...", "url": "ws://3.227.63.49:7880", "identity": "...", "room": "..." }`.
+- **Failure modes**: If `X-API-Key` is wrong → 401 (Problem 17). If service is unreachable → connection timeout (SG closed or EC2 down).
+
+### Step 4 — Glasses open WebSocket to SFU
+
+- **Actor**: LiveKit Unity SDK on Beam Pro. **Target**: livekit-server on EC2 port 7880.
+- **Request**: WebSocket upgrade to `ws://3.227.63.49:7880/rtc?access_token=<jwt>&...`.
+- **Path**: Same as browser Step 4 — AWS SG inbound TCP 7880 → EC2 host → SFU.
+- **SFU side**: Identical to browser flow Step 4. Verifies JWT signature, creates room (or joins existing), sends `JoinResponse`.
+
+### Step 5 — SFU dispatches the agent worker (parallel to Step 4)
+
+Identical to browser flow Step 5. SFU sees `roomConfig.agents` in the JWT → sends JobOffer to the already-registered agent-worker → worker accepts, joins room as `agent-<sid>`. The agent doesn't know or care that this is the glasses client vs the browser client.
+
+### Step 6 — WebRTC negotiation (Beam Pro ↔ SFU)
+
+- **Actor**: LiveKit Unity SDK on Beam Pro AND SFU together.
+- **Inside Unity**: The SDK wraps a native libwebrtc implementation (FFI bindings from `client-sdk-unity/Runtime/Plugins/`) that handles the SDP offer/answer + ICE + DTLS + SRTP same as a browser would.
+- **Path of media packets**: Beam Pro mobile network → ICE candidate exchange → public UDP to EC2's 50000-60000 range.
+- **Result**: A WebRTC peer connection exists between the Beam Pro app and the SFU. Same protocol as the browser.
+
+### Step 7 — WebRTC negotiation (worker ↔ SFU)
+
+Identical to browser flow Step 7. Worker establishes its own peer connection to the SFU.
+
+### Step 8 — Glasses request microphone
+
+- **Actor**: SophiaConnection's ConnectFlow coroutine (Unity C#). **Target**: Android system / RECORD_AUDIO permission gate.
+- **Action**: LiveKit Unity SDK's `MicrophoneSource` calls Android's `Microphone.Start(deviceName, ...)`.
+- **If permission not granted**: Android shows the system permission dialog ON the Beam Pro screen. User taps Allow. The SophiaConnection.cs Path A code polls up to 20 seconds waiting for Android to register the grant.
+- **Once granted**: `Microphone.Start` returns a Unity `AudioClip` that fills with live mic data at 48 kHz mono.
+
+### Step 9 — Glasses publish mic track
+
+- **Actor**: LiveKit Unity SDK. **Target**: SFU (over the peer connection from Step 6).
+- **Action**: SDK wraps the `AudioClip` in a `LocalAudioTrack`, calls `room.LocalParticipant.PublishTrack(track, new TrackPublishOptions { Source = TrackSource.SourceMicrophone })`.
+- **What happens**: Native libwebrtc inside the SDK encodes mic audio as Opus, packets in SRTP, sends to the SFU over UDP. Same as browser.
+
+### Step 10 — Worker subscribes to user audio, Steps 11-15 (turn detect, STT, RAG, LLM, TTS)
+
+**Identical to browser flow Steps 10-15.** The worker doesn't know which client type published the audio. STT → RAG → LLM → TTS pipeline runs the same way. Same inference service calls, same data shapes, same timing.
+
+### Step 16 — Worker publishes TTS audio track
+
+Identical to browser flow Step 16. Worker's WAV → SFU → forwarded to subscribers.
+
+### Step 17 — Beam Pro subscribes to agent audio (CRITICAL DIFFERENCE FROM BROWSER)
+
+- **Actor**: SFU notifies Beam Pro. LiveKit Unity SDK fires `Room.TrackSubscribed` event.
+- **SophiaConnection.OnTrackSubscribed handler** (the Q58 production-correct contract):
+
+```csharp
+private void OnTrackSubscribed(RemoteTrack track, RemoteTrackPublication publication, RemoteParticipant participant)
+{
+    // FILTER: only play AGENT tracks. Skip other users' mic tracks
+    // (which would create echo in multi-user rooms).
+    if (!participant.Identity.StartsWith("agent-")) return;
+
+    // ISOLATE: create a child GameObject per agent track so each AudioSource
+    // has its own host. Stacking AudioSources on one GameObject causes
+    // Unity's mixer to drop one.
+    var speakerGo = new GameObject($"SophiaSpeaker_{publication.Sid}");
+    speakerGo.transform.SetParent(speakerHost.transform);
+    var audioSource = speakerGo.AddComponent<AudioSource>();
+    audioStream = new AudioStream(track as RemoteAudioTrack, audioSource);
+}
+```
+
+- **Result**: Unity's audio mixer plays the AudioSource through the device's primary audio output.
+
+### Step 18 — USB Audio Class routes audio to glasses speakers
+
+- **Actor**: Android USB audio subsystem (kernel + framework).
+- **Hardware**: Beam Pro's audio output is the phone speaker by default. But with XREAL One Pro plugged in via USB-C, the OS detects a USB Audio Class device.
+- **Effect**: Android auto-routes the primary output to the USB audio device (glasses). User hears Sophia through the glasses' temple speakers, not the phone speaker.
+- **No code change needed** — this is OS-level routing.
+- **Edge case (Q41/Q43)**: If glasses are NOT plugged in, audio comes out the phone speaker, which sits facing the phone mic → echo loop. Documented as expected behavior.
+
+### Step 19 — World-space AR HUD updates (text-stream side channel)
+
+- **Actor**: Worker publishes text-stream messages (same three topics as browser flow Step 18).
+- **Receiver on glasses**: `SophiaConnection` has subscribers that fire a STATIC C# event `SophiaConnection.OnTextStreamMessage(topic, identity, payload)`.
+- **SophiaOverlayUI listens** (no reference back to SophiaConnection — decoupled via the static event):
+  - Topic `sophia.agent_events` with `kind: "agent_state"` → updates the colored pulsing dot top-right (LISTENING blue / THINKING amber / SPEAKING green) via a CanvasGroup.alpha smoothstep coroutine.
+  - Topic `lk.transcription` → updates the bottom-center subtitle text. Speaker-colored prefix ("You: ..." vs "Sophia: ...") via the participant identity.
+  - Topic `sophia.rag_result` → parses the JSON's `hits[]` array, deduplicates by (source, page), renders up to 6 chips in a vertical stack above the subtitle.
+- **HUD rendering**: World-space Canvas parented to Camera.main at 2m focal distance. Head-locked — turn head, HUD follows. All transitions are 200 ms CanvasGroup.alpha smoothstep coroutines.
+
+### Step 20 — End session
+
+- **Actor**: User taps the End chip (bottom-right corner of Beam Pro screen).
+- **Action**: `SessionPicker.OnEndSessionClicked` fires:
+  1. Calls `connectionGameObject.SetActive(false)`.
+  2. `SophiaConnection.OnDisable` runs → `Cleanup()` method.
+  3. Cleanup stops the mic, disconnects from the room (sends LeaveRequest to SFU), destroys all `SophiaSpeaker_<sid>` child GameObjects.
+- **SFU side**: Sees participant leave. Sends `RoomDisconnected` to the agent. Agent's session ends. Worker subprocess exits.
+- **UI**: Picker UI re-shows, ready for next session.
+
+### What's DIFFERENT from the browser flow (side-by-side)
+
+| Aspect | Browser | Glasses |
+|---|---|---|
+| Token endpoint | Next.js `/api/token` at port 3000 (open route) | FastAPI `/token` at port 8001 (X-API-Key required) |
+| Token-mint reachability | Same-origin (HTTP from page domain) | Cross-origin (CORS allowed by `SOPHIA_CORS_ORIGINS=*`) |
+| WebRTC implementation | Chrome's built-in libwebrtc | LiveKit Unity SDK's bundled libwebrtc via FFI |
+| Mic API | `getUserMedia({ audio: true })` | Unity `Microphone.Start()` + Android RECORD_AUDIO permission |
+| Audio output | DOM `<audio>` element | Unity AudioSource on a child GameObject per agent track (Q58 pattern) |
+| Audio routing | OS default (laptop speakers) | Beam Pro → USB Audio Class → glasses speakers |
+| UI rendering | React DOM | Unity world-space Canvas (head-locked AR) |
+| Text-stream consumption | `room.on('dataReceived')` React handlers | Static C# event `SophiaConnection.OnTextStreamMessage` consumed by SophiaOverlayUI |
+| Echo behavior | None (browser AEC handles it) | Echo on Beam Pro alone, killed by glasses temple-speaker geometry (Q41/Q43) |
+| Multi-user filtering | LiveKit JS SDK plays all subscribed tracks | Unity filters to `Identity.StartsWith("agent-")` to skip other users' mic tracks (Q58) |
+
+Everything from the SFU outward to the inference services is identical. The differences are all client-side glue.
