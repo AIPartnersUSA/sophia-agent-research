@@ -664,6 +664,7 @@ Three topics published by the agent worker:
 ## Cross-references
 
 - `mvp_deployment_shared_ec2.md` — operational runbook (cold/warm start, day-to-day, 19 documented problems).
+- `xr_build_voice_integration.md` — guide for integrating Sophia into an EXISTING XR build (Quest, Vision Pro, XREAL, etc.). What stays the same vs what their build needs to add.
 - `livekit_doubts.md` — Q&A on LiveKit framework specifics. Q41+Q43 (echo geometry), Q49+Q50+Q51 (HUD updates), Q58 (multi-user audio fix), Q61 (two-auth-paths), Q62 (network_mode: host rationale).
 - `livekit_deployment.md` — design rationale for component placement. Q28 (MVP walkthrough), Q29 (token-mint auth deep dive).
 - `unity_approach.md` — 2500-line narrative for the glasses client. Part 17 covers HUD construction; Appendix B is the operational runbook.

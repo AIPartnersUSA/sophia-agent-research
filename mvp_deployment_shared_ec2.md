@@ -11,6 +11,8 @@ For design rationale (MVP vs production tradeoffs): see "Architecture" + "Why MV
 
 **Want to understand HOW it all works end-to-end (not just how to operate it)?** Read `livekit_architectur_ec2.md`. It walks through both client paths (browser + XREAL glasses) step-by-step from page load / app launch all the way to Sophia answering, naming every component, every port, every JWT field, every inference call.
 
+**Have an XR engineer with their own build who wants Sophia voice in it?** Send them `xr_build_voice_integration.md`. It's a focused guide for integrating Sophia into an existing XR project (Quest, Vision Pro, XREAL, HoloLens, etc.) — what stays the same on the backend, what they need to copy/adapt on the client, two integration paths with effort estimates, platform-specific gotchas.
+
 ## Current state (as of 2026-05-29 — DEMO WORKING END-TO-END)
 
 Running on EC2 + verified externally:
