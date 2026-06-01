@@ -450,3 +450,178 @@ After that, Terminal can read all of `~/Downloads/`, `~/Documents/`, etc. withou
 Workaround if you don't want to grant Full Disk Access: do the file copy in Finder (drag-and-drop or Copy/Paste). Finder is allowed by default. This is what we did for the XREAL SDK copy.
 
 How this manifests in Claude Code: my Bash tool inherits the parent Terminal's permissions, so when Terminal doesn't have Full Disk Access, I see "Operation not permitted" too. I was confused for a couple turns thinking the source folder was actually empty.
+
+---
+
+## Git LFS + SDK vendoring — concepts
+
+Discussion captured 2026-05-29 while prepping the Week 3 presentation. Worth keeping for anyone who wonders "what's this LFS thing and why did we set it up this way."
+
+### Q1. What is Git LFS?
+
+Git Large File Storage extension. Solves a known git weakness: binary files.
+
+Git tracks file history by computing diffs between versions. For text files (code, docs), diffs are small and efficient — committing a one-line change to a 10 MB source file adds maybe 100 bytes to git history. For binary files (compiled libraries, AARs, DLLs, images, videos, model weights), there's no meaningful diff — git treats them as "old version" + "totally new version" and stores the ENTIRE new file every commit. That makes binary-heavy repos grow huge fast: a 50 MB DLL committed 10 times = 500 MB in `.git/` history forever, even if you only have one version checked out today.
+
+Git LFS works around this by storing binaries OUTSIDE git's normal history. Tiny pointer files go in git history (~3 lines, ~150 bytes each). Actual binaries live on a separate LFS server (GitHub's LFS storage is typical). A pointer looks like:
+
+```
+version https://git-lfs.github.com/spec/v1
+oid sha256:abc123...
+size 12345678
+```
+
+When you push, git uploads the pointer to the git repo AND uploads the binary to the LFS server. When someone clones, they get the pointers immediately (fast, small). When they run `git lfs pull`, LFS downloads the actual binaries based on the pointers.
+
+### Q2. Why did we need LFS for THIS project?
+
+Two reasons, both load-bearing.
+
+**Reason 1: GitHub's hard per-file size limit.** GitHub rejects any single file over 100 MB pushed via regular git. Without LFS, the LiveKit FFI binaries (50-80 MB per platform) and the XREAL AARs would fail to push at all. With LFS the limit goes up to 2 GB per file, which our files comfortably fit under.
+
+**Reason 2: Repo size and clone speed.** We vendored two third-party Unity SDKs into the repo for portability:
+- `sophia-glasses/xreal-sdk/` — XREAL SDK 3.1.0, ~243 MB total, 10 AAR files
+- `sophia-glasses/client-sdk-unity/` — LiveKit Unity SDK with FFI binaries for every platform (Android arm64/x86, iOS, macOS arm64/x86, Linux, Windows)
+
+Without LFS, every fresh clone would download all 300+ MB of binaries, the `.git/` folder would balloon with each binary commit, and history scrolling would be slow. With LFS, fresh clones are fast (only pointers download). Anyone wanting to build the Unity project runs `git lfs pull` once.
+
+136 files in our repo are tracked via LFS as of 2026-05-28.
+
+### Q3. With vs without LFS — what changes?
+
+**Without LFS:**
+- Approach A: SDKs live on local machines, referenced via local-only paths in manifests (the original `~/Downloads/package` problem). Project literally won't build on any other machine without setting up those exact local files.
+- Approach B: Put SDKs directly in git. Hits the 100 MB file-size limit AND bloats the repo history forever. Push fails for large files. Clones get slow.
+
+**With LFS:**
+- SDKs are "in the repo" from the user's perspective. Git history stays small (only pointers). Real binaries live on a separate LFS server. Anyone clones + runs `git lfs pull` = fully buildable project.
+
+### Q4. What if upstream SDKs (XREAL, LiveKit) release new versions? Do we auto-update?
+
+NO. Vendored SDKs are SNAPSHOTS. We have whatever version we copied in at vendoring time. Upstream updates don't flow into our repo automatically.
+
+To upgrade an SDK someone has to:
+1. Download the new SDK version from XREAL's developer portal / LiveKit's GitHub releases.
+2. Replace the entire contents of `sophia-glasses/xreal-sdk/` or `client-sdk-unity/` with the new files.
+3. Commit + push. LFS handles the new binaries automatically.
+4. Test the Unity project still builds and the voice loop still works (since SDK upgrades can break API contracts — our wrapper code in `SophiaConnection.cs` calls SDK APIs that might have changed).
+5. Everyone else on the team pulls + runs `git lfs pull` to get the new version.
+
+Step 4 is the important one. Major SDK upgrades often break things. Upgrading isn't free; it needs validation.
+
+**Trade-off of pinning (what we have):** Stable. Predictable. Upstream breaking changes don't surprise us at a bad time (e.g. day of a demo). Build today = build same way next month. But we miss security fixes and new features until we manually upgrade. Easy to forget about and get stale.
+
+### Q5. Is LFS-vendoring what other teams typically do?
+
+Yes, for our situation specifically. Across industry there are 4-5 common approaches; which one fits depends on what the SDK provides.
+
+1. **Package managers (most common when available).** SDK is published to a public registry, you declare a version in a manifest file, the package manager downloads it on demand. Examples: NPM (JavaScript), PyPI (Python), Maven Central (Android/Java), NuGet (.NET), Swift Package Manager / CocoaPods / Carthage (iOS), Unity Package Manager registries (if the SDK provider operates one). We can't use this for XREAL because they distribute via developer-portal download, not a public registry. LiveKit Unity SDK isn't on a Unity Asset Store registry either.
+
+2. **Git LFS vendoring (what we do).** Used when SDKs are distributed as tarballs/zips and not on a package registry, or when you specifically want a pinned in-repo copy. Common in Unity game development, Unreal Engine projects, ML projects with model weights, anything with media assets. Pinned versions, portable to anyone, but you manage upgrades manually.
+
+3. **Git submodules.** Point at another git repo at a specific commit. Each `git submodule update` fetches just that pinned commit. Common in larger orgs with many internal repos. Cons: the "submodule trap" (mode 160000 gitlinks vs files — we hit this earlier in this very project), complex for new team members, breaks if upstream repo is private or deleted.
+
+4. **Build-time download scripts.** A `setup.sh` or `Makefile` rule that downloads SDKs on first build. Lets you keep them entirely out of the repo. Used when: vendor license prohibits redistribution, SDK is too big even for LFS (multiple GB), or every build genuinely needs the latest (rare; usually bad practice).
+
+5. **Native git, no LFS.** Only viable if the SDK is small (under 100 MB per file) and doesn't update often. Header-only C++ libraries, source-only Python deps, small static libraries.
+
+### Q6. Decision tree for "how do I handle SDK X?"
+
+```
+Is the SDK published to a public package registry (NPM, PyPI, Maven, UPM, ...)?
+├── Yes → Use the registry. Easiest. Declare version in manifest, done.
+└── No
+    ├── Is the SDK proprietary, distributed via vendor portal?
+    │   ├── Yes → Vendor with LFS (our case for XREAL).
+    │   └── No
+    │       ├── Is it on a public git repo and small (< 100 MB / file)?
+    │       │   ├── Yes → Git submodule (with care for the trap) or vendor without LFS.
+    │       │   └── No → Build-time download script.
+```
+
+For our project: XREAL SDK is via developer portal (no public registry, no public git repo). LiveKit Unity SDK has FFI binaries that push past size limits even though source is on GitHub. Both land in "vendor with LFS" by elimination.
+
+### Q7. What did our actual setup look like?
+
+`.gitattributes` at repo root declares which patterns route through LFS:
+
+```
+sophia-glasses/xreal-sdk/**/*.aar     filter=lfs diff=lfs merge=lfs -text
+sophia-glasses/xreal-sdk/**/*.dll     filter=lfs diff=lfs merge=lfs -text
+sophia-glasses/xreal-sdk/**/*.so      filter=lfs diff=lfs merge=lfs -text
+sophia-glasses/xreal-sdk/**/*.dylib   filter=lfs diff=lfs merge=lfs -text
+sophia-glasses/xreal-sdk/**/*.bundle  filter=lfs diff=lfs merge=lfs -text
+sophia-glasses/xreal-sdk/**/*.a       filter=lfs diff=lfs merge=lfs -text
+```
+
+Same block repeated for `sophia-glasses/client-sdk-unity/`. Any file matching these patterns automatically goes through LFS when staged.
+
+Plus a one-time install on each developer machine:
+```bash
+brew install git-lfs    # macOS
+git lfs install         # set up LFS hooks in the local repo
+```
+
+After clone:
+```bash
+git clone <repo>
+cd <repo>
+git lfs pull            # fetch the actual binaries
+```
+
+GitHub free tier: 1 GB LFS storage + 1 GB/month bandwidth. We're well under that with 136 files for our use case.
+
+### Q8. What happens if someone clones without `git lfs pull`?
+
+They get pointer files instead of binaries. Opening such a file shows:
+
+```
+version https://git-lfs.github.com/spec/v1
+oid sha256:abc123...
+size 12345678
+```
+
+Three lines of text where they expected a 50 MB DLL. Unity will reject those files at build time with cryptic errors about invalid native libraries.
+
+Diagnostic: if your Unity build complains about missing/corrupt FFI binaries after a fresh clone, check by running `cat sophia-glasses/client-sdk-unity/Runtime/Plugins/ffi-macos-arm64/liblivekit_ffi.dylib | head -3` — if it's three lines of text, run `git lfs pull`.
+
+### Files that capture LFS in our repo
+
+- `.gitattributes` at repo root — declares LFS-tracked file patterns.
+- `.gitignore` — does NOT exclude LFS files; LFS still tracks them via the attributes file.
+- `git_setup.md` (this file) — Phase B section + this LFS concepts appendix.
+- `livekit_doubts.md` Q59 — Unity package vendoring + manifest.json path math gotcha that came up during XREAL SDK vendoring.
+
+---
+
+## Cross-references — git topics that live in other files
+
+Some git workflow lessons surfaced during the EC2 deployment (not the initial git setup) and live in deployment docs. Pointers here so future-you can find them when looking in git_setup.md by habit.
+
+### `mvp_deployment_shared_ec2.md`
+
+- **Section "Git workflow + sync between Mac and EC2"** — daily flow pattern (edit on Mac → commit + push → `git pull` on EC2), explanation of which files are versioned vs not (env files / livekit.prod.yaml / docker-compose.yml are local-only, chmod 600, never committed), the two-commit pattern (code fixes + docs split for cleaner review).
+
+- **Problem 12 — `git pull` on EC2 conflicts with local uncommitted edits.** Pattern: editing the same file via nano on the EC2 AND via the IDE on the Mac independently → `git pull` errors on EC2 because uncommitted local changes would be overwritten. Fix: `git checkout -- <files>` to discard EC2's dirty versions, then `git pull`. Prevention rule: edit ONLY on the Mac going forward.
+
+- **Problem 13 — GitHub push rejected with "write access not granted".** When pushing to a cross-org repo (we hit this with `AIPartnersUSA/aws-infra`). Fix: ask the repo owner to add your GitHub user as a Collaborator with Write role. Branch-level vs repo-level permissions clarification — repo-level Write is what's needed; branch protection rules are a separate concept that doesn't block PR-based workflows.
+
+### `deploy_to_ec2.md`
+
+- **Phase 5 — Cloned repo via SSH.** The exact `git clone git@github.com:...` + `git lfs pull` sequence used on the EC2, including the "trailing dot clones INTO current dir" trick.
+
+- **Phase 4 — SSH key on EC2 + GitHub.** Generating a per-machine SSH key and adding to GitHub, vs reusing your Mac's key (don't — keep machine identities separate).
+
+### `livekit_doubts.md`
+
+- **Q59** — Unity package vendoring with Git LFS + the manifest.json path math gotcha (`file:../../` not `file:../` because Unity resolves `file:` URIs relative to manifest.json location, not project root). Came up when vendoring XREAL SDK + LiveKit Unity SDK.
+
+- **Q60** — Unity 6 TMP API deprecation. Not strictly git, but shows up as a dirty working tree if you edit on EC2 and Mac independently.
+
+### Other notes
+
+- **`.gitignore`** at the repo root has comments explaining each subproject's exclusions. Read it when adding new subprojects.
+
+- **`.gitattributes`** at the repo root declares the LFS patterns for the two vendored Unity SDKs. Add new patterns here if vendoring more binaries.
+
+- Daily workflow assumption: edit on Mac, push to GitHub, pull on EC2. Avoid the Problem-12 pattern by NEVER editing the same file in two places without committing in between.

@@ -1579,3 +1579,132 @@ Until both are answered, agent worker can't start and external clients can't rea
 - Egress recording.
 
 When the team approves the move past MVP, layer those on per `production_deployment.md`.
+
+## Q29 (2026-05-29): Deep dive on the "Auth on token-mint" pre-deploy code change — what it does, why it matters, why we DON'T have it turned on for the MVP demo
+
+Q28 mentions the auth-on-token-mint change as one of the three pre-deploy code touches. This Q goes deeper because the topic comes up every time someone reviews the deployment.
+
+### What token-mint actually is
+
+A small FastAPI service running on port 8001 inside our docker-compose stack on the EC2. Single job: issue LiveKit JWTs (JSON Web Tokens) to clients (browser, glasses). Before any client can connect to the SFU (livekit-server), it needs a JWT signed with the LiveKit API secret. token-mint is the signing service. Without it, no client connects.
+
+Flow per session:
+1. Client opens the page → JS POSTs to `http://3.227.63.49:8001/token` with `{identity, room, ...}`
+2. token-mint validates the request, signs a JWT scoped to that room + identity using the LiveKit API key/secret pair
+3. Returns `{token, url, identity, room}`
+4. Client hands the JWT to the SFU on the WebSocket connect
+5. SFU validates the JWT signature, lets the client join the room
+
+### Why no auth on /token is dangerous in production
+
+Original token_mint.py had ZERO authentication on the endpoint. Anyone reaching the URL could POST to /token and get a valid JWT for any room they specified. On localhost (laptop only) this was fine — only your laptop could reach localhost:8001. On a public EC2 with a public IP it's a problem:
+
+- Random people scanning the internet can mint tokens.
+- Each Sophia session costs real money in Whisper + Qwen + Kokoro inference.
+- Bad actors could use Sophia as their personal voice assistant on your bill.
+- They could spawn thousands of rooms to DDoS the SFU.
+
+The general principle: any service exposed on a public IP needs SOME form of access control — even a shared secret is better than nothing.
+
+### What we added (the opt-in pattern)
+
+Two env-var-driven additions to `sophia-agent/src/token_mint.py`. Both are OPT-IN: when the env var is unset, behavior matches the old (dev-friendly) default. When set, production-grade hardening kicks in.
+
+**`SOPHIA_TOKEN_API_KEY`** — if set, every POST to /token must include an `X-API-Key` header matching the env value. Missing or wrong header returns 401 Unauthorized.
+
+```python
+SOPHIA_TOKEN_API_KEY = os.environ.get("SOPHIA_TOKEN_API_KEY", "").strip()
+
+def _require_api_key(x_api_key: Optional[str]) -> None:
+    if not SOPHIA_TOKEN_API_KEY:
+        return                              # no env var → no auth (dev mode)
+    if not x_api_key or x_api_key != SOPHIA_TOKEN_API_KEY:
+        raise HTTPException(status_code=401, detail="Missing or invalid X-API-Key header")
+
+@app.post("/token")
+def mint_token(
+    req: TokenRequest,
+    x_api_key: Optional[str] = Header(default=None, alias="X-API-Key"),
+):
+    _require_api_key(x_api_key)
+    # rest unchanged
+```
+
+**`SOPHIA_CORS_ORIGINS`** — previously CORS was wide open (`allow_origins=["*"]`). Now a comma-separated env var. Defaults to `*` if unset.
+
+```python
+_cors_env = os.environ.get("SOPHIA_CORS_ORIGINS", "*").strip()
+_cors_origins = [o.strip() for o in _cors_env.split(",")] if _cors_env else ["*"]
+app.add_middleware(CORSMiddleware, allow_origins=_cors_origins, ...)
+```
+
+For production: set `SOPHIA_CORS_ORIGINS=https://sophia.yourcompany.com` so only your frontend can hit /token from a browser. For MVP, leave unset (= `*`).
+
+### Why "dev-safe"
+
+Both env vars default to "old behavior" when unset:
+- No `SOPHIA_TOKEN_API_KEY` → no auth check, anyone can mint.
+- No `SOPHIA_CORS_ORIGINS` → CORS = `*`.
+
+This means a developer pulling the latest code locally sees zero change in behavior. No surprise breakage. Production opts IN to the harder behavior by setting the env vars. Safest possible rollout: defaults preserve old behavior, opt-in gets new behavior.
+
+### Current state on the MVP EC2 (2026-05-29)
+
+`/workspace/avinash/sophia/sophia-agent/.env.production` does NOT set either env var. So today, on the live EC2:
+- /token has no auth — anyone reaching it can mint tokens.
+- CORS allows all origins.
+
+We left it this way because:
+- Demo URL not shared publicly yet (SG still pending; once it opens, the URL is shared with the team only for demo time).
+- MVP runs for a few hours during demo, then EC2 stops.
+- The shared-key approach is weak anyway — embedded in the frontend code, anyone with DevTools can extract it.
+- Turning it on takes 30 seconds when ready; turning it off later would be more confusing than leaving it consistent.
+
+To turn it on (when desired):
+
+```bash
+ssh sophia-gpu
+cd /workspace/avinash/sophia
+echo "SOPHIA_TOKEN_API_KEY=$(openssl rand -hex 16)" >> sophia-agent/.env.production
+echo "SOPHIA_CORS_ORIGINS=https://sophia.yourcompany.com" >> sophia-agent/.env.production
+docker compose restart token-mint
+# Plus: update frontend + glasses to send X-API-Key header on every /token POST.
+```
+
+### Why this is only MVP-grade, not real production auth
+
+A shared API key has known weaknesses:
+- The key must be embedded in the frontend code (so the browser can send it). Anyone who opens DevTools can extract it from network calls.
+- No per-user identity. Logs say "request X with API key Y" — can't distinguish individual users.
+- No expiration. Valid forever until manually rotated.
+- No rate limiting per-user.
+
+For real production, the proper auth pattern would be:
+1. Real SSO (Cognito, Auth0, Okta) authenticates the user → issues an identity token.
+2. Frontend sends that identity token to /token.
+3. token-mint verifies the identity token via the SSO provider's JWKS endpoint.
+4. token-mint signs a LiveKit JWT scoped to that user's authorized room(s) (per multi-tenant naming convention).
+5. All requests logged with the verified user identity.
+
+That's documented in `production_deployment.md` as the auth path post-MVP. The shared key is the bridge between "no auth at all" and "real user auth" — acceptable middle ground for the demo period.
+
+### Summary table
+
+| Tier | Token-mint auth | CORS | Suitability |
+|---|---|---|---|
+| Local dev | None | `*` | Laptop-only stack, no public exposure |
+| MVP demo (today) | None | `*` | Brief public demo, URL not broadly shared, EC2 stopped between sessions |
+| Production hardened | Shared API key via SOPHIA_TOKEN_API_KEY | Narrowed via SOPHIA_CORS_ORIGINS | Small-team production, single internal frontend |
+| Real production | SSO + JWT verification | Narrowed | Customer-facing, audit logs, per-user quotas |
+
+Code today supports the first three. The jump from "shared API key" to "SSO + JWT verification" requires more code in token_mint.py (about 40 more lines), an auth provider setup, and frontend integration. Deferred to production migration.
+
+### Files touched
+
+- `sophia-agent/src/token_mint.py` — added `SOPHIA_TOKEN_API_KEY`, `SOPHIA_CORS_ORIGINS`, `_require_api_key()`, updated `mint_token()` signature to take the header dependency.
+
+### Cross-references
+
+- Q28 above — overview of the three pre-deploy code changes (this is one of them).
+- `production_deployment.md` — full production auth design (post-MVP).
+- `mvp_deployment_shared_ec2.md` Phase 7 — the .env.production file content showing no SOPHIA_TOKEN_API_KEY set today.

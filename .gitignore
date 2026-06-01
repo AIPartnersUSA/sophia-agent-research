@@ -84,5 +84,21 @@ videos/
 # ============================================================
 # Temporary local-only docs (delete-after-issue-resolved style)
 # ============================================================
-READ_ME_NOW.mdfrontend.log
+READ_ME_NOW.md
+
+# ============================================================
+# EC2 runtime / per-machine files (never committed)
+# ============================================================
+frontend.log
 sophia-agent/infra/livekit.prod.yaml
+
+# ============================================================
+# Reference copies from other repos (not ours)
+# ============================================================
+user_data.sh.tftpl
+
+# ============================================================
+# Unity build artifacts (regenerated every build)
+# ============================================================
+sophia-glasses/unity/sophia-glasses_BackUpThisFolder_ButDontShipItWithYourGame/
+sophia-glasses/unity/.utmp/

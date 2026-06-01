@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Sophia Voice Agent — Week 3: From local dev to live EC2 demo</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reset.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/black.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/monokai.css">
+
+  <style>
+    :root {
+      --accent: #5BC0EB;
+      --accent-dim: #3a7a94;
+      --warn: #FDE74C;
+      --good: #7ED957;
+      --bad: #E55934;
+      --muted: #9ba3af;
+    }
+    .reveal { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .reveal h1, .reveal h2, .reveal h3, .reveal h4 { color: var(--accent); text-transform: none; letter-spacing: -0.01em; font-weight: 600; }
+    .reveal h1 { font-size: 2.0em; }
+    .reveal h2 { font-size: 1.5em; }
+    .reveal h3 { font-size: 1.15em; }
+    .reveal section { text-align: left; }
+    .reveal section.center { text-align: center; }
+
+    .reveal .slides pre { box-shadow: none; font-size: 0.5em !important; line-height: 1.3 !important; width: 100%; }
+    .reveal .slides pre code { padding: 18px; }
+    .reveal .slides table { font-size: 0.6em !important; border-collapse: collapse; margin: 0 auto; width: 100%; }
+    .reveal table th { background: rgba(91, 192, 235, 0.15); color: var(--accent); padding: 8px 12px; text-align: left; border-bottom: 2px solid var(--accent); }
+    .reveal table td { padding: 8px 12px; border-bottom: 1px solid #333; vertical-align: top; }
+    .reveal table tr:hover td { background: rgba(91, 192, 235, 0.05); }
+    .reveal .slides .box h4 { font-size: 0.85em !important; }
+
+    .reveal .slides > section,
+    .reveal .slides > section > section {
+      max-height: 100% !important;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      padding: 20px 30px;
+      box-sizing: border-box;
+      scrollbar-width: thin;
+      scrollbar-color: var(--accent-dim) rgba(255,255,255,0.05);
+    }
+    .reveal .slides > section::-webkit-scrollbar,
+    .reveal .slides > section > section::-webkit-scrollbar {
+      width: 10px;
+    }
+    .reveal .slides > section::-webkit-scrollbar-track,
+    .reveal .slides > section > section::-webkit-scrollbar-track {
+      background: rgba(255,255,255,0.05);
+      border-radius: 5px;
+    }
+    .reveal .slides > section::-webkit-scrollbar-thumb,
+    .reveal .slides > section > section::-webkit-scrollbar-thumb {
+      background: var(--accent-dim);
+      border-radius: 5px;
+    }
+    .reveal .slides > section::-webkit-scrollbar-thumb:hover,
+    .reveal .slides > section > section::-webkit-scrollbar-thumb:hover {
+      background: var(--accent);
+    }
+
+    .reveal pre { overflow-x: auto !important; }
+    .reveal pre::-webkit-scrollbar { height: 8px; }
+    .reveal pre::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
+    .reveal pre::-webkit-scrollbar-thumb { background: var(--accent-dim); border-radius: 4px; }
+
+    .reveal section.center {
+      display: flex !important;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100%;
+    }
+    .reveal section.center > * { width: 100%; }
+    .reveal ul, .reveal ol { margin-left: 1em; }
+    .reveal li { margin-bottom: 0.4em; line-height: 1.4; }
+    .reveal code:not(pre code) { background: rgba(91, 192, 235, 0.12); color: var(--accent); padding: 2px 6px; border-radius: 3px; font-size: 0.85em; }
+    .small { font-size: 0.7em; color: var(--muted); }
+    .smaller { font-size: 0.6em; color: var(--muted); }
+    .tag { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 0.5em; font-weight: 600; vertical-align: middle; margin-left: 8px; }
+    .tag.done { background: var(--good); color: #000; }
+    .tag.wip { background: var(--warn); color: #000; }
+    .tag.todo { background: var(--bad); color: #fff; }
+    .pill { display: inline-block; padding: 4px 10px; border-radius: 14px; font-size: 0.55em; background: rgba(91, 192, 235, 0.15); color: var(--accent); border: 1px solid var(--accent-dim); margin: 4px 4px 4px 0; }
+    .quote { font-size: 1.5em; color: var(--accent); font-style: italic; text-align: center; padding: 30px 60px; line-height: 1.3; }
+    .footnote { font-size: 0.5em; color: var(--muted); margin-top: 30px; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+    .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+    .box { background: rgba(255,255,255,0.04); border: 1px solid #333; border-radius: 8px; padding: 16px; }
+    .box.accent { border-color: var(--accent-dim); background: rgba(91, 192, 235, 0.06); }
+    .box.good { border-color: var(--good); background: rgba(126, 217, 87, 0.08); }
+    .box.warn { border-color: var(--warn); background: rgba(253, 231, 76, 0.08); }
+    .box.bad { border-color: var(--bad); background: rgba(229, 89, 52, 0.08); }
+    .box h4 { margin-top: 0; color: var(--accent); font-size: 0.9em; }
+    .verdict { background: rgba(126, 217, 87, 0.1); border-left: 4px solid var(--good); padding: 16px 20px; margin: 20px 0; font-size: 0.85em; }
+    .warn-box { background: rgba(253, 231, 76, 0.08); border-left: 4px solid var(--warn); padding: 16px 20px; margin: 20px 0; font-size: 0.85em; }
+    .bad-box { background: rgba(229, 89, 52, 0.08); border-left: 4px solid var(--bad); padding: 16px 20px; margin: 20px 0; font-size: 0.85em; }
+    .stat { display: inline-block; padding: 16px 24px; border-radius: 12px; background: linear-gradient(135deg, rgba(91, 192, 235, 0.18), rgba(91, 192, 235, 0.04)); border: 1px solid var(--accent-dim); margin: 8px; min-width: 140px; text-align: center; }
+    .stat-num { display: block; font-size: 2.0em; font-weight: 700; color: var(--accent); line-height: 1; }
+    .stat-label { display: block; font-size: 0.5em; color: var(--muted); margin-top: 6px; }
+    .reveal .progress { color: var(--accent); }
+    .reveal .controls { color: var(--accent); }
+    .problem-card { background: rgba(255,255,255,0.04); border-left: 4px solid var(--bad); padding: 14px 18px; margin: 12px 0; border-radius: 4px; }
+    .problem-card h4 { color: var(--bad); margin-top: 0; font-size: 0.9em; }
+    .problem-card .fix-label { color: var(--good); font-weight: 600; font-size: 0.85em; }
+  </style>
+</head>
+<body>
+
+<div class="reveal">
+  <div class="slides">
+
+    <!-- ============================================================ -->
+    <!-- 1. TITLE -->
+    <!-- ============================================================ -->
+    <section class="center">
+      <h1 style="font-size: 2.6em; margin-bottom: 0.2em;">Sophia Voice Agent</h1>
+      <h3 style="color: var(--muted); font-size: 1.1em; font-weight: 400;">From local dev to live EC2</h3>
+      <div style="margin-top: 80px;" class="small">
+        · Git remote · EC2 deployment
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 2. RECAP -->
+    <!-- ============================================================ -->
+    <section>
+      <h2>Recap — where we ended Week 2</h2>
+
+      <div class="two-col" style="margin-top: 25px;">
+        <div class="box accent">
+          <h4>What was working</h4>
+          <ul>
+            <li>Voice loop on browser (local Mac)</li>
+            <li>Voice loop on XREAL One Pro + Beam Pro</li>
+            <li>RAG via always-retrieve hook</li>
+            <li>Phase 2 HUD first cut (3 panels)</li>
+            <li>Multi-user picker (Private / Team)</li>
+          </ul>
+        </div>
+        <div class="box warn">
+          <h4>What was limiting</h4>
+          <ul>
+            <li>Everything ran on your laptop</li>
+            <li>Beam Pro reached the SFU via Tailscale</li>
+            <li>kubectl port-forwards needed</li>
+            <li>Demo died if your Mac slept</li>
+            <li>HUD layout still rough (3 boxy panels)</li>
+            <li>No team-shareable URL</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="quote" style="font-size: 1.0em; padding: 18px 30px; margin-top: 30px;">
+        "It works on my laptop." — Sophia, every week, until now
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 3. WEEK 3 SUMMARY -->
+    <!-- ============================================================ -->
+    <section>
+      <h2>Week 3 — three parallel threads</h2>
+
+      <div class="three-col" style="margin-top: 25px;">
+        <div class="box">
+          <h4>1. Unity polish</h4>
+          <p class="small">client changes</p>
+          <ul class="smaller">
+            <li>HUD redesign</li>
+            <li>Shared-room URL param for Multi-user sessions</li>
+          </ul>
+        </div>
+        <div class="box">
+          <h4>2. Repo + vendoring</h4>
+          <p class="small">Need a real git remote before deploying anywhere.</p>
+          <ul class="smaller">
+            <li>Private GitHub repo</li>
+            <li>Git LFS for large binary files</li>
+            <li>XREAL + LiveKit SDKs included in the repo (so anyone cloning gets a buildable project)</li>
+            <li>Hit + solved submodule trap</li>
+          </ul>
+        </div>
+        <div class="box">
+          <h4>3. EC2 MVP deploy</h4>
+          <p class="small">Move SFU + agent + token-mint off the laptop.</p>
+          <ul class="smaller">
+            <li>3 pre-deploy code changes</li>
+            <li>Shared GPU EC2</li>
+            <li>Cross-region EKS twist</li>
+            <li>SG / Terraform PR</li>
+          </ul>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 4. THREAD 1: HUD DIRECTION A -->
+    <!-- ============================================================ -->
+    <section>
+      <h2>HUD redesign</h2>
+      <p class="small">Three big rectangular panels were occluding the field of view.</p>
+
+      <div class="two-col" style="margin-top: 20px;">
+        <div class="box bad">
+          <h4>Before</h4>
+          <ul class="smaller">
+            <li>LISTENING / THINKING / SPEAKING pill (full text)</li>
+            <li>Boxy transcript panel center-bottom</li>
+            <li>RAG sources panel right-side, text-heavy</li>
+            <li>Session bar + End button at bottom</li>
+            <li>All panels always visible — busy</li>
+          </ul>
+        </div>
+        <div class="box good">
+          <h4>After</h4>
+          <ul class="smaller">
+            <li>Tiny pulsing colored dot, top-right corner (no text)</li>
+            <li>Bottom-center single-line subtitle, auto-fades</li>
+            <li>Vertical stack of RAG chips above subtitle, capped at 6</li>
+            <li>End shrunk to 120x80 corner chip on phone overlay</li>
+            <li>Central field of view stays CLEAR</li>
+          </ul>
+        </div>
+      </div>
+
+      <h4 style="margin-top: 25px;">Implementation details</h4>
+      <pre><code class="language-text">SophiaOverlayUI.cs — full rewrite (~450 lines)
+  + World-space Canvas head-locked at 2m focal distance
+  + State dot: procedural circle sprite, pulses while thinking/speaking
+  + Subtitle: speaker-tagged ("You:" / "Sophia:" in muted color, body in high-contrast white)
+  + RAG chips: vertical stack via VerticalLayoutGroup, walks hits[] JSON, dedupes
+  + All fades: CanvasGroup.alpha + smoothstep coroutine, 200ms
+  + 12 [SerializeField] knobs for live Inspector tuning
+
+SessionPicker.cs — BuildInSessionPanel shrunk
+  Was: 900x130 bottom-center strip with session label + big red End button
+  Now: 120x80 bottom-right corner End chip on phone screen-overlay</code></pre>
+
+      <div class="footnote">Spec: <code>sophia-glasses/HUD_direction_a.md</code> — design rationale + per-element behavior + turn-by-turn timeline</div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 5. THREAD 2: GIT REMOTE + VENDORING -->
+    <!-- ============================================================ -->
+    <section>
+      <h2>Git remote + vendoring</h2>
+      <p class="small">Couldn't deploy without a real git remote. Set up a private GitHub repo and vendored the third-party Unity SDKs so any machine can build the project after a fresh clone.</p>
+
+      <div class="two-col" style="margin-top: 25px;">
+        <div class="box accent">
+          <h4>Repo setup</h4>
+          <ul class="smaller">
+            <li>Private repo at <code>github.com/AvinashSophia/sophia-agent-research</code></li>
+            <li>SSH key on Mac → added to GitHub</li>
+            <li>Comprehensive .gitignore across all subprojects</li>
+            <li>Git LFS for binaries (.aar / .dll / .so / .dylib / .bundle)</li>
+            <li><strong>136 files</strong> tracked via LFS</li>
+          </ul>
+        </div>
+        <div class="box accent">
+          <h4>Vendored in-tree</h4>
+          <ul class="smaller">
+            <li><code>sophia-glasses/xreal-sdk/</code> — XREAL SDK 3.1.0 (~243MB, 10 AARs)</li>
+            <li><code>sophia-glasses/client-sdk-unity/</code> — LiveKit Unity SDK + FFI binaries</li>
+            <li>Both portable: <code>file:../../&lt;name&gt;</code> relative paths in manifest.json</li>
+            <li>Anyone who clones gets a complete buildable Unity project</li>
+          </ul>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 7. THE SUBMODULE TRAP -->
+    <!-- ============================================================ -->
+    <section>
+      <h2>The submodule trap</h2>
+
+      <div class="bad-box">
+        <strong>Symptom:</strong> First push succeeded. But on GitHub, <code>agent-starter-react/</code> and <code>sophia-glasses/client-sdk-unity/</code> appeared as EMPTY folders with no source code.
+      </div>
+
+      <h4 style="margin-top: 20px;">What happened</h4>
+      <p class="small">Both folders were originally cloned from upstream repos, so each had its own <code>.git/</code> directory inside. When we ran <code>git add</code> at the outer project root, git noticed the inner <code>.git</code> and recorded only a <strong>gitlink</strong> — a 40-character commit SHA pointing into a separate repo — instead of staging the actual files.</p>
+
+      <pre><code class="language-text">git ls-tree HEAD agent-starter-react
+# 160000 commit cee4acfd969c71b836d8421e22110d98b187b01c  agent-starter-react
+#   ↑ mode 160000 = submodule gitlink, NOT a real directory</code></pre>
+
+      <h4 style="margin-top: 20px;">Fix</h4>
+      <pre><code class="language-bash"># 1. Strip the inner .git histories
+rm -rf agent-starter-react/.git
+rm -rf sophia-glasses/client-sdk-unity/.git
+
+# 2. Tell outer repo to forget the gitlink entries
+git rm --cached agent-starter-react
+git rm --cached sophia-glasses/client-sdk-unity
+
+# 3. Re-stage everything inside as regular files
+git add agent-starter-react/
+git add sophia-glasses/client-sdk-unity/
+
+# 4. Verify LFS catches binaries, then commit + push</code></pre>
+
+      <p class="small" style="margin-top: 15px;">Destructive in the sense that you lose the inner subproject's git history, but working-tree files are preserved including local edits. Captured in <code>git_setup.md</code> "Gotchas" appendix so we don't repeat.</p>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 8. THREE PRE DEPLOY CODE CHANGES -->
+    <!-- ============================================================ -->
+    <section>
+      <h2>Three pre deploy code changes</h2>
+      <p class="small">Making the code production safe before deploying anywhere. All three dev safe defaults preserve local behavior when env vars are unset.</p>
+
+      <div class="three-col" style="margin-top: 25px;">
+        <div class="box">
+          <h4>1. Auth on token-mint</h4>
+          <p class="smaller">Was: zero auth. Anyone reaching <code>/token</code> could mint a JWT for any room.</p>
+          <p class="smaller">Now: optional X-API-Key header gated by <code>SOPHIA_TOKEN_API_KEY</code> env var. Also added <code>SOPHIA_CORS_ORIGINS</code> for prod CORS narrowing.</p>
+          <p class="smaller" style="color: var(--good);"><code>sophia-agent/src/token_mint.py</code></p>
+        </div>
+        <div class="box">
+          <h4>2. Env-driven inference URLs</h4>
+          <p class="smaller">Was: hardcoded <code>http://localhost:8080</code> for Whisper, <code>:18080</code> for Qwen, etc.</p>
+          <p class="smaller">Now: <code>WHISPER_URL</code>, <code>QWEN3_URL</code>, <code>KOKORO_URL</code>, <code>SOPHIA_RAG_URL</code> env vars with localhost defaults preserved.</p>
+          <p class="smaller" style="color: var(--good);"><code>sophia-agent/src/agent.py</code></p>
+        </div>
+        <div class="box">
+          <h4>3. Split Dockerfile</h4>
+          <p class="smaller">Was: one Dockerfile bundling everything (agent worker + token-mint).</p>
+          <p class="smaller">Now: separate <code>Dockerfile.token-mint</code> that skips Silero/turn-detector download. Smaller image, faster to build + ship.</p>
+          <p class="smaller" style="color: var(--good);"><code>sophia-agent/Dockerfile.token-mint</code></p>
+        </div>
+      </div>
+
+      <div class="footnote" style="margin-top: 25px;">
+        Pattern: any prod-only behavior is opt-in via env var. Set the env var to enable; unset = old dev behavior.
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 9. ARCHITECTURE: OLD VS NEW -->
+    <!-- ============================================================ -->
+    <section>
+      <h2>Architecture — old vs new</h2>
+
+      <div class="two-col" style="margin-top: 15px;">
+        <div class="box bad">
+          <h4>(local stack)</h4>
+          <pre style="font-size: 0.4em;"><code class="language-text">Browser localhost ──┐
+                    │
+Beam Pro ──Tailscale──┐
+                      │
+              ┌───────▼────────┐
+              │  YOUR MACBOOK  │
+              │  livekit-server │
+              │  token-mint     │
+              │  agent worker   │
+              │  frontend       │
+              └────────┬───────┘
+                       │ kubectl port-forward
+                       ▼
+              ┌────────────────┐
+              │  AWS EKS       │
+              │  (us-west-2)   │
+              └────────────────┘</code></pre>
+          <ul class="smaller">
+            <li>Demo only works when YOUR laptop is on</li>
+            <li>Beam Pro needs Tailscale</li>
+            <li>No team-shareable URL</li>
+            <li>Mac sleeps → demo dies</li>
+          </ul>
+        </div>
+        <div class="box good">
+          <h4>(EC2 stack)</h4>
+          <pre style="font-size: 0.4em;"><code class="language-text">Browser (anyone) ─────┐
+                       │
+Beam Pro + XREAL ──────┤
+                       │
+            ┌──────────▼─────────┐
+            │  EC2 3.227.63.49   │
+            │  livekit-server    │
+            │  token-mint        │
+            │  agent worker      │
+            │  frontend          │
+            │  (docker compose)  │
+            └──────────┬─────────┘
+                       │ kubectl port-forward
+                       ▼ (cross-region)
+            ┌────────────────────┐
+            │  AWS EKS           │
+            │  us-west-2         │
+            │  spatial-ai-staging│
+            └────────────────────┘</code></pre>
+          <ul class="smaller">
+            <li>Anyone on internet can hit the URL</li>
+            <li>Beam Pro connects via public IP</li>
+            <li>Laptop OFF — demo still works</li>
+            <li>Shared with team for live testing</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footnote" style="margin-top: 20px;">
+        <strong>Net change:</strong> client-side audio pipeline unchanged. We moved the orchestration layer (SFU + token-mint + agent worker + frontend) from the Mac to an EC2.
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 10. WHY MVP, NOT FULL PRODUCTION (hidden in presentation; kept for future reference) -->
+    <!-- ============================================================ -->
+    <section data-visibility="hidden">
+      <h2>Why MVP, not full production</h2>
+
+      <table style="margin-top: 20px;">
+        <thead><tr><th>Concern</th><th>Full production</th><th>MVP (what we did)</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Infra</strong></td><td>Dedicated EC2 (t3.large, no GPU, $60/mo)</td><td>Shared GPU box (already provisioned, $0 incremental)</td></tr>
+          <tr><td><strong>Region</strong></td><td>Same as EKS (us-west-2)</td><td>us-east-1 (whatever was available)</td></tr>
+          <tr><td><strong>TLS / domain</strong></td><td>Required, Let's Encrypt + Route 53</td><td>None. Plain http:// + ws://</td></tr>
+          <tr><td><strong>Secrets</strong></td><td>AWS Secrets Manager</td><td>chmod 600 local file</td></tr>
+          <tr><td><strong>Auth on token-mint</strong></td><td>Real SSO / JWT verification</td><td>Optional shared API key (off by default for demo)</td></tr>
+          <tr><td><strong>HA / failover</strong></td><td>Multi-AZ, ALB, autoscaling</td><td>Single instance, single process</td></tr>
+          <tr><td><strong>Setup time</strong></td><td>4-6 hours</td><td>1-2 hours</td></tr>
+          <tr><td><strong>Goal</strong></td><td>Real users at scale</td><td>Validate architecture, demo to team</td></tr>
+        </tbody>
+      </table>
+
+      <div class="verdict" style="margin-top: 25px;">
+        <strong>The MVP is the bridge.</strong> Validate that the architecture works on real infrastructure with real network constraints. Get team buy-in. THEN spend the time for full production (separate <code>production_deployment.md</code> covers that path).
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 11. DEPLOYMENT WALKTHROUGH -->
+    <!-- ============================================================ -->
+    <section>
+      <h2>Deployment walkthrough — service by service</h2>
+
+      <table style="margin-top: 15px;">
+        <thead><tr><th>#</th><th>Service</th><th>What it does</th><th>How we ran it</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td><strong>livekit-server</strong> (SFU)</td><td>WebRTC routing for audio</td><td>Docker, host network, mounted <code>livekit.prod.yaml</code>, <code>--node-ip 3.227.63.49</code></td></tr>
+          <tr><td>2</td><td><strong>token-mint</strong></td><td>Issues JWTs to clients</td><td>Docker, port 8001:8001 mapped, env from <code>.env.production</code></td></tr>
+          <tr><td>3</td><td><strong>kubectl port-forwards</strong></td><td>Reaches EKS inference services</td><td><code>pf-gpu.sh</code> in background, AWS env vars in shell</td></tr>
+          <tr><td>4</td><td><strong>agent-worker</strong></td><td>Orchestrates STT → LLM → TTS</td><td>Docker, host network, <code>LIVEKIT_URL=ws://localhost:7880</code> override</td></tr>
+          <tr><td>5</td><td><strong>agent-starter-react</strong> (frontend)</td><td>Browser UI to talk to agent</td><td><code>npm start --port 3000 --hostname 0.0.0.0</code></td></tr>
+        </tbody>
+      </table>
+
+      <h4 style="margin-top: 25px;">Day-to-day flow</h4>
+      <pre><code class="language-bash"># Cold start sequence (when EC2 was stopped)
+aws ec2 start-instances --instance-ids i-0748ed7c188c337cc
+ssh sophia-gpu
+export AWS_ACCESS_KEY_ID=ASIA...     # fresh STS creds (expire ~1h)
+export AWS_SECRET_ACCESS_KEY=...
+export AWS_SESSION_TOKEN=...
+cd /workspace/avinash/sophia
+./sophia-agent/infra/pf-gpu.sh        # start port-forwards
+docker compose up -d                  # start SFU + token-mint + agent-worker
+cd agent-starter-react
+nohup npm start -- --port 3000 --hostname 0.0.0.0 &amp;</code></pre>
+
+      <div class="footnote">Full sequence in <code>mvp_deployment_shared_ec2.md</code> "How to RUN day-to-day".</div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 12. CROSS-REGION TWIST -->
+    <!-- ============================================================ -->
+    <section>
+      <h2>The cross-region twist</h2>
+
+      <div class="bad-box">
+        <strong>Discovery:</strong> EKS cluster <code>spatial-ai-staging</code> lives in <strong>us-west-2</strong>. Our shared EC2 is in <strong>us-east-1</strong>. Different regions = different VPCs by definition.
+      </div>
+
+      <p class="small" style="margin-top: 15px;">Confirmed empirically: <code>nslookup whisper-inference.multi-agent.svc.cluster.local</code> from the EC2 returns SERVFAIL. No same-VPC path. Original plan (use cluster.local DNS) was impossible.</p>
+
+      <h4 style="margin-top: 20px;">Port Forwarding</h4>
+      <div class="three-col" style="margin-top: 10px;">
+  
+        <div class="box good">
+          <h4>kubectl port forward FROM the EC2</h4>
+          <p class="smaller">Same pattern your Mac uses. Works cross-region via EKS public/private API endpoint. Zero infra change.</p>
+        </div>
+      </div>
+
+      <h4 style="margin-top: 25px;">latency with port forward</h4>
+      <ul class="small">
+        <li><strong>Latency</strong>: ~70ms added per inference call.</li>
+      </ul>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 13. DEPLOYMENT PROBLEMS -->
+    <!-- ============================================================ -->
+    <section>
+      <h2>Deployment problems + fixes</h2>
+      <p class="small">13 distinct problems hit during deployment (full list in <code>mvp_deployment_shared_ec2.md</code>). The four biggest below.</p>
+
+      <div class="problem-card">
+        <h4>P5. AWS credentials (kubectl AccessDenied)</h4>
+        <p class="smaller">EC2's IAM Instance Profile <code>sophiaspatialai-ai-gpu-ec2</code> lacks <code>eks:DescribeCluster</code>. <code>aws eks update-kubeconfig</code> fails.</p>
+        <p class="fix-label">Fix:</p>
+        <p class="smaller">Export YOUR temporary STS credentials as env vars on the EC2. kubectl now uses YOUR user identity (already in cluster's aws-auth). Expires ~1h — re-export per session.</p>
+      </div>
+
+      <div class="problem-card">
+        <h4>P6. Agent-worker timeout connecting to SFU</h4>
+        <p class="smaller">agent-worker logs <code>ConnectionTimeoutError: ws://3.227.63.49:7880/agent</code>. Public IP routing through SG (closed) → timeout. Agent + SFU are on the SAME host.</p>
+        <p class="fix-label">Fix:</p>
+        <p class="smaller">Override <code>LIVEKIT_URL=ws://localhost:7880</code> for the agent-worker container only via docker-compose <code>environment</code> block. <code>network_mode: host</code> makes localhost loop back to the SFU on the same host. Instant.</p>
+      </div>
+
+      <div class="problem-card">
+        <h4>P7. Turn-detector model not found</h4>
+        <p class="smaller"><code>RuntimeError: Could not find file "model_q8.onnx"</code>. Dockerfile downloads model to <code>/root/.cache/huggingface/</code> in build stage; multi-stage <code>COPY --from=build /app /app</code> drops the cache.</p>
+        <p class="fix-label">Fix:</p>
+        <p class="smaller">Set <code>ENV HF_HOME=/app/.cache/huggingface</code> in Dockerfile BEFORE the download-files step. Cache now lives under /app and gets copied to the final stage.</p>
+      </div>
+
+      <div class="problem-card">
+        <h4>P10. AWS Security Group blocks external access</h4>
+        <p class="smaller">From laptop, <code>curl http://3.227.63.49:7880</code> times out. From EC2 itself, <code>curl http://127.0.0.1:7880</code> works. AWS SG = default-deny firewall at EC2's network edge.</p>
+        <p class="fix-label">Fix:</p>
+        <p class="smaller">Add 5 Terraform ingress blocks (TCP 3000/7880/7881/8001 + UDP 50000-60000) to <code>aws_security_group.gpu</code>. PR opened against AIPartnersUSA/aws-infra repo. Currently waiting on infra to merge + run <code>terraform apply</code>.</p>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 14. SECURITY GROUPS EXPLAINED -->
+    <!-- ============================================================ -->
+    <section>
+      <h2>AWS Security Groups the firewall layer</h2>
+
+
+      <div class="two-col" style="margin-top: 20px;">
+        <div class="box">
+          <h4>Layer 1: Services on the EC2</h4>
+          <ul class="smaller">
+            <li>SFU listens on 0.0.0.0:7880</li>
+            <li>token-mint listens on 0.0.0.0:8001</li>
+            <li>Frontend listens on 0.0.0.0:3000</li>
+            <li>Anyone INSIDE the EC2 can curl them</li>
+          </ul>
+        </div>
+        <div class="box">
+          <h4>Layer 2: AWS Security Group</h4>
+          <ul class="smaller">
+            <li>Virtual firewall at EC2's network interface</li>
+            <li>Default DENY all inbound except explicitly listed ports</li>
+            <li>Today: 22 (SSH) + 8888 (Jupyter) only</li>
+            <li>Drops external packets to other ports BEFORE they reach the OS</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="quote" style="font-size: 1.0em; padding: 18px 30px; margin-top: 25px;">
+        
+      </div>
+
+      <h4 style="margin-top: 25px;">Our PR to aws-infra</h4>
+      <pre><code class="language-hcl">ingress {
+  description = "Sophia voice agent frontend"
+  from_port   = 3000
+  to_port     = 3000
+  protocol    = "tcp"
+  cidr_blocks = var.allowed_cidrs
+}
+
+# + 4 more ingress blocks for 7880, 7881, 8001, UDP 50000-60000
+# Follows the var.allowed_cidrs pattern used by JupyterLab + TensorBoard</code></pre>
+
+      <p class="small" style="margin-top: 15px;">5 new ingress blocks. Single-file change to <code>environments/single_g5x2large_us_east_1/main.tf</code> in the AIPartnersUSA/aws-infra repo. Once merged + <code>terraform apply</code> runs, external access works.</p>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 15. CURRENT STATE -->
+    <!-- ============================================================ -->
+    <section>
+      <h2>Current state</h2>
+
+      <div class="two-col" style="margin-top: 20px;">
+        <div class="box good">
+          <h4>Running on EC2</h4>
+          <ul class="smaller">
+            <li>livekit-server (docker compose)</li>
+            <li>token-mint (docker compose)</li>
+            <li>agent-worker — REGISTERED against SFU</li>
+            <li>kubectl port-forwards (4 inference services)</li>
+            <li>Frontend BUILT (not yet running externally)</li>
+          </ul>
+          <p class="smaller" style="color: var(--good); margin-top: 10px;">All verified internally via curl on 127.0.0.1.</p>
+        </div>
+        <div class="box warn">
+          <h4></h4>
+          <ul class="smaller">
+            <li>SG opens (PR open, awaiting infra merge + apply)</li>
+            <li>Frontend start (once SG opens)</li>
+            <li>Glasses URL repointed at EC2 (one Unity Inspector edit + rebuild APK)</li>
+            <li>End-to-end browser test</li>
+            <li>End-to-end glasses test</li>
+          </ul>
+          <p class="smaller" style="color: var(--warn); margin-top: 10px;"></p>
+        </div>
+      </div>
+
+      <h4 style="margin-top: 25px;">Key reference info</h4>
+      <table style="margin-top: 10px; font-size: 0.55em;">
+        <tbody>
+          <tr><td><strong>Public URL (browser, glasses)</strong></td><td><code>http://3.227.63.49:3000</code> + <code>ws://3.227.63.49:7880</code></td></tr>
+          <tr><td><strong>EC2 instance</strong></td><td><code>i-0748ed7c188c337cc</code> g5.2xlarge, us-east-1</td></tr>
+          <tr><td><strong>SSH alias</strong></td><td><code>ssh sophia-gpu</code></td></tr>
+          <tr><td><strong>Workspace path</strong></td><td><code>/workspace/avinash/sophia/</code></td></tr>
+          <tr><td><strong>Repo</strong></td><td><code>github.com/AvinashSophia/sophia-agent-research</code> (private)</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 16. WHAT'S NEXT (hidden in presentation; kept for future reference) -->
+    <!-- ============================================================ -->
+    <section data-visibility="hidden">
+      <h2>What's next</h2>
+
+      <h4>Immediate (this week)</h4>
+      <ul>
+        <li>Infra merges aws-infra PR + runs <code>terraform apply</code></li>
+        <li>Start frontend, browser demo from anywhere</li>
+        <li>Repoint glasses at EC2, demo end-to-end</li>
+        <li>Record demo videos for team review</li>
+      </ul>
+
+      <h4 style="margin-top: 20px;">Real production (after MVP demo approved)</h4>
+      <p class="small">Documented in <code>production_deployment.md</code>. Layered fixes on top of the MVP:</p>
+      <div class="two-col" style="margin-top: 10px;">
+        <div class="box">
+          <h4>Infrastructure</h4>
+          <ul class="smaller">
+            <li>Dedicated t3.large in us-west-2 (no GPU, ~$60/mo, same region as EKS)</li>
+            <li>Eliminate cross-region latency + transfer cost</li>
+            <li>Route 53 domain + Let's Encrypt TLS</li>
+            <li>AWS Secrets Manager for keys</li>
+          </ul>
+        </div>
+        <div class="box">
+          <h4>Security + ops</h4>
+          <ul class="smaller">
+            <li>Real SSO / JWT auth on token-mint</li>
+            <li>Multi-tenant room namespacing (per-client_id)</li>
+            <li>CloudWatch log aggregation</li>
+            <li>Auto-deploy via GitHub Actions</li>
+            <li>Multi-AZ + ALB for HA</li>
+          </ul>
+        </div>
+      </div>
+
+      <h4 style="margin-top: 25px;">Beyond infrastructure</h4>
+      <ul class="small">
+        <li>Phase 3: XREAL Eye camera + vision RAG via <code>/image-question</code></li>
+        <li>Open Unity issues: red XREAL log overlay suppression, JNI plugin for Android system AEC + permission</li>
+        <li>P2 hardening: bundle ID rename, XR Plug-in Management for stereo rendering, RUNBOOK.md</li>
+      </ul>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 17. DOCS PRODUCED (hidden in presentation; kept for future reference) -->
+    <!-- ============================================================ -->
+    <section data-visibility="hidden">
+      <h2>Documentation shipped</h2>
+      <p class="small">Heavy docs investment so future-us can resume without reconstructing context.</p>
+
+      <table style="margin-top: 20px;">
+        <thead><tr><th>File</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><code>deploy_to_ec2.md</code></td><td>Comprehensive 13-phase runbook (every command, every step)</td></tr>
+          <tr><td><code>mvp_deployment_shared_ec2.md</code></td><td>Personal reference: day-to-day commands + every problem + every fix</td></tr>
+          <tr><td><code>production_deployment.md</code></td><td>Full production setup plan (post-MVP)</td></tr>
+          <tr><td><code>git_setup.md</code></td><td>Git remote + LFS setup + submodule trap appendix</td></tr>
+          <tr><td><code>steps_to_run.md</code></td><td>5-terminal launch sequence + glasses sequence</td></tr>
+          <tr><td><code>sophia-glasses/READING_GUIDE.md</code></td><td>11-step tour for understanding the Unity client</td></tr>
+          <tr><td><code>sophia-glasses/HUD_direction_a.md</code></td><td>Direction A design spec + timeline</td></tr>
+          <tr><td><code>demo_multiroom_recording.md</code></td><td>Recording plan for Scenario A/B demos with scrcpy</td></tr>
+        </tbody>
+      </table>
+
+      <p class="small" style="margin-top: 20px;">Plus Q&A entries in long-form references:</p>
+      <ul class="smaller">
+        <li><code>livekit_doubts.md</code>: Q52 (Editor sample rate), Q53 (Direction A spec), Q54 (XREAL Auto Logcat), Q55 (Custom Main Manifest pitfalls), Q56 (?room= patch), Q59 (Unity package vendoring + path math), Q60 (TMP API deprecation)</li>
+        <li><code>livekit_deployment.md</code>: Q28 (MVP deployment design rationale)</li>
+      </ul>
+
+      <div class="verdict" style="margin-top: 25px;">
+        Total: <strong>8 new docs</strong>, <strong>10 new Q&amp;A entries</strong>. Aim is "future-me can resume any session in &lt;15 min" without re-asking questions.
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 18. THANKS (hidden in presentation; kept for future reference) -->
+    <!-- ============================================================ -->
+    <section class="center" data-visibility="hidden">
+      <h1 style="font-size: 2.4em;">Questions?</h1>
+      <div style="margin-top: 60px;">
+        <div class="stat"><span class="stat-num">3</span><span class="stat-label">parallel threads</span></div>
+        <div class="stat"><span class="stat-num">5</span><span class="stat-label">services on EC2</span></div>
+        <div class="stat"><span class="stat-num">13</span><span class="stat-label">problems solved</span></div>
+        <div class="stat"><span class="stat-num">1</span><span class="stat-label">PR away from live demo</span></div>
+      </div>
+      <p style="margin-top: 80px;" class="small">
+        Demo coming up (live if SG is open by then, screen recording otherwise)
+      </p>
+    </section>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/highlight.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/notes/notes.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    slideNumber: 'c/t',
+    transition: 'fade',
+    transitionSpeed: 'fast',
+    width: 1280,
+    height: 800,
+    margin: 0.04,
+    minScale: 0.4,
+    maxScale: 1.6,
+    center: false,
+    plugins: [RevealHighlight, RevealNotes]
+  });
+</script>
+
+</body>
+</html>

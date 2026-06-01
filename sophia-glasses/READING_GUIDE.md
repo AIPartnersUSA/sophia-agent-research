@@ -72,8 +72,10 @@ What you'll learn: the full ~2500-line story of how this client was built. 21 pa
 
 Open in this order:
 
-1. `Assets/Scripts/SophiaConfig.cs` — the ScriptableObject schema. Read each `[SerializeField]` and the tooltip on it. Seven fields: liveKitUrl, tokenEndpoint, agentName, roomName, participantIdentity, participantName, microphoneDeviceIndex.
-2. `Assets/Settings/SophiaConfig.asset` — the actual instance. Inspect via Unity Inspector (drag the file in). Today's values: `ws://100.69.34.194:7880` (Tailscale URL of Mac), `http://100.69.34.194:8001/token`, agentName `sophia-agent`, roomName empty (Scenario B default), microphoneDeviceIndex 0.
+1. `Assets/Scripts/SophiaConfig.cs` — the ScriptableObject schema. Read each `[SerializeField]` and the tooltip on it. EIGHT fields: liveKitUrl, tokenEndpoint, **tokenApiKey** (added 2026-05-29 for shared-EC2 X-API-Key auth — leave empty if your token-mint doesn't enforce it), agentName, roomName, participantIdentity, participantName, microphoneDeviceIndex.
+2. `Assets/Settings/SophiaConfig.asset` — the actual instance. Inspect via Unity Inspector (drag the file in). Two reference configurations:
+   - Local Tailscale dev: liveKitUrl `ws://100.69.34.194:7880`, tokenEndpoint `http://100.69.34.194:8001/token`, tokenApiKey empty, agentName `sophia-agent`, roomName empty (Scenario B default), microphoneDeviceIndex 0.
+   - Shared EC2 demo: liveKitUrl `ws://3.227.63.49:7880`, tokenEndpoint `http://3.227.63.49:8001/token`, tokenApiKey set to the same value as `SOPHIA_TOKEN_API_KEY` on the EC2 `.env.production` file. See `mvp_deployment_shared_ec2.md` for the value-rotation procedure.
 
 Mental model: `SophiaConfig` is the deployment-time settings; `SophiaSessionContext` (Step 5) is the runtime per-session overrides.
 
@@ -96,6 +98,8 @@ Pay attention to `EnsureEventSystem()` -- Unity 6 URP template defaults to the N
 Read: `Assets/Scripts/SophiaConnection.cs` — read it twice, top to bottom each time.
 
 First read: get the lifecycle. OnEnable -> ConnectFlow coroutine -> token fetch -> Room.Connect -> mic permission -> mic publish -> wait for agent track -> OnTrackSubscribed wires playback. OnDisable -> Cleanup -> mic stop + room disconnect + destroy speaker child GameObjects.
+
+Token fetch detail (added 2026-05-29 for shared-EC2 deploy): the UnityWebRequest POST to `/token` conditionally adds an `X-API-Key` header IF `SophiaConfig.tokenApiKey` is set. Logic in SophiaConnection.cs around the `www.SetRequestHeader("Content-Type", "application/json")` line. Server side enforces this only if env var `SOPHIA_TOKEN_API_KEY` is set on the token-mint container; left empty for local dev, populated for the shared EC2 demo. See livekit_deployment.md Q29 for the auth design + mvp_deployment_shared_ec2.md "Glasses repointing" section for the operational checklist.
 
 Second read: focus on the audio side. The MIC path uses `MicrophoneSource` from the LiveKit Unity SDK (created in `Step 3` of ConnectFlow), wrapped in a `LocalAudioTrack`, published via `room.LocalParticipant.PublishTrack` with `TrackSource.SourceMicrophone`. The SPEAKER path is in `OnTrackSubscribed`: ONLY agent tracks (participant identity starts with `agent-`) get an AudioSource, and that AudioSource lives on a new CHILD GameObject `SophiaSpeaker_<sid>` under `speakerHost` — this is the production-correct multi-user contract from livekit_doubts.md Q58. Other users' raw mic tracks are subscribed-but-never-played-locally.
 

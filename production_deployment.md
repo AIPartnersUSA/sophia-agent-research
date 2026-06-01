@@ -1,8 +1,50 @@
 # Production deployment plan — Sophia on AWS EC2
 
-Move the SFU + token-mint + agent worker from your laptop onto a single EC2 instance in the same VPC as your existing EKS inference services. Frontend on Vercel (free, simplest) or co-hosted on the EC2. Beam Pro / glasses client connects to the EC2's public DNS over WSS.
+## Status as of 2026-05-29
+
+The MVP shipped on the shared GPU EC2 (`3.227.63.49`, us-east-1, g5.2xlarge) on 2026-05-29 — browser + glasses voice loop confirmed working end-to-end. That MVP runs:
+- Plain HTTP on ports 3000 (frontend), 8001 (token-mint), 7880 (SFU signal), 50000-60000/UDP (SFU media). No TLS.
+- Shared X-API-Key auth on the FastAPI token-mint endpoint. The Next.js `/api/token` route is open.
+- A single docker-compose stack on one shared EC2 (Ivana runs Jupyter + Streamlit on the same box).
+- AWS Security Group as the only firewall layer; allow-list managed by infra team via `AIPartnersUSA/aws-infra` PRs.
+- Cross-region EKS access via kubectl port-forward (cluster in us-west-2, EC2 in us-east-1).
+- Frontend, token-mint, and agent-worker all on the same EC2; inference services on EKS.
+
+Full MVP runbook + day-to-day operation: `mvp_deployment_shared_ec2.md` at project root. That file is the "what we have right now" reference; this file is the "what we should change for real production" reference.
+
+## What this doc adds on top of the MVP
+
+Move the SFU + token-mint + agent worker from the shared EC2 onto a dedicated EC2 instance in the same VPC as the EKS inference services. Frontend on Vercel (free, simplest) or co-hosted on the EC2. Beam Pro / glasses client connects to the EC2's public DNS over WSS.
 
 This is the FIRST production deploy — single instance, manually orchestrated, Docker Compose. Not multi-instance, not auto-scaling, not behind ECS or Kubernetes. Those are valid next steps after this works.
+
+## Section 0 — What changes from the MVP (2026-05-29)
+
+KEEP from MVP (no rework needed):
+- docker-compose.yml service definitions for livekit-server, token-mint, agent-worker — the same images and `network_mode: host` choices apply.
+- `sophia-agent/src/token_mint.py` FastAPI code — auth pattern is correct; just rotate the key.
+- `sophia-agent/src/agent.py` worker code — orchestration logic unchanged.
+- The vendoring approach for XREAL + LiveKit Unity SDKs via Git LFS (git_setup.md).
+- The `SophiaConfig.asset` schema and X-API-Key client behavior (sophia-glasses/READING_GUIDE.md).
+- HuggingFace model-cache placement via `HF_HOME` in the Dockerfile.
+
+REPLACE before going "real production":
+- Plain HTTP → HTTPS via Let's Encrypt + a domain. Browser secure-context requirement removes the Chrome flag hack.
+- Shared X-API-Key on token-mint → proper bearer JWT or OAuth (Auth0 / Clerk / Cognito). Per-user identity, not per-deployment.
+- The empty `/api/token` route in Next.js → backed by the same auth provider; revoke the open-route shortcut from MVP day.
+- Shared EC2 with Ivana → dedicated EC2 (no port collisions, no etiquette overhead).
+- Cross-region EKS port-forward → same-region EKS or NLB-fronted services (eliminates 70+ ms cross-region hop).
+- AWS STS temporary creds → IAM instance role with EKS aws-auth ConfigMap entry. No expiring credentials in EC2 env.
+- Single agent-worker instance → per-session agent-worker scaling. LiveKit dispatch + worker autoscale strategy still TBD.
+- Manual `docker compose up` → systemd unit or CloudWatch-monitored ECS task; auto-restart on EC2 reboot.
+
+DEFER to a later iteration (mentioned here so future-you doesn't think they're missing):
+- Multi-region deploy (just one region for now).
+- Persistent transcript / session history storage (currently in-memory).
+- Per-tenant database isolation (single shared sophia-spatial-ai retrieval namespace today).
+- Cost-tracking dashboards.
+
+---
 
 ---
 
@@ -561,3 +603,15 @@ Reserved instance for the EC2 brings it to ~$40/mo (1-year, no upfront). NLB cos
 | Frontend hosting options | "Component 5 — frontend hosting" |
 | Glasses client repointing | "Step 9 — Point the glasses at production" |
 | Common failures | "What can go wrong" matrix |
+
+---
+
+## See also
+
+- `mvp_deployment_shared_ec2.md` — the current MVP on the shared GPU EC2 (3.227.63.49). Day-to-day operation, 19 documented problems, glasses repointing checklist. THE baseline this doc upgrades from.
+- `livekit_deployment.md` — design rationale for component placement, cross-region EKS access (Q28), and token-mint auth pattern (Q29).
+- `livekit_doubts.md` — framework / plugin / debugging Q&A. Q61 covers the two-auth-paths model (browser vs glasses), Q62 covers the network_mode: host rationale.
+- `git_setup.md` — repo setup + Git LFS appendix (8 Q&A items) covering XREAL + LiveKit Unity SDK vendoring.
+- `sophia-glasses/READING_GUIDE.md` — Unity client tour. Step 4 = SophiaConfig fields including `tokenApiKey`. Step 7 = SophiaConnection X-API-Key header pattern.
+- `unity_approach.md` — full Unity/XREAL journey narrative (21 parts + 3 appendices). Appendix B is the 9-step operational runbook for the glasses path.
+- Project memory: `project_sophia_voice_agent.md` in the memory directory — current state, aws-infra collaboration context, decided next sequence.

@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbabe15b07edb4a0899128c0188a8d12, type: 3}
   m_Name: SophiaConfig
   m_EditorClassIdentifier: Assembly-CSharp::SophiaConfig
-  liveKitUrl: ws://100.69.34.194:7880
-  tokenEndpoint: http://100.69.34.194:8001/token
+  liveKitUrl: ws://3.227.63.49:7880
+  tokenEndpoint: http://3.227.63.49:8001/token
+  tokenApiKey: 9a11fdf5ce05e3cecad28f933d778971
   agentName: sophia-agent
   roomName: 
   participantIdentity: 

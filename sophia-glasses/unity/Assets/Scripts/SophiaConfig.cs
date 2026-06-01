@@ -23,6 +23,14 @@ public class SophiaConfig : ScriptableObject
              "For local dev with Tailscale: http://<mac-tailscale-ip>:8001/token")]
     public string tokenEndpoint = "http://100.69.34.194:8001/token";
 
+    [Tooltip("Optional shared API key for the token-mint endpoint. " +
+             "When set, the X-API-Key header is sent on every /token POST. " +
+             "Must match SOPHIA_TOKEN_API_KEY in sophia-agent/.env.production. " +
+             "Leave EMPTY to skip auth (dev / MVP demo). Same opt-in pattern " +
+             "as the server side: empty here = no header sent, non-empty = " +
+             "header included on every request.")]
+    public string tokenApiKey = "";
+
     [Header("Room & Agent")]
     [Tooltip("Agent name as registered in sophia-agent/src/agent.py " +
              "(@server.rtc_session(agent_name=...)). Token-mint includes " +

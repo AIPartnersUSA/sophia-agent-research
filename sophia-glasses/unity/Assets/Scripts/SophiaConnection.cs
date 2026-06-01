@@ -165,6 +165,14 @@ public class SophiaConnection : MonoBehaviour
             www.uploadHandler = new UploadHandlerRaw(reqBody);
             www.downloadHandler = new DownloadHandlerBuffer();
             www.SetRequestHeader("Content-Type", "application/json");
+            // Opt-in auth: only send the X-API-Key header when the config
+            // field is non-empty. Mirrors the opt-in pattern on token-mint
+            // (SOPHIA_TOKEN_API_KEY env var unset = no auth check). Keep
+            // SophiaConfig.tokenApiKey in sync with the server env.
+            if (!string.IsNullOrEmpty(config.tokenApiKey))
+            {
+                www.SetRequestHeader("X-API-Key", config.tokenApiKey);
+            }
             yield return www.SendWebRequest();
 
             if (www.result != UnityWebRequest.Result.Success)

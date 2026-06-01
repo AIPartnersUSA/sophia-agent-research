@@ -7,19 +7,30 @@ For design rationale (MVP vs production tradeoffs): see "Architecture" + "Why MV
 
 ---
 
-## Current state (as of 2026-05-28)
+## Current state (as of 2026-05-29 — DEMO WORKING END-TO-END)
 
-Running on EC2 (verified working internally):
+Running on EC2 + verified externally:
 - LiveKit SFU (livekit-server in docker)
-- Token-mint (FastAPI in docker)
+- Token-mint (FastAPI in docker, with X-API-Key auth ENABLED via SOPHIA_TOKEN_API_KEY)
 - Agent worker (registered against SFU)
 - kubectl port-forwards to EKS inference services (Whisper / Qwen3 / Kokoro / sophia-spatial-ai)
+- Frontend (Next.js production build serving on :3000)
 
-PENDING:
-- Security group inbound rules — PR opened against aws-infra (waiting on infra to merge + run `terraform apply`). Until then no external client can reach the EC2.
-- Frontend (built but not yet started — will start once SG opens)
-- Glasses repointed at the EC2 public IP (still pointed at laptop Tailscale URL)
-- End-to-end demo from a browser and from the glasses
+DONE 2026-05-29 (the demo unblock day):
+- Infra merged the SG PR and ran `terraform apply` (Aziz). External access works: laptop curl to :8001 / :7880 returns 200.
+- Browser demo working at http://3.227.63.49:3000 from Chrome (requires the chrome://flags#unsafely-treat-insecure-origin-as-secure flag for the public IP since plain HTTP).
+- Glasses demo working on Beam Pro + XREAL One Pro. APK rebuilt with EC2 URL in SophiaConfig.asset + the X-API-Key wired in SophiaConfig + SophiaConnection. Connects from anywhere on the internet, no Tailscale, no laptop in the loop.
+
+Open caveats (known, deferred):
+- Editor + Beam Pro speakers have the expected echo loop (Sophia's voice → mic → STT → loop). Glasses temple speakers + glasses mic geometry kill it for the real demo. Q41/Q43 in livekit_doubts.md predicted this and the prediction holds.
+- Browser uses plain HTTP — Chrome needs the flag per-machine. Real TLS deferred to production.
+- AWS env vars on EC2 expire ~1h (STS); kubectl port-forwards die when they expire. Re-export + restart pf-gpu.sh per session.
+
+What's NEXT (post-MVP, when team approves real production):
+- Move EC2 to us-west-2 (same region as EKS) to kill the cross-region ~70ms penalty.
+- Real domain + Let's Encrypt TLS → solves browser mic + no per-Chrome flag needed.
+- Proper SSO auth on token-mint (replace the shared API key).
+- See `production_deployment.md` for the full plan.
 
 ---
 
@@ -100,16 +111,32 @@ Ports we use (must be in SG inbound rules):
    ```
    Look for `registered worker ... url: ws://localhost:7880` in agent-worker logs.
 
-6. Start the frontend:
+6. Start the frontend (kill any old next-server process first if it's still running):
    ```bash
    cd /workspace/avinash/sophia/agent-starter-react
+
+   # Safety: kill anything still bound to 3000 from a previous session
+   sudo fuser -k 3000/tcp 2>/dev/null
+   sleep 2
+
    nohup npm start -- --port 3000 --hostname 0.0.0.0 > /workspace/avinash/sophia/frontend.log 2>&1 &
    disown
-   sleep 3
+   sleep 6
    ss -tlnp | grep :3000
+   tail -10 /workspace/avinash/sophia/frontend.log
    ```
+   The log should show `▲ Next.js 15.5.18 ... ✓ Ready in Xms`. The ss should show node listening on 3000.
 
-7. Test from your laptop browser: http://3.227.63.49:3000
+7. Test from your laptop:
+   ```bash
+   # From laptop terminal:
+   curl -sI --max-time 5 http://3.227.63.49:8001/health      # token-mint reachable
+   curl -sI --max-time 5 http://3.227.63.49:7880/            # SFU reachable
+   curl -s -X POST -H "Content-Type: application/json" -d '{}' http://3.227.63.49:3000/api/token | head -c 200
+   ```
+   The last curl returns JSON with `participantToken` if everything's wired. If 500, the production fixes from Phase 12 NOTE aren't applied. If 401 on the token-mint curl, the SOPHIA_TOKEN_API_KEY auth is enabled and browser uses a different path (Next.js route on :3000) — only matters for glasses.
+
+8. Open browser at http://3.227.63.49:3000 (Chrome with the flag — see "Sharing the demo" section).
 
 ### Warm start (EC2 already running, just need to restart services)
 
@@ -160,8 +187,22 @@ curl -s --max-time 3 http://localhost:8080/v1/models | head -c 100
 # Agent registration
 docker compose logs --tail 5 agent-worker | grep -i registered
 
-# Frontend
+# Frontend (Node.js process)
 ss -tlnp | grep ':3000'
+ps -ef | grep '[n]ode' | grep next
+
+# AWS auth still valid? (env vars haven't expired)
+aws sts get-caller-identity 2>&1 | head -3
+# Should show YOUR ARN. If "ExpiredToken" → re-export AWS_ACCESS_KEY_ID etc.
+
+# Local repo in sync with origin
+git status
+git log --oneline origin/main..HEAD 2>/dev/null     # any unpushed commits?
+git log --oneline HEAD..origin/main 2>/dev/null     # any unpulled commits?
+
+# Disk usage (don't fill up the shared 290GB EBS)
+df -h /workspace | tail -1
+docker system df
 ```
 
 ### Stop everything (save money)
@@ -490,19 +531,164 @@ npm run build
 # (will start with `npm start` once SG is open)
 ```
 
+NOTE for fresh rebuilds: before `npm run build` works in production mode, three code fixes must be applied (covered in Problems 8, 9, 14, 16):
+- `components/app/view-controller.tsx` — `as const` on VIEW_MOTION_PROPS (Framer Motion typing)
+- `next.config.ts` — `eslint: { ignoreDuringBuilds: true }` (skip prettier rules in starter)
+- `app/api/token/route.ts` — remove the production-only `throw` guard (or replace with proper auth)
+- `app-config.ts` — hardcode `agentName: 'sophia-agent'` (env var indirection doesn't survive client bundle)
+
+All four are committed in the repo by now, so a fresh `git clone` + `npm install` + `npm run build` should just work. If you ever rebuild from a snapshot before those fixes, refer to the problems for the exact patches.
+
 ### Phase 13 — Opened PR for SG rules
 
-Cloned the aws-infra repo, created branch `feat/sophia-sg-opens` off `fix-state`, added 5 ingress blocks to `environments/single_g5x2large_us_east_1/main.tf`, pushed, opened PR. Waiting on infra to merge + `terraform apply`.
+Process (mirror this for any future infra change):
 
-PR: <fill in URL after creation>
+```bash
+# In your usual repos directory (e.g. ~/Documents/repos)
+cd ~/<your-repos-dir>
+git clone git@github.com:AIPartnersUSA/aws-infra.git
+cd aws-infra
+git fetch origin
+git checkout fix-state
+git pull origin fix-state
+git checkout -b feat/sophia-sg-opens
+nano environments/single_g5x2large_us_east_1/main.tf
+# (paste the 5 ingress blocks shown below inside aws_security_group.gpu)
+git diff environments/single_g5x2large_us_east_1/main.tf   # verify only +ingress blocks
+git add environments/single_g5x2large_us_east_1/main.tf
+git commit -m "Add SG ingress rules for Sophia voice agent MVP"
+git push -u origin feat/sophia-sg-opens
+# (if push errors with 'write access denied' → ask infra to add you as Collaborator with Write on the repo)
+gh pr create --base fix-state \
+  --title "Add SG inbound rules for Sophia voice agent MVP" \
+  --body "Five new ingress rules following the var.allowed_cidrs pattern used by JupyterLab."
+```
 
-### Phase 14 — Glasses (PENDING)
+The 5 ingress blocks added inside `resource "aws_security_group" "gpu"` (right after the existing TensorBoard / generic-ML ingress blocks):
 
-Once SG is open, edit `sophia-glasses/unity/Assets/Settings/SophiaConfig.asset` in Unity to swap:
-- liveKitUrl: `ws://100.69.34.194:7880` → `ws://3.227.63.49:7880`
-- tokenEndpoint: `http://100.69.34.194:8001/token` → `http://3.227.63.49:8001/token`
+```hcl
+  ingress {
+    description = "Sophia voice agent frontend"
+    from_port   = 3000
+    to_port     = 3000
+    protocol    = "tcp"
+    cidr_blocks = var.allowed_cidrs
+  }
 
-Rebuild APK, install on Beam Pro, test.
+  ingress {
+    description = "LiveKit SFU WebSocket signaling"
+    from_port   = 7880
+    to_port     = 7880
+    protocol    = "tcp"
+    cidr_blocks = var.allowed_cidrs
+  }
+
+  ingress {
+    description = "LiveKit TURN/TCP fallback"
+    from_port   = 7881
+    to_port     = 7881
+    protocol    = "tcp"
+    cidr_blocks = var.allowed_cidrs
+  }
+
+  ingress {
+    description = "Sophia voice agent token-mint"
+    from_port   = 8001
+    to_port     = 8001
+    protocol    = "tcp"
+    cidr_blocks = var.allowed_cidrs
+  }
+
+  ingress {
+    description = "LiveKit WebRTC media (UDP)"
+    from_port   = 50000
+    to_port     = 60000
+    protocol    = "udp"
+    cidr_blocks = var.allowed_cidrs
+  }
+```
+
+`var.allowed_cidrs` defaults to `["0.0.0.0/0"]` per the existing variables.tf, so these rules are open to the internet — same as JupyterLab and TensorBoard.
+
+Reminder when pinging infra: ask them to BOTH merge the PR AND run `terraform apply`. Merge alone doesn't open the AWS ports; the apply is what makes the SG change live.
+
+PR was merged + applied by Aziz on 2026-05-29.
+
+### Phase 14 — Glasses (DONE 2026-05-29)
+
+Procedure now documented in the dedicated "Glasses repointing" section further down — see that section for the exact three-field edit (liveKitUrl + tokenEndpoint + tokenApiKey), the build/install commands, the expected log lines, and the echo-loop caveat. Brief summary: glasses connect to ws://3.227.63.49:7880, fetch token from http://3.227.63.49:8001/token, send X-API-Key header matching SOPHIA_TOKEN_API_KEY on the EC2.
+
+---
+
+## Git workflow + sync between Mac and EC2
+
+Adopted pattern: edit on Mac → commit + push to GitHub → `git pull` on EC2. Do NOT edit the same file in both places independently — that creates conflicts (Problem 12).
+
+**If both sides DO get out of sync** (e.g. you edited code directly on EC2 during a demo and now Mac + EC2 + GitHub all disagree): read `git_sync.md` at the project root. It has the full 8-step reconciliation procedure (triage unexpected dirty files, handle secrets in untracked files like `livekit.prod.yaml`, decide what to commit vs gitignore, push from EC2, pull on Mac, push from Mac, pull on EC2, verify). Don't try to reconcile by ad-hoc copying — the procedure handles the secret-file edge cases that bite you otherwise.
+
+### Files in git (versioned across Mac + EC2)
+
+- All source code under `sophia-agent/`, `agent-starter-react/`, `sophia-glasses/`
+- All `*.md` documentation at project root
+- `sophia-agent/Dockerfile` and `sophia-agent/Dockerfile.token-mint`
+- `.gitignore`, `.gitattributes`
+
+### Files NOT in git (local to each environment)
+
+These live ONLY on the EC2 in `/workspace/avinash/sophia/`. They contain secrets or environment-specific values; they're chmod 600 and untracked.
+
+- `sophia-agent/.env.production` (LiveKit keys, token-mint API key, inference URLs)
+- `sophia-agent/infra/livekit.prod.yaml` (LiveKit prod config with keys inlined)
+- `docker-compose.yml` at workspace root (deployment-specific service composition)
+- `agent-starter-react/.env.local` (frontend env with keys for browser-side use)
+
+If the EC2 is rebuilt from scratch, recreate these from the templates in Phases 6 + 7 above. Keep the generated key/secret values somewhere safe outside the repo (1Password, AWS Secrets Manager, etc.).
+
+### Reference files in git (for context, not code we own)
+
+- `user_data.sh.tftpl` was a sample we pasted from infra. Decided to gitignore it (added to `.gitignore`) since it's not our code and would go stale if infra updates their version. View their canonical copy at https://github.com/AIPartnersUSA/aws-infra/blob/fix-state/environments/single_g5x2large_us_east_1/user_data.sh.tftpl
+
+### Daily flow
+
+When editing on Mac:
+
+```bash
+cd "/Users/avinashbolleddula/Documents/sophia Agent Research"
+# make edits
+git status                          # see what changed
+git diff                            # review diffs
+git add <files>
+git commit -m "..."
+git push
+```
+
+Then on the EC2:
+
+```bash
+ssh sophia-gpu
+cd /workspace/avinash/sophia
+git pull
+# if any service depends on the changed file, restart it:
+docker compose build agent-worker && docker compose up -d agent-worker
+# or
+cd agent-starter-react && npm run build
+```
+
+### Two-commit pattern (we used this for the deploy cleanup)
+
+When a session produces both code fixes AND documentation, split them so the code-change diff is reviewable on its own:
+
+```bash
+# Commit 1: code-level changes (production behavior)
+git add <code files>
+git commit -m "MVP deployment fixes: <description>"
+
+# Commit 2: documentation
+git add <docs>
+git commit -m "Document MVP EC2 deployment: <description>"
+
+git push
+```
 
 ---
 
@@ -641,20 +827,194 @@ Fix: use kubectl port-forward from the EC2 instead. The EKS API endpoint is publ
 
 For real production, move the EC2 to us-west-2 (same region as EKS) to eliminate the penalty.
 
+### Problem 12 — `git pull` on EC2 conflicts with local uncommitted edits
+
+Symptom: After pushing code changes from Mac to GitHub, running `git pull` on the EC2 errors with:
+
+```
+error: Your local changes to the following files would be overwritten by merge:
+        agent-starter-react/next.config.ts
+        sophia-agent/Dockerfile
+Please commit your changes or stash them before you merge.
+Aborting
+```
+
+Cause: We edited the same files via `nano` directly on the EC2 earlier (for the ESLint disable in next.config.ts and the HF_HOME fix in Dockerfile) and never committed those edits. When the Mac-committed versions arrived via `git pull`, git refused to overwrite the dirty EC2 working tree.
+
+Fix: discard the EC2's local versions (since they're functionally identical to what's incoming from main) and pull:
+
+```bash
+git checkout -- agent-starter-react/next.config.ts sophia-agent/Dockerfile
+git pull
+```
+
+`git checkout --` reverts those files to HEAD; `git pull` then fast-forwards to the canonical version from origin.
+
+Prevention: always edit ONLY on the Mac going forward, push to GitHub, pull on EC2. The "edit in both places" pattern is what caused this. Captured as a workflow rule in the Git workflow section above.
+
+### Problem 13 — GitHub push rejected with "write access not granted"
+
+Symptom: `git push -u origin feat/sophia-sg-opens` against `AIPartnersUSA/aws-infra` returns `Permission to AIPartnersUSA/aws-infra.git denied`.
+
+Cause: Your GitHub user wasn't a Collaborator with Write role on the repo. By default, even repo Read-only users can clone but not push.
+
+Fix: ask infra to add you (GitHub username `AvinashSophia`) as a Collaborator with Write access. Once granted, the existing local branch + commits push successfully on retry. No need to redo any work.
+
+Pattern note: branch-level permission isn't a separate thing on GitHub. Write access is granted at the repo level, and branch protection rules (separate concept) restrict which branches can be pushed to directly. Our workflow uses PRs against `fix-state`, so branch protection on `fix-state` doesn't affect us — we just need repo-level Write to push our feature branch.
+
+### Problem 14 — `/api/token` returns 500 in production build
+
+Symptom: browser loads the frontend at http://3.227.63.49:3000, clicks Start Call, immediately sees 500 from `/api/token`. frontend.log shows:
+
+```
+Error: THIS API ROUTE IS INSECURE. DO NOT USE THIS ROUTE IN PRODUCTION WITHOUT AN AUTHENTICATION LAYER.
+    at .next/server/app/api/token/route.js:1:91707
+```
+
+Cause: the starter template's `app/api/token/route.ts` has a hardcoded guard at the top of the POST handler:
+
+```ts
+if (process.env.NODE_ENV !== 'development') {
+  throw new Error('THIS API ROUTE IS INSECURE. ...');
+}
+```
+
+This deliberately blocks the dev-only route from working in production builds (`npm start` sets NODE_ENV=production). The starter expects you to swap in a real auth layer for production.
+
+Fix: for MVP, remove the guard. Edit `agent-starter-react/app/api/token/route.ts`, comment out the `throw` block. The route still mints unauthenticated tokens — acceptable for the MVP demo posture (EC2 stopped between demos, URL not broadly shared). Then `npm run build` + restart.
+
+Long-term: add API-key auth to the Next.js route (mirror the SOPHIA_TOKEN_API_KEY pattern from token-mint) OR switch the frontend to use the external token-mint on port 8001 directly. Either way is a proper production fix.
+
+### Problem 15 — Safari + Chrome refuse `getUserMedia` over plain HTTP from public IP
+
+Symptom: clicking Start Call in the browser shows console error `Unhandled Promise Rejection: TypeError: undefined is not an object (evaluating 'navigator.mediaDevices.getUserMedia')` and an explicit `Accessing media devices is available only in secure contexts (HTTPS and localhost)`.
+
+Cause: browser security boundary. `navigator.mediaDevices` is not exposed to non-secure contexts (anything that's not HTTPS or localhost). Our public-IP HTTP page is non-secure → the API doesn't exist at all in the page's JavaScript.
+
+Fix for Chrome only (Safari has no equivalent): open `chrome://flags/#unsafely-treat-insecure-origin-as-secure`, set to Enabled, paste `http://3.227.63.49:3000` into the text box, relaunch Chrome. After relaunch, the page is treated as secure for that one origin — `navigator.mediaDevices.getUserMedia` works, mic permission can be granted.
+
+Limitation: the flag is per-Chrome-profile. Every viewer of the demo needs to do this once. Safari users have to switch to Chrome (or use the proper production fix).
+
+Long-term: add TLS via a real domain. Eliminates the issue for everyone, every browser.
+
+### Problem 16 — Agent never joins the room ("session ended, agent did not join")
+
+Symptom: browser successfully joins SFU room, but no agent participant ever appears. After ~30s, frontend shows "session ended". agent-worker logs show NO job request received.
+
+Cause: the JWT minted by the Next.js `/api/token` route had `roomConfig.agents: []`. The SFU has no instruction to dispatch our worker. Decode the JWT at jwt.io to verify.
+
+The root cause traces to `agent-starter-react/app-config.ts`:
+
+```ts
+agentName: process.env.AGENT_NAME ?? undefined,
+```
+
+`AGENT_NAME` doesn't have the `NEXT_PUBLIC_` prefix. Next.js production builds strip all non-`NEXT_PUBLIC_*` env vars from CLIENT-SIDE code at build time. `app-config.ts` is imported by client components → `process.env.AGENT_NAME` becomes `undefined` in the browser bundle. The frontend passes `undefined` to the agent dispatch hook, the SFU gets a token without `agents`.
+
+Fix: hardcode the value in `app-config.ts`:
+
+```ts
+agentName: 'sophia-agent',
+```
+
+Then `rm -rf .next && npm run build` and restart. The JWT now includes `roomConfig.agents: [{"agentName": "sophia-agent"}]`. SFU dispatches the worker; voice loop runs.
+
+Rationale: the env-var indirection makes sense for LiveKit Cloud where agent names vary per deployment. For our self-hosted setup, the agent name is hardcoded in `agent.py` as `sophia-agent`. No reason to indirect through env vars — hardcoding removes a class of build-time vs runtime bugs.
+
+### Problem 17 — Glasses get 401 from token-mint after server-side auth turned on
+
+Symptom: Beam Pro launches the app, fetches token from `http://3.227.63.49:8001/token`, gets HTTP 401 with body `Missing or invalid X-API-Key header`. App shows "Token mint failed" and refuses to connect.
+
+Cause: we set `SOPHIA_TOKEN_API_KEY` in `.env.production` (turning on the auth check in token_mint.py). Browser uses the Next.js `/api/token` route on port 3000 which bypasses token-mint entirely, so browser unaffected. Glasses POST directly to token-mint on port 8001, where the auth is now enforced. The glasses code didn't know about the header.
+
+Fix: added X-API-Key support to the glasses (matches the opt-in env pattern on token-mint).
+
+`SophiaConfig.cs` — added a serialized field:
+
+```csharp
+[Tooltip("Optional shared API key for the token-mint endpoint. " +
+         "When set, the X-API-Key header is sent on every /token POST. " +
+         "Must match SOPHIA_TOKEN_API_KEY in sophia-agent/.env.production. " +
+         "Leave EMPTY to skip auth.")]
+public string tokenApiKey = "";
+```
+
+`SophiaConnection.cs` — in the token fetch UnityWebRequest, add the header when the field is non-empty:
+
+```csharp
+www.SetRequestHeader("Content-Type", "application/json");
+if (!string.IsNullOrEmpty(config.tokenApiKey))
+{
+    www.SetRequestHeader("X-API-Key", config.tokenApiKey);
+}
+```
+
+Then in Unity Inspector, open `Assets/Settings/SophiaConfig.asset` and paste the SOPHIA_TOKEN_API_KEY value from the EC2's `.env.production` into the new tokenApiKey field. Save, rebuild APK, install, test.
+
+Both sides must use the exact same key value. Verify with:
+
+```bash
+ssh sophia-gpu "grep SOPHIA_TOKEN_API_KEY /workspace/avinash/sophia/sophia-agent/.env.production"
+grep tokenApiKey "/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/unity/Assets/Settings/SophiaConfig.asset"
+```
+
+Outputs should have matching values.
+
+### Problem 18 — `docker compose restart` doesn't reload env_file
+
+Symptom: edited `.env.production` to add SOPHIA_TOKEN_API_KEY, ran `docker compose restart token-mint`, but token-mint behaved as if the env var was still missing. curl with the correct key still returned 401.
+
+Diagnostic: `docker compose exec token-mint env | grep SOPHIA_TOKEN_API_KEY` showed the old (unset) value, not the new one we'd added.
+
+Cause: `docker compose restart` performs a process restart but reuses the SAME container with its EXISTING environment. The `env_file:` directive in docker-compose.yml is evaluated when the container is CREATED (`docker compose up`), not when it's restarted. Updates to the env file don't propagate via restart.
+
+Fix: full down + up to recreate the container with the latest env:
+
+```bash
+docker compose down
+docker compose up -d livekit-server token-mint agent-worker
+sleep 5
+docker compose exec token-mint env | grep SOPHIA_TOKEN_API_KEY  # should now show the new value
+```
+
+Pattern note: any change to a file referenced by `env_file:` requires `down + up`, not just `restart`. Same for changes to bind-mounted files that the service reads at startup. `restart` is only safe when the change is in already-running container state.
+
+### Problem 19 — Duplicate `SOPHIA_TOKEN_API_KEY` lines in .env.production
+
+Symptom: after using `echo "SOPHIA_TOKEN_API_KEY=$VAL" >> sophia-agent/.env.production` more than once (e.g. trying to rotate the key), the file has multiple `SOPHIA_TOKEN_API_KEY=...` lines. Behavior depends on which line the dotenv parser uses (usually the last one), but it's confusing and fragile.
+
+Cause: the `>>` operator APPENDS to a file, doesn't replace. Easy mistake when iterating on env values.
+
+Fix: delete duplicates and keep one:
+
+```bash
+# Pattern that replaces (delete then append) instead of just appending:
+sed -i '/^SOPHIA_TOKEN_API_KEY=/d' sophia-agent/.env.production
+echo "SOPHIA_TOKEN_API_KEY=$VAL" >> sophia-agent/.env.production
+
+# Verify exactly one line per var:
+grep -c SOPHIA_TOKEN_API_KEY sophia-agent/.env.production  # should print: 1
+sort sophia-agent/.env.production | uniq -d                # any dupes show here
+```
+
+After cleaning, do the `docker compose down + up` from Problem 18 to actually load the deduped file.
+
 ---
 
-## Glasses repointing (when ready)
+## Glasses repointing (DONE 2026-05-29)
 
-Once SG is open and browser demo works, point the glasses at the EC2.
+Walked through this on 2026-05-29 successfully. Documented for repeatability.
 
 In Unity Editor on your Mac:
 1. Open `sophia-glasses/unity/`.
 2. Open `Assets/Settings/SophiaConfig.asset` in the Inspector.
-3. Edit two fields:
-   - liveKitUrl: change to `ws://3.227.63.49:7880`
-   - tokenEndpoint: change to `http://3.227.63.49:8001/token`
+3. Edit THREE fields (note: third one was added 2026-05-29 — see Problem 17):
+   - `liveKitUrl`: change to `ws://3.227.63.49:7880`
+   - `tokenEndpoint`: change to `http://3.227.63.49:8001/token`
+   - `tokenApiKey`: paste the same value as `SOPHIA_TOKEN_API_KEY` in EC2's `.env.production`. Empty if token-mint auth is off.
 4. Save (Cmd+S).
 5. File menu → Build Profiles → Build (outputs APK to `sophia-glasses/unity/sophia-glasses.apk`).
+6. Click Yes on the "not a member of project" Unity warning — about Unity Cloud services, harmless for our build.
 
 Install on Beam Pro:
 
@@ -666,7 +1026,24 @@ adb shell am start -n com.UnityTechnologies.com.unity.template.urpblank/com.unit
 adb logcat | grep -E 'Sophia|LiveKit'
 ```
 
-Tap Allow on mic permission. Pick Private Session. Speak. Sophia answers. No Tailscale needed, no laptop in the critical path.
+Tap Allow on mic permission. Pick Private Session. Plug in XREAL One Pro. Speak. Sophia answers via the glasses temple speakers. No Tailscale needed, no laptop in the critical path. The whole demo runs through 3.227.63.49 (public EC2 IP) over plain internet.
+
+Expected logs on first successful run:
+
+```
+[Sophia] Starting. room='sophia-glasses-...' identity='glasses-...' server='ws://3.227.63.49:7880'
+[Sophia] Got token (len=457) for url=ws://3.227.63.49:7880
+[Sophia] Connected to room ...
+[Sophia] Microphone publishing. You can speak now.
+[Sophia] Participant connected: agent-...
+[Sophia] Track subscribed: kind=KindAudio from participant='agent-...'
+```
+
+Echo loop on Beam Pro speakers alone (not glasses):
+- If you test without plugging in the glasses, the Beam Pro speaker + Beam Pro mic will create an echo loop (Sophia hears her own TTS).
+- This is expected per Q41/Q43 in livekit_doubts.md. We deliberately did NOT add mic gating in code because the glasses geometry (temple speakers + temple mics, opposite sides of the head) is what kills the loop.
+- For demo recording on Beam Pro alone, use headphones plugged into the phone.
+- With glasses plugged in, the loop disappears naturally.
 
 ---
 
@@ -699,6 +1076,34 @@ Shared box with Ivana:
 - Don't install global services without coordinating.
 - Don't stop the EC2 without asking her.
 - Keep everything in `/workspace/avinash/`.
+
+---
+
+## Sharing the demo with the team (browser)
+
+For someone else to use the demo from THEIR machine:
+
+1. Send them `http://3.227.63.49:3000`.
+2. Tell them to use Chrome (Safari and Firefox will block mic over HTTP, no clean workaround).
+3. Tell them to set up the secure-origin flag ONCE (per Chrome profile):
+   - Open `chrome://flags/#unsafely-treat-insecure-origin-as-secure`
+   - Set to Enabled
+   - Paste `http://3.227.63.49:3000` in the text box
+   - Click Relaunch (bottom right)
+4. After Chrome relaunches, open the URL, click Start Call, grant mic permission, talk.
+
+Once the flag is set per profile, future demo visits "just work" without resetting. If they have multiple Chrome profiles, each one needs the flag set.
+
+Token-mint auth note: the FRONTEND (port 3000) uses the Next.js built-in `/api/token` route, which mints LiveKit JWTs WITHOUT requiring the X-API-Key header. Only the standalone `token-mint` service (port 8001) requires the header — and only the glasses use that endpoint directly. So browser users don't need to know about API keys at all; just URL + Chrome flag.
+
+## Sharing the demo with the team (glasses)
+
+This is harder because each Beam Pro needs the APK installed and SophiaConfig.asset baked with the right key value at build time. Options:
+
+1. Pre-build a single APK with everything baked in. Distribute via GitHub Releases or similar. Each viewer installs via `adb install`. Works as long as the SOPHIA_TOKEN_API_KEY on the EC2 matches what was baked in.
+2. Give them your Mac and let them watch you build + install. Cumbersome but precise.
+
+For Aziz / infra-team viewers who just want to see the demo, browser is the easier path. Glasses are for the technical deep-dive viewers who specifically want to see the XREAL experience.
 
 ---
 

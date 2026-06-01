@@ -4619,3 +4619,27 @@ Missing Nested Prefab Asset: 'XR Origin (XR Rig) (Missing Prefab with guid: ...)
 ```
 
 These prefabs reference `XR Origin` from `com.unity.xr.interaction.toolkit` which we don't install. Scoped to those specific prefabs (hand-tracking, XR controller setup) which we don't use. Safe to ignore unless we add hand tracking. To resolve: install XR Interaction Toolkit via Package Manager.
+
+## Q61 (2026-05-29): On the shared EC2 deploy, who actually authenticates against the token-mint endpoint and how? Two clients (browser + glasses) use what look like two different paths — explain.
+
+Two physical endpoints, two different auth models:
+
+1. BROWSER path (`http://3.227.63.49:3000/api/token`) — Next.js built-in route handler in `agent-starter-react/app/api/token/route.ts`. Mints LiveKit JWTs directly using `LIVEKIT_API_KEY` + `LIVEKIT_API_SECRET` from the frontend's own env. NO `X-API-Key` header is required from the caller; the route is open. Originally had a `NODE_ENV !== 'development' throw` guard; removed during the 2026-05-29 demo prep so production builds work. This is fine for the MVP because the route is only reachable from same-origin (the browser already had to load the page).
+
+2. GLASSES path (`http://3.227.63.49:8001/token`) — standalone FastAPI service in `sophia-agent/src/token_mint.py`. Mints LiveKit JWTs using the SAME `LIVEKIT_API_KEY` + `LIVEKIT_API_SECRET` from the backend's env, but ALSO requires an `X-API-Key` header matching `SOPHIA_TOKEN_API_KEY` if that env var is set. Auth is opt-in on the server (empty env = no auth required), and opt-in on the client (`SophiaConfig.tokenApiKey` empty = no header sent). When both are set + match → 200. When server enforces + client missing/wrong → 401.
+
+Why two paths exist at all: the Next.js route is built into the starter template (zero deploy work for browser users). The standalone FastAPI is what glasses (and any non-browser client) hit, because they can't run a Next.js server. We could collapse this in the future (point browser at FastAPI too) but for MVP both work fine.
+
+Deep dive in livekit_deployment.md Q29. Operational rotation procedure in mvp_deployment_shared_ec2.md.
+
+## Q62 (2026-05-29): On shared EC2 we run livekit-server + agent-worker in docker-compose with `network_mode: host` but token-mint with port mapping. Why the inconsistency?
+
+Three services, three networking choices, each driven by what the service actually needs:
+
+1. `livekit-server` (SFU) needs `network_mode: host` because WebRTC uses a wide UDP port range (50000-60000 for media) plus the signal port 7880. Docker's default bridge networking would force you to publish each port individually, which doesn't work at scale for WebRTC and breaks NAT traversal because the SFU advertises its container IP, not the host IP, in candidate negotiation. With host networking the SFU sees the EC2's real public IP, advertises the right candidates, and clients can connect.
+
+2. `agent-worker` needs `network_mode: host` (or at minimum needs to be on the same network as the SFU) because the worker connects to the SFU as a participant. With host networking we override `LIVEKIT_URL=ws://localhost:7880` so the worker hits the local SFU directly without going out the public IP — same-machine loopback is fast and avoids re-routing through AWS.
+
+3. `token-mint` uses standard port mapping (`8001:8001`) because it's a plain HTTP service. No WebRTC, no UDP, no candidate negotiation. Standard request-response. The mapping is enough; host networking would just remove an isolation layer for no benefit.
+
+If you ever see WebRTC "connecting..." spinners that never resolve, check that the SFU container is on host networking and that the AWS Security Group inbound rules cover both TCP 7880 (signal) AND the UDP 50000-60000 range (media). The SG was a separate PR (`AIPartnersUSA/aws-infra` — Phase 13 in mvp_deployment_shared_ec2.md).
