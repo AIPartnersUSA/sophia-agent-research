@@ -132,7 +132,7 @@ Ports we use (must be in SG inbound rules):
 7. Test from your laptop:
    ```bash
    # From laptop terminal:
-   curl -sI --max-time 5 http://3.227.63.49:8001/health      # token-mint reachable
+   curl -s --max-time 5 http://3.227.63.49:8001/health      # token-mint reachable
    curl -sI --max-time 5 http://3.227.63.49:7880/            # SFU reachable
    curl -s -X POST -H "Content-Type: application/json" -d '{}' http://3.227.63.49:3000/api/token | head -c 200
    ```
@@ -206,6 +206,64 @@ git log --oneline HEAD..origin/main 2>/dev/null     # any unpulled commits?
 df -h /workspace | tail -1
 docker system df
 ```
+
+### Running the demo on XREAL glasses (after backend is up)
+
+Prereq: the browser test at `http://3.227.63.49:3000` works. If not, fix the backend first — the glasses path won't work in isolation.
+
+The APK lives at `sophia-glasses/unity/sophia-glasses.apk` (~200 MB). If you haven't touched `SophiaConfig.asset` since 2026-05-29 the existing APK already has the EC2 URL + X-API-Key + agent name baked in — no Unity rebuild needed. Skip to step 5.
+
+If you DID change SophiaConfig.asset (e.g. rotated the SOPHIA_TOKEN_API_KEY) you must rebuild the APK first — see "Glasses repointing" section below for the Unity build sequence.
+
+1. Plug the Beam Pro into your Mac via USB-C. Mac → Mac terminal. If you only want power, plug to a power brick — but USB to Mac is better because you get `adb logcat`.
+
+2. On the Beam Pro screen, if "Allow USB debugging?" prompt appears, tap Allow. If not, you're already authorized from a previous session.
+
+3. Verify Mac sees the device:
+   ```bash
+   adb devices
+   ```
+   Look for one device with status `device` (not `unauthorized`, not empty).
+
+4. Reinstall the APK on Beam Pro (idempotent — `-r` keeps app data):
+   ```bash
+   adb install -r '/Users/avinashbolleddula/Documents/sophia Agent Research/sophia-glasses/unity/sophia-glasses.apk'
+   ```
+   ~30 seconds. Skip if the app is already installed from the last session and you're confident SophiaConfig.asset didn't change.
+
+5. Force-stop + launch the app:
+   ```bash
+   adb shell am force-stop com.UnityTechnologies.com.unity.template.urpblank
+   adb logcat -c                              # clear old logs
+   adb shell am start -n com.UnityTechnologies.com.unity.template.urpblank/com.unity3d.player.UnityPlayerGameActivity
+   ```
+   Bundle ID is the Unity template default — rename to `com.sophia.glasses` is on the Phase 2 hardening list, not done yet.
+
+6. On Beam Pro screen, tap Allow on mic permission if prompted. Same for any other permission prompts (camera, storage). After the first time, these are remembered.
+
+7. Plug XREAL One Pro glasses into the Beam Pro's other USB-C port.
+
+8. The Sophia picker UI appears (two columns: Private session / Team session). Tap Private for solo testing. The voice loop starts.
+
+9. Speak. Wait ~2-3 seconds. Sophia answers through the glasses temple speakers. You should see the colored state dot top-right of the AR HUD pulse (LISTENING → THINKING → SPEAKING) and the subtitle text appear at the bottom.
+
+Watch logs in a separate Mac terminal while testing:
+```bash
+adb logcat -v time | grep -E '\[Sophia|LiveKit|Unity'
+```
+
+Expected log markers (see "Glasses repointing" section for the full sequence):
+- `[Sophia] Got token (len=...)` → X-API-Key auth succeeded
+- `[Sophia] Connected to room ...` → SFU connection succeeded
+- `[Sophia] Track subscribed: kind=KindAudio from participant='agent-...'` → Sophia's audio is wired
+
+Common failure modes:
+- **"Token mint failed HTTP 401"** → SOPHIA_TOKEN_API_KEY mismatch between SophiaConfig.asset (`9a11fdf5...`) and EC2 `.env.production`. Rotate carefully.
+- **"Connection timeout to ws://3.227.63.49:7880"** → EC2 stopped OR SG closed. From your laptop: `curl -sI --max-time 5 http://3.227.63.49:7880/` should return 200.
+- **Sophia subscribes but never speaks** → port-forwards on EC2 died (STS creds expired ~1h). On EC2: `./sophia-agent/infra/pf-gpu.sh stop && ./sophia-agent/infra/pf-gpu.sh && docker compose restart agent-worker`.
+- **Echo on Beam Pro alone (without glasses)** → expected per Q41/Q43 in livekit_doubts.md. Plug the glasses in; geometry kills the loop.
+
+To end the session: tap the End chip in the bottom-right corner of the Beam Pro screen. The picker reappears for the next session.
 
 ### Stop everything (save money)
 
