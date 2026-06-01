@@ -40,9 +40,9 @@ You should see a small HTML landing page plus the word OK on the next line.
 SFU startup log should show `nodeIP: 127.0.0.1` -- if it shows a different
 IP, browser WebRTC will fail.
 
-The old Docker compose file at `infra/docker-compose.yml` is kept as a
-reference for the production EC2 deploy (Docker-on-Linux does not have the
-mDNS/namespace bug). For local Mac dev, do not use it.
+For the EC2 production deployment, the SFU runs in Docker (Linux Docker does
+not have the macOS mDNS/namespace bug). See `mvp_deployment_shared_ec2.md`
+and the workspace-root `docker-compose.yml` on EC2 — not in this directory.
 
 ## Step 2 -- pre-download Silero VAD and turn-detector ONNX (once)
 

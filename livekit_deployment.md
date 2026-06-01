@@ -142,8 +142,7 @@ state.
 
 ### Files involved (local)
 
-- `sophia-agent/infra/livekit.yaml` -- SFU config; port 7880, devkey/devsecret.
-- `sophia-agent/infra/docker-compose.yml` -- runs livekit-server.
+- `sophia-agent/infra/livekit.yaml` -- SFU config; port 7880, devkey/devsecret. Loaded by the natively-installed `livekit-server` binary on Mac dev.
 - `sophia-agent/.env.local` -- agent + token-mint env (LIVEKIT_URL, KEY, SECRET).
 - `sophia-agent/src/token_mint.py` -- FastAPI JWT issuer.
 - `sophia-agent/src/agent.py` -- the worker.
@@ -352,6 +351,8 @@ To exit the previous `my-agent` venv before working in `sophia-agent`, type
 and you are back to your normal shell.
 
 ### Q3 (2026-05-18): What are the two files inside `sophia-agent/infra/` (`livekit.yaml` and `docker-compose.yml`) and how do they interact?
+
+**Status update 2026-06-01:** `sophia-agent/infra/docker-compose.yml` was DELETED from the repo. Local Mac dev runs the SFU natively (`brew install livekit-server` + `livekit-server --config infra/livekit.yaml --dev` per RUNBOOK.md Step 1) because Docker-on-macOS has the mDNS/namespace bug documented in Q13. EC2 production uses a SEPARATE `docker-compose.yml` at the WORKSPACE ROOT (`/workspace/avinash/sophia/docker-compose.yml`) referencing `livekit.prod.yaml`, not the deleted file. Keeping two compose files in the repo confused readers (we tripped on it on 2026-06-01). The historical text below describes what the deleted file did when it existed.
 
 Together they stand up the LiveKit SFU on the laptop. `docker-compose.yml`
 tells Docker *how to run* the SFU container; `livekit.yaml` tells the SFU

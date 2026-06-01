@@ -57,15 +57,14 @@ in `src/agent.py`. Run `uv run python src/agent.py dev` to test.
 - `src/agent.py` -- the agent worker entrypoint
 - `src/token_mint.py` -- FastAPI service that issues room JWTs to clients
 - `src/plugins/` (created when needed) -- custom STT/LLM/TTS plugins (Route B)
-- `infra/livekit.yaml` -- SFU config
-- `infra/docker-compose.yml` -- runs livekit-server locally
+- `infra/livekit.yaml` -- SFU config (loaded by the native `livekit-server` binary on Mac dev, or the docker container on EC2 prod via the workspace-root `docker-compose.yml`)
 - `.env.example` -- env var template (copy to `.env.local`)
 - `tests/` -- pytest evals (mirror my-agent's structure once plugins land)
 
 ## Run order, day one
 
 1. `cp .env.example .env.local` and confirm values.
-2. `docker compose -f infra/docker-compose.yml up -d` -- starts the SFU on :7880.
+2. `livekit-server --config infra/livekit.yaml --dev` -- starts the SFU on :7880 using the natively-installed binary (`brew install livekit`). Foreground process; keep it running in its own terminal.
 3. `uv sync` -- installs Python deps.
 4. `uv run python src/agent.py download-files` -- pulls Silero VAD + turn-detector ONNX.
 5. `uv run uvicorn src.token_mint:app --port 8001 --reload` (in one terminal) -- token mint.
