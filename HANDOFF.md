@@ -4,6 +4,8 @@ You are inheriting a working MVP voice-agent deployment that runs on a shared GP
 
 Read time: ~20 minutes. Then read `mvp_deployment_shared_ec2.md` (45 min) and `production_deployment.md` (15 min) for the deeper context.
 
+For a structural understanding of HOW the system works end-to-end (every component, every port, every JWT field, both client paths step-by-step) read `livekit_architectur_ec2.md`. That doc is the engineering-mental-model reference and pairs well with this handoff doc.
+
 ---
 
 ## TL;DR

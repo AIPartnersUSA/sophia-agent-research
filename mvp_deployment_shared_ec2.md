@@ -9,6 +9,8 @@ For design rationale (MVP vs production tradeoffs): see "Architecture" + "Why MV
 
 **Handing this off to the infra team?** Point them at `HANDOFF.md` at the project root. That doc is written specifically for someone tasked with the MVP→production migration and tells them what's in the repo, what's intentionally not, what to preserve, and what to build. This file (the one you're reading) is the operational runbook for the MVP itself — your infra colleague should read HANDOFF.md FIRST, then this file SECOND.
 
+**Want to understand HOW it all works end-to-end (not just how to operate it)?** Read `livekit_architectur_ec2.md`. It walks through both client paths (browser + XREAL glasses) step-by-step from page load / app launch all the way to Sophia answering, naming every component, every port, every JWT field, every inference call.
+
 ## Current state (as of 2026-05-29 — DEMO WORKING END-TO-END)
 
 Running on EC2 + verified externally:
