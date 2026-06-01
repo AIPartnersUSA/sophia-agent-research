@@ -608,6 +608,7 @@ Reserved instance for the EC2 brings it to ~$40/mo (1-year, no upfront). NLB cos
 
 ## See also
 
+- **`HANDOFF.md`** — the focused infra-team onboarding doc. Read this FIRST if you're new to the project and tasked with the MVP→production migration. Includes what's in the repo, what's intentionally not in the repo, architecture you must preserve, the build-list for production, recommended migration sequence, and a "things NOT to do" section.
 - `mvp_deployment_shared_ec2.md` — the current MVP on the shared GPU EC2 (3.227.63.49). Day-to-day operation, 19 documented problems, glasses repointing checklist. THE baseline this doc upgrades from.
 - `livekit_deployment.md` — design rationale for component placement, cross-region EKS access (Q28), and token-mint auth pattern (Q29).
 - `livekit_doubts.md` — framework / plugin / debugging Q&A. Q61 covers the two-auth-paths model (browser vs glasses), Q62 covers the network_mode: host rationale.
