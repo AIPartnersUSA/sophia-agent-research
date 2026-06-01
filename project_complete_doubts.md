@@ -64,6 +64,45 @@ The docker-compose.yml on EC2 references `livekit.prod.yaml` (the real one). It 
 
 In your local Mac, you have `livekit.yaml` (for local dev) and `livekit.prod.yaml.example` (the committed template) — but you do NOT have `livekit.prod.yaml` because that file lives only on EC2 and contains secrets. That's the gitignored split working correctly.
 
+### Verifying what's ACTUALLY running on EC2 (don't trust file paths alone)
+
+To prove which compose file launched the running SFU and which yaml file it mounts, inspect the running container directly:
+
+```bash
+ssh sophia-gpu
+docker inspect sophia-livekit-server-1 | grep -E '(Source|Destination|Cmd|config_files)'
+```
+
+Output (verified 2026-06-01):
+
+```
+"Source": "/home/ubuntu/workspace/avinash/sophia/sophia-agent/infra/livekit.prod.yaml"
+"Destination": "/etc/livekit.yaml"
+"com.docker.compose.project.config_files": "/home/ubuntu/workspace/avinash/sophia/docker-compose.yml"
+
+# command args:
+["--config", "/etc/livekit.yaml", "--node-ip", "3.227.63.49"]
+```
+
+Reading that output:
+- `config_files` label confirms the WORKSPACE-ROOT `docker-compose.yml` (at `/home/ubuntu/workspace/avinash/sophia/docker-compose.yml`) is the one Docker Compose used to launch this container.
+- Volume `Source` is the REAL `livekit.prod.yaml` (with the actual API key + secret inline), `Destination` is where the container sees it (`/etc/livekit.yaml`).
+- Command args confirm `--node-ip 3.227.63.49` (the public EC2 IP), no `--dev` flag.
+
+So the SFU on EC2 is using `livekit.prod.yaml` with the REAL production keys. Not `livekit.yaml`, not `--dev` mode.
+
+### Why this verification matters (historical confusion we hit 2026-06-01)
+
+The repo used to have TWO `docker-compose.yml` files:
+1. `/workspace/avinash/sophia/docker-compose.yml` (workspace root) — the PROD compose, mounting `livekit.prod.yaml`, `--node-ip 3.227.63.49`. **Active.**
+2. `sophia-agent/infra/docker-compose.yml` — a LOCAL DEV compose for running the SFU in Docker on a Mac, mounting `livekit.yaml`, `--dev`, `--node-ip 127.0.0.1`. **Never used on EC2.**
+
+Reading the second file led us to falsely conclude the EC2 was using devkey/devsecret — wrong, that file was authored for Mac dev (and was never the canonical local-dev path anyway because RUNBOOK.md uses native `brew install livekit-server` per the macOS mDNS bug in livekit_deployment.md Q13).
+
+**The Mac-dev compose was DELETED from the repo on 2026-06-01** (commit `a7ac391`) so this confusion can't happen again. Only one compose file exists now: the workspace-root one, and `docker inspect` confirms it's what's running.
+
+Rule of thumb: when in doubt about which file is mounted into a running container, `docker inspect` is authoritative. File presence in the repo doesn't mean a container is using it — the launching compose file (recorded as a label) and the actual mount Source path are what matter.
+
 ### What's NOT in the docker-compose.yml but the deployment needs
 
 - **AWS Security Group ingress rules** for ports 7880 (TCP signal), 7881 (TCP fallback), 50000-60000 (UDP media). Without these, the container starts fine but no client can reach it from outside the EC2. Managed via Terraform in the `AIPartnersUSA/aws-infra` repo, not via docker-compose.
