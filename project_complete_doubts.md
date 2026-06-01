@@ -292,3 +292,201 @@ For livekit-server we accept the tradeoff because it's stock Go code from upstre
 ### Production-grade equivalent (k8s)
 
 A standard `Service` of `type: ClusterIP` on port 8001 + an `Ingress` routing external traffic to it. Or `type: LoadBalancer` with cloud-provider integration. The Pod itself runs without any special networking (`hostNetwork: false`, the default). Identical mental model to `ports:` in docker-compose.
+
+---
+
+## Q5 (2026-06-01): How is agent-worker deployed? Same pattern as token-mint?
+
+**Almost the same pattern as token-mint (custom code, BUILD an image), with three meaningful differences: heavier Dockerfile (loads ML models), `network_mode: host` instead of `ports:` (worker is a CLIENT not a server), and a `LIVEKIT_URL` env override layered on top of the env_file.** Four pieces total:
+
+1. **Docker Compose service block** (declares build, network, env file + env override, restart policy).
+2. **The Dockerfile** (`sophia-agent/Dockerfile` — the unsuffixed one, NOT Dockerfile.token-mint).
+3. **The application code** (`sophia-agent/src/agent.py` ~700 lines + pyproject.toml + uv.lock).
+4. **The `.env.production` file** with secrets + inference URLs, loaded via `env_file:`.
+
+Our actual block from the workspace-root docker-compose.yml on EC2:
+
+```yaml
+agent-worker:
+  build:
+    context: ./sophia-agent
+    dockerfile: Dockerfile
+  network_mode: host
+  env_file:
+    - ./sophia-agent/.env.production
+  environment:
+    - LIVEKIT_URL=ws://localhost:7880
+  restart: unless-stopped
+```
+
+### What each key in the service block does
+
+- **`agent-worker:`** — service name. Used for `docker compose logs agent-worker`, `docker compose restart agent-worker`, etc. Container name on EC2 becomes `sophia-agent-worker-1` (project-name + service + replica index).
+
+- **`build:`** — same idea as token-mint (build an image locally), but pointing at the OTHER Dockerfile.
+  - **`context: ./sophia-agent`** — same context as token-mint.
+  - **`dockerfile: Dockerfile`** — uses the bare `Dockerfile` (no extension) instead of `Dockerfile.token-mint`. This is the heavier one that pre-downloads Silero VAD + turn-detector ONNX models.
+
+- **`network_mode: host`** — host networking, same as livekit-server. Why a worker (which acts as a CLIENT to the SFU, not a server) also needs host networking: see Q6 — this is the subtle one.
+
+- **(no `ports:` key)** — the worker doesn't LISTEN on any port. It's purely outbound (connects to the SFU, connects to inference services). Nothing for clients to connect to.
+
+- **`env_file: ["./sophia-agent/.env.production"]`** — same as token-mint. Loads all shared env vars: `LIVEKIT_API_KEY`, `LIVEKIT_API_SECRET`, `SOPHIA_TOKEN_API_KEY` (unused here but harmless), `WHISPER_URL`, `QWEN3_URL`, `KOKORO_URL`, `SOPHIA_RAG_URL`, etc.
+
+- **`environment: ["LIVEKIT_URL=ws://localhost:7880"]`** — **This is the critical difference from token-mint.** Docker Compose lets you both `env_file` and `environment` on the same service; `environment` values OVERRIDE `env_file` values. The `.env.production` file has `LIVEKIT_URL=ws://3.227.63.49:7880` (the public URL, used by other consumers). We explicitly override it to `ws://localhost:7880` for THIS container only. Full rationale in Q6.
+
+- **(no `command:` key)** — uses the Dockerfile's `CMD ["uv", "run", "src/agent.py", "start"]`. The `start` subcommand puts the worker in production mode (vs `dev` which adds hot-reload + verbose logging).
+
+- **`restart: unless-stopped`** — same as the other two services.
+
+### What's in Dockerfile (vs Dockerfile.token-mint)
+
+Same multi-stage uv-based shape as token-mint, with three extra things:
+
+**1. Build-time compiler toolchain.** The `build` stage adds:
+
+```dockerfile
+RUN apt-get update && apt-get install -y \
+    gcc \
+    g++ \
+    python3-dev \
+  && rm -rf /var/lib/apt/lists/*
+```
+
+Some Python deps (notably parts of onnxruntime, sounddevice / numpy native extensions) compile from source during `uv sync`. The slim base image doesn't include a C/C++ toolchain, so the build would fail. Token-mint doesn't need these because none of ITS deps require compilation.
+
+**2. HF_HOME env var + model pre-download.** In both stages:
+
+```dockerfile
+ENV HF_HOME=/app/.cache/huggingface
+RUN uv run "src/agent.py" download-files
+```
+
+The `download-files` subcommand pulls Silero VAD (~30 MB) + turn-detector ONNX (~70 MB) from HuggingFace into `$HF_HOME`. Setting `HF_HOME=/app/.cache/huggingface` (instead of the default `/root/.cache/...`) ensures the cache lands UNDER `/app`, which is what the final stage copies via `COPY --from=build /app /app`. Without the override, the cache would land under `/root` and get dropped by the multi-stage build — the runtime worker would crash on startup looking for missing models. **Documented as Problem 7 in `mvp_deployment_shared_ec2.md`.** Both the build stage and the final stage need the env var: build to write the cache there, final to read it at runtime.
+
+**3. Heavier `uv sync`.** The build stage runs `uv sync --locked` (NOT `--no-dev`) to install all deps including the ML inference runtimes. Resulting image is much larger than token-mint's: ~2-3 GB vs ~500 MB.
+
+Final stage is otherwise identical to token-mint: non-root `appuser` (uid 10001), `COPY --from=build /app /app`, switch to appuser, run the CMD.
+
+### What's in src/agent.py
+
+A LiveKit Agents worker, ~700 lines. Structurally three pieces:
+
+**Module-level setup**:
+- Imports from `livekit.agents` (Agent, AgentServer, AgentSession, JobContext, JobProcess, cli, llm) + `livekit.plugins.openai`, `livekit.plugins.silero`, `livekit.plugins.turn_detector.multilingual`.
+- `load_dotenv(".env.local")` — for local dev only; on EC2 the env vars come from `env_file:` in docker-compose, not from .env.local.
+- Reads four inference URLs from env (`WHISPER_URL`, `QWEN3_URL`, `KOKORO_URL`, `SOPHIA_RAG_URL`) with localhost defaults.
+- Defines ~12 VAD/turn-handling tuning knobs (activation threshold, min silence duration, prefix padding, etc.) as module-level constants.
+
+**`prewarm(JobProcess)`**: runs ONCE per worker subprocess at startup. Loads Silero VAD into `proc.userdata["vad"]` so each new room job doesn't pay the model-load cost. Registered via `server.setup_fnc = prewarm`.
+
+**`@server.rtc_session(agent_name="sophia-agent")` decorator on entrypoint**: this is the most important line in the file.
+
+```python
+server = AgentServer()
+
+@server.rtc_session(agent_name="sophia-agent")
+async def sophia_agent(ctx: JobContext):
+    session = AgentSession(
+        stt=openai.STT(base_url=f"{WHISPER_URL}/v1", model="whisper-large-v3", api_key="not-needed"),
+        llm=openai.LLM(base_url=f"{QWEN3_URL}/v1", model="qwen3-vl-8b-instruct", api_key="not-needed"),
+        tts=openai.TTS(base_url=f"{KOKORO_URL}/v1", model="tts-1", voice="serena", api_key="not-needed", response_format="wav"),
+        vad=ctx.proc.userdata["vad"],
+        turn_handling=_build_turn_handling(),
+        aec_warmup_duration=AEC_WARMUP_DURATION,
+    )
+    _attach_event_publishers(session)
+    await session.start(agent=Assistant(), room=ctx.room)
+    await ctx.connect()
+```
+
+The decorator registers this function as the entry point for any room dispatched to `agent_name: "sophia-agent"`. When a JWT arrives at the SFU with `roomConfig.agents: [{agentName: "sophia-agent"}]`, the SFU calls this function with a `JobContext` for that room. The function builds an `AgentSession` (the STT/LLM/TTS pipeline orchestrator), wires the event publishers (text-stream topics to frontend), and connects to the room.
+
+The `Assistant` class (defined elsewhere in the file) has the `on_user_turn_completed` hook that does the always-retrieve RAG call.
+
+**`cli.run_app(server)`**: the `if __name__ == "__main__"` line. When the Dockerfile CMD `uv run src/agent.py start` runs, this is the entry point. It:
+1. Reads CLI args (`start` for production, `dev` for hot-reload local dev).
+2. Opens a WebSocket to `LIVEKIT_URL` (the env var — `ws://localhost:7880` on EC2 thanks to the override).
+3. Sends a `RegisterWorkerRequest` with `agent_name: "sophia-agent"`.
+4. Waits for job dispatches from the SFU. Each dispatch forks a subprocess (per-room isolation), runs `prewarm`, then runs the `sophia_agent` entrypoint inside that subprocess.
+
+### Comparing the three services on EC2
+
+| Aspect | livekit-server | token-mint | agent-worker |
+|---|---|---|---|
+| Image source | stock (`image:`) | built (`build:` + Dockerfile.token-mint) | built (`build:` + Dockerfile) |
+| Custom code | None | ~120-line FastAPI | ~700-line LiveKit Agents worker |
+| ML models bundled | No | No | Yes (Silero VAD + turn-detector ONNX) |
+| Image size | ~30 MB | ~500 MB | ~2-3 GB |
+| Network | `network_mode: host` | `ports: ["8001:8001"]` | `network_mode: host` |
+| Listens on a port | Yes (7880/7881/UDP range) | Yes (8001) | No — purely outbound |
+| Config injection | `volumes:` (yaml file) | `env_file:` | `env_file:` + `environment:` override |
+| Command override | Yes | No | No |
+| Restart policy | unless-stopped | unless-stopped | unless-stopped |
+
+---
+
+## Q6 (2026-06-01): Why does agent-worker need BOTH `network_mode: host` AND a `LIVEKIT_URL=ws://localhost:7880` env override? Aren't those overlapping?
+
+**They look related but solve different problems. Both are required — neither alone is sufficient.** This is the trickiest piece of the EC2 deploy and was the source of Problem 6 in `mvp_deployment_shared_ec2.md`.
+
+### Why `network_mode: host` is needed
+
+The agent-worker needs to reach `ws://localhost:7880` (the SFU). Three possible networking modes on Docker; only one works cleanly:
+
+**Option A — host networking (what we use).** Container shares the EC2's network namespace. Container's `localhost` IS the EC2's loopback. SFU is also on host networking listening on `0.0.0.0:7880`, so the worker's `ws://localhost:7880` resolves to the local SFU instantly. No NAT, no public-interface roundtrip.
+
+**Option B — default bridge networking with the SFU also on bridge.** Would let the worker reach the SFU at `ws://livekit-server:7880` (Docker DNS). BUT the SFU can't use bridge networking because WebRTC needs host network (Q2). So this option doesn't work as long as the SFU stays on host networking.
+
+**Option C — default bridge networking with `extra_hosts: ["livekit-server:host-gateway"]`.** Would let the bridge-networked worker reach the host's loopback via a special DNS name. Works in theory but adds an extra hop through Docker's userspace proxy + makes the config more fragile. We never tried it.
+
+So host networking is the only clean way for the worker to reach the SFU at `localhost`.
+
+### Why the `LIVEKIT_URL=ws://localhost:7880` override is ALSO needed
+
+This is the gotcha. The shared `.env.production` file has:
+
+```
+LIVEKIT_URL=ws://3.227.63.49:7880
+```
+
+That value is correct for OTHER consumers of the env file (the Next.js frontend's server-side route uses it to tell browser clients where the SFU is — and browsers need the public URL, not localhost). The agent-worker reads the SAME env file, so by default it would also pick up `ws://3.227.63.49:7880` (the public IP).
+
+What happens if the worker uses the public IP:
+
+1. Worker calls `WebSocket("ws://3.227.63.49:7880/worker")`.
+2. Even with host networking on the EC2, the DNS resolves `3.227.63.49` to a public address.
+3. The packet leaves the EC2 via the public interface.
+4. It hits the AWS Security Group as INBOUND traffic.
+5. If SG ingress on port 7880 is open → packet comes back IN through the same interface, reaches the local SFU. Works, but wastefully — every packet does an out-and-back through AWS infra.
+6. If SG ingress on port 7880 is CLOSED (early in deployment, before the Phase 13 PR was merged) → packet is dropped. Worker shows `ConnectionTimeoutError: ws://3.227.63.49:7880`. This was the exact symptom of Problem 6.
+
+Forcing `LIVEKIT_URL=ws://localhost:7880` for the worker container:
+- Resolves to the EC2's loopback interface.
+- Never leaves the host. Pure kernel-level packet routing inside the network namespace.
+- Faster (microseconds, no AWS round-trip).
+- Doesn't depend on SG state.
+
+### How docker-compose handles the override
+
+`env_file:` is processed FIRST (each `KEY=value` line becomes an env var). `environment:` is processed SECOND and OVERRIDES anything from `env_file:` with the same key. So inside the agent-worker container:
+
+```
+LIVEKIT_URL=ws://localhost:7880   ← from environment:, overrode env_file:
+LIVEKIT_API_KEY=<from env_file>   ← unchanged
+LIVEKIT_API_SECRET=<from env_file> ← unchanged
+WHISPER_URL=http://localhost:8080  ← from env_file
+... etc.
+```
+
+Inside `agent.py`, `os.environ.get("LIVEKIT_URL")` returns `ws://localhost:7880`. The worker connects to localhost. Done.
+
+The token-mint container has NO override — it picks up `LIVEKIT_URL=ws://3.227.63.49:7880` from env_file. This value gets embedded in the JSON response (the `url` field) and ends up in the glasses' SophiaConfig as the public URL clients should use. Different consumers, different needs.
+
+### Could we just edit .env.production to localhost?
+
+No, because then the Next.js frontend (which reads the same file via its own `.env.local`) would tell browser clients to connect to `ws://localhost:7880` — which would resolve to the BROWSER's own localhost, not the EC2's. Browsers would fail to connect to the SFU. The override-per-container pattern is correct: the value of `LIVEKIT_URL` is consumer-specific.
+
+### Production-grade equivalent (k8s)
+
+In a Kubernetes setup with both SFU and worker on `hostNetwork: true` (same node), the same override applies: the worker's env would have `LIVEKIT_URL=ws://localhost:7880`. In a setup where the SFU runs as a Service (different Pod, ClusterIP), the worker would use `LIVEKIT_URL=ws://livekit-server.namespace.svc.cluster.local:7880`. The principle is the same: worker should reach the SFU via the FASTEST available path, which differs from what external clients should use. Encode that as a per-Pod env var.
