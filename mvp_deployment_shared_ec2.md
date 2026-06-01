@@ -361,6 +361,13 @@ echo "$LIVEKIT_KEY $LIVEKIT_SECRET $TOKEN_API_KEY"
 
 ### Phase 7 — Created config files
 
+**Shortcut for fresh setups:** Three template files now live in the repo with every variable documented + commands to generate fresh values:
+- `sophia-agent/.env.production.example`
+- `sophia-agent/infra/livekit.prod.yaml.example`
+- `agent-starter-react/.env.local.example`
+
+Copy each `.example` to its non-example sibling, fill in values (the comments tell you which `openssl rand` to run), then `chmod 600`. The narrative below is what we did the first time and is retained for the historical record + fallback if you prefer line-by-line.
+
 `sophia-agent/.env.production` — built line-by-line because heredocs were getting mangled by terminal paste adding leading whitespace:
 
 ```bash

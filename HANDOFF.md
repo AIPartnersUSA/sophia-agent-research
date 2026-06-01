@@ -94,6 +94,13 @@ sophia-agent-research/
 
 These files contain secrets or environment-specific values. They are `chmod 600`, gitignored, and live ONLY on the EC2 today. You will need to recreate equivalents in your production secrets-management system.
 
+**Three template files ARE in the repo to make this easier:**
+- `sophia-agent/.env.production.example` — backend env template with every variable documented + `openssl rand` commands for generating values.
+- `sophia-agent/infra/livekit.prod.yaml.example` — SFU config template.
+- `agent-starter-react/.env.local.example` — frontend env template.
+
+Copy each `.example` file to its non-example sibling, fill in real values (the comments tell you exactly how to generate each one), and `chmod 600`. For production, do NOT use these as runtime files directly — load the same variables from your secrets manager (External Secrets Operator pulling from AWS Secrets Manager is the recommended pattern).
+
 ### `sophia-agent/.env.production` (on EC2)
 
 ```bash
