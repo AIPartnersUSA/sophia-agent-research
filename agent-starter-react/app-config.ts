@@ -65,7 +65,7 @@ export const APP_CONFIG_DEFAULTS: AppConfig = {
   // audioVisualizerType: 'aura',
 
   // agent dispatch configuration
-  agentName: process.env.AGENT_NAME ?? undefined,
+  agentName: 'sophia-agent',
 
   // LiveKit Cloud Sandbox configuration
   sandboxId: undefined,

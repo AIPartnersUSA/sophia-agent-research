@@ -1,0 +1,29 @@
+services:
+  livekit-server:
+    image: livekit/livekit-server:latest
+    network_mode: host
+    volumes:
+      - ./sophia-agent/infra/livekit.prod.yaml:/etc/livekit.yaml:ro
+    command: --config /etc/livekit.yaml --node-ip 3.227.63.49
+    restart: unless-stopped
+
+  token-mint:
+    build:
+      context: ./sophia-agent
+      dockerfile: Dockerfile.token-mint
+    ports:
+      - "8001:8001"
+    env_file:
+      - ./sophia-agent/.env.production
+    restart: unless-stopped
+
+  agent-worker:
+    build:
+      context: ./sophia-agent
+      dockerfile: Dockerfile
+    network_mode: host
+    env_file:
+      - ./sophia-agent/.env.production
+    environment:
+      - LIVEKIT_URL=ws://localhost:7880
+    restart: unless-stopped

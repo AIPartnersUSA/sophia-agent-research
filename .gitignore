@@ -84,4 +84,5 @@ videos/
 # ============================================================
 # Temporary local-only docs (delete-after-issue-resolved style)
 # ============================================================
-READ_ME_NOW.md
+READ_ME_NOW.mdfrontend.log
+sophia-agent/infra/livekit.prod.yaml

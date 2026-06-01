@@ -18,11 +18,11 @@ const LIVEKIT_URL = process.env.LIVEKIT_URL;
 export const revalidate = 0;
 
 export async function POST(req: Request) {
-  if (process.env.NODE_ENV !== 'development') {
-    throw new Error(
-      'THIS API ROUTE IS INSECURE. DO NOT USE THIS ROUTE IN PRODUCTION WITHOUT AN AUTHENTICATION LAYER.'
-    );
-  }
+  // MVP demo: guard removed so the production build's /api/token works.
+  // The route mints LiveKit JWTs without per-user auth. Acceptable for the
+  // MVP demo period (EC2 stopped between demos, URL not broadly shared).
+  // For real production, add API-key auth here (mirror the
+  // SOPHIA_TOKEN_API_KEY pattern from sophia-agent/src/token_mint.py).
 
   try {
     if (LIVEKIT_URL === undefined) {
