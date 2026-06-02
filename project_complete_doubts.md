@@ -1237,3 +1237,115 @@ If all three SHAs match and both `git status` outputs say "nothing to commit, wo
 - The EC2 has 7 extra files that you correctly noticed, but those are NOT code. They're secrets (3 files) + build artifacts / runtime logs (4 files). All intentionally gitignored.
 - Your handoff to infra = (a) GitHub repo URL, (b) point them at HANDOFF.md, (c) they generate their own secrets via the `.env.*.example` templates. Don't ship secret values; ship templates.
 - No "snapshot" or "tarball" needed. The repo at any of the three locations is the canonical artifact — they all produce the same code when cloned + `git lfs pull`.
+
+---
+
+## Q12 (2026-06-02): My XR engineer has a working voice agent loop WITHOUT LiveKit. We want to integrate LiveKit orchestration into his codebase. (1) What benefits does LiveKit give over whatever he has now? (2) What do we need from him (codebase shape like sophia-glasses) before we can integrate?
+
+### Part 1 — Why LiveKit at all
+
+Without LiveKit, a "voice agent loop" typically looks like one of these:
+
+- **Push-to-talk over HTTPS**: user holds a button → app records audio with `Microphone.Start()` → on release, POSTs the audio blob to STT → gets text → POSTs to LLM → gets response → POSTs to TTS → gets audio → plays via AudioSource.
+- **Custom WebSocket protocol**: app opens a WS to a server, streams audio frames, server streams back transcript + TTS audio chunks. Has to invent the framing, reconnect logic, encoding.
+- **Polling-based**: app uploads audio, polls a status endpoint, downloads result.
+
+All of these work but they all hand-roll problems that LiveKit + WebRTC have already solved. Here's what LiveKit gives you that's painful or impossible to build yourself:
+
+**1. Full-duplex real-time audio (the BIG one).** WebRTC lets the user and agent both transmit audio AT THE SAME TIME. User can INTERRUPT the agent mid-sentence ("barge-in"). The agent stops talking the moment the user starts. Without WebRTC, you're stuck with PTT or "wait for AI to finish" patterns that feel unnatural.
+
+**2. No reinventing WebRTC.** WebRTC handles: Opus codec encoding/decoding, jitter buffer (smoothing out network packet timing), packet loss concealment (FEC + retransmission), echo cancellation negotiation, adaptive bitrate (slows down audio quality on bad networks instead of dropping), NAT traversal (STUN/TURN for participants behind firewalls), DTLS-SRTP encryption end-to-end. Implementing any one of these from scratch is a multi-week project. WebRTC libraries (libwebrtc in the LiveKit Unity SDK) handle all of them transparently.
+
+**3. Server-side agent orchestration framework.** The LiveKit Agents Python framework (`livekit-agents`) handles VAD (Silero), turn detection (when to stop listening to user), STT/LLM/TTS plugin wiring, streaming TTS that starts playing the response as the LLM tokens arrive, AEC warmup, interrupt detection. You write Python that says "use Whisper for STT, Qwen for LLM, Kokoro for TTS, here's my system prompt," and the framework runs the loop. Without it, you'd write the orchestration state machine yourself in client code.
+
+**4. Streaming TTS as LLM tokens arrive.** With direct HTTP, you wait for the full LLM response, then send to TTS, then wait for full TTS audio, then play. End-to-end latency = sum of all steps. With LiveKit's streaming pipeline, the agent sends each TTS chunk to the user's speaker as soon as the LLM emits a sentence-fragment. User hears the start of the answer ~1 second after they stop talking. Without streaming TTS, that latency is 3-5 seconds.
+
+**5. Standard cross-platform protocol.** LiveKit clients exist for: JavaScript (browser), Unity (what we use for XREAL), Swift (iOS/visionOS), Kotlin (Android native), Flutter, Python, React Native. Any of them can join the same room and exchange the same audio + data tracks. Switching platforms or adding a new client type costs hours, not days. With a custom WS protocol you'd implement the client three times.
+
+**6. Data channels for UI updates.** Alongside audio, LiveKit lets you publish JSON messages on named "topics" (we use `sophia.agent_events`, `sophia.rag_result`, `lk.transcription`). Both browser and glasses subscribe and update their UI in real time — state pill, scrolling transcript, RAG source chips, all without an HTTP polling loop or separate WebSocket. Without it, UI updates lag behind audio or require a parallel side-channel.
+
+**7. Multi-participant support out of the box.** A "room" can have N users + the agent. Everyone subscribes to everyone else's audio + data. Useful for collaborative scenarios (Scenario A in our demo: browser user + glasses user share a room, both talk to Sophia, both hear each other and Sophia). Without LiveKit you'd build an SFU yourself, which is a months-of-work project (LiveKit IS an SFU).
+
+**8. Production-grade scaling story.** LiveKit's worker dispatch model: register N agent-worker processes against the SFU, each new room is dispatched to an available worker, scale workers horizontally to handle concurrent sessions. SFU itself can cluster with Redis for HA. This is built-in, not a custom dispatcher.
+
+**9. AEC + echo behavior on browser is automatic.** Chrome/Safari/Firefox apply hardware AEC + noise suppression to mic input when WebRTC is in use. Direct HTTPS audio upload doesn't trigger this; you'd have to do echo cancellation server-side or implement it yourself.
+
+**10. Observability tools.** `lk` CLI inspects rooms, participants, tracks live. WebRTC stats API gives jitter, packet loss, codec choice per peer connection. Debugging "why is the audio bad" is straightforward. Custom protocols give you whatever you logged manually.
+
+**11. Recording (when you need it later).** LiveKit Egress can record full sessions (audio, video, data tracks) to S3 / GCS with one config change. Important for compliance / training data.
+
+**Costs / downsides** to be honest about:
+
+- WebRTC requires open UDP ports (50000-60000 in our case). Some corporate networks block this; LiveKit has TCP fallback (port 7881) which works but is higher latency.
+- The LiveKit Unity SDK adds ~150 MB to the APK (FFI binaries for libwebrtc per platform). Vendored via Git LFS in our case.
+- WebRTC is more complex than HTTP. Debugging requires understanding ICE candidates + DTLS handshake (rare, but real).
+- LiveKit-Cloud-vs-self-hosted choice — we chose self-hosted for full OSS; LiveKit Cloud would be a managed service at additional cost.
+
+**For Sophia specifically**, the deciding factors were: barge-in (XREAL glasses demo feels broken without interrupt), streaming TTS (latency), multi-participant (future demos with multiple users in a room), and the LiveKit Agents framework taking ~1 week of orchestration code off the table.
+
+If the XR engineer's current loop is PTT-based with multi-second latency and no interrupt, switching to LiveKit alone makes the agent feel ~3x more natural.
+
+### Part 2 — What we need from the XR engineer before integration
+
+Mirrors `xr_build_voice_integration.md` Q1-Q7. Here it is in actionable form — the literal artifacts + answers we need before touching anything:
+
+**A. A clone or copy of his codebase.** Not just screenshots. We need to read the project structure, scene hierarchy, his existing audio code, his existing UI code. If it's git-hosted, share the URL. If not, a zip of the project directory excluding `Library/`, `Temp/`, `node_modules/`, build outputs (basically anything in our `.gitignore`).
+
+**B. Answers to seven questions** (sourced from `xr_build_voice_integration.md`):
+
+1. **Platform**: What XR target? XREAL One Pro? Meta Quest 2/3/Pro? Apple Vision Pro? HoloLens? Pico? Other? (Determines audio routing, permission model, SDK choice.)
+2. **Engine + version**: Unity? Unreal? Native Android/iOS? If Unity, which version (Unity 6, 2022 LTS, 2021 LTS, older)? (Determines whether our scripts drop in or need adaptation.)
+3. **Existing session/room model**: Does his app already have multiplayer / networking / room management? Or single-player? (Determines Drop-in vs Custom integration path.)
+4. **Existing microphone code**: Does he already call `Microphone.Start()` somewhere? Does he have audio capture wired? (Determines if his mic code conflicts with LiveKit's `MicrophoneSource` — usually we'd let LiveKit own the mic.)
+5. **Existing audio playback**: How does he currently play AI responses? `AudioSource` on which GameObject? (Determines if we drop in our Q58 child-GameObject pattern or wire into his existing audio.)
+6. **Existing UI**: Does he have a world-space UI canvas already? How does he render the AI's spoken text / state / sources? (Determines if we drop in `SophiaOverlayUI.cs` or have him subscribe to the static `OnTextStreamMessage` event and render in his style.)
+7. **Backend target**: Will his app point at OUR shared EC2 (3.227.63.49) for the demo, or does the infra team need to deploy a parallel backend for him? (Determines what URL goes in his SophiaConfig.)
+
+**C. Codebase structure expectations.** Once we have his project + answers, we'd map the integration like this. The shape we'd aim for (mirroring `sophia-glasses/unity/Assets/Scripts/`):
+
+```
+<his-unity-project>/Assets/Scripts/
+├── <his existing scripts>            ← untouched
+├── SophiaConfig.cs                   ← NEW (copied from us, ScriptableObject schema)
+├── SophiaConfig.asset                ← NEW (instance with EC2 URLs + tokenApiKey)
+├── SophiaSessionContext.cs           ← NEW (static state)
+├── SophiaConnection.cs               ← NEW (voice loop, copied from us, possibly trimmed)
+└── (optional) SophiaOverlayUI.cs    ← NEW if he doesn't have his own UI; SKIP if he does
+```
+
+Plus in his `Packages/manifest.json`:
+```json
+"io.livekit.livekit-sdk": "file:../../client-sdk-unity"
+```
+(if vendoring like we did) or a UPM Git URL pointing at LiveKit's upstream repo.
+
+Plus the LiveKit Unity SDK + (if XREAL target) XREAL SDK vendored or installed via UPM.
+
+**D. Conflict surfacing.** Once we have the codebase + answers, we'd surface conflicts BEFORE integrating:
+
+- "Your `<HisAudioManager>.cs` already calls `Microphone.Start(0)`. LiveKit's `MicrophoneSource` will also try to open mic 0 → conflict. Plan: either rip out your mic code and let LiveKit own it, OR keep yours and feed the AudioClip into LiveKit as a custom `LocalAudioTrack`."
+- "Your scene's MainCamera is `XRRig/Camera Offset/Main Camera`. Our `SophiaOverlayUI.cs` parents to `Camera.main` at hardcoded `z=2`. Plan: change the parenting / focal distance to match your XR rig."
+- "Your bundle ID is `com.companyname.appname`. Our APK is `com.UnityTechnologies.com.unity.template.urpblank`. No conflict — but he gets to keep his bundle ID."
+- etc.
+
+**E. Decision: Drop-in vs Custom integration path** (covered in detail in `xr_build_voice_integration.md`):
+- **Drop-in** (3-4 hours): bring all 5 of our scripts + the asset. Use SessionPicker + SophiaOverlayUI as-is. Cleanest if his app doesn't already have session/UI conventions.
+- **Custom integration** (1-2 days): bring only SophiaConfig + SophiaSessionContext + SophiaConnection. Skip SessionPicker (use his entry point) + SophiaOverlayUI (subscribe to static event, render in his style). Cleaner if his app has sophisticated existing patterns.
+
+### Concrete next steps to propose to your XR engineer
+
+1. **Read `xr_build_voice_integration.md`** at the repo root. That doc IS the integration plan, distilled.
+2. **Share his codebase** (git URL or zip).
+3. **Answer the 7 questions** in that doc (platform, engine version, existing session model, mic code, audio playback, UI canvas, backend target).
+4. **We meet for 30 min** to look at his code together, surface conflicts, pick integration path.
+5. **Do a "hello world" first** — just the voice loop, no HUD, no fancy UI. Have him speak through his app, Sophia answers. Validates token + room + audio.
+6. **Then layer UI** — either drop in `SophiaOverlayUI` or wire into his existing UI via the static event.
+7. **Then platform polish** — FOV-specific HUD sizes, mic gain, echo behavior, etc.
+
+Total estimated time for a working integration on a Unity project: half a day for greenfield (Drop-in), 1-2 days for sophisticated existing app (Custom).
+
+### Short-form answer
+
+**Why LiveKit**: real-time full-duplex audio with barge-in, streaming TTS, server-side agent orchestration framework, cross-platform clients, built-in data channels for UI, multi-participant support, production-grade scaling — none of which you'd want to build yourself.
+
+**What we need from him**: (a) his codebase (git URL or zip), (b) answers to the 7 questions in `xr_build_voice_integration.md` (platform, engine version, existing session model, existing mic/audio/UI code, backend target), (c) 30 minutes together to map the integration. Once we have all that, we pick Drop-in or Custom integration path, copy 3-5 scripts from `sophia-glasses/unity/Assets/Scripts/` into his project, add the LiveKit Unity SDK to his Packages/manifest.json, wire one GameObject, build + test. Half a day to 2 days depending on existing app complexity.
