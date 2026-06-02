@@ -867,3 +867,120 @@ private void OnTrackSubscribed(RemoteTrack track, RemoteTrackPublication publica
 | Multi-user filtering | LiveKit JS SDK plays all subscribed tracks | Unity filters to `Identity.StartsWith("agent-")` to skip other users' mic tracks (Q58) |
 
 Everything from the SFU outward to the inference services is identical. The differences are all client-side glue.
+
+---
+
+## Q9 (2026-06-02): When a user types `http://3.227.63.49:3000` in their browser, how does the request actually reach our Next.js process? What infrastructure is making this work?
+
+**Six layers, each one had to be set up for the URL to work. If any single layer is missing or misconfigured, the URL fails in a specific way.** Tracing the packet from the user's keyboard to the Next.js process:
+
+### Layer 1 — User's machine (browser + OS)
+
+- User types `http://3.227.63.49:3000` in Chrome's address bar.
+- **Browser parses the URL** into three pieces: protocol = `http`, host = `3.227.63.49`, port = `3000`. The path is `/` by default.
+- **DNS lookup is SKIPPED** — `3.227.63.49` is already an IP address, not a hostname. Production with a real domain (e.g. `sophia.example.com`) would do a DNS A-record lookup here. We don't have a domain yet, so this layer is trivial for our MVP.
+- **Browser asks the OS to open a TCP socket** to `3.227.63.49:3000`. OS picks an ephemeral source port (e.g. `54321`).
+- **OS consults routing table**: destination not on local network → send via default gateway (the home router).
+- **Packet leaves user's machine**: source `<user-public-IP>:54321`, destination `3.227.63.49:3000`, TCP SYN flag set (start of three-way handshake).
+
+If this layer fails: it doesn't really — browser + OS + ISP routing are reliable. Mentioned for completeness.
+
+### Layer 2 — Public internet routing
+
+- The packet hops through ISP routers using BGP (the Border Gateway Protocol that routes IP blocks across the internet).
+- AWS owns the IP block that contains `3.227.63.49` — they announce that prefix in BGP, so all routers on the internet know "for this destination, send packets toward AWS."
+- After ~5-15 hops the packet reaches an AWS edge router somewhere in us-east-1 (the region where AWS allocated this IP to our account).
+- **No setup needed on our side** — AWS handles BGP advertisement for all IPs they allocate to customers.
+
+If this layer fails: you'd see issues like ISP outage, or AWS regional outage. Not something we control.
+
+### Layer 3 — AWS network → our VPC → the EC2 instance
+
+This is where AWS-specific infrastructure matters. Four things had to be in place:
+
+**a) The Elastic IP allocation.** AWS allocated `3.227.63.49` to our account when the infra team provisioned the EC2 setup. This is a static IP (defined as `aws_eip.gpu` in the Terraform at `AIPartnersUSA/aws-infra/environments/single_g5x2large_us_east_1/main.tf`). **Why Elastic IP and not just the default public IP**: default public IPs CHANGE every time you stop+start the instance. Elastic IPs persist across stop/start. Without an EIP, `3.227.63.49` would be a different machine tomorrow.
+
+**b) The EIP is ASSOCIATED with our EC2 instance.** The Terraform binds the EIP to the instance's ENI (Elastic Network Interface). AWS maintains a 1:1 NAT mapping: incoming packets to `3.227.63.49` get rewritten with destination `10.20.1.90` (the instance's private IP) before delivery. Outgoing packets get the reverse rewrite.
+
+**c) The VPC has an Internet Gateway.** Our VPC is `vpc-0eeab16713f4f744d` at CIDR `10.20.0.0/16`. The Terraform defines `aws_internet_gateway.ai` attached to that VPC. The IGW is the actual component that AWS-network packets traverse to reach the public internet (and vice versa). Without an IGW, even with an EIP, packets couldn't enter or leave.
+
+**d) The public subnet routes to the IGW.** Our subnet `aws_subnet.public` at `10.20.1.0/24` has a route table with a default route `0.0.0.0/0 → IGW`. The EC2 lives in this subnet (private IP `10.20.1.90`). Without this route, the instance would have no path to the internet.
+
+The packet arrives at the instance's ENI as: source `<user-public-IP>:54321`, destination `10.20.1.90:3000`.
+
+If this layer fails: usually a Terraform misconfiguration during setup. Diagnose with `aws ec2 describe-instances`, `aws ec2 describe-route-tables`. Not a day-to-day failure mode.
+
+### Layer 4 — AWS Security Group (the firewall, default-deny)
+
+**This is the layer that bit us most during deployment** — see Problem 10 in `mvp_deployment_shared_ec2.md`.
+
+- AWS Security Groups are stateful packet filters that run at the hypervisor level, BEFORE the packet reaches the instance kernel.
+- **Default policy is DENY all inbound.** Only explicitly-listed rules let traffic through.
+- Our SG is `sophiaspatialai-gpu-...`, defined in the same Terraform as the rest of the infra (file: `environments/single_g5x2large_us_east_1/main.tf`).
+- Relevant ingress rule for our case:
+  ```hcl
+  ingress {
+    description = "Sophia voice agent frontend"
+    from_port   = 3000
+    to_port     = 3000
+    protocol    = "tcp"
+    cidr_blocks = var.allowed_cidrs   # defaults to ["0.0.0.0/0"]
+  }
+  ```
+- Because `var.allowed_cidrs` defaults to `0.0.0.0/0`, this rule allows TCP port 3000 from ANY source IP. **That's what makes the URL reachable from anywhere on the internet.**
+- This rule was added by the PR Aziz merged + applied on 2026-05-29 (Phase 13 in the MVP doc). Before that day, port 3000 was NOT in the SG → connections silently dropped → browser hung for ~30s then timed out.
+
+If this layer fails: the symptom is `curl: (28) Connection timed out` (NOT `Connection refused`). The packet hits the hypervisor, SG evaluates the rules, no match, packet silently dropped. From the client side it looks like the server is unreachable. Diagnose with `aws ec2 describe-security-groups`.
+
+After the SG passes the packet, it gets delivered to the EC2 instance's ENI.
+
+### Layer 5 — EC2 instance kernel + listening process
+
+- The Linux kernel on the EC2 receives the packet on `eth0` (the only network interface).
+- Kernel looks at the destination port (3000), checks its socket table, finds: a process listening on `0.0.0.0:3000`.
+- That process is the Next.js production server (started via `nohup npm start -- --port 3000 --hostname 0.0.0.0 ...`). Specifically, `npm start` spawns a Node.js process named `next-server` that binds the socket.
+- Kernel hands the SYN packet to the Node.js process → process responds with SYN-ACK → TCP handshake completes → connection established.
+- **Critically**: this process is NOT inside Docker. The Next.js frontend runs natively on the EC2 via `npm start`, not via docker-compose. So no docker port mapping is involved here — the process binds directly on the host's port 3000.
+
+If this layer fails: the symptom is `curl: (7) Failed to connect to 3.227.63.49 port 3000: Connection refused` (NOTE — different from SG-blocked which is "timed out"). "Refused" means the SG let the packet through, but no process is listening. Diagnose on EC2 with `ss -tlnp | grep :3000` (should show `node` listening) or `ps -ef | grep next`.
+
+### Layer 6 — Next.js serves the response
+
+- Node.js process accepts the TCP connection.
+- Reads the HTTP request: `GET / HTTP/1.1\r\nHost: 3.227.63.49:3000\r\nUser-Agent: ...\r\n\r\n`.
+- Looks at the path (`/`), finds the matching React page (built into `.next/server/app/`).
+- Returns `HTTP/1.1 200 OK` with the prebuilt HTML containing `<script src="/_next/static/.../main.js">...` references.
+- Browser then makes follow-up GET requests for each JS bundle, also routed through layers 1-5.
+- React app boots in the browser → renders the welcome screen with the Start Call button.
+
+### Failure-mode mapping
+
+| Symptom | Layer that broke | How to confirm |
+|---|---|---|
+| "Connection timed out" | Layer 4 (SG missing rule) | `aws ec2 describe-security-groups --group-ids sg-xxx` from your laptop; or `curl -sI --max-time 5 http://3.227.63.49:3000` shows hang |
+| "Connection refused" | Layer 5 (process not running) | On EC2: `ss -tlnp \| grep :3000` empty; check `frontend.log` |
+| "Could not resolve host" | Layer 1 (DNS) — N/A for IP, but happens with bad domain | `ping <hostname>` returns "Unknown host" |
+| "No route to host" | Layer 3 (rare — IGW or route table misconfigured) | `aws ec2 describe-route-tables`; usually a Terraform issue |
+| Connects but page is blank / errors | Layer 6 (Next.js process is up but broken) | `tail frontend.log`; common = the production build fixes from Problems 8, 9, 14, 16 not applied |
+| Mic doesn't work after connecting | NOT a connection issue — Chrome blocks `getUserMedia` on non-secure-context HTTP from public IP. Workaround = `chrome://flags#unsafely-treat-insecure-origin-as-secure` (Problem 15). |
+
+### What's NOT in this flow today but WOULD be in production
+
+- **DNS** — a domain like `sophia.example.com` → A-record → `3.227.63.49`. Adds a DNS lookup hop. Required for users to remember the URL.
+- **TLS / HTTPS** — request would go to port 443, get terminated by nginx / ALB / cloudfront, decrypted, then forwarded to Next.js on port 3000 (or kept on 443 if Next.js handles TLS itself). Required for browser mic permission (no Chrome flag needed) and security.
+- **CDN** — CloudFront in front would cache static assets globally, dropping latency for distant users.
+- **Load balancer** — ALB / NLB for multi-instance HA, health checks, automatic instance replacement.
+- **WAF** — Web Application Firewall for rate limiting, bot blocking.
+
+For MVP we skip all of these and rely on the raw EC2 EIP + SG + Next.js process. The URL works because all 6 layers above are in place.
+
+### The condensed "why it works" answer
+
+`http://3.227.63.49:3000` reaches our Next.js process because:
+1. AWS allocated us a static Elastic IP `3.227.63.49`.
+2. AWS Internet Gateway + VPC routing delivers internet traffic to our instance.
+3. AWS Security Group has TCP 3000 open from anywhere (added via the Phase 13 Terraform PR).
+4. EC2 instance is running with Node.js (`npm start`) listening on `0.0.0.0:3000`.
+5. The browser handles HTTP semantics on top of the TCP connection.
+
+Take any of those five away and the URL stops working with a specific, diagnosable symptom.
