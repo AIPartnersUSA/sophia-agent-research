@@ -1449,3 +1449,64 @@ Half the original 2-day estimate from Q12 because we don't need to drag in Sessi
 ### Short-form answer
 
 His codebase is a mature wearable XR client with a CLEAN provider-abstraction pattern (`ILLMProvider` interface, `ProviderFactory` runtime selection). He already has a custom WSS voice relay (`VoiceRelayLlmProvider.cs`) that does STT→LLM→TTS — LiveKit would be a NEW provider next to it, not a replacement of his entire client. Integration is now "write `LiveKitLlmProvider.cs` implementing `ILLMProvider`, plug into `ProviderFactory`, add SDK to manifest" — 1-1.5 days of focused work, zero changes to his scene, UI, AR setup, or multiplayer code. Much cleaner than dropping in SophiaConnection/SessionPicker/SophiaOverlayUI like we'd have to do for a greenfield project.
+
+---
+
+## Q14 (2026-06-02): Let me confirm my understanding. Currently `sophia-glasses/` (Unity for XREAL + Beam Pro) talks to `sophia-agent/` (the backend deployed on EC2) and the agent-worker reaches EKS for the inference models. The integration goal is for `Sophia_Xreal-U2/` (the XR engineer's client) to ALSO use `sophia-agent/` as its backend — is that right?
+
+**Yes, your understanding is correct.** Both clients aim at the same backend. Two clarifying precisions so the mental model is exact:
+
+### What "uses sophia-agent/ as backend" actually means
+
+`sophia-agent/` (this repo) is the SOURCE CODE for two of the three EC2 containers:
+- `agent-worker` container is built from `sophia-agent/Dockerfile` (loads `src/agent.py` — the LiveKit Agents worker that orchestrates STT→RAG→LLM→TTS).
+- `token-mint` container is built from `sophia-agent/Dockerfile.token-mint` (loads `src/token_mint.py` — the FastAPI JWT minter).
+
+The third EC2 container (`livekit-server`) is the stock `livekit/livekit-server:latest` image from Docker Hub — no custom code from our repo.
+
+So when you say "uses sophia-agent as backend," what actually happens at runtime is: client connects to the EC2's livekit-server (SFU on port 7880) AND to the EC2's token-mint (FastAPI on port 8001). The agent-worker is a worker that registers with the SFU and gets dispatched into rooms — clients don't talk to it directly; they talk to the SFU and the SFU brokers between them and the worker.
+
+### The architectural mirror — yes, exact same pattern
+
+```
+sophia-glasses (Unity)  ─┐
+                          ├──► EC2 backend (livekit-server + token-mint + agent-worker)
+Sophia_Xreal-U2 (Unity) ─┘                  │
+                                              └──► EKS inference services
+                                                   (Whisper / Qwen3 / Kokoro / sophia-spatial-ai)
+                                                   via kubectl port-forwards from EC2
+```
+
+Both Unity clients are LiveKit participants joining LiveKit rooms on the same SFU. Same X-API-Key auth path through token-mint. Same agent dispatch (`agent_name: "sophia-agent"`). Same inference pipeline behind the agent-worker. The backend cannot tell the two clients apart — both look like "a Unity participant publishing an audio track + subscribing to the agent's audio track."
+
+### The ONE precision — Sophia_Xreal-U2 keeps its OTHER backends too
+
+The XR engineer's app already has FOUR provider integrations: OpenAI Realtime, Gemini, GoogleVision, and his custom VoiceRelay (WSS). Each provider points at a different backend (different AWS gateway routes, different inference services).
+
+When we add LiveKit as a NEW provider, we don't TAKE AWAY his other providers. His app gains the ABILITY to use `sophia-agent` as its backend WHEN his `ProviderConfig` is set to select LiveKit. The other providers stay functional for whichever scenarios he wants them for.
+
+In other words:
+- BEFORE integration: his app can talk to OpenAI Realtime, Gemini, GoogleVision, or his own VoiceRelay WSS server. Not to our sophia-agent.
+- AFTER integration: his app can talk to OpenAI Realtime, Gemini, GoogleVision, his own VoiceRelay WSS, OR our sophia-agent via LiveKit. He picks per-deployment via his ProviderConfig.
+
+So the GOAL of integration is "give his app the OPTION of using sophia-agent as backend," not "force his app to use sophia-agent."
+
+### Side-by-side of the two clients after integration
+
+| Aspect | sophia-glasses/ (ours) | Sophia_Xreal-U2/ (his) |
+|---|---|---|
+| Unity version | Unity 6 (6000.x — verify exact) | Unity 6.0.3.12f1 |
+| XREAL SDK | Vendored at `xreal-sdk/` via Git LFS | UPM package `com.xreal.xr` |
+| LiveKit SDK | Vendored at `client-sdk-unity/` via Git LFS | TBD — vendor or UPM Git URL (recommend vendoring for consistency) |
+| Connection layer | `SophiaConnection.cs` (single MonoBehaviour) | `LiveKitLlmProvider.cs` implementing `ILLMProvider` (slots into his existing ProviderFactory) |
+| Config schema | `SophiaConfig.asset` (single ScriptableObject) | New `LiveKitConfig` block added to his existing `ProviderConfig` |
+| UI | `SophiaOverlayUI.cs` (our world-space HUD) | His existing UI (`Modules/ConversationalAI/UI/`, `Hud/`) — fires same events |
+| Backend endpoint | `ws://3.227.63.49:7880` + `http://3.227.63.49:8001/token` | SAME (when LiveKit provider selected) |
+| Auth | X-API-Key + LiveKit JWT pair | SAME |
+| Agent dispatched | `sophia-agent` | SAME |
+
+Both clients become functionally interchangeable from the backend's perspective. The differences are all internal to each Unity project.
+
+### Short-form answer
+
+Yes, exactly right. The goal is "make Sophia_Xreal-U2 able to use sophia-agent as its backend via a new LiveKit provider" — same backend topology that sophia-glasses uses today, just plumbed through his existing provider abstraction instead of through a standalone connection MonoBehaviour. The two clients end up as siblings pointing at the same EC2 infrastructure.
