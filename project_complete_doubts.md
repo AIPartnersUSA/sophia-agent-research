@@ -1510,3 +1510,80 @@ Both clients become functionally interchangeable from the backend's perspective.
 ### Short-form answer
 
 Yes, exactly right. The goal is "make Sophia_Xreal-U2 able to use sophia-agent as its backend via a new LiveKit provider" — same backend topology that sophia-glasses uses today, just plumbed through his existing provider abstraction instead of through a standalone connection MonoBehaviour. The two clients end up as siblings pointing at the same EC2 infrastructure.
+
+---
+
+## Q15 (2026-06-02): I want to lock in the phased plan: Sophia_Xreal-U2 is the PRODUCTION Unity client. Right now LiveKit services live on EC2 (MVP). Eventually infra team takes over and deploys LiveKit on standard AWS infrastructure. So we integrate LiveKit against the EC2 backend FIRST (because EC2 is up, infra needs time), validate end-to-end working, then later infra migrates the backend and we re-point the client. Later still: latency + optimization. Is this the right sequence?
+
+**Yes, this is the right sequence. The provider-abstraction pattern in his codebase makes it cost-free to do it this way — code stays identical across phases, only config values change.** Locking it in as the canonical plan.
+
+### The phase plan
+
+**Phase 1 (NOW) — Integrate LiveKit provider into Sophia_Xreal-U2, point at our EC2 backend**
+
+- Write `LiveKitLlmProvider.cs` in `Sophia_Wearable/Assets/_Scripts/Modules/ConversationalAI/Providers/LiveKit/` implementing `ILLMProvider`.
+- Add LiveKit Unity SDK to `Sophia_Wearable/Packages/manifest.json`.
+- Add new `LiveKitConfig` block to his existing `ProviderConfig` schema.
+- Wire into his existing `ProviderFactory` — when config says "use LiveKit," return our new provider.
+- Configure the provider with our EC2 endpoints: `liveKitUrl=ws://3.227.63.49:7880`, `tokenEndpoint=http://3.227.63.49:8001/token`, `tokenApiKey=9a11fdf5...`, `agentName=sophia-agent`.
+- Build APK, install on Beam Pro, validate voice loop end-to-end (mic → STT → RAG → LLM → TTS → speakers).
+- Branch in his repo: `feat/livekit-provider` off `development`. PR back to `development` when stable.
+- **Success criteria**: he can put on the Beam Pro + XREAL glasses, talk, Sophia answers via the EXACT SAME inference pipeline our sophia-glasses uses. Validates that the integration is correct.
+- **Estimated effort**: 1-1.5 days focused work.
+
+**Phase 1.5 (interim) — Run both clients side-by-side**
+
+- Sophia_Xreal-U2 + sophia-glasses both connect to the SAME EC2 backend.
+- Useful for: regression testing (does Sophia_Xreal-U2 produce the same UX?), Scenario A demos (two devices in the same room), confirming the backend handles concurrent participants from heterogeneous clients.
+- No new code. Just two APKs installed on two Beam Pros (or one device + browser).
+
+**Phase 2 (LATER, when infra team is ready) — Backend migrates from MVP EC2 to standard AWS production**
+
+- Infra team uses `HANDOFF.md` + `production_deployment.md` to deploy `livekit-server` + `token-mint` + `agent-worker` to proper AWS (us-west-2 same-region as EKS, dedicated EC2 OR ECS/EKS pods, ALB with TLS, real domain like `sophia.aipartnersusa.com`, AWS Secrets Manager, real auth instead of shared X-API-Key, etc.).
+- They generate fresh secrets (not reusing our MVP `7baeb38a... / d4b85117... / 9a11fdf5...` values).
+- They produce: a production-grade backend reachable at e.g. `wss://sophia.aipartnersusa.com` with new credentials.
+- **Sophia_Xreal-U2 code does NOT change.** Only the `LiveKitConfig` values in his `ProviderConfig` update:
+  - `liveKitUrl: wss://sophia.aipartnersusa.com:7880` (or whatever domain + TLS)
+  - `tokenEndpoint: https://sophia.aipartnersusa.com/token`
+  - `tokenApiKey: <NEW production X-API-Key from secrets manager>`
+- Smoke test from his app: switch ProviderConfig to point at prod, build APK, validate the same voice loop works against the new backend.
+- **Success criteria**: the integration code written in Phase 1 keeps working without modification when the URLs flip to production.
+- **The MVP EC2 (3.227.63.49) stays running** until production is validated. Then it's decommissioned (notify Ivana before stopping the shared EC2).
+
+**Phase 3 (AFTER PRODUCTION IS UP) — Latency + optimization tuning**
+
+- Measure: STT first-byte, LLM first-token, TTS first-chunk, end-to-end response time. Use the `[DEBUG_0605_VoiceRelayLegs]` pattern already in his codebase for the VoiceRelay path (he has similar telemetry hooks for LiveKit by then).
+- Cross-region penalty: Phase 1 + 2 still go through kubectl port-forwards (EC2 us-east-1 → EKS us-west-2 = +70ms per inference call). Phase 3 eliminates this by either: (a) moving the backend EC2 to us-west-2, OR (b) deploying agent-worker pods INSIDE the EKS cluster so they reach inference services via cluster-internal DNS at single-digit ms.
+- Streaming TTS tuning: validate sentence-fragment-level TTS chunking is firing (low time-to-first-audio).
+- Audio quality tuning: WebRTC AEC behavior on his hardware, possibly add DeepFilterNet 3 if echo is a problem.
+- Multi-participant validation: Scenario A with two glasses + browser in one room, check audio routing per Q58 contract.
+- Bundle ID rename (Phase 2 hardening item from sophia-glasses) — relevant if his app's bundle ID needs aligning.
+- Real auth replaces shared X-API-Key: integrate with Cognito / Auth0 / Clerk / mTLS depending on what infra team picks.
+
+### Why this order is correct
+
+1. **Don't block on infra.** EC2 backend is up and stable right now. Infra team needs days-to-weeks for proper AWS deployment. Starting integration work now means the LiveKitProvider lands in his repo while infra works in parallel.
+2. **De-risk integration before scaling.** If the provider plugin has issues (mic permission flow, audio routing, event wiring to his existing UI, etc.), better to surface them against a stable MVP backend than to debug them simultaneously with infra deployment issues.
+3. **Provider-abstraction means zero rework.** Because `LiveKitLlmProvider.cs` only reads URLs + keys from `LiveKitConfig`, swapping EC2 → AWS production = change config values, redeploy. No code refactor.
+4. **Two siblings produce two demo paths.** During the transition window, you have sophia-glasses on EC2 AND Sophia_Xreal-U2 on EC2 both proving the same backend. Less likely a regression slips through.
+5. **Optimization is empirical.** You can't sensibly tune latency until you have real production network paths, real concurrency, real measurements. Phase 3 has the data to drive decisions; Phase 1 doesn't.
+
+### What HANDS OFF between phases
+
+- **End of Phase 1**: Sophia_Xreal-U2 with `LiveKitLlmProvider.cs` merged to `development` (or kept on branch until validated). Working APK pointed at EC2 backend.
+- **End of Phase 2 (infra-driven)**: Production AWS backend with new credentials + URLs. Update Sophia_Xreal-U2's `ProviderConfig` defaults to point at production. Optional: keep EC2 endpoints as a "staging" config in the same enum.
+- **End of Phase 3**: Tuned end-to-end latency under target SLO (whatever the team picks — typical voice-agent SLO is ~1.5s first-token TTS). Production hardening complete (real auth, TLS, secrets manager, monitoring).
+
+### Risk + mitigation for each phase
+
+| Phase | Risk | Mitigation |
+|---|---|---|
+| Phase 1 | Mic / audio routing differs between his XR rig and our sophia-glasses setup → audio doesn't flow correctly | Compare his XR rig against our `Camera.main` parenting; validate the `MicrophoneSource` opens the right device; have him run `adb logcat` while testing |
+| Phase 1 | His `ILLMProvider` event signatures don't quite match what LiveKit emits → his existing UI doesn't update | Read `ILLMProvider.cs` carefully, map each event (`OnTranscriptReceived` ↔ `lk.transcription` text-stream, `OnAgentSpeaking` ↔ agent track subscribe/unsubscribe, `OnAudioReceived` ↔ audio frames if applicable) |
+| Phase 2 | New production keys leak before being rotated → security incident | Infra team uses Secrets Manager from day one; never paste prod keys into chat / Slack / git |
+| Phase 2 | Production URL changes break the APK in the field | Use a feature-flag pattern: ProviderConfig can hold MULTIPLE LiveKit endpoint sets; switch at runtime via in-app config without rebuilding APK |
+| Phase 3 | Optimization changes regress correctness | Always keep a sophia-glasses build for A/B comparison; have both APKs running side-by-side during tuning |
+
+### Short-form answer
+
+Right sequence. Phase 1: build LiveKitLlmProvider into Sophia_Xreal-U2 against EC2 backend (1-1.5 days, branch `feat/livekit-provider`). Phase 2: infra team migrates backend to standard AWS (days-to-weeks, parallel work using HANDOFF.md), then we update ProviderConfig values to point at production — no code change. Phase 3: measure latency, tune cross-region, harden auth/TLS. The provider abstraction is the load-bearing decision — it makes the EC2-to-production migration a config swap instead of a refactor.
