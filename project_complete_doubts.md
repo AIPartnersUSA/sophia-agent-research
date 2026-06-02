@@ -1349,3 +1349,103 @@ Total estimated time for a working integration on a Unity project: half a day fo
 **Why LiveKit**: real-time full-duplex audio with barge-in, streaming TTS, server-side agent orchestration framework, cross-platform clients, built-in data channels for UI, multi-participant support, production-grade scaling — none of which you'd want to build yourself.
 
 **What we need from him**: (a) his codebase (git URL or zip), (b) answers to the 7 questions in `xr_build_voice_integration.md` (platform, engine version, existing session model, existing mic/audio/UI code, backend target), (c) 30 minutes together to map the integration. Once we have all that, we pick Drop-in or Custom integration path, copy 3-5 scripts from `sophia-glasses/unity/Assets/Scripts/` into his project, add the LiveKit Unity SDK to his Packages/manifest.json, wire one GameObject, build + test. Half a day to 2 days depending on existing app complexity.
+
+---
+
+## Q13 (2026-06-02): I gave you the XR engineer's git URL. What does his codebase look like, and how does that change the integration recommendation?
+
+Cloned `git@github.com:AIPartnersUSA/Sophia_Xreal-U2.git` (development branch, head `cfae9f73 v3.12.1`) into project root as `Sophia_Xreal-U2/` (gitignored as a reference clone, NOT tracked in our repo). With LFS smudge skipped — text + source files only, no binary assets needed for research.
+
+### What he has — top-level findings
+
+It's a sophisticated existing wearable XR client with a CLEAN provider-abstraction pattern. Much more mature than I assumed before seeing it.
+
+- **Unity version**: 6000.3.12f1 (Unity 6, slightly newer minor than ours but same major).
+- **XREAL SDK installed** (`com.xreal.xr` UPM package). Same target hardware as us.
+- **AR Foundation 6.3.3** with ARCore + ARKit + XR Hands + XRI 3.3.1 + OpenXR 1.14.0. More mature AR stack than our sophia-glasses setup.
+- **Netcode for GameObjects 2.11.0** — they already have multiplayer infra.
+- **Plus**: Convai's OpenAI Unity package, NativeWebSocket Unity lib, UnityGLTF, Recorder, etc.
+- Repo layout: `Sophia_Wearable/` (the Unity client), `Sophia_UnityServer/` (optional local test server for AWS parity), `AWS_References/` (handoff docs to AWS), `Planning_References/`, `docs/`, `tools/`.
+- README documents 5 distinct gateway integrations: OpenAI Realtime, Whisper STT, Vision (Google + Qwen), Product DB, Self-hosted Voice Relay.
+- Cursor IDE conventions visible (`.cursor/rules/`, `.cursor/skills/`) — he's using Cursor as his AI-augmented dev environment.
+
+### The KEY insight — they already have a Provider plug-in pattern
+
+The Conversational AI module has clean abstractions:
+
+```
+Sophia_Wearable/Assets/_Scripts/Modules/ConversationalAI/
+├── Abstractions/          ← interfaces (the contract for providers)
+│   ├── ILLMProvider.cs
+│   ├── IAudioProvider.cs
+│   ├── IVisionProvider.cs
+│   └── IToolRegistry.cs
+├── Providers/             ← concrete implementations of those interfaces
+│   ├── OpenAI/            (OpenAI Realtime API integration)
+│   ├── Gemini/
+│   ├── GoogleVision/      (vision provider)
+│   └── VoiceRelay/        (their CUSTOM self-hosted WSS path)
+│       └── VoiceRelayLlmProvider.cs
+├── Core/                  (orchestration: AIContextOrchestrator, ProviderManager, etc.)
+├── Config/                (ProviderConfig — config-driven provider selection)
+├── UI/, Hud/              (their existing UI for transcripts / state / etc.)
+├── Services/, Tools/, Personas/, Common/
+└── Sophia.ConversationalAI.asmdef   (Unity Assembly Definition — clean module boundary)
+```
+
+Their `ProviderFactory` selects which provider to use at runtime based on `ProviderConfig.awsSingleEndpointConversationPipeline`. Switching providers is a config change, not a code change. Each provider implements `ILLMProvider` with events like `OnAudioReceived`, `OnTranscriptReceived`, `OnUserSpeaking`, `OnAgentSpeaking`, `OnError`, etc.
+
+**This is a much better integration surface than I described in Q12.** They've already done the architectural work — we just plug in.
+
+### What VoiceRelayLlmProvider does (and why it overlaps with LiveKit)
+
+Their `VoiceRelayLlmProvider.cs` is a 700+ line `MonoBehaviour` that:
+
+1. Opens a JSON WebSocket to `wss://<host>/ws` (gateway-routed).
+2. Sends `{type: "config", voice, system_prompt, ...}` once.
+3. Streams 16 kHz PCM16 mono mic chunks as `{type: "audio", data: <base64>}` continuously.
+4. Receives `{type: "transcript"}`, `{type: "audio"}` (TTS frames at 24 kHz), `{type: "audio_end"}`, `{type: "error"}` from the server.
+5. Sends `{type: "interrupt"}` for barge-in.
+6. Exposes events that other modules subscribe to (transcripts, audio, agent-speaking state).
+
+**This is exactly what LiveKit gives them, except over a standardized WebRTC protocol with better real-time audio handling.** Reference server at `AWS_References/Reference_Materials/Archive/main.py` — they aligned with the `agentic-infra/voice_relay` upstream.
+
+### What changes about the integration recommendation
+
+Forget the Drop-in / Custom paths from Q12 — those were for greenfield. **The right pattern for him is "add a new Provider":**
+
+1. **Create `LiveKitLlmProvider.cs`** in `Sophia_Wearable/Assets/_Scripts/Modules/ConversationalAI/Providers/LiveKit/`. Mirror the shape of `VoiceRelayLlmProvider.cs`.
+2. **Implement `ILLMProvider`** — the same interface VoiceRelay implements. Wire the existing events (OnAudioReceived, OnTranscriptReceived, OnUserSpeaking, OnAgentSpeaking, OnError) to LiveKit's track-subscribed + text-stream events.
+3. **Internally use the LiveKit Unity SDK** — token fetch (UnityWebRequest to FastAPI token-mint with X-API-Key), Room.Connect, MicrophoneSource publish, track subscription. Same patterns from our `SophiaConnection.cs` but wrapped in his ILLMProvider contract.
+4. **Add to `ProviderFactory`** — a new selection arm: `ConversationProviderType.LiveKit` → return new `LiveKitLlmProvider()`.
+5. **Extend `ProviderConfig`** — add a `LiveKitConfig` block (URL, tokenEndpoint, tokenApiKey, agentName) matching our SophiaConfig.asset schema.
+6. **Add LiveKit Unity SDK to `Sophia_Wearable/Packages/manifest.json`** — either vendor our `sophia-glasses/client-sdk-unity/` (Git LFS) or UPM Git URL pointing at upstream.
+
+### What we KEEP UNTOUCHED in his codebase
+
+Everything else. Specifically:
+- Their scene, XR rig, AR Foundation setup, camera, controller mappings.
+- Their UI (`UI/`, `Hud/`) — they already have transcript rendering, state pills, etc. wired to `OnTranscriptReceived` / `OnAgentSpeaking` events from the provider. New provider fires the same events → UI works without changes.
+- Their `AIContextOrchestrator`, `ProviderManager`, `ToolPermissionManager`, etc. — orchestration layer is provider-agnostic.
+- Their multiplayer (Netcode for GameObjects) — could LATER be enhanced to map Netcode rooms to LiveKit rooms, but not required for v1.
+- Their mic capture path (`MicrophoneStreamer`) — IF they want to share mic between providers, we'd wire it in. If LiveKit's `MicrophoneSource` is fine for the LiveKit provider, we let LiveKit open the mic.
+- Their build settings, bundle ID, assembly definitions, ProjectSettings.
+
+### Effort estimate (revised down from Q12)
+
+- **Provider integration only (no UI work)**: 1-1.5 days. Write LiveKitLlmProvider.cs (~500-700 lines), wire ILLMProvider events, add to ProviderFactory, add LiveKitConfig, add SDK to manifest, build + smoke-test against EC2.
+- **Optional polish**: another 0.5-1 day for tuning audio levels, AEC behavior on his target hardware, possibly hooking up the existing UI events to LiveKit's text-stream topics (sophia.agent_events, sophia.rag_result, lk.transcription).
+
+Half the original 2-day estimate from Q12 because we don't need to drag in SessionPicker / SophiaOverlayUI / our scene setup. His existing app already has all of that.
+
+### Concrete next steps
+
+1. **Read his `ILLMProvider.cs` interface in full** — that's the contract our new provider must satisfy. (TODO when starting integration work — file at `Sophia_Wearable/Assets/_Scripts/Modules/ConversationalAI/Abstractions/ILLMProvider.cs`.)
+2. **Read his `VoiceRelayLlmProvider.cs` in full** — that's our template. Same shape, just LiveKit instead of WSS.
+3. **Read his `ProviderFactory`** and `ProviderConfig` — understand how providers are selected.
+4. **Confirm the backend target with him**: will his LiveKitLlmProvider point at OUR shared EC2 (3.227.63.49) for initial testing? Or does his infra team need to deploy a parallel backend? (Easy answer: use ours for v1 — same X-API-Key + LiveKit pair we already have.)
+5. **Branch strategy**: when we actually start writing `LiveKitLlmProvider.cs`, we `git checkout -b feat/livekit-provider` off `development` in his repo. All work goes on that branch, PR back to `development` for review.
+
+### Short-form answer
+
+His codebase is a mature wearable XR client with a CLEAN provider-abstraction pattern (`ILLMProvider` interface, `ProviderFactory` runtime selection). He already has a custom WSS voice relay (`VoiceRelayLlmProvider.cs`) that does STT→LLM→TTS — LiveKit would be a NEW provider next to it, not a replacement of his entire client. Integration is now "write `LiveKitLlmProvider.cs` implementing `ILLMProvider`, plug into `ProviderFactory`, add SDK to manifest" — 1-1.5 days of focused work, zero changes to his scene, UI, AR setup, or multiplayer code. Much cleaner than dropping in SophiaConnection/SessionPicker/SophiaOverlayUI like we'd have to do for a greenfield project.
