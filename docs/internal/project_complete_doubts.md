@@ -1908,3 +1908,177 @@ Estimated time after items 1-7 resolve: 1-1.5 days for steps 1-7 above (matches 
 ### Short-form answer
 
 I have the contract + patterns + backend values. I still need: (autonomous, I can do now if you say go) LiveKit Unity SDK API check for custom audio source + reconnect events, and backend agent identity prefix + transcript topic verification. (From XR engineer) mic ownership preference, vision behavior choice, repo Collaborator access, SDK source preference, branch name confirmation. Once those land, I'm unblocked to write `LiveKitLlmProvider.cs`.
+
+---
+
+## Q18 (2026-06-03): Are we sure integrating LiveKit into HIS framework is the right thing to do? Why not just use our sophia-glasses (which already does end-to-end LiveKit voice on its own), or let LiveKit Agents replace his whole codebase since it already provides VAD, turn detection, streaming TTS, etc.?
+
+Fundamental scope check before we commit to writing code. Five concerns walked through:
+
+**1. We're fitting LiveKit into his framework. Yes — that IS Phase 1.** The plan from Q15 is: write `LiveKitLlmProvider.cs` implementing his `ILLMProvider`, add to his `ProviderFactory`. So the question is whether that's the right thing, not what it is.
+
+**2. Why not just use sophia-glasses?** Because sophia-glasses isn't a product — it's a research/demo client. Its scope is `SophiaConnection.cs` (voice) + `SophiaOverlayUI.cs` (HUD) + `SessionPicker.cs` (entry UI). That's it. His `Sophia_Xreal-U2` has months of production AR work on top: AR Foundation 6.3.3, ARCore + ARKit, XR Hands, XRI 3.3.1, OpenXR, hand tracking, virtual product manipulation, scenario controllers (warehouse / retail / training), user session DB, image masking, part animation, AR session calibration, scenario controllers, etc. If we shipped sophia-glasses as "the product", we'd be throwing away all his AR investment. Not a real shortcut.
+
+**3. Does LiveKit Agents already do what his whole codebase does?** Partial yes, partial no — and the distinction is what matters.
+
+What LiveKit Agents DOES replace from his code (server side, if he switches to LiveKit provider):
+- STT/LLM/TTS streaming orchestration
+- Silero VAD
+- Turn detection (MultilingualModel via `turn_handling=` config)
+- Streaming TTS as LLM tokens arrive
+- Interrupt detection + barge-in coordination
+- Wire protocol for audio streaming (LiveKit Unity SDK handles this)
+
+What LiveKit Agents does NOT replace from his code (client side):
+- AR HUD rendering, world-space canvases, caption display — pure UI code, lives in his app
+- Hand controls, gesture input — XR input plumbing
+- Scene management, scenario controllers — product business logic
+- Virtual product manipulation — actual wearable product feature
+- The `ILLMProvider` abstraction itself — how his app stays provider-agnostic so he can A/B swap OpenAI / Gemini / VoiceRelay / LiveKit at will
+
+So his 1635-line `ConversationalAIController` is mostly UI-glue + reconnect orchestration + provider lifecycle — NOT voice processing. The voice processing happens server-side via LiveKit Agents (when LiveKit provider is active). `ConversationalAIController` is just the bridge between "voice provider emitted an event" and "HUD should update".
+
+**4. So why is the integration small?** Because we're not duplicating his AR / UI / scene work; we're swapping out the voice provider underneath it. Estimated sizes: ~900 lines for `LiveKitLlmProvider.cs` + ~80 lines for the mic adapter + 5 lines to extend `ProviderFactory`. The other ~6000 lines of his orchestration / UI / AR code is reused as-is.
+
+**5. The comparison framing matters.** The Q16 measurement spike comparison ISN'T client-vs-client (sophia-glasses vs Sophia_Xreal-U2). That would confound two variables — the client UX AND the voice transport. We can't tell from that whether better numbers come from LiveKit's transport or from sophia-glasses being a simpler client.
+
+The right comparison is provider-vs-provider INSIDE HIS SAME CLIENT: `Sophia_Xreal-U2` running with `ConversationProviderType.VoiceRelay` vs the SAME APK running with `ConversationProviderType.LiveKit`. Same hand tracking, same scene, same HUD, same backend models — ONLY variable is transport + orchestration. Clean A/B.
+
+### Short-form answer
+
+His app is the product, sophia-glasses is the reference. We integrate LiveKit into his app because he ships, we don't. LiveKit Agents replaces his SERVER-SIDE voice orchestration when his app uses LiveKit provider; it does NOT replace his CLIENT-SIDE AR / UI / scene work, which is what most of his codebase is. The integration is small (~900 lines for the provider + ~80 for the mic adapter) because we're only swapping the voice provider underneath his unchanged AR app. The measurement comparison is provider-A vs provider-B inside his same client, not client-A vs client-B.
+
+---
+
+## Q19 (2026-06-03): When we swap his client from VoiceRelay to LiveKit, what exactly bypasses in his code and what stays? I want the precise boundary.
+
+The split has a clean technical line, but the line is NOT "everything voice-related." Some voice-related code in his client (mic capture, audio playback) stays in use even when LiveKit is the active provider — because bypassing it would regress audio quality on his hardware.
+
+**What we DO bypass when LiveKit is the active provider:**
+- His VoiceRelay WSS protocol code (`VoiceRelayLlmProvider.cs`).
+- His voice-relay server (`Sophia_UnityServer/` for local dev twin; the AWS gateway voice-relay endpoint in production).
+- His custom WSS framing (audio chunks as base64 over WSS, `{type:"interrupt"}` messages, etc.).
+- Anything voice-relay-protocol-specific.
+
+**What we KEEP using from his client even when LiveKit is the active provider:**
+- His `MicrophoneStreamer` (per Q17 Q1a YES path) — captures via XREAL boom mic, applies VOICE_COMMUNICATION mode, runs the device-selection heuristic. We feed its output into a LiveKit `RtcAudioSource` subclass adapter. Bypassing this would regress the factory-floor audio quality (mic in pocket vs mic at mouth, no hardware AEC).
+- His `PcmAudioPlayer` (per Q17 mapping) — plays TTS audio with dual-output routing (phone speaker + glasses temple speakers via Audio Mixer). LiveKit audio frames flow through it. Bypassing this would lose dual-output.
+- His `ConversationalAIController` — still orchestrates provider lifecycle, reconnect coordination, event routing to HUD. Just dispatches against `LiveKitLlmProvider` instead of `VoiceRelayLlmProvider`.
+- His HUD, his AR scene, his hand controls, his scenarios, his virtual product manipulation — everything-else.
+
+**Two-line summary of what swaps:**
+- The VOICE TRANSPORT changes: WebSocket (TCP, custom JSON framing to his AWS gateway) → WebRTC (UDP with TCP 7881 fallback, Opus codec, LiveKit SFU).
+- The VOICE ORCHESTRATION changes: his AWS voice-relay server (custom Python on his AWS infra) → our `sophia-agent/src/agent.py` running under LiveKit Agents framework.
+
+His client's mic pipeline (device selection + AEC mode) and audio playback pipeline (dual-output routing) stay his. His HUD stays his. His AR stays his. The only thing that changes is "how does audio get from this mic to a server, get processed, and come back as audio to that speaker."
+
+### Short-form answer
+
+Same mic capture, same speaker routing, same HUD, same AR — but the protocol/transport in the middle is WebRTC instead of WSS, and the server-side STT/LLM/TTS orchestration is LiveKit Agents (Python) instead of his voice-relay server (also Python but custom on his AWS).
+
+---
+
+## Q20 (2026-06-03): Which folder in his code currently does the STT-LLM-TTS orchestration? And what's he doing for VAD + turn detection?
+
+His architecture splits client from server exactly like ours does. The orchestration is NOT in his Unity client repo — the client is just a streaming pipe. Two layers:
+
+**For the VoiceRelay path (his fully-OSS analog to our LiveKit path):**
+
+*Client side, what runs in his Unity app:*
+- `Sophia_Wearable/Assets/_Scripts/Modules/ConversationalAI/Providers/VoiceRelay/VoiceRelayLlmProvider.cs` (879 lines) — pure WSS client. Streams audio up, receives audio down. Zero orchestration logic.
+
+*Server side, where the real STT→LLM→TTS pipeline runs:*
+- HIS AWS gateway voice-relay endpoint, owned by HIS AWS team. The handoff doc is at `Sophia_Xreal-U2/docs/AI_Agent_Handoffs/Handoff_Voice-Relay-AWS-handoff_2026-05-06.md` and the wire contract at `Sophia_Xreal-U2/docs/docs_client/WEARABLE_VOICE_RELAY_CLIENT_API.md`. He doesn't ship that server source in this repo because it's a separate AWS deployment owned by a different team.
+- LOCAL DEV TWIN of that server lives in `Sophia_Xreal-U2/Sophia_UnityServer/` at the top of his repo — a Unity-hosted test server that mocks the AWS gateway shape so he can dev offline. Key files: `Sophia_UnityServer/Assets/_Scripts/Server/ServerEntryPoint.cs`, `RealtimeWebSocketTcpHost.cs`, `OpenAiRealtimeGatewayProxy.cs`, `GatewayHttpForwarder.cs`.
+
+**For the OpenAI Realtime path (his other primary provider):**
+
+Orchestration runs inside OpenAI's hosted Realtime service. The client side at `OpenAIProvider.cs` (2753 lines) is heavier because it sends VAD config / turn-detection config / function call definitions in JSON over the WSS to OpenAI, but the actual STT→LLM→TTS happens on OpenAI's servers.
+
+**Substitution map (his VoiceRelay world ↔ our LiveKit Agents world):**
+
+| Server-side function | His VoiceRelay world | Our LiveKit Agents world |
+|---|---|---|
+| Process host | AWS gateway voice-relay endpoint (his AWS team) | `sophia-agent` worker container |
+| Entry point | Their gateway lambda/server | `sophia-agent/src/agent.py` line 567: `@server.rtc_session(agent_name="sophia-agent")` |
+| Local dev twin | `Sophia_UnityServer/` | `livekit-server --dev` natively + `agent.py` running locally |
+| Pipeline | STT(Whisper) → LLM(Qwen3) → TTS(Kokoro) on AWS | STT(Whisper) → LLM(Qwen3) → TTS(Kokoro) on EKS — SAME models, SAME backend pods |
+
+**VAD and turn detection — two layers (same split as orchestration):**
+
+*Client-side VAD (low-latency local detection, primarily for barge-in):*
+- `Sophia_Wearable/Assets/_Scripts/Modules/ConversationalAI/Core/ClientSideVadService.cs` — service that consumes the RMS probe.
+- `MicrophoneStreamer.cs` line 29 fires `event Action<float, float, float> OnMicChunkRmsForClientVad(rms, realtime, durSec)` every chunk — feeds the service.
+- This is a simple energy-based detector that says "the user started talking now". Used to trigger the interrupt message (`SendInterruptAsync` at `VoiceRelayLlmProvider.cs` line 156) when Sophia is mid-sentence and the user barges in. Doesn't decide turn boundaries — just "is sound happening".
+
+*Server-side VAD + turn detection (decides when user finished talking, when to fire the LLM):*
+- His side: runs on the AWS voice-relay server. The client sees its decisions via the response's `vad_endpoint_ms` timing field, surfaced in `VoiceRelayLlmProvider.cs` line 631 (`vadEnd = Ms(timings, "vad_endpoint_ms")`) and propagated as observability via `Sophia_Wearable/Assets/_Scripts/Core/IVoiceRelayTurnDetectionProvider.cs`. The actual VAD model isn't visible in his client repo — likely WebRTC VAD or Silero on the AWS gateway side.
+- For OpenAI Realtime path: OpenAI's built-in server-side VAD (configured in `OpenAISessionConfigBuilder.cs` via the session.update message).
+- Our LiveKit Agents world: `sophia-agent/src/agent.py` line 547-561 — `prewarm(proc: JobProcess)` loads Silero VAD with explicit knobs (activation_threshold, min_speech_duration, min_silence_duration, prefix_padding_duration, max_buffered_speech, sample_rate). Turn detection via LiveKit Agents framework's `turn_handling=` block (around line 615) which uses MultilingualModel turn-detector predicting P(end-of-utterance) over the last N transcript turns.
+
+**VAD/turn-detection substitution map:**
+
+| Function | His VoiceRelay world | Our LiveKit Agents world |
+|---|---|---|
+| Client RMS probe (barge-in) | `ClientSideVadService.cs` + `MicrophoneStreamer.OnMicChunkRmsForClientVad` | Same code, kept as-is (just for telemetry in LiveKit path) |
+| Server VAD (start/end of speech) | AWS voice-relay internal | `silero.VAD.load(...)` in `agent.py` prewarm |
+| Server turn detection (end-of-utterance prediction) | AWS voice-relay internal, reported via `vad_endpoint_ms` field | LiveKit Agents `turn_handling=` with MultilingualModel in `agent.py` |
+| How client learns about turn end | `vad_endpoint_ms` in WSS timings response | `agent_state` text-stream event (kind=agent_state, new=thinking) |
+
+### Short-form answer
+
+His client just streams audio (`VoiceRelayLlmProvider.cs`, 879 lines). The STT→LLM→TTS orchestration lives on the SERVER — his AWS gateway voice-relay endpoint in production, with `Sophia_UnityServer/` as the local dev twin. VAD has two layers everywhere: client-side RMS probe (his `ClientSideVadService.cs` + `MicrophoneStreamer` RMS event) for barge-in, server-side VAD + turn detection for end-of-utterance decisions. We swap the SERVER from his AWS gateway to our `sophia-agent/src/agent.py` (LiveKit Agents framework). The client-side RMS probe code stays untouched.
+
+---
+
+## Q21 (2026-06-03): To properly compare his orchestration to ours apples-to-apples, we need to see his AWS voice-relay server code. How do we do that comparison?
+
+**Practical reality first:** his AWS production server code is NOT in his Unity repo. The repo only has the CLIENT side of the voice-relay relationship. The actual server runs on his AWS team's infrastructure — separate deployment, separate codebase, likely a separate repo we don't have access to. We'd need to ask him or his AWS team to share their server source.
+
+**What IS in his repo that tells us about the server side (without seeing actual source):**
+- `Sophia_Xreal-U2/docs/docs_client/WEARABLE_VOICE_RELAY_CLIENT_API.md` — wire contract (what client sends/receives, the JSON shapes, the per-leg timing fields). Documents the API his AWS team must implement.
+- `Sophia_Xreal-U2/docs/AI_Agent_Handoffs/Handoff_Voice-Relay-AWS-handoff_2026-05-06.md` — original handoff to the AWS team describing what server they need to build.
+- `Sophia_Xreal-U2/Sophia_UnityServer/` — LOCAL DEV TWIN. Unity-hosted mock server with the SAME wire contract so he can dev offline against a server that behaves like AWS. Not the real AWS deployment but a behaviorally-similar one.
+- `Sophia_Xreal-U2/docs/reference/end-to-end-voice-turn-latency.md` — likely has per-leg latency targets and what the server emits.
+
+**Two-phase comparison strategy:**
+
+*Phase A — contract-level comparison (autonomous, ~1 hour):*
+- Read his three docs above + the `Sophia_UnityServer/` dev twin code to map his server contract: input audio shape, VAD config, turn detection algorithm, per-leg timing fields emitted, error model, interrupt semantics.
+- Map our `agent.py` + LiveKit Agents framework against the same dimensions.
+- Output: a side-by-side table of "what each orchestration does at each stage". Tells us functional parity and where they architecturally differ. Doesn't tell us which is faster.
+
+*Phase B — actual-runtime comparison (the Q16 measurement spike):*
+- Same client (his `Sophia_Xreal-U2`), flip `ProviderConfig` enum.
+- VoiceRelay path hits his AWS server (orchestrated however that's actually implemented).
+- LiveKit path hits our sophia-agent (orchestrated by LiveKit Agents).
+- Measure: end-to-end mic-stop-to-first-TTS-byte latency, glitch rate on bad network, session-start time, APK size delta, battery during 10-min session.
+- Output: numbers that show which performs better, regardless of what's literally inside his AWS server. The empirical answer.
+
+**Why we don't need his AWS source for the measurement spike:** Phase B measures user-perceived behavior. That's what actually matters for the deployment decision. His AWS server code could be doing anything internally — what we care about is whether his stack OR our stack delivers a better experience to the wearer.
+
+**Why Phase A still has value even without his source:** it gives us architectural intuition for WHY the Phase B numbers fall where they fall. If LiveKit wins on session-start by 2 seconds, was it because his AWS gateway does a slow handshake, or because WebRTC has session-start overhead his WSS doesn't have? Phase A lets us interpret. Without Phase A we'd have numbers but no narrative.
+
+**If LiveKit wins meaningfully in Phase B and the team decides to standardize on it,** then the deeper "what is his AWS code literally doing" investigation can happen Phase 1.5 / Phase 2 with proper access from his AWS team. For Phase 1, we don't need it.
+
+### Short-form answer
+
+We don't have his AWS server source — it's owned by his AWS team. What we have is his wire contract docs + the `Sophia_UnityServer/` local dev twin. That's enough for Phase A (contract-level side-by-side, ~1 hour autonomous read). The empirical comparison happens via Phase B (Q16 measurement spike inside his same client, flip the provider enum, measure user-perceived numbers). Phase A gives the architectural picture, Phase B gives the numbers. Together they tell us which orchestration is better AND why.
+
+---
+
+## Q22 (2026-06-03): Final lock — orchestration and transport change, everything else stays the same?
+
+Yes. Crystal clear summary:
+
+**Same:** APK, XREAL hardware, EKS backend models (Whisper / Qwen3 / Kokoro), MicrophoneStreamer (XREAL boom mic + device-selection heuristic + AndroidAudioSessionHelper VOICE_COMMUNICATION mode + RMS probe), PcmAudioPlayer (dual-output to phone speaker + glasses temple speakers via Audio Mixer), ConversationalAIController (provider lifecycle + reconnect coordination + event-to-HUD routing), HUD, AR Foundation, hand controls, scenarios, virtual product manipulation, user sessions, everything-else.
+
+**Changes when ProviderConfig flips from VoiceRelay → LiveKit:**
+- **Transport**: WebSocket (TCP, custom JSON framing) → WebRTC (UDP with TCP 7881 fallback, Opus codec).
+- **Server-side orchestration**: His AWS voice-relay gateway (his AWS team's Python) → our `sophia-agent/src/agent.py` (LiveKit Agents framework, Python).
+
+That's it. Two backends, two transports, everything else identical. Then we measure both inside the same client and compare.
+
+### Short-form answer
+
+Yes, locked. Same APK, same hardware, same backend models, same client mic + speaker + HUD code. Two things flip: transport (WSS → WebRTC) and orchestration (his AWS voice-relay → our agent.py + LiveKit Agents). Clean A/B inside his same client.
