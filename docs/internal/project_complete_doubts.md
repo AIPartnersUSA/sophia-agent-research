@@ -1813,10 +1813,70 @@ I have most of what I need from reading the code (Q16 plus the deep-read of the 
 
    **Net effect on integration plan:** mic-ownership decision and reconnect coexistence are both unblocked. Item 1 was the riskiest unknown going in; both answers are favorable, and the YES paths preserve his existing tuning + cleanly coexist with the controller's reconnect loop.
 
-2. **Backend conventions check.** Read our `sophia-agent/src/agent.py` to confirm:
-   - The exact identity prefix the agent registers with (needs to start with `agent-` per Q58 filter; what's the FULL value?). The LiveKit provider's `OnAgentSpeaking` filter must match this verbatim.
-   - The text-stream topic name + JSON shape the agent publishes transcripts on (`lk.transcription`? `sophia.agent_events`? both?). Determines how `OnTranscriptReceived` maps `delta`/`final` correctly.
-   - This is task T2. Blocks transcript event wiring.
+2. **Backend conventions check.** (T2 — RESOLVED 2026-06-03 from reading `sophia-agent/src/agent.py` + cross-checking the working `sophia-glasses/unity/Assets/Scripts/SophiaConnection.cs` to confirm the conventions match in production.)
+
+   Two sub-questions need answering so OnAgentSpeaking, OnUserSpeaking, OnTranscriptReceived, and OnError fire correctly in the LiveKit provider:
+
+   **Q2a: What is the exact agent identity prefix in the room?**
+
+   Why this matters — real-world example. Two users join the same room for a shift handoff in the factory: a field tech wearing XREAL glasses on-site + a remote expert on a browser at headquarters. Both want to talk to Sophia + each other:
+
+   - **Without an identity filter** (LiveKit provider subscribes audio + fires OnAgentSpeaking for every remote participant): glasses client subscribes to both the remote expert's mic AND Sophia's TTS, plays them BOTH through `PcmAudioPlayer`. When the expert says "the conveyor is at the back near the loading dock" while Sophia simultaneously starts answering a prior question with "looking at the polishing station, the temperature should be...", the field tech hears them mixed and can't tell who's speaking. Worse, OnAgentSpeaking fires for the expert too — the HUD state pill animates "agent is talking" when actually it's the remote human. Field tech thinks Sophia is responding when it's just the expert. The session feels broken.
+
+   - **With an "agent-" prefix filter** (Q58 fix already shipped in sophia-glasses, the pattern we need to mirror): glasses client only subscribes audio playback for tracks whose `participant.Identity.StartsWith("agent-")`. The expert's mic track is still subscribed (so the room knows about it for state) but NOT played locally — each user owns their own speaker, never plays the OTHER user's mic. Only Sophia's voice plays through glasses speakers. OnAgentSpeaking fires ONLY when the actual agent participant speaks. HUD pill is accurate. Field tech and remote expert can both carry on their own conversation with Sophia without crosstalk.
+
+   This is exactly the Q58 production multi-user audio fix already shipped. The LiveKit provider must mirror the same filter to inherit that correctness.
+
+   **Finding:**
+   - **Agent NAME (worker registration)** = `"sophia-agent"` — line 567 of `agent.py`: `@server.rtc_session(agent_name="sophia-agent")`. This is what clients put in `roomConfig.agents = [{name: "sophia-agent"}]` in their token request to ask the SFU's worker dispatcher to assign an instance of this worker to the room.
+   - **Agent runtime room IDENTITY prefix** = `"agent-"` — confirmed empirically from `sophia-glasses/unity/Assets/Scripts/SophiaConnection.cs` line 332-333: `bool isAgent = !string.IsNullOrEmpty(participant?.Identity) && participant.Identity.StartsWith("agent-");`. This is the LiveKit Agents framework default — the framework auto-generates participant identity `agent-<job_id>` when the agent joins a room. The full suffix varies per session (e.g., `agent-7f3a9b2c-1a4e-4d5f`).
+   - For the LiveKit provider: any check that needs to distinguish "the agent" from "another user" uses `participant.Identity.StartsWith("agent-")`. Don't hardcode the suffix; it's per-session.
+
+   **Q2b: What text-stream topics does the agent publish to, and what's the JSON shape?**
+
+   Why this matters — real-world example. Field tech wearing glasses says "Sophia, status on the polishing station?" Three text-stream topics carry different parts of the conversation. Each one missing breaks a specific part of the HUD:
+
+   - If `sophia.agent_events` NOT subscribed: STT transcribes the user's question and `agent.py` publishes `{kind: "user_transcript", text: "...", is_final: true}` to this topic. Without it, the HUD shows NO user caption — field tech can't visually confirm Sophia heard the question correctly. Also no `agent_state` / `user_state` events arrive, so the HUD pulsing state dot doesn't animate (stays idle even when Sophia is thinking or speaking). Also no `metrics` events — Phase-3 latency tuning has no per-leg data to work from.
+   - If `lk.transcription` NOT subscribed: LiveKit's framework auto-publishes Sophia's spoken words (TTS-to-text) on this default topic. Without it, the HUD shows NO agent caption — user HEARS Sophia speaking via the glasses speakers but can't read what she said. Bad if audio is unclear, accent doesn't carry, or factory noise mixes in.
+   - If `sophia.rag_result` NOT subscribed: every user turn triggers RAG retrieval; `agent.py` publishes the source chunks + page numbers as JSON on this topic. Without it, the HUD shows no source chips — field tech can't verify "Sophia is answering from MANUAL-23 page 14" before trusting her answer.
+
+   With all three correctly subscribed: user speaks → `user_transcript` arrives → user subtitle renders → `agent_state` flips to thinking → state dot animates → `sophia.rag_result` arrives → source chips appear → `lk.transcription` streams Sophia's delta tokens → agent subtitle fades in → audio plays → `agent_state` flips back to listening → state dot returns to idle. Every HUD component depends on its specific topic.
+
+   **Finding:**
+   - **Topic constants** at top of `agent.py` (lines 56-57):
+     ```python
+     RAG_RESULT_TOPIC = "sophia.rag_result"
+     AGENT_EVENTS_TOPIC = "sophia.agent_events"
+     ```
+   - **Plus framework default** `lk.transcription` — auto-emitted by the LiveKit Agents framework's transcription pipeline; carries both user and agent transcribed text. NOT explicitly published in our `agent.py` code; framework handles it.
+   - **Publish API** (line 365-367): `await room.local_participant.send_text(json.dumps(payload), topic=AGENT_EVENTS_TOPIC)`.
+   - **Subscribe API** (Unity SDK, proven in sophia-glasses lines 208-212): `room.RegisterTextStreamHandler("sophia.agent_events", (reader, identity) => ...)` — fires per message; reader yields the full string payload.
+   - **`sophia.agent_events` payload shape** (every payload includes `ts` epoch seconds + `kind`):
+     | kind | additional fields | when |
+     |---|---|---|
+     | `user_transcript` | `text`, `is_final`, `language` | STT finalizes a user turn (line 405-416) |
+     | `agent_state` | `old`, `new` (e.g., "listening" → "thinking" → "speaking") | agent state machine transitions (line 381-391) |
+     | `user_state` | `old`, `new` | user state (speaking/listening) transitions (line 393-403) |
+     | `speech_created` | (empty) | TTS started synthesis (line 418-420) |
+     | `tools_executed` | (empty) | function tools ran (line 422-424) |
+     | `false_interruption` | `resumed` (bool) | barge-in heuristic decided it was noise (line 426-428) |
+     | `metrics` | `metric_type`, `label`, plus any of: `duration`, `ttft`, `ttfb`, `audio_duration`, `completion_tokens`, `prompt_tokens`, `total_tokens`, `end_of_utterance_delay`, `transcription_delay`, `on_user_turn_completed_delay`, `cancelled`, `inference_duration_total`, `inference_count`, `idle_time` | every metric the framework emits (line 430-462) |
+     | `error` | `error` (str), `source` (str) | exception in any stage (line 464-474) |
+     | `close` | (empty) | session ending (line 476-478) |
+   - **`sophia.rag_result` payload shape**: produced by `_publish_rag_result(payload)` called from the `on_user_turn_completed` hook; carries the retrieved chunks + scores. Exact shape determined by the RAG retriever (frontend `RagResultPanel` renders it).
+   - **`lk.transcription` payload shape**: LiveKit framework's standard transcription format — typically `{participant_identity, segments: [{text, start, end, final, language}]}`. Already consumed by the working sophia-glasses client; the LiveKit Unity SDK's framework adapter parses it.
+
+   **LiveKit provider event mapping** (this is the wiring `LiveKitLlmProvider.cs` will do):
+   - `OnTranscriptReceived(TranscriptType.User, final|delta)` ← `sophia.agent_events` kind=`user_transcript` (use `is_final` for final flag)
+   - `OnTranscriptReceived(TranscriptType.Agent, final|delta)` ← `lk.transcription` topic, filtered to messages where `participant.Identity.StartsWith("agent-")`
+   - `OnAgentSpeaking(true)` ← `sophia.agent_events` kind=`agent_state` with new=`speaking`
+   - `OnAgentSpeaking(false)` ← `sophia.agent_events` kind=`agent_state` with new=`listening` (or any non-speaking state)
+   - `OnUserSpeaking(true/false)` ← `sophia.agent_events` kind=`user_state` analogously
+   - `OnAudioReceived` ← `Room.OnTrackSubscribed` audio frames, filtered to identity starting with "agent-" (Q58 pattern)
+   - `OnError(ErrorStage=...)` ← `sophia.agent_events` kind=`error`
+   - For `[DEBUG_LiveKit]` / `[DEBUG_LiveKitLegs]` telemetry parity with VoiceRelay's v1.1 observability: log `sophia.agent_events` kind=`metrics` payloads with prefix `[DEBUG_LiveKitLegs] stage=<metric_type> ttft=<ttft> ttfb=<ttfb> end_to_end_ms=<duration>` etc.
+
+   **Net effect on integration plan:** transcript / state / metrics event wiring is fully specified. The LiveKit provider will subscribe to the same three topics the working sophia-glasses client already proves out — `sophia.agent_events`, `sophia.rag_result`, `lk.transcription` — apply the same `agent-` identity filter, and map payloads to the corresponding ILLMProvider events. No backend changes needed; the agent already publishes everything the provider needs.
 
 ### What I still need — FROM THE XR ENGINEER
 
