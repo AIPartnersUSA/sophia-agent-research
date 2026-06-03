@@ -1729,3 +1729,73 @@ The provider-abstraction pattern is doing real work here: it lets you ADD LiveKi
 ### Short-form answer
 
 Less value than Q12 implied, because his VoiceRelay path already covers full-duplex + streaming TTS + barge-in + observability + self-hosting. The REAL LiveKit wins over his existing path are: (1) WebRTC transport for flaky networks (Opus FEC + jitter buffer + adaptive bitrate vs raw WSS), (2) multi-participant SFU rooms for collaborative XR sessions, (3) Opus codec efficiency (~8-10x bandwidth savings), (4) cross-platform SDK ecosystem, (5) LiveKit Agents framework for server-side simplification, (6) plugin ecosystem for swapping STT/LLM/TTS. Real cons: (1) duplicates his 2000-line VoiceRelay capability, (2) adds ~150 MB SDK + UDP infra, (3) harder to debug than WSS, (4) WebRTC session-start latency, (5) his per-leg observability is better than LiveKit defaults, (6) tool calling + vision don't have parity with his existing providers in v1. Recommendation: treat Phase 1 as a measurement spike against VoiceRelay, decide on data not anticipation. Low regret because provider-abstraction lets both paths coexist.
+
+---
+
+# Unity client + LiveKit integration doubts
+
+Q&A focused on the active Phase 1 integration of `LiveKitLlmProvider` into `Sophia_Xreal-U2/` (the XR engineer's production Unity client) against our EC2 backend. Distinct from the architecture/strategy Q1–Q16 above. Numbering continues monotonically.
+
+**Working rules for this section:**
+- No edits to `Sophia_Xreal-U2/` without explicit per-change "go" from the user.
+- When we do touch it, stay on the branch we own (`feat/livekit-provider` off his `development`). Never commit to his `main` / `development` directly.
+- Backend target for Phase 1 stays EC2 (`ws://3.227.63.49:7880`, `http://3.227.63.49:8001/token`, `tokenApiKey=9a11fdf5...`, `agentName=sophia-agent`). Phase 2 will swap these for production AWS endpoints — code unchanged.
+
+---
+
+## Q17 (2026-06-03): What information do you still need to complete the LiveKit integration, or do you have everything?
+
+I have most of what I need from reading the code (Q16 plus the deep-read of the 5 critical files in his repo). What's still missing splits into two categories: things I can verify autonomously without touching his repo, and things only the XR engineer can answer.
+
+### What I HAVE (from prior work)
+
+- Full `ILLMProvider` contract — 6 events (`OnAudioReceived`, `OnTranscriptReceived`, `OnFunctionCall`, `OnError`, `OnUserSpeaking`, `OnAgentSpeaking`), plus the `EventArgs` shapes including the voice-relay-v1.1 extensions (`RelayPhase`, `RelayCommit`, `ErrorStage`, etc.).
+- `ConversationalAIController` orchestration patterns (1635 lines): provider-type-sniff branches at lines 392-399, 886-887, 980-1012; reconnect coroutine with 1.5×2^n exponential backoff capped at 32s (lines 635-666, 674-800); audio-first caption gating (line 1063, 1200-1214); mic→provider chunk path via `OnMicrophoneAudioChunk` decoding base64 only for non-OpenAI providers (line 1541).
+- `VoiceRelayLlmProvider` as the template to mirror (879 lines): MonoBehaviour, `Initialize(ProviderConfig)`, `ConnectAsync` with `GatewayRuntimeBootstrapService.EnsureReadyAsync` bootstrap, `SendInterruptAsync` throttled at 350 ms, `DisconnectAsync` fire-and-forget from `OnDestroy`, 24 kHz pcm16 down via `OnAudioReceived` matching what `PcmAudioPlayer.EnqueueBase64Audio` expects.
+- `ProviderFactory` pattern (234 lines): enum value in `ConversationProviderType` + `CreateXxxProvider()` method that does `FindFirstObjectByType<T>()` or `new GameObject(...).AddComponent<T>()` parented under the factory + `provider.Initialize(_config)`.
+- `MicrophoneStreamer` surface (757 lines): `Action<string> OnAudioChunk` (base64 PCM 16 kHz mono, 1024 samples/chunk ~64 ms), `OnMicChunkRmsForClientVad` RMS probe, XREAL/phone device-selection heuristic, `AndroidAudioSessionHelper.ConfigureForInputDevice` for VOICE_COMMUNICATION routing.
+- Backend connection values: `ws://3.227.63.49:7880`, `http://3.227.63.49:8001/token` with `X-API-Key: 9a11fdf5ce05e3cecad28f933d778971`, agentName `sophia-agent`.
+- 5 of the 7 open questions from `Sophia_Xreal-U2.md` answered from code reading: Q2 audio playback routing (route through `PcmAudioPlayer`), Q4 tool registry (no-op `SetToolRegistry` for v1; tools live server-side in agent.py), Q5 VAD coordination (surface `OnMicChunkRmsForClientVad` for telemetry, don't suppress; barge-in driven by LiveKit server-side Silero), Q6 reconnect (make `IsConnected` return true during SDK's `Reconnecting` state to absorb the controller's 1.5s grace timer), Q7 asmdef (add `LiveKitLlmProvider.cs` to existing `Sophia.ConversationalAI.asmdef`, reference the LiveKit SDK asmdef).
+
+### What I still need — AUTONOMOUS (I can do, blocked only on you saying go)
+
+1. **LiveKit Unity SDK API verification.** Read our vendored `sophia-glasses/client-sdk-unity/` to determine:
+   - Does the SDK expose a custom/buffered `AudioSource` we can write PCM bytes into for the uplink `LocalAudioTrack`? If yes, `MicrophoneStreamer` keeps mic ownership and we feed the buffer. If no, LiveKit's `MicrophoneSource` must own the mic (regression: loses his XREAL device-selection heuristic + `AndroidAudioSessionHelper` VOICE_COMMUNICATION routing).
+   - What `Reconnecting`/`Reconnected` events does `Room` expose? Need this to wire the IsConnected-stays-true-during-reconnect pattern from Q6.
+   - This is task T1 in the in-session task list. Blocks the mic-ownership decision and any uplink code.
+
+2. **Backend conventions check.** Read our `sophia-agent/src/agent.py` to confirm:
+   - The exact identity prefix the agent registers with (needs to start with `agent-` per Q58 filter; what's the FULL value?). The LiveKit provider's `OnAgentSpeaking` filter must match this verbatim.
+   - The text-stream topic name + JSON shape the agent publishes transcripts on (`lk.transcription`? `sophia.agent_events`? both?). Determines how `OnTranscriptReceived` maps `delta`/`final` correctly.
+   - This is task T2. Blocks transcript event wiring.
+
+### What I still need — FROM THE XR ENGINEER
+
+3. **Mic ownership preference.** Does he want `MicrophoneStreamer` to keep ownership (preserves his XREAL device-selection heuristic + `AndroidAudioSessionHelper` VOICE_COMMUNICATION + `OnMicChunkRmsForClientVad` probe), OR is he OK letting LiveKit's `MicrophoneSource` open the mic directly (simpler integration, but loses those XREAL-specific bits)? The answer depends partly on item 1 — if the SDK doesn't expose a custom audio source, keeping ownership becomes a much bigger lift.
+
+4. **Vision behavior for v1.** Three options: (a) `SendImageAsync` returns `Task.CompletedTask` like VoiceRelay does today (vision silently unavailable for LiveKit sessions, recommended for v1), (b) forward via LiveKit data channel (backend has no handler today), (c) composite-defer-to-`GoogleVisionProvider` (mirror how `OpenAIProvider` degrades to Qwen description). Which?
+
+5. **Repo access on `AIPartnersUSA/Sophia_Xreal-U2`.** Add us as Collaborator with Write so we can push `feat/livekit-provider`, OR he prefers patch/fork+PR workflow. Either is fine; we just need to know.
+
+6. **LiveKit Unity SDK source.** Vendor a copy mirroring our `sophia-glasses/client-sdk-unity/` Git LFS pattern, OR UPM Git URL pointing at LiveKit's upstream repo, OR the official UPM package if one exists for his Unity 6 (6000.3.12f1)? Affects how we add it to his `Packages/manifest.json`.
+
+7. **Branch name + base confirmation.** Plan is `feat/livekit-provider` off `development`. Confirm this matches his team's branching convention, or override.
+
+### Once those 7 land, integration starts
+
+The actual code work after items 1-7 are answered is:
+
+1. Add `ConversationProviderType.LiveKit` enum value in his `ProviderConfig.cs`.
+2. Add `LiveKitProviderSettings` ScriptableObject (mirrors `OpenAISettings` pattern — cleaner than mutating `ProviderConfig.cs` which is touched-by-everything).
+3. Write `Sophia_Wearable/Assets/_Scripts/Modules/ConversationalAI/Providers/LiveKit/LiveKitLlmProvider.cs` (~900 lines, closer to VoiceRelay sized than OpenAI).
+4. Extend `ProviderFactory.cs` switch + new `CreateLiveKitProvider()` method.
+5. Add LiveKit SDK reference to `Sophia.ConversationalAI.asmdef`.
+6. Vendor or UPM-link the LiveKit Unity SDK per item 6.
+7. Smoke test against EC2.
+8. Measurement spike per Q16 (latency, glitch rate, session-start time, APK size delta, battery).
+
+Estimated time after items 1-7 resolve: 1-1.5 days for steps 1-7 above (matches Phase 1 estimate in Q15).
+
+### Short-form answer
+
+I have the contract + patterns + backend values. I still need: (autonomous, I can do now if you say go) LiveKit Unity SDK API check for custom audio source + reconnect events, and backend agent identity prefix + transcript topic verification. (From XR engineer) mic ownership preference, vision behavior choice, repo Collaborator access, SDK source preference, branch name confirmation. Once those land, I'm unblocked to write `LiveKitLlmProvider.cs`.
