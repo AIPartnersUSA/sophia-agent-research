@@ -6,7 +6,7 @@ The three machines:
 
 - **LOCAL** = Avinash's Mac. The repo at `/Users/avinashbolleddula/Documents/sophia Agent Research/`. Unity / Mac-only files live here.
 - **EC2** = the shared GPU EC2 (3.227.63.49). The repo at `/workspace/avinash/sophia/`. Production-runtime files live here.
-- **REMOTE** = GitHub. The repo at `git@github.com:AvinashSophia/sophia-agent-research.git`. The shared source of truth.
+- **REMOTE** = GitHub. The repo at `git@github.com:AIPartnersUSA/sophia-agent-research.git`. The shared source of truth.
 
 Where each kind of file BELONGS:
 

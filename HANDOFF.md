@@ -16,7 +16,7 @@ For a structural understanding of HOW the system works end-to-end (every compone
 - Orchestration is Docker Compose. NO k8s manifests, NO Helm, NO ArgoCD exist yet — that's your work.
 - Auth on the token-mint is a shared X-API-Key header. NOT production-grade. Replace with real auth.
 - TLS terminates nowhere — everything is HTTP. Replace with HTTPS via cert-manager or ALB+ACM.
-- Repo: `git@github.com:AvinashSophia/sophia-agent-research.git` (private). You should be added as a collaborator before starting.
+- Repo: `git@github.com:AIPartnersUSA/sophia-agent-research.git` (private). You should be added as a collaborator before starting.
 
 ---
 

@@ -61,7 +61,7 @@ What's NEXT (post-MVP, when team approves real production):
 | EKS region | us-west-2 (DIFFERENT region from EC2) |
 | EKS account | 632872792182 |
 | IAM Instance Profile role | `sophiaspatialai-ai-gpu-ec2` (lacks EKS permissions; see Problem 5) |
-| GitHub repo | `git@github.com:AvinashSophia/sophia-agent-research.git` |
+| GitHub repo | `git@github.com:AIPartnersUSA/sophia-agent-research.git` |
 | AWS infra repo | `git@github.com:AIPartnersUSA/aws-infra.git` (branch `fix-state`) |
 
 Ports we use (must be in SG inbound rules):
@@ -404,7 +404,7 @@ cat ~/.ssh/id_ed25519.pub
 
 ```bash
 cd /workspace/avinash/sophia
-git clone git@github.com:AvinashSophia/sophia-agent-research.git .
+git clone git@github.com:AIPartnersUSA/sophia-agent-research.git .
 # (trailing dot clones INTO current dir, not into a subdirectory)
 git lfs pull
 # verify binaries are real, not pointer text:

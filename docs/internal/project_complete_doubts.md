@@ -1163,7 +1163,7 @@ A repo URL + access. That's the entire handoff. Not a tarball, not a snapshot.
 
 Step-by-step:
 
-1. **Give them the GitHub repo URL**: `git@github.com:AvinashSophia/sophia-agent-research.git`.
+1. **Give them the GitHub repo URL**: `git@github.com:AIPartnersUSA/sophia-agent-research.git`.
 2. **Add them as Collaborators with Read access** on GitHub (Settings → Collaborators). For active development they'd want Write too.
 3. **Point them at `HANDOFF.md`** as the entry point. That doc tells them:
    - What's in/not-in the repo (the same answer as this Q).
@@ -1225,7 +1225,7 @@ git status
 git rev-parse HEAD       # should print the same SHA
 
 # On GitHub (in browser):
-# Visit https://github.com/AvinashSophia/sophia-agent-research/commits/main
+# Visit https://github.com/AIPartnersUSA/sophia-agent-research/commits/main
 # Top commit should have the same SHA.
 ```
 

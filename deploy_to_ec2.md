@@ -314,7 +314,7 @@ On the EC2:
 
 ```bash
 cd /workspace/avinash/sophia
-git clone git@github.com:AvinashSophia/sophia-agent-research.git .
+git clone git@github.com:AIPartnersUSA/sophia-agent-research.git .
 # Trailing dot clones INTO current dir, not into a sophia-agent-research subdir.
 # First time you may get "The authenticity of host 'github.com' can't be established" — type yes.
 
