@@ -1759,10 +1759,59 @@ I have most of what I need from reading the code (Q16 plus the deep-read of the 
 
 ### What I still need — AUTONOMOUS (I can do, blocked only on you saying go)
 
-1. **LiveKit Unity SDK API verification.** Read our vendored `sophia-glasses/client-sdk-unity/` to determine:
-   - Does the SDK expose a custom/buffered `AudioSource` we can write PCM bytes into for the uplink `LocalAudioTrack`? If yes, `MicrophoneStreamer` keeps mic ownership and we feed the buffer. If no, LiveKit's `MicrophoneSource` must own the mic (regression: loses his XREAL device-selection heuristic + `AndroidAudioSessionHelper` VOICE_COMMUNICATION routing).
-   - What `Reconnecting`/`Reconnected` events does `Room` expose? Need this to wire the IsConnected-stays-true-during-reconnect pattern from Q6.
-   - This is task T1 in the in-session task list. Blocks the mic-ownership decision and any uplink code.
+1. **LiveKit Unity SDK API verification.** (T1 — RESOLVED 2026-06-03 from reading `sophia-glasses/client-sdk-unity/Runtime/Scripts/`. Both sub-questions answered YES.)
+
+   Two sub-questions need to be answered before we know whether the integration is clean or has a meaningful regression:
+
+   **Q1a: Does the SDK expose a custom/buffered audio source we can write PCM bytes into for the uplink `LocalAudioTrack`?**
+
+   Why this matters — real-world example. User wearing XREAL One Pro glasses with Beam Pro phone in their pocket on a factory floor says "Sophia, how do I clear error E47 on conveyor B?":
+
+   - **YES path** (custom audio source supported): `MicrophoneStreamer` stays in control. It picks the XREAL boom mic (~5 cm from the user's mouth) instead of the phone mic in their pocket, puts Android into VOICE_COMMUNICATION audio mode (same mode phone calls use — turns on hardware echo cancellation), and hands the cleaned-up PCM bytes to LiveKit through a buffer adapter to publish to the SFU. User gets clean voice, factory background noise suppressed. When they interrupt Sophia mid-sentence ("wait, just give me the part number"), Sophia's TTS coming out of the XREAL temple speakers leaks back into the boom mic only faintly — and the hardware AEC kills that leak before MicrophoneStreamer's buffer sees it. Barge-in works clean.
+
+   - **NO path** (no custom source, LiveKit's `MicrophoneSource` must own the mic): LiveKit calls Android's default `Microphone.Start()`, picks the loudest default device (= phone mic in the user's pocket), uses default audio mode (general MIC, not VOICE_COMMUNICATION). User's voice gets captured from inside their pocket through clothing — muffled, with conveyor noise mixed in. Whisper STT mis-transcribes "error E47 on conveyor B" as "airfare E47 on the rover B" or asks them to repeat. Sophia's voice routed to glasses temple speakers is fine in isolation, but if USB Audio routing momentarily drops (cable jiggle, Android audio policy reset), the audio falls back to the Beam Pro speaker and creates the Q41/Q43 echo loop with no hardware AEC to suppress it.
+
+   The desk demo with earphones works either way. The actual XREAL-on-head factory deployment is where the YES vs NO path diverges into "product works" vs "product fails".
+
+   **Finding (YES):** `Runtime/Scripts/RtcAudioSource.cs` defines an abstract base class with `RtcAudioSourceType.AudioSourceCustom = 0`. Subclass it, override `event Action<float[], int, int> AudioRead`, call `AudioRead?.Invoke(buffer, channels, sampleRate)` to push frames. The base class handles float→int16 conversion and the native FFI CaptureAudioFrame call. The canonical example is `Tests/PlayMode/Utils/SineWaveAudioSource.cs` (94 lines, Timer-based 20ms frames). Our adapter would be ~80 lines: subscribe to `MicrophoneStreamer.OnAudioChunk(base64)`, decode to float[], call `AudioRead.Invoke(buffer, 1, 16000)`. MicrophoneStreamer keeps mic ownership, the XREAL device-selection heuristic + AndroidAudioSessionHelper VOICE_COMMUNICATION mode + OnMicChunkRmsForClientVad probe are all preserved. Bonus: `RtcAudioSource` constructor already enables WebRTC-level `EchoCancellation = true, AutoGainControl = true, NoiseSuppression = true` in `AudioSourceOptions` (lines 102-104) — so even in the NO path we wouldn't be naked, just less efficient (software APM in WebRTC vs hardware APM via VOICE_COMMUNICATION). Bonus 2: `Runtime/Scripts/MicrophoneSource.cs` exists too — the NO path is also a real option if the XR engineer prefers simplicity over preserving his tuning. Net: mic-ownership becomes a preference question (Q3 for the XR engineer), not a technical blocker.
+
+   **Q1b: What `Reconnecting` / `Reconnected` events does `Room` expose?**
+
+   Why this matters — real-world example. Same factory user, walking from one zone to another. The WiFi access points covering different zones force a 1-2 second WiFi handoff as they cross the boundary — totally routine, happens dozens of times a day on any large-area WiFi deployment. There are TWO independent reconnect mechanisms watching the connection:
+
+   - Layer 1 — LiveKit's Room (the SDK). When transport drops, it fires `Reconnecting`, performs ICE restart + DTLS re-handshake to recover the existing session in 1-3 seconds, fires `Reconnected`. Whole recovery is quiet and SDK-internal.
+   - Layer 2 — His `ConversationalAIController`. Every Update() frame checks `_currentProvider.IsConnected`. If false for more than 1.5 seconds (grace timer at line 659), it fires DisconnectAsync + ConnectAsync from scratch via `ConversationProviderReconnectRoutine` (lines 674-800) — new token mint POST, new Room.Connect, new ICE/DTLS, agent re-dispatch, agent participant rejoin. Takes 5-8 seconds total.
+
+   Without the IsConnected-stays-true-during-reconnect pattern (naive impl where IsConnected just returns `room.ConnectionState == Connected`):
+
+   - User says "Sophia, status on the polishing station?"
+   - Walks across handoff zone.
+   - LiveKit's Room sees transport blip, fires Reconnecting, starts its own quiet recovery.
+   - Our LiveKitLlmProvider.IsConnected returns false (room not Connected anymore).
+   - Controller's grace timer fires after 1.5s, calls DisconnectAsync — tears down LiveKit's in-flight recovery.
+   - Controller's ConnectAsync fires — full session rebuild from scratch, 5-8 seconds of dead air.
+   - User finished walking and hasn't heard anything; asks again from confusion.
+
+   With the pattern (provider subscribes to Reconnecting, sets `_isReconnecting = true`; IsConnected returns `room.IsConnected || _isReconnecting`; Reconnected clears the flag):
+
+   - Same scenario.
+   - LiveKit fires Reconnecting → our `_isReconnecting = true` → our IsConnected stays true.
+   - Controller never sees a problem, grace timer never starts.
+   - 1-2 seconds later transport recovers, LiveKit fires Reconnected → flag clears.
+   - User heard a brief audio pause; Sophia answers the polishing-station question right after.
+
+   Same logic applies to cellular tower handoffs (one tower to another as user walks across a large facility) and momentary Bluetooth-tether glitches between glasses and phone. Any transient network turbulence the SDK can recover from quietly.
+
+   **Finding (YES):** `Runtime/Scripts/Room.cs` exposes:
+   - `event ConnectionDelegate Reconnecting` (line 160) — fires when transport drops and SDK starts recovery.
+   - `event ConnectionDelegate Reconnected` (line 161) — fires when transport recovers.
+   - `event ConnectionStateChangeDelegate ConnectionStateChanged` (line 157) — fires on every state transition.
+   - `ConnectionState ConnectionState` (line 138) — current state property.
+   - `bool IsConnected => RoomHandle != null && ConnectionState != ConnDisconnected` (line 139) — built-in convenience.
+
+   Wiring is straightforward: in `LiveKitLlmProvider.ConnectAsync`, after `Room.Connect(...)`, subscribe `room.Reconnecting += _ => _isReconnecting = true;` and `room.Reconnected += _ => _isReconnecting = false;`. Our public `IsConnected` getter becomes `=> room.IsConnected || _isReconnecting`. Controller sees a stable true throughout transient blips.
+
+   **Net effect on integration plan:** mic-ownership decision and reconnect coexistence are both unblocked. Item 1 was the riskiest unknown going in; both answers are favorable, and the YES paths preserve his existing tuning + cleanly coexist with the controller's reconnect loop.
 
 2. **Backend conventions check.** Read our `sophia-agent/src/agent.py` to confirm:
    - The exact identity prefix the agent registers with (needs to start with `agent-` per Q58 filter; what's the FULL value?). The LiveKit provider's `OnAgentSpeaking` filter must match this verbatim.
