@@ -18,24 +18,42 @@ For current state, open questions, and the decided next sequence, **read the pro
 
 ```
 sophia Agent Research/
-├── CLAUDE.md              ← this file
-├── STT_models.md          ← Phase 1: ~30 STT models with citations
-├── TTS_models.md          ← Phase 1: ~30 TTS models
-├── STS_models.md          ← Phase 1: ~24 end-to-end STS / audio-LLM models
-├── COMPARISON.md          ← cross-category synthesis + Phase 2 test matrix + cross-cutting Q&A
-├── livekit_doubts.md      ← LiveKit framework / plugin / debugging Q&A (Q1, Q2, …)
-├── livekit-agents/        ← depth-50 clone of livekit/agents for source reading (read-only reference)
-└── my-agent/              ← the LiveKit Agents project being built (uv-managed Python)
-    ├── AGENTS.md          ← my-agent's own conventions (uv, ruff, TDD, lk docs)
-    ├── CLAUDE.md          ← points to AGENTS.md
-    ├── src/agent.py       ← entrypoint
-    └── ...
+├── CLAUDE.md                          ← this file
+├── HANDOFF.md                         ← infra-team onboarding (the handoff doc)
+├── livekit_architectur_ec2.md         ← end-to-end architecture of EC2 backend
+├── production_deployment.md           ← future-state production design
+├── mvp_deployment_shared_ec2.md       ← operational runbook for current MVP
+├── livekit_deployment.md              ← deployment design rationale Q&A
+├── git_setup.md, git_sync.md          ← repo + sync procedures
+├── docker-compose.yml                 ← active EC2 compose config
+├── sophia-agent/                      ← backend code (Python, uv-managed)
+├── sophia-glasses/                    ← Unity client for XREAL
+├── agent-starter-react/               ← Next.js frontend
+├── my-agent/                          ← Cloud + Inference baseline LiveKit Agents project
+│   ├── AGENTS.md                      ← my-agent's own conventions (uv, ruff, TDD, lk docs)
+│   └── src/agent.py                   ← entrypoint
+├── docs/
+│   └── internal/                      ← our understanding / research notes / Q&A logs (NOT for infra)
+│       ├── STT_models.md              ← Phase 1: ~30 STT models with citations
+│       ├── TTS_models.md              ← Phase 1: ~30 TTS models
+│       ├── STS_models.md              ← Phase 1: ~24 end-to-end STS / audio-LLM models
+│       ├── COMPARISON.md              ← cross-category synthesis + Phase 2 test matrix
+│       ├── livekit_doubts.md          ← LiveKit framework / plugin / debugging Q&A
+│       ├── project_complete_doubts.md ← architecture/strategy Q&A (Q1, Q2, …)
+│       ├── Sophia_Xreal-U2.md         ← XR engineer's repo architecture survey
+│       ├── unity_approach.md          ← Unity narrative
+│       ├── xr_build_voice_integration.md
+│       ├── steps_to_run.md, demo_multiroom_recording.md
+│       └── sophia_week*_presentation.html
+├── livekit-agents/                    ← read-only reference clone (gitignored)
+└── Sophia_Xreal-U2/                   ← XR engineer's repo, reference clone (gitignored)
 ```
 
 **Boundaries:**
-- The four `*.md` research files at the project root are **canonical research output**. Append to their Q&A sections; do not restructure.
-- `livekit-agents/` is a **read-only reference clone**. Never commit changes there. Use it to inspect base classes and reference plugin implementations.
-- `my-agent/` is the **only directory where code runs**. Follow `my-agent/AGENTS.md` for its conventions (uv, ruff, TDD, lk docs).
+- Root-level `*.md` docs are the **infra-team handoff surface**. Keep them current.
+- `docs/internal/` is **our understanding**: research, Q&A logs, presentations. Append to existing files via the Q&A logging convention below; don't restructure.
+- `livekit-agents/` and `Sophia_Xreal-U2/` are **read-only reference clones**. Never commit changes there.
+- `my-agent/` is one of two code dirs we touch. Follow `my-agent/AGENTS.md` for its conventions (uv, ruff, TDD, lk docs).
 
 ## Q&A logging convention (BLOCKING — always apply)
 
@@ -43,11 +61,12 @@ When the user asks a question and gets an answer worth keeping, append it to the
 
 | Topic of the question | File to append to |
 |---|---|
-| Specific STT model (Whisper, Parakeet, Granite, Kyutai stt, etc.) | `STT_models.md` |
-| Specific TTS model (Orpheus, CosyVoice, Kokoro, Chatterbox, etc.) | `TTS_models.md` |
-| Specific STS / audio-LLM model (Moshi, Step-Audio, Qwen-Omni, etc.) | `STS_models.md` |
-| Cross-category strategy, architectural fork, Phase 2 planning | `COMPARISON.md` |
-| LiveKit framework, plugins, `my-agent` debugging, deployment | `livekit_doubts.md` |
+| Specific STT model (Whisper, Parakeet, Granite, Kyutai stt, etc.) | `docs/internal/STT_models.md` |
+| Specific TTS model (Orpheus, CosyVoice, Kokoro, Chatterbox, etc.) | `docs/internal/TTS_models.md` |
+| Specific STS / audio-LLM model (Moshi, Step-Audio, Qwen-Omni, etc.) | `docs/internal/STS_models.md` |
+| Cross-category strategy, architectural fork, Phase 2 planning | `docs/internal/COMPARISON.md` |
+| LiveKit framework, plugins, `my-agent` debugging, deployment | `docs/internal/livekit_doubts.md` |
+| Architecture/strategy clarifications (XR-engineer integration, key topology, end-to-end flows) | `docs/internal/project_complete_doubts.md` |
 
 Format: `## Q<n> (YYYY-MM-DD): <question>` followed by the answer. Number monotonically within each file. Save **only after** the answer has converged — don't log half-answers.
 
@@ -101,7 +120,7 @@ Read the project memory file at the start of any session to recover what's been 
 
 ## What NOT to do
 
-- Don't create new top-level `.md` files at the project root. Append to existing ones via the Q&A logging convention.
+- Don't create new top-level `.md` files at the project root unless they're infra-handoff material. Research / Q&A / understanding goes in `docs/internal/` via the Q&A logging convention; append to existing files when possible.
 - Don't modify `livekit-agents/` — it's a read-only reference clone.
 - Don't introduce `pip` or `poetry` commands in `my-agent/` — use `uv`.
 - Don't cite blog summaries as primary sources.
