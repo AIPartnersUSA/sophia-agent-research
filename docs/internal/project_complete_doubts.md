@@ -2082,3 +2082,124 @@ That's it. Two backends, two transports, everything else identical. Then we meas
 ### Short-form answer
 
 Yes, locked. Same APK, same hardware, same backend models, same client mic + speaker + HUD code. Two things flip: transport (WSS → WebRTC) and orchestration (his AWS voice-relay → our agent.py + LiveKit Agents). Clean A/B inside his same client.
+
+---
+
+## Q23 (2026-06-03): For Q17 item 4 (vision behavior), what is his VoiceRelay path doing for vision today? Would a LiveKit no-op be a regression vs his current production?
+
+Checked directly in his code. Vision is already a no-op in VoiceRelay sessions today — exact parity, not a regression.
+
+**Verbatim from `Sophia_Wearable/Assets/_Scripts/Modules/ConversationalAI/Providers/VoiceRelay/VoiceRelayLlmProvider.cs` lines 303-307:**
+
+```csharp
+public Task SendImageAsync(string imageDataUrl, string overlayImageDataUrl = null)
+{
+    if (enableDebugLogging)
+        PlaySessionVerboseLog.Log($"{VoiceRelayTrace} SendImageAsync ignored (voice relay is audio-first).");
+    return Task.CompletedTask;
+}
+```
+
+Pure no-op. Logs that it was ignored, returns CompletedTask, never sends the image anywhere.
+
+**How vision dispatch works in his controller (`ConversationalAIController.cs` lines 805-874):**
+
+His `SendImage()` flow on the controller is provider-agnostic:
+1. Captures the current camera frame (line 805+).
+2. Logs `SendImage: forwarding to provider dataUrlChars=... overlay=yes/no` (line 865).
+3. Calls `await _currentProvider.SendImageAsync(rawImageDataUrl, overlayImageDataUrl);` (line 867).
+4. Whatever the active provider does with that image is up to the provider.
+
+So vision behavior depends entirely on which `ILLMProvider` is active:
+- `OpenAIProvider.SendImageAsync` (line 1365+) — real vision via OpenAI Realtime multimodal, with composite fallback to `GoogleVisionProvider` for Qwen text descriptions.
+- `GeminiProvider.SendImageAsync` — real vision via Gemini Live multimodal.
+- `VoiceRelayLlmProvider.SendImageAsync` (line 303) — no-op, silently ignored.
+- `LiveKitLlmProvider.SendImageAsync` (our future v1) — no-op, matching VoiceRelay's pattern.
+
+**What this means for users today:**
+
+When his users run a VoiceRelay session and trigger a vision query (camera capture + ask Sophia about what they see), nothing happens at the provider level. The capture log shows the image was forwarded; the AI never sees it; Sophia answers from text only. Users who need vision today are switching to OpenAI or Gemini providers for those queries — and presumably the product UX makes that switch explicit or transparent.
+
+**Implication for our LiveKit v1 decision:**
+
+LiveKit v1 doing the same no-op as VoiceRelay achieves exact behavior parity. Not a regression — it's matching his current shipping baseline. Users who need vision today aren't using VoiceRelay for it; they won't use LiveKit for it either.
+
+If at some point Sophia's product roadmap says "vision must work over LiveKit too," we add the composite-defer-to-GoogleVision path later (the option-c flow from Q17 item 4 — mirror what OpenAIProvider does when it can't handle vision directly). That's a small follow-up to add to `LiveKitLlmProvider`, not a v1 blocker.
+
+**Net effect on Q17 item 4:** This question collapses from "his preference needed" to "default to no-op matching his existing VoiceRelay behavior, revisit when product roadmap demands it." One less thing the XR engineer needs to answer before we start coding.
+
+### Short-form answer
+
+His VoiceRelay path has `SendImageAsync` as a no-op (`VoiceRelayLlmProvider.cs` lines 303-307: log + return CompletedTask). Vision is silently ignored today in VoiceRelay sessions; users needing vision use OpenAI or Gemini providers. Our LiveKit v1 no-op matches that exact behavior — not a regression. Vision-over-LiveKit can be added later via composite-defer-to-GoogleVision (Q17 item 4 option c) when product roadmap demands.
+
+---
+
+## Q24 (2026-06-03): Do I have write access to AIPartnersUSA/Sophia_Xreal-U2 so we can push the LiveKit integration branch directly?
+
+Verified via GitHub API. Current access is read-only.
+
+**API call:**
+```
+gh api repos/AIPartnersUSA/Sophia_Xreal-U2 --jq '{name, full_name, private, permissions, default_branch}'
+```
+
+**Response:**
+```json
+{
+  "default_branch": "main",
+  "full_name": "AIPartnersUSA/Sophia_Xreal-U2",
+  "name": "Sophia_Xreal-U2",
+  "private": true,
+  "permissions": {
+    "admin": false,
+    "maintain": false,
+    "pull": true,
+    "push": false,
+    "triage": false
+  }
+}
+```
+
+**What this means:**
+- `pull: true` — can read/clone (which is how we already have the reference clone via `GIT_LFS_SKIP_SMUDGE=1 git clone`).
+- `push: false` — cannot push branches to the repo.
+- No admin, maintain, or triage — cannot grant access to others or modify repo settings.
+
+Auth context: gh CLI is logged in as `AvinashSophia` personal account with token scopes `repo, read:org, gist, workflow`. The token scope is sufficient for repo operations; the read-only status comes from the repo-level ACL, not the token.
+
+**Two side findings from the same response:**
+
+1. **Default branch is `main`**, not `development`. The Q15 plan said "feat/livekit-provider off development" — need to confirm with the XR engineer that `development` is still the right base (it exists, see next point), or branch off `main` instead.
+
+2. **Branch list** (via `gh api repos/AIPartnersUSA/Sophia_Xreal-U2/branches --jq '.[].name'`):
+   - `archive/agent-test`
+   - `archive/fix-rgb-camera`
+   - `archive/integration-rgb-camera-merge-main`
+   - `archive/main-before-rgb-merge`
+   - `development`
+   - `main`
+
+   So `development` does exist. Q15's plan of branching from it remains valid pending the engineer's confirmation that it's the active dev branch (vs `main`).
+
+**Two paths to unblock writing the code:**
+
+*Path A — Get Write or Maintain access on AIPartnersUSA/Sophia_Xreal-U2.*
+- Requires the XR engineer or an org admin on AIPartnersUSA to grant it. Same pattern as how Avinash got Write on `aws-infra`.
+- Workflow once granted: push `feat/livekit-provider` directly to his repo, open PR to `development` when ready.
+- Cleanest. Matches standard org collaboration pattern.
+- Time cost: depends on how quickly the engineer can grant it.
+
+*Path B — Fork-then-PR workflow.*
+- Fork `AIPartnersUSA/Sophia_Xreal-U2` to `AvinashSophia/Sophia_Xreal-U2` (personal account).
+- Work on `feat/livekit-provider` in the fork.
+- Open PR from `AvinashSophia/Sophia_Xreal-U2:feat/livekit-provider` → `AIPartnersUSA/Sophia_Xreal-U2:development` when ready.
+- Works without anyone granting permissions — we can start immediately.
+- Higher friction: extra remote to manage, PR review happens at fork boundary, harder to push WIP commits for review iteration.
+
+**Recommendation:** Path A. Ask the XR engineer: "Can you add `AvinashSophia` as Collaborator with Write on `AIPartnersUSA/Sophia_Xreal-U2` so we can push the LiveKit integration branch directly?" If he can't or it'll take time, Path B is the fallback — we don't have to wait, we fork now and PR later.
+
+**Net effect on Q17 item 5:** Confirmed read-only today. One concrete ask in the handoff package: grant Write. Fallback path B available if granting is slow or denied.
+
+### Short-form answer
+
+Read-only access today (`pull: true, push: false`). `development` branch exists (Q15's plan still applies); `main` is the default. Path A: ask the XR engineer to grant `AvinashSophia` Write access on AIPartnersUSA/Sophia_Xreal-U2 — same pattern as aws-infra. Path B fallback: fork to AvinashSophia/Sophia_Xreal-U2, work in fork, PR back. Path A is cleaner; Path B doesn't block.
