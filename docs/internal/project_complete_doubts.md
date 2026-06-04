@@ -2321,6 +2321,114 @@ Edit `ProviderConfig.cs` to add `LiveKit` to the `ConversationProviderType` enum
 
 After step 5: step 6 (ProviderFactory `CreateLiveKitProvider()` + new switch case), step 7 (ConversationalAIController byte[]-forwarding bypass when LiveKit is active), step 8 (scene wiring + Inspector config). Editor smoke test follows step 7 — Unity can open, all four .cs/json changes compile together, we can pick LiveKit in the Provider Configuration Manager and hit Play.
 
+---
+
+## Q27 (2026-06-04): What's the difference between adding LiveKit Unity SDK via UPM Git URL vs vendor-copy (adding the SDK files into his repo's Packages/)? Why did we pick UPM Git URL?
+
+Both approaches end up at the same place at runtime — LiveKit Unity SDK v1.3.7 compiled into the Unity project, same native FFI binaries, same C# wrapper, same `using LiveKit;` references resolve. The trade-off is repo footprint + self-containment vs lean diff + network dependency.
+
+### UPM Git URL (what we picked — step 4 of the 8-delta plan)
+
+What lands in his repo:
+```
+// in Sophia_Wearable/Packages/manifest.json
++    "io.livekit.livekit-sdk": "https://github.com/livekit/client-sdk-unity.git#v1.3.7",
+```
+
+One line. Nothing else.
+
+What happens at first Unity Editor open after the manifest edit:
+1. Unity reads the manifest dependency.
+2. Recognizes the URL-with-tag pattern → "this is a UPM Git package."
+3. Clones the upstream `livekit/client-sdk-unity` repo at tag `v1.3.7` (~150 MB of native FFI binaries per platform + ~200 .cs files + tests + docs).
+4. Caches it locally at `<project>/Library/PackageCache/io.livekit.livekit-sdk@v1.3.7/`.
+5. Indexes the cached package into the Unity asset database.
+6. Our `using LiveKit;` references resolve. Compile succeeds (after our subsequent enum/factory/controller edits).
+7. Subsequent opens: uses the cache, no network needed.
+
+`Library/` is gitignored by Unity convention, so the actual SDK bits live OUTSIDE his tracked files. Other devs cloning the repo run their own first-time download.
+
+### Vendor-copy (alternative — the path we did NOT pick)
+
+What would have landed in his repo:
+```
++ Sophia_Xreal-U2-main/client-sdk-unity/            (or Sophia_Wearable/Packages/com.livekit.livekit-sdk/)
++   ├── package.json
++   ├── Runtime/Scripts/*.cs                         (~200 C# source files)
++   ├── Runtime/Plugins/ffi-macos-arm64/*.dylib      (~10 MB native binary, LFS)
++   ├── Runtime/Plugins/ffi-android-arm64/*.so       (~12 MB native binary, LFS)
++   ├── Runtime/Plugins/ffi-android-armv7/*.so       (~10 MB)
++   ├── Runtime/Plugins/ffi-android-x86_64/*.so      (~13 MB)
++   ├── Runtime/Plugins/ffi-ios-arm64/*.a            (~25 MB)
++   ├── Runtime/Plugins/ffi-ios-sim-arm64/*.a        (~25 MB)
++   ├── Runtime/Plugins/ffi-macos-x86_64/*.dylib     (~12 MB)
++   ├── Runtime/Plugins/ffi-windows-arm64/*.dll      (~10 MB)
++   ├── Runtime/Plugins/ffi-windows-x86_64/*.dll     (~11 MB)
++   ├── Runtime/Plugins/ffi-linux-x86_64/*.so        (~12 MB)
++   ├── Documentation~/, Samples~/, Tests/, etc.
++   └── ... ~150 MB total via Git LFS
+
+// in Sophia_Wearable/Packages/manifest.json
++    "io.livekit.livekit-sdk": "file:../../client-sdk-unity",   // or wherever we put it
+```
+
+Note: the `file:` URI path is relative to `manifest.json`'s LOCATION. Unity resolves `Packages/manifest.json` + `file:../../client-sdk-unity` = `Sophia_Wearable/Packages/../../client-sdk-unity` = `Sophia_Xreal-U2-main/client-sdk-unity/`. That's the path-math gotcha documented in `docs/internal/livekit_doubts.md` Q59.
+
+What would happen at first Unity Editor open after this approach:
+1. Unity reads the manifest.
+2. Recognizes the `file:` path → "this is a local filesystem package."
+3. Resolves the relative path, finds the package folder.
+4. Indexes from disk. NO download (all bits already in repo).
+5. After other devs clone, they need `git lfs pull` to materialize the native binaries before Unity will work. Without LFS pull, they get pointer-text instead of real .so/.dylib/.a/.dll files and Unity import fails.
+
+### Side-by-side comparison
+
+| Dimension | UPM Git URL (picked) | Vendor-copy (alternative) |
+|---|---|---|
+| Lines added to his repo | 1 | ~thousands (200 .cs + 10 native binaries via LFS) |
+| Size added to his git/LFS | ~0 | ~150 MB |
+| Network at first clone+build | Yes (Unity downloads SDK from upstream) | No (LFS pull does it) |
+| Network at incremental builds | No (cached in Library/PackageCache/) | No |
+| Uses org LFS quota | No | Yes (AIPartnersUSA LFS quota) |
+| Reproducibility | Pin to v1.3.7 tag (Git-content-addressed, ≈immutable but tag could in theory move) | Bit-exact files in his repo (truly immutable) |
+| Audit in PR review | Need to inspect upstream LiveKit repo | All bits visible in his diff |
+| If upstream LiveKit repo became unavailable | First-time clones would fail; existing devs/CI with cache survive | Always works |
+| CI pipeline | Needs internet for first build (then caches) | Pure git clone + lfs pull |
+| Upgrade later | Bump tag in manifest.json (1 char change) | Replace folder contents + commit binaries |
+| Matches his existing patterns | Yes — 5 of his packages already use UPM Git URLs (com.convai.openai, NativeWebSocket, ARCore extensions, ARKit, UnityGLTF) | No — he has only ONE local `file:` package (com.sophia.productserver) |
+| Matches our sophia-glasses pattern | No — sophia-glasses uses vendor-copy via `file:../../client-sdk-unity` | Yes — identical setup as sophia-glasses |
+
+### Why we picked UPM Git URL
+
+- **Matches his existing manifest patterns.** 5 of his packages are UPM Git URLs already; his team understands this idiom. Vendor-copy via `file:` is only used for ONE package in his manifest (`com.sophia.productserver`), and that's a tiny package of his own.
+- **No LFS quota disturbance.** His repo already has substantial LFS content (3D models, textures, audio). Adding ~150 MB more would notably bump his quota. UPM keeps the SDK out of git entirely.
+- **Same v1.3.7 bits in both clients.** Our `sophia-glasses/client-sdk-unity/package.json` declares `version: 1.3.7`. His new manifest entry pins to `v1.3.7` tag upstream. Same release tag = same release artifact = identical bits at runtime. Important for the comparison testing scenario where we want both clients running the same SDK.
+- **One-line PR diff** when the engineer reviews this work. Much easier review than auditing 200+ files.
+- **Fewer integration risks** than embedding a vendor package — no risk of accidentally tracking native binaries via regular git (LFS gotcha), no risk of misplaced .gitattributes for new patterns, no manifest path-math errors.
+
+### When vendor-copy WOULD have been the right call
+
+- His team has a strict "no internet at build time" policy that we know about (we don't).
+- Compliance audit requires every shipped binary to live in their repo (we haven't heard this requirement).
+- Concerned about upstream LiveKit availability long-term (LiveKit is a well-funded company with a stable repo; low risk).
+- LFS quota truly isn't a concern AND he wants the SDK source readable in his IDE without leaving the repo.
+
+If any of those become true later, switching is reversible: change the manifest entry from Git URL to `file:` path, copy our `sophia-glasses/client-sdk-unity/` into his repo, commit. ~10 minutes of work plus the LFS storage cost.
+
+### Risk we accepted with UPM choice
+
+The `v1.3.7` tag on LiveKit's upstream is, in principle, mutable — a maintainer could move it. In practice GitHub release tags don't get moved (it would break every downstream consumer). If we want truly immutable pinning, swap the tag for the commit SHA at that tag's HEAD:
+
+```
+"io.livekit.livekit-sdk": "https://github.com/livekit/client-sdk-unity.git#<full-40-char-sha>"
+```
+
+Commits are content-addressed and cannot be moved without breaking the SHA. We didn't bother for v1 — tags from a serious upstream are reliable. Mention this if anyone audits the approach.
+
+### Short-form answer
+
+UPM Git URL adds 1 line to his manifest; Unity downloads + caches the SDK at first Editor open, lives in gitignored `Library/PackageCache/`, no LFS quota impact. Vendor-copy puts ~150 MB of native binaries + C# source physically in his repo via LFS, fully self-contained, audit-able in PR. Both result in identical bits at runtime. We picked UPM because (a) his manifest already uses 5 UPM Git URLs so the pattern fits his ecosystem, (b) his LFS quota gets preserved, (c) same v1.3.7 bits in both clients, (d) one-line diff easier to review. Reversible if his team needs vendor-copy later.
+
 ### Things to remember when resuming
 
 - **Per-change `go` required** before any edit/write into the work clone. Saved process rule (`feedback_xr_repo_modification_rules.md`). User confirms each file before Write tool runs.
