@@ -2241,7 +2241,7 @@ Confirmed working on Avinash's Mac in Unity 6000.3.12f1 Editor Play Mode on 2026
 4. ✅ **Add LiveKit Unity SDK via UPM Git URL** to `Sophia_Wearable/Packages/manifest.json`. Done 2026-06-04. One-line addition: `"io.livekit.livekit-sdk": "https://github.com/livekit/client-sdk-unity.git#v1.3.7"` between `com.xreal.xr` and `org.khronos.unitygltf` (alphabetical). Picked over LFS-vendored approach because (a) his manifest already uses UPM Git URLs for 5 other packages so the pattern fits his ecosystem, (b) his Newtonsoft.Json `3.2.2` satisfies SDK's `3.2.1` dependency, (c) v1.3.7 is the exact version we tested with in `sophia-glasses/client-sdk-unity/package.json`, (d) Unity caches to `Library/PackageCache/` after first resolve so no ongoing network dependency, (e) one-line diff vs ~150 MB of LFS binaries.
 5. ✅ **Edit `ProviderConfig.cs`** — added `LiveKit = 6` value to the `ConversationProviderType` enum. Done 2026-06-04. 3-line addition at the end of the enum (after `AwsVoiceRelaySelfHosted = 5`). Mirrors the existing pattern: `/// <summary>` XML doc comment + `[InspectorName("LiveKit (WebRTC + LiveKit Agents)")]` attribute for the friendly Inspector dropdown label + enum value `LiveKit = 6`. Sequential numbering continues from the existing entries.
 6. ✅ **Edit `ProviderFactory.cs`** — added `CreateLiveKitProvider()` method + new `case ConversationProviderType.LiveKit:` arm in `CreateLLMProvider(ConversationProviderType)` switch. Done 2026-06-04. Mirrors the existing `CreateVoiceRelayLlmProvider` pattern exactly (FindFirstObjectByType / new GameObject / AddComponent / SetParent / Initialize / return). ~15 lines added across 2 hunks. Did NOT touch the legacy `CreateLLMProvider(ProviderType)` method since VoiceRelay isn't in that enum either; only ConversationProviderType is the active code path.
-7. ⬜ **Edit `ConversationalAIController.cs`** — add `else if (provider is LiveKitLlmProvider lk)` branch in the controller's mic-forwarding code (line ~1541 from the deep-read). LiveKit owns mic via `MicrophoneStreamerAudioSource`; controller should skip its byte[] mic-forwarding when LiveKit is active.
+7. ✅ **Edit `ConversationalAIController.cs`** — added LiveKit bypass branch in `OnMicrophoneAudioChunk` (line ~1005). Done 2026-06-04. 8-line addition between the OpenAI fast-path and the catch-all `else`. The branch is empty (with explanatory comment) — LiveKit's `MicrophoneStreamerAudioSource` subscribes to `MicrophoneStreamer.OnAudioChunk` INDEPENDENTLY of the controller, so we don't need (or want) the controller to also forward bytes — that path would just no-op in our provider while wasting a base64 decode. Three other type-sniff branches in the same method (VoiceRelay interrupt-on-barge-in lines 980-986, VoiceRelay uplink chunk clock lines 988-989, `_voiceRelayMicChunksForwarded++` counter lines 1011-1013) correctly skip LiveKit as-is — no edits needed there.
 8. ⬜ **Wire scene + Inspector** — add a `LiveKitLlmProvider` MonoBehaviour to the scene (factory will instantiate at runtime — but for dev we may pre-add). Assign `MicrophoneStreamer` ref + `speakerHost` Transform + tokenApiKey + URLs via Inspector. Set Active Conversation Provider in the Provider Configuration Manager to LiveKit.
 
 After 1-8 land: smoke test in Editor Play Mode, then APK + Beam Pro, then measurement spike.
@@ -2397,11 +2397,94 @@ Note on what we DID NOT touch:
 - `CreateVisionProvider` — vision-only providers (OpenAI vision, Gemini vision, GoogleVision HTTP). We're a no-op for vision (Q23), so no entry needed here. The controller's vision dispatch goes through `_currentProvider.SendImageAsync` which our LiveKit provider handles with a no-op.
 - The `CreateOpenAIProvider` divert-to-VoiceRelay branch (line 159): special case where if the AWS single-endpoint pipeline is VoiceRelay, OpenAI requests reroute to VoiceRelay. Not relevant for LiveKit; LiveKit is its own first-class enum entry.
 
-### Next step (step 7 of 8 in the plan)
+#### ConversationalAIController.cs edit (8 lines added) — 2026-06-04
 
-Edit `ConversationalAIController.cs` — add `else if (provider is LiveKitLlmProvider lk)` branch in the controller's mic-forwarding code (line ~1541 from the deep-read). LiveKit owns mic via `MicrophoneStreamerAudioSource`; the controller should skip its byte[] mic-forwarding when LiveKit is the active provider to avoid double-pushing the same audio (which would result in echoey / doubled uplink). Small surgical edit, ~5-10 lines.
+Location: `Sophia_Wearable/Assets/_Scripts/Modules/ConversationalAI/Core/ConversationalAIController.cs`, inside `OnMicrophoneAudioChunk()` around line 1005.
 
-After step 7: step 8 (scene wiring + Inspector config — add LiveKitLlmProvider GameObject to the scene, assign MicrophoneStreamer ref + speakerHost + tokenApiKey + URLs). Then Unity opens for the first compile-clean state of our integration — first chance to smoke test the voice loop against EC2.
+Diff:
+```csharp
+if (_currentProvider is OpenAIProvider openAi)
+{
+    // ... existing OpenAI fast-path with Stopwatch ...
+}
++ else if (_currentProvider is Sophia.ConversationalAI.Providers.LiveKit.LiveKitLlmProvider)
++ {
++     // LiveKit owns the mic uplink out-of-band via MicrophoneStreamerAudioSource,
++     // which independently subscribes to MicrophoneStreamer.OnAudioChunk and pushes
++     // PCM into the LocalAudioTrack. Skip the byte[] forwarding here — the
++     // provider's SendAudioChunkAsync is a deliberate no-op, and decoding base64
++     // just to discard it wastes CPU per chunk (~6 calls/frame at 64 ms chunks).
++ }
+else
+{
+    var audioBytes = Convert.FromBase64String(base64Audio);
+    await _currentProvider.SendAudioChunkAsync(audioBytes);
+}
+```
+
+The branch is intentionally empty — just an explanatory comment. Why an empty branch instead of letting the catch-all `else` handle it? Two reasons: (a) CPU savings — base64 decoding ~6 times per frame for a no-op send is pure waste, (b) intent legibility — anyone reading the code immediately sees that LiveKit deliberately doesn't forward through this path, vs being mystified by why our SendAudioChunkAsync is a no-op.
+
+Three other type-sniff branches in the same method correctly skip us as-is, no edits needed:
+- Lines 980-986: VoiceRelay interrupt-on-barge-in (only fires when `_currentProvider is VoiceRelayLlmProvider`). LiveKit's barge-in is server-side Silero VAD; no client interrupt message needed.
+- Lines 988-989: VoiceRelay uplink chunk clock for `vad_endpoint_ms` correlation. VoiceRelay-specific diagnostic.
+- Lines 1011-1013: `_voiceRelayMicChunksForwarded++` counter. Only increments for VoiceRelay + OpenAI; correctly excludes us since our mic path is out-of-band.
+
+### Next step (step 8 of 8 in the plan — scene wiring + Inspector config)
+
+This is the only step that REQUIRES Unity Editor open. No more code edits from us. Avinash performs the wiring manually in the Editor:
+
+1. **Open Unity Editor** on the work clone. First open after the 4 code deltas + manifest entry — Unity will fetch LiveKit SDK v1.3.7 from upstream, cache it to `Library/PackageCache/`, then recompile everything together. If compile succeeds, the 4 source edits + 2 new files all integrate cleanly.
+
+2. **Open `Sophia_Wearables.unity` scene**.
+
+3. **Create the LiveKit provider GameObject**:
+   - Right-click in Hierarchy → Create Empty → name it `LiveKitLlmProvider`
+   - Drag it under `Logic/Modules/ConversationalAI/` (or wherever VoiceRelayLlmProvider lives in his scene, for consistency)
+   - Add Component → search "LiveKitLlmProvider" → add our MonoBehaviour
+
+4. **Assign the Inspector fields**:
+   - **LiveKit endpoints section**:
+     - `Live Kit Url`: `ws://3.227.63.49:7880`
+     - `Token Endpoint`: `http://3.227.63.49:8001/token`
+     - `Token Api Key`: `9a11fdf5ce05e3cecad28f933d778971`
+     - `Agent Name`: `sophia-agent` (default; leave as-is)
+     - `Room Name`: leave empty (random per session)
+     - `Participant Identity`: leave empty (random per session)
+   - **Mic uplink bridge section**:
+     - `Mic Streamer`: drag the MicrophoneStreamer GameObject from the scene (likely under `Logic/Modules/Audio/`)
+   - **Audio downlink section**:
+     - `Speaker Host`: drag a Transform under which child SophiaSpeaker_<sid> GameObjects should be created. Could be the LiveKitLlmProvider GameObject itself, or a dedicated SpeakerHost container.
+   - **Diagnostics section**:
+     - `Enable Debug Logging`: ✓ (leave on for v1)
+
+5. **Save the scene** (Cmd+S).
+
+6. **Open Provider Configuration Manager** (button at bottom of ProviderConfig.asset Inspector, or via Quick Actions menu).
+
+7. **Set Active Conversation Provider** to `LiveKit (WebRTC + LiveKit Agents)`. Endpoint Configuration Mode stays `Customized Endpoints` (LiveKit is its own Active Conversation Provider, not part of Single Endpoint AWS bundle).
+
+8. **Hit Play**. Watch the Console for `[DEBUG_0604_LiveKit]` trace tags — that's the first signal we're alive. Speak into the mic. If everything works, Sophia responds via her TTS routed through LiveKit's audio track.
+
+If compile fails when opening Unity, FIRST troubleshooting step is checking the Console for which file the error references. The most likely culprits:
+- SDK download failure (network issue or upstream tag unavailable) — falls back to UPM error
+- A symbol we used in LiveKitLlmProvider doesn't exist in LiveKit Unity SDK v1.3.7 (e.g., `LocalAudioTrack.CreateAudioTrack(name, source, room)` signature — we should double-check this against the actual SDK)
+
+If Play fails to connect to EC2, troubleshooting in this order:
+- DNS / firewall blocking ws://3.227.63.49:7880
+- Token-mint POST returns non-200 (check X-API-Key header is sent correctly)
+- WebRTC handshake fails (UDP 50000-60000 port range may be blocked locally)
+
+### Subtle compile risks to watch on first Unity open
+
+These are bets we're making — if any are wrong, the file won't compile and we'll fix on observation:
+
+1. **`LocalAudioTrack.CreateAudioTrack(string name, IRtcSource source, Room room)`** — used in LiveKitLlmProvider line ~211. Signature inferred from our SDK reference; if it's actually `LocalAudioTrack.CreateAudioTrack(string, RtcAudioSource, Room)` or different param order, will fail.
+2. **`Room.LocalParticipant.PublishTrack(track, TrackPublishOptions)`** — used line ~213. Inferred signature.
+3. **`Room.LocalParticipant.PublishData(byte[], DataPublishOptions { Topic = "..." })`** — used in SendTextAsync line ~298. Inferred.
+4. **`TextStreamReader.ReadAllAsync()` as `IAsyncEnumerable<string>`** — used in `ReadAndDispatchAsync` line ~377. Inferred return type.
+5. **`new RoomOptions()` with no args** — line ~191. Likely fine.
+
+If any fail, the fix is reading the actual SDK at `Library/PackageCache/io.livekit.livekit-sdk@v1.3.7/Runtime/Scripts/` after first open and adjusting our call. Cheap to fix once we see the actual API surface in his cached copy.
 
 ---
 
