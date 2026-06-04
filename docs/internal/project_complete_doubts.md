@@ -2240,7 +2240,7 @@ Confirmed working on Avinash's Mac in Unity 6000.3.12f1 Editor Play Mode on 2026
 3. ✅ **Write `MicrophoneStreamerAudioSource.cs`** (118 lines). Done 2026-06-04. Location: `Sophia_Wearable/Assets/_Scripts/Modules/ConversationalAI/Providers/LiveKit/MicrophoneStreamerAudioSource.cs`. Has same `using LiveKit;` dependency.
 4. ✅ **Add LiveKit Unity SDK via UPM Git URL** to `Sophia_Wearable/Packages/manifest.json`. Done 2026-06-04. One-line addition: `"io.livekit.livekit-sdk": "https://github.com/livekit/client-sdk-unity.git#v1.3.7"` between `com.xreal.xr` and `org.khronos.unitygltf` (alphabetical). Picked over LFS-vendored approach because (a) his manifest already uses UPM Git URLs for 5 other packages so the pattern fits his ecosystem, (b) his Newtonsoft.Json `3.2.2` satisfies SDK's `3.2.1` dependency, (c) v1.3.7 is the exact version we tested with in `sophia-glasses/client-sdk-unity/package.json`, (d) Unity caches to `Library/PackageCache/` after first resolve so no ongoing network dependency, (e) one-line diff vs ~150 MB of LFS binaries.
 5. ✅ **Edit `ProviderConfig.cs`** — added `LiveKit = 6` value to the `ConversationProviderType` enum. Done 2026-06-04. 3-line addition at the end of the enum (after `AwsVoiceRelaySelfHosted = 5`). Mirrors the existing pattern: `/// <summary>` XML doc comment + `[InspectorName("LiveKit (WebRTC + LiveKit Agents)")]` attribute for the friendly Inspector dropdown label + enum value `LiveKit = 6`. Sequential numbering continues from the existing entries.
-6. ⬜ **Edit `ProviderFactory.cs`** — add `CreateLiveKitProvider()` method + new `case ConversationProviderType.LiveKit:` arm in `CreateLLMProvider()`. Mirror the existing `CreateVoiceRelayLlmProvider` pattern (~10 lines).
+6. ✅ **Edit `ProviderFactory.cs`** — added `CreateLiveKitProvider()` method + new `case ConversationProviderType.LiveKit:` arm in `CreateLLMProvider(ConversationProviderType)` switch. Done 2026-06-04. Mirrors the existing `CreateVoiceRelayLlmProvider` pattern exactly (FindFirstObjectByType / new GameObject / AddComponent / SetParent / Initialize / return). ~15 lines added across 2 hunks. Did NOT touch the legacy `CreateLLMProvider(ProviderType)` method since VoiceRelay isn't in that enum either; only ConversationProviderType is the active code path.
 7. ⬜ **Edit `ConversationalAIController.cs`** — add `else if (provider is LiveKitLlmProvider lk)` branch in the controller's mic-forwarding code (line ~1541 from the deep-read). LiveKit owns mic via `MicrophoneStreamerAudioSource`; controller should skip its byte[] mic-forwarding when LiveKit is active.
 8. ⬜ **Wire scene + Inspector** — add a `LiveKitLlmProvider` MonoBehaviour to the scene (factory will instantiate at runtime — but for dev we may pre-add). Assign `MicrophoneStreamer` ref + `speakerHost` Transform + tokenApiKey + URLs via Inspector. Set Active Conversation Provider in the Provider Configuration Manager to LiveKit.
 
@@ -2353,11 +2353,55 @@ Naming rationale:
 
 After this lands, the controller and factory can reference `ConversationProviderType.LiveKit` in switch statements. Step 6 (ProviderFactory) is what actually consumes this enum value.
 
-### Next step (step 6 of 8 in the plan)
+#### ProviderFactory.cs edit (15 lines added across 2 hunks) — 2026-06-04
 
-Edit `ProviderFactory.cs` to add `CreateLiveKitProvider()` method + new `case ConversationProviderType.LiveKit:` arm in `CreateLLMProvider()`. Mirror the existing `CreateVoiceRelayLlmProvider` pattern (~10 lines).
+Location: `Sophia_Wearable/Assets/_Scripts/Modules/ConversationalAI/Core/ProviderFactory.cs`
 
-After step 6: step 7 (ConversationalAIController byte[]-forwarding bypass when LiveKit is active), step 8 (scene wiring + Inspector config). Editor smoke test follows step 7 — Unity can open, all four .cs/json changes compile together, we can pick LiveKit in the Provider Configuration Manager and hit Play.
+**Hunk 1** — case arm inside `CreateLLMProvider(ConversationProviderType type)` switch (around line 42):
+
+```csharp
+case ConversationProviderType.AwsVoiceRelaySelfHosted:
+    return CreateVoiceRelayLlmProvider();
+
++ case ConversationProviderType.LiveKit:
++     return CreateLiveKitProvider();
+
+case ConversationProviderType.Gemini:
+    return CreateGeminiProvider();
+```
+
+**Hunk 2** — new `CreateLiveKitProvider()` method right after `CreateVoiceRelayLlmProvider()` (around line 190):
+
+```csharp
+private ILLMProvider CreateLiveKitProvider()
+{
+    var p = FindFirstObjectByType<Sophia.ConversationalAI.Providers.LiveKit.LiveKitLlmProvider>();
+    if (p == null)
+    {
+        var go = new GameObject("LiveKitLlmProvider");
+        p = go.AddComponent<Sophia.ConversationalAI.Providers.LiveKit.LiveKitLlmProvider>();
+        go.transform.SetParent(transform);
+    }
+
+    p.Initialize(config);
+    return p;
+}
+```
+
+Mirrors `CreateVoiceRelayLlmProvider` exactly — same shape, same call sequence (FindFirstObjectByType → conditional create → SetParent → Initialize → return). No deviations.
+
+The factory pattern: if a `LiveKitLlmProvider` MonoBehaviour already exists in the scene (e.g., we pre-added it for the Inspector to configure), reuse it. Otherwise create one as a child of the ProviderFactory's GameObject. Either way, call `Initialize(config)` (which is a no-op for v1 — our provider reads from `[SerializeField]` Inspector fields instead). Return the `ILLMProvider` to the controller.
+
+Note on what we DID NOT touch:
+- `CreateLLMProvider(ProviderType type)` — legacy method using the old `ProviderType` enum (different from `ConversationProviderType`). Lines 57-78. VoiceRelay isn't in this enum either, so the active code path is purely the new switch. Leaving the legacy method alone is the right call.
+- `CreateVisionProvider` — vision-only providers (OpenAI vision, Gemini vision, GoogleVision HTTP). We're a no-op for vision (Q23), so no entry needed here. The controller's vision dispatch goes through `_currentProvider.SendImageAsync` which our LiveKit provider handles with a no-op.
+- The `CreateOpenAIProvider` divert-to-VoiceRelay branch (line 159): special case where if the AWS single-endpoint pipeline is VoiceRelay, OpenAI requests reroute to VoiceRelay. Not relevant for LiveKit; LiveKit is its own first-class enum entry.
+
+### Next step (step 7 of 8 in the plan)
+
+Edit `ConversationalAIController.cs` — add `else if (provider is LiveKitLlmProvider lk)` branch in the controller's mic-forwarding code (line ~1541 from the deep-read). LiveKit owns mic via `MicrophoneStreamerAudioSource`; the controller should skip its byte[] mic-forwarding when LiveKit is the active provider to avoid double-pushing the same audio (which would result in echoey / doubled uplink). Small surgical edit, ~5-10 lines.
+
+After step 7: step 8 (scene wiring + Inspector config — add LiveKitLlmProvider GameObject to the scene, assign MicrophoneStreamer ref + speakerHost + tokenApiKey + URLs). Then Unity opens for the first compile-clean state of our integration — first chance to smoke test the voice loop against EC2.
 
 ---
 
