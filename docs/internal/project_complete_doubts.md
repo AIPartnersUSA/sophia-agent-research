@@ -2236,8 +2236,8 @@ Confirmed working on Avinash's Mac in Unity 6000.3.12f1 Editor Play Mode on 2026
 ### Code work plan — 8 deltas total
 
 1. ✅ **Create `Providers/LiveKit/` folder** in his repo. Done.
-2. ✅ **Write `LiveKitLlmProvider.cs`** (556 lines). Done. Location: `Sophia_Wearable/Assets/_Scripts/Modules/ConversationalAI/Providers/LiveKit/LiveKitLlmProvider.cs`. Currently has compile dependencies on (a) `MicrophoneStreamerAudioSource` class which doesn't exist yet, (b) `using LiveKit;` namespace which requires the SDK to be vendored. So the file is in place but DOES NOT COMPILE until 3 and 5 are done.
-3. ⬜ **Write `MicrophoneStreamerAudioSource.cs`** (~120 lines) — subclass of LiveKit's `RtcAudioSource` per T1 finding. Bridges `MicrophoneStreamer.OnAudioChunk(base64)` into LiveKit's audio capture pipeline. Same folder as the provider.
+2. ✅ **Write `LiveKitLlmProvider.cs`** (556 lines). Done. Location: `Sophia_Wearable/Assets/_Scripts/Modules/ConversationalAI/Providers/LiveKit/LiveKitLlmProvider.cs`. Has compile dependency on `using LiveKit;` namespace until step 4 vendors the SDK.
+3. ✅ **Write `MicrophoneStreamerAudioSource.cs`** (118 lines). Done 2026-06-04. Location: `Sophia_Wearable/Assets/_Scripts/Modules/ConversationalAI/Providers/LiveKit/MicrophoneStreamerAudioSource.cs`. Has same `using LiveKit;` dependency.
 4. ⬜ **Vendor LiveKit Unity SDK** into his `Packages/`. Mirror our `sophia-glasses/client-sdk-unity/` Git LFS pattern. Add `"io.livekit.livekit-sdk": "file:..."` entry to his `Packages/manifest.json`. After this, the `using LiveKit;` namespaces resolve.
 5. ⬜ **Edit `ProviderConfig.cs`** — add `LiveKit` value to the `ConversationProviderType` enum so the controller knows LiveKit is a thing.
 6. ⬜ **Edit `ProviderFactory.cs`** — add `CreateLiveKitProvider()` method + new `case ConversationProviderType.LiveKit:` arm in `CreateLLMProvider()`. Mirror the existing `CreateVoiceRelayLlmProvider` pattern (~10 lines).
@@ -2276,18 +2276,39 @@ Location: `Sophia_Wearable/Assets/_Scripts/Modules/ConversationalAI/Providers/Li
 - `OnAudioReceived` not raised (audio plays via SDK, not via `PcmAudioPlayer`).
 - Tools no-op (server-side).
 
-### Next step (step 3 of 8 in the plan)
+#### MicrophoneStreamerAudioSource.cs (118 lines) — 2026-06-04
 
-Write `MicrophoneStreamerAudioSource.cs` next. ~120 lines. Subclass of `RtcAudioSource` (the abstract base class from `sophia-glasses/client-sdk-unity/Runtime/Scripts/RtcAudioSource.cs`). The `SineWaveAudioSource.cs` test fixture at `sophia-glasses/client-sdk-unity/Tests/PlayMode/Utils/SineWaveAudioSource.cs` is the canonical example pattern.
+Location: `Sophia_Wearable/Assets/_Scripts/Modules/ConversationalAI/Providers/LiveKit/MicrophoneStreamerAudioSource.cs`
 
-Behavior:
-- Constructor takes a `MicrophoneStreamer` reference, subscribes to `OnAudioChunk(string base64)`.
-- On each chunk: decode base64 → int16 PCM samples → convert to float[] (`RtcAudioSource` expects float frames internally).
-- Call `AudioRead?.Invoke(buffer, channels=1, sampleRate=16000)` to push the frame into LiveKit's FFI capture pipeline.
-- Override `Start()` and `Stop()` for lifecycle.
-- Override `Dispose()` to unsubscribe from MicrophoneStreamer.
+The bridge between his `MicrophoneStreamer` and LiveKit's `RtcAudioSource` capture pipeline. The provider constructs one of these in `ConnectAsync` and passes it to `LocalAudioTrack.CreateAudioTrack(..., source, ...)`.
 
-After step 3 lands, step 4 is vendoring the SDK so the `using LiveKit;` references resolve and the project compiles for the first time.
+**Design decisions baked in:**
+
+1. **Subclasses `RtcAudioSource`** with `RtcAudioSourceType.AudioSourceCustom` and `channels: 1` (mono). Per the SineWaveAudioSource pattern from T1.
+2. **Constructor takes a `MicrophoneStreamer` reference**. Null-guards on construction.
+3. **Sample-rate mismatch handled by naive 3x upsampling.** MicrophoneStreamer emits 16 kHz; `RtcAudioSource`'s `_expectedSampleRate` for Custom type is locked to `DefaultSampleRate = 48000` by the base constructor (no per-instance override available). We triplicate each int16 sample → 3 consecutive floats. Quality acceptable for voice; STT (Whisper) resamples internally; can be replaced with linear interpolation if quality issues arise. **Known v1 limitation, documented in file header.**
+4. **Subscription via `-= then +=` pattern**, not direct `=`. Required because `MicrophoneStreamer.OnAudioChunk` is a public `Action<string>` field (not a multicast event), and the controller already subscribes for its byte[] forwarding path. The minus-then-plus idiom safely adds us alongside without clobbering the existing subscription.
+5. **AudioRead invoked with `(floatBuffer, 1, 48000)`** — channels=1, sampleRate=48000 matches the base's `_expectedChannels` + `_expectedSampleRate` so no metadata-mismatch warning fires.
+6. **Single-pass conversion**: decode base64 → reinterpret bytes as int16 little-endian → upsample → convert to float [-1, 1], all in one loop with one allocation per chunk.
+7. **Frame size**: MicrophoneStreamer's ~64 ms chunks (1024 samples at 16 kHz) become ~64 ms output chunks (3072 samples at 48 kHz). RtcAudioSource buffers internally; no need to slice into 20 ms WebRTC frames.
+8. **Lifecycle parity with VoiceRelay pattern**: Start/Stop manages subscription, Dispose chains Stop + base.Dispose, finalizer for GC-driven safety.
+
+**What this file does NOT do**:
+- Echo cancellation, noise suppression, AGC — RtcAudioSource constructor enables these at the WebRTC layer (`AudioSourceOptions { EchoCancellation = true, AutoGainControl = true, NoiseSuppression = true }`). Plus MicrophoneStreamer's VOICE_COMMUNICATION mode gives hardware AEC on Android. Two layers of AEC; both run independently.
+- Voice activity detection — that's `MicrophoneStreamer.OnMicChunkRmsForClientVad` (kept for client-side telemetry; not consumed by this adapter).
+- Resampling beyond naive upsampling — proper polyphase / linear interp is a follow-up if needed.
+
+### Next step (step 4 of 8 in the plan)
+
+Vendor LiveKit Unity SDK into his `Packages/`. Once this lands, both .cs files we wrote should compile clean (the `using LiveKit;` namespace resolves, the `RtcAudioSource` base class is found, all the SDK types referenced in `LiveKitLlmProvider.cs` resolve).
+
+Plan for vendoring:
+- Mirror our `sophia-glasses/client-sdk-unity/` Git LFS pattern. That folder is our reference vendored copy of the LiveKit Unity SDK.
+- Two sub-options to decide:
+  - **Option vendor-copy**: copy `sophia-glasses/client-sdk-unity/` into his repo at `Sophia_Wearable/<somewhere>/` (or `Sophia_Xreal-U2/<somewhere>/`), then reference via `file:` path in `Packages/manifest.json`. Pro: reproducible, offline-buildable, his team can audit binaries before shipping. Con: adds ~150 MB of LFS objects to his repo.
+  - **Option upm-git-url**: add `"io.livekit.livekit-sdk": "https://github.com/livekit/client-sdk-unity.git#<tag>"` to `Packages/manifest.json`. Pro: smaller repo footprint, easier to upgrade. Con: requires network access at package resolve time, may pin to a different version than we tested.
+
+Recommend Option vendor-copy. After vendoring, Unity will index the SDK on next Editor open and our `using LiveKit;` references will resolve.
 
 ### Things to remember when resuming
 
