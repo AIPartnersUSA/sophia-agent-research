@@ -2301,3 +2301,56 @@ After step 3 lands, step 4 is vendoring the SDK so the `using LiveKit;` referenc
 ### When this Q gets extended
 
 Each subsequent file we write (steps 3-7 above) gets its own subsection under "Done so far" mirroring the LiveKitLlmProvider section above — design decisions, line count, location, design rationale. Step 8 (scene wiring) gets an entry too. When smoke test passes, add a "Smoke test results" section. When measurement spike runs, add the numbers.
+
+---
+
+## Q26 (2026-06-04): Now that AWS cascaded (Whisper + LLM + Kokoro via gateway) is baselined and working in his client, what does the Q16 measurement spike actually compare today vs after consolidation?
+
+The baseline test on 2026-06-04 surfaced an important clarification: the AWS "Voice Step" cascaded path (NOT VoiceRelaySelfHosted) is the right comparison baseline against our LiveKit path, AND the comparison gets meaningfully cleaner once Phase 2 consolidates both stacks onto the same backend model endpoints.
+
+### Phase 1 today — comparison has 3 changing variables
+
+Same model FAMILIES on both sides (Whisper + Kokoro confirmed; LLM identity on his side TBC), but the underlying compute differs:
+
+| | His AWS cascaded path | Our LiveKit path |
+|---|---|---|
+| Client | Sophia_Xreal-U2 (same APK) | Sophia_Xreal-U2 (same APK, with LiveKit provider) |
+| Transport | WebSocket (TCP) | WebRTC (UDP + Opus, TCP 7881 fallback) |
+| Orchestration server | His AWS gateway (custom Python) | sophia-agent/src/agent.py (LiveKit Agents framework) |
+| Model deployment | His AWS GPU instances | Our EKS cluster `spatial-ai-staging` |
+| STT model | Whisper (probably Large v3) | Whisper Large v3 |
+| LLM model | Unknown (proxy to OpenAI? Qwen3? something else? — ask XR engineer) | Qwen3-VL-8B-Instruct |
+| TTS model | Kokoro | Kokoro-82M |
+
+Three variables shifting simultaneously: transport, orchestration, model deployment. The latency/glitch comparison is still meaningful for the "which feels better" verdict but isolating individual contributors is harder.
+
+### Phase 2 after consolidation (per HANDOFF.md) — clean A/B
+
+Once infra team deploys sophia-agent's full stack on production AWS, the intent is that BOTH paths target the same backend model endpoints. The variable matrix collapses to:
+
+| | His AWS cascaded path | Our LiveKit path |
+|---|---|---|
+| Client | Same | Same |
+| Transport | WebSocket (TCP) | WebRTC (UDP + Opus) |
+| Orchestration server | His AWS gateway code | agent.py + LiveKit Agents framework |
+| **Model endpoint** | **Same — shared deployment** | **Same — shared deployment** |
+| STT/LLM/TTS | Identical | Identical |
+
+Only two variables change: transport + orchestration. THAT's the apples-to-apples comparison we ultimately want.
+
+### Why this matters for the measurement spike (Q16)
+
+- For Phase 1 spike (now-ish, before consolidation): run the spike but interpret numbers carefully — some delta is from different model deployments not framework. Useful directional answer but not the final word.
+- For Phase 2 re-run (after consolidation): same spike, but model variance is gone. The numbers will tell us decisively whether LiveKit's WebRTC + LiveKit Agents framework wins over his existing AWS WebSocket + custom Python orchestration. THIS is the answer for the standardize-or-keep-both product decision.
+
+### Why this beats comparing against VoiceRelaySelfHosted
+
+His VoiceRelay path is also self-hosted streaming voice over WSS, but with a custom JSON framing protocol that's specific to his AWS deployment. Comparing LiveKit against VoiceRelay would conflate "WebRTC vs WSS" with "LiveKit's standardized protocol vs his custom framing" — too many shape differences for a clean comparison. The AWS cascaded path uses a more conventional streaming pattern (STT/LLM/TTS each running on their own HTTP/WSS endpoints orchestrated by the gateway) which maps more cleanly onto how agent.py works. That makes it the more honest A/B.
+
+### Action item for the user
+
+Send the XR engineer a one-line clarification: "For the LiveKit comparison spike, what LLM does the AWS voice-step pipeline actually call? Is it Qwen3 / OpenAI / something else?" His answer tells us whether the Phase 1 spike comparison has 1 or 2 backend model differences (LLM the only one, or LLM + GPU pool both).
+
+### Short-form answer
+
+Phase 1 spike compares LiveKit (WebRTC + agent.py + LiveKit Agents + our EKS models) vs AWS cascaded (WSS + his AWS gateway + his AWS models). Three variables changing — transport, orchestration, model deployment. Phase 2 after infra consolidation: only transport + orchestration change. Same model endpoints serve both. The Phase 2 re-run is the cleanest possible A/B for the standardize-or-keep-both decision. We pick AWS cascaded over VoiceRelaySelfHosted because it's a more conventional streaming pattern that maps cleanly onto agent.py's shape.
