@@ -2238,7 +2238,7 @@ Confirmed working on Avinash's Mac in Unity 6000.3.12f1 Editor Play Mode on 2026
 1. ✅ **Create `Providers/LiveKit/` folder** in his repo. Done.
 2. ✅ **Write `LiveKitLlmProvider.cs`** (556 lines). Done. Location: `Sophia_Wearable/Assets/_Scripts/Modules/ConversationalAI/Providers/LiveKit/LiveKitLlmProvider.cs`. Has compile dependency on `using LiveKit;` namespace until step 4 vendors the SDK.
 3. ✅ **Write `MicrophoneStreamerAudioSource.cs`** (118 lines). Done 2026-06-04. Location: `Sophia_Wearable/Assets/_Scripts/Modules/ConversationalAI/Providers/LiveKit/MicrophoneStreamerAudioSource.cs`. Has same `using LiveKit;` dependency.
-4. ⬜ **Vendor LiveKit Unity SDK** into his `Packages/`. Mirror our `sophia-glasses/client-sdk-unity/` Git LFS pattern. Add `"io.livekit.livekit-sdk": "file:..."` entry to his `Packages/manifest.json`. After this, the `using LiveKit;` namespaces resolve.
+4. ✅ **Add LiveKit Unity SDK via UPM Git URL** to `Sophia_Wearable/Packages/manifest.json`. Done 2026-06-04. One-line addition: `"io.livekit.livekit-sdk": "https://github.com/livekit/client-sdk-unity.git#v1.3.7"` between `com.xreal.xr` and `org.khronos.unitygltf` (alphabetical). Picked over LFS-vendored approach because (a) his manifest already uses UPM Git URLs for 5 other packages so the pattern fits his ecosystem, (b) his Newtonsoft.Json `3.2.2` satisfies SDK's `3.2.1` dependency, (c) v1.3.7 is the exact version we tested with in `sophia-glasses/client-sdk-unity/package.json`, (d) Unity caches to `Library/PackageCache/` after first resolve so no ongoing network dependency, (e) one-line diff vs ~150 MB of LFS binaries.
 5. ⬜ **Edit `ProviderConfig.cs`** — add `LiveKit` value to the `ConversationProviderType` enum so the controller knows LiveKit is a thing.
 6. ⬜ **Edit `ProviderFactory.cs`** — add `CreateLiveKitProvider()` method + new `case ConversationProviderType.LiveKit:` arm in `CreateLLMProvider()`. Mirror the existing `CreateVoiceRelayLlmProvider` pattern (~10 lines).
 7. ⬜ **Edit `ConversationalAIController.cs`** — add `else if (provider is LiveKitLlmProvider lk)` branch in the controller's mic-forwarding code (line ~1541 from the deep-read). LiveKit owns mic via `MicrophoneStreamerAudioSource`; controller should skip its byte[] mic-forwarding when LiveKit is active.
@@ -2298,17 +2298,28 @@ The bridge between his `MicrophoneStreamer` and LiveKit's `RtcAudioSource` captu
 - Voice activity detection — that's `MicrophoneStreamer.OnMicChunkRmsForClientVad` (kept for client-side telemetry; not consumed by this adapter).
 - Resampling beyond naive upsampling — proper polyphase / linear interp is a follow-up if needed.
 
-### Next step (step 4 of 8 in the plan)
+#### manifest.json edit (1 line) — 2026-06-04
 
-Vendor LiveKit Unity SDK into his `Packages/`. Once this lands, both .cs files we wrote should compile clean (the `using LiveKit;` namespace resolves, the `RtcAudioSource` base class is found, all the SDK types referenced in `LiveKitLlmProvider.cs` resolve).
+Location: `Sophia_Wearable/Packages/manifest.json`. Diff:
 
-Plan for vendoring:
-- Mirror our `sophia-glasses/client-sdk-unity/` Git LFS pattern. That folder is our reference vendored copy of the LiveKit Unity SDK.
-- Two sub-options to decide:
-  - **Option vendor-copy**: copy `sophia-glasses/client-sdk-unity/` into his repo at `Sophia_Wearable/<somewhere>/` (or `Sophia_Xreal-U2/<somewhere>/`), then reference via `file:` path in `Packages/manifest.json`. Pro: reproducible, offline-buildable, his team can audit binaries before shipping. Con: adds ~150 MB of LFS objects to his repo.
-  - **Option upm-git-url**: add `"io.livekit.livekit-sdk": "https://github.com/livekit/client-sdk-unity.git#<tag>"` to `Packages/manifest.json`. Pro: smaller repo footprint, easier to upgrade. Con: requires network access at package resolve time, may pin to a different version than we tested.
+```
+     "com.xreal.xr": "file:com.xreal.xr",
++    "io.livekit.livekit-sdk": "https://github.com/livekit/client-sdk-unity.git#v1.3.7",
+     "org.khronos.unitygltf": "https://github.com/KhronosGroup/UnityGLTF.git",
+```
 
-Recommend Option vendor-copy. After vendoring, Unity will index the SDK on next Editor open and our `using LiveKit;` references will resolve.
+What happens at first Unity Editor open after this lands: Unity reads manifest, resolves the Git URL, fetches LiveKit SDK v1.3.7 from upstream, caches to `Library/PackageCache/io.livekit.livekit-sdk@v1.3.7/`. After that, all `using LiveKit;` and `using LiveKit.Proto;` references in our two .cs files resolve. The native FFI binaries for each platform (macOS arm64, Android arm64/armv7/x86_64, iOS arm64, Windows arm64/x86_64, Linux x86_64) ship with the package — no separate native binary install needed.
+
+**Versions confirmed for parity with sophia-glasses**:
+- Our `sophia-glasses/client-sdk-unity/package.json` says `version: 1.3.7`.
+- His new manifest entry pins to `v1.3.7` tag upstream.
+- Both clients now on identical SDK bits — important for comparison testing.
+
+### Next step (step 5 of 8 in the plan)
+
+Edit `ProviderConfig.cs` to add `LiveKit` to the `ConversationProviderType` enum. Smallest of the three remaining edits. Required so the controller + factory know LiveKit exists as a selectable provider.
+
+After step 5: step 6 (ProviderFactory `CreateLiveKitProvider()` + new switch case), step 7 (ConversationalAIController byte[]-forwarding bypass when LiveKit is active), step 8 (scene wiring + Inspector config). Editor smoke test follows step 7 — Unity can open, all four .cs/json changes compile together, we can pick LiveKit in the Provider Configuration Manager and hit Play.
 
 ### Things to remember when resuming
 
