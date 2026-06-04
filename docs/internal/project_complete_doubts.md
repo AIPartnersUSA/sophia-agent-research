@@ -2203,3 +2203,101 @@ Auth context: gh CLI is logged in as `AvinashSophia` personal account with token
 ### Short-form answer
 
 Read-only access today (`pull: true, push: false`). `development` branch exists (Q15's plan still applies); `main` is the default. Path A: ask the XR engineer to grant `AvinashSophia` Write access on AIPartnersUSA/Sophia_Xreal-U2 — same pattern as aws-infra. Path B fallback: fork to AvinashSophia/Sophia_Xreal-U2, work in fork, PR back. Path A is cleaner; Path B doesn't block.
+
+---
+
+## Q25 (2026-06-04): Integration journal — running state of the Phase 1 LiveKit integration work in Sophia_Xreal-U2-main. What's done, what's next, where things live, key decisions baked in.
+
+This is a LIVING entry. Updated as each step lands. Future Claude or future-Avinash should be able to read this and know exactly where the work is parked.
+
+### Setup state
+
+- **Work clone**: `/Users/avinashbolleddula/Documents/repos/Sophia_Xreal-U2-main/` (existing clone in your repos folder; separate from the read-only reference clone at `Sophia_Xreal-U2/` in the research project root).
+- **Branch**: `avinash/livekit-provider` off `development` (commit `6294ecb1 v3.12.2 - ARCore Geospatial and build flavor gating`). Branch name chosen by Avinash (XR engineer gave free rein: "feel free to add a branch with a clear name").
+- **Write access**: granted 2026-06-04 via the AIP_All team grant from XR engineer. Push verified working (`gh api repos/AIPartnersUSA/Sophia_Xreal-U2 --jq .permissions` shows `push: true`).
+- **Repo remote**: `https://github.com/AIPartnersUSA/Sophia_Xreal-U2.git`.
+- **v3.12.1 → v3.12.2 diff check** (commit `cfae9f73` → `6294ecb1`): only 1 commit, only AR / build-tooling changes. ZERO files touched in `Modules/ConversationalAI/**`, `Modules/Audio/**`, `Modules/Networking/**`, `Modules/ProviderConfiguration/**`. All our Q17 line numbers + contracts remain valid at v3.12.2.
+- **LiveKit Unity SDK source for our integration**: vendoring our `sophia-glasses/client-sdk-unity/` copy is the planned approach (Q17 item 6). Not yet added to his `Packages/manifest.json`.
+
+### Baseline validation (his client runs cleanly on Mac before we touch anything)
+
+Confirmed working on Avinash's Mac in Unity 6000.3.12f1 Editor Play Mode on 2026-06-04:
+- ✅ **OpenAI Realtime direct** — Customized Endpoints mode + Active Conversation Provider = OpenAI Direct API. Uses the `sk-svca...` service-account key committed in `Assets/Resources/ProviderConfigurations/ProviderConfig.asset`. Spoke into Mac mic, Sophia responded.
+- ✅ **AWS cascaded "Voice Step" (Whisper + LLM + Kokoro via gateway)** — Customized Endpoints + Active Conversation Provider = "AWS – Voice Step (Whisper + LLM + Kokoro TTS)". Endpoint `https://staging.docu-mind.com`. Works.
+- ❌ **VoiceRelaySelfHosted** (Single Endpoint mode + AWS bundle + VoiceRelaySelfHosted pipeline) — fails at the bootstrap call to `GET /gateway/sophia-speech/client-config` with error `"Header value contains invalid characters"`. Pre-existing bug in his project: the committed bearer token has bad characters (likely trailing `\n` or `\r` from paste). NOT a blocker for us — this is his config issue. Sent to XR engineer as FYI; we proceed regardless.
+
+**Implication**: his client is fully validated as a working development environment. The AWS cascaded path is also the IDEAL comparison baseline for our LiveKit work — same model families (Whisper + Kokoro on both sides), same backend deployment pattern, only orchestration framework + transport differ. Q16 measurement spike will compare LiveKit (WebRTC + agent.py + LiveKit Agents framework) vs AWS Cascaded (WSS + his AWS gateway server).
+
+**Editor noise to ignore** during Play Mode:
+- `DllNotFoundException: XREALXRPlugin` — XREAL native plugin only loads on Android device; expected on macOS Editor; harmless.
+- `Disabling Analytics Reporting in External Dependency Manager` — Google ARCore extensions setup; harmless.
+- `[CDEBUG_0521_EditorOverhead]` perf summary logs — his profiler; informational.
+
+### Code work plan — 8 deltas total
+
+1. ✅ **Create `Providers/LiveKit/` folder** in his repo. Done.
+2. ✅ **Write `LiveKitLlmProvider.cs`** (556 lines). Done. Location: `Sophia_Wearable/Assets/_Scripts/Modules/ConversationalAI/Providers/LiveKit/LiveKitLlmProvider.cs`. Currently has compile dependencies on (a) `MicrophoneStreamerAudioSource` class which doesn't exist yet, (b) `using LiveKit;` namespace which requires the SDK to be vendored. So the file is in place but DOES NOT COMPILE until 3 and 5 are done.
+3. ⬜ **Write `MicrophoneStreamerAudioSource.cs`** (~120 lines) — subclass of LiveKit's `RtcAudioSource` per T1 finding. Bridges `MicrophoneStreamer.OnAudioChunk(base64)` into LiveKit's audio capture pipeline. Same folder as the provider.
+4. ⬜ **Vendor LiveKit Unity SDK** into his `Packages/`. Mirror our `sophia-glasses/client-sdk-unity/` Git LFS pattern. Add `"io.livekit.livekit-sdk": "file:..."` entry to his `Packages/manifest.json`. After this, the `using LiveKit;` namespaces resolve.
+5. ⬜ **Edit `ProviderConfig.cs`** — add `LiveKit` value to the `ConversationProviderType` enum so the controller knows LiveKit is a thing.
+6. ⬜ **Edit `ProviderFactory.cs`** — add `CreateLiveKitProvider()` method + new `case ConversationProviderType.LiveKit:` arm in `CreateLLMProvider()`. Mirror the existing `CreateVoiceRelayLlmProvider` pattern (~10 lines).
+7. ⬜ **Edit `ConversationalAIController.cs`** — add `else if (provider is LiveKitLlmProvider lk)` branch in the controller's mic-forwarding code (line ~1541 from the deep-read). LiveKit owns mic via `MicrophoneStreamerAudioSource`; controller should skip its byte[] mic-forwarding when LiveKit is active.
+8. ⬜ **Wire scene + Inspector** — add a `LiveKitLlmProvider` MonoBehaviour to the scene (factory will instantiate at runtime — but for dev we may pre-add). Assign `MicrophoneStreamer` ref + `speakerHost` Transform + tokenApiKey + URLs via Inspector. Set Active Conversation Provider in the Provider Configuration Manager to LiveKit.
+
+After 1-8 land: smoke test in Editor Play Mode, then APK + Beam Pro, then measurement spike.
+
+### Done so far — file-by-file
+
+#### LiveKitLlmProvider.cs (556 lines) — 2026-06-04
+
+Location: `Sophia_Wearable/Assets/_Scripts/Modules/ConversationalAI/Providers/LiveKit/LiveKitLlmProvider.cs`
+
+**Design decisions baked in** (each tied to a Q17 finding — see those for rationale):
+
+1. **Sealed MonoBehaviour implementing ILLMProvider**. Mirrors `VoiceRelayLlmProvider` shape exactly (same template per the deep-read).
+2. **Mic uplink via custom `RtcAudioSource` subclass** (Q1a YES path). `SendAudioChunkAsync` is a no-op — audio flows out-of-band through `MicrophoneStreamerAudioSource` (the file in step 3). Preserves XREAL boom mic device-selection + VOICE_COMMUNICATION audio mode + RMS probe.
+3. **Audio downlink via SDK's auto-attached `AudioSource` on child GameObject** (Q58 pattern from sophia-glasses). Filter `participant.Identity.StartsWith("agent-")` to skip non-agent tracks. One child GameObject named `SophiaSpeaker_<sid>` per agent track under `_speakerHost`. **v1 limitation accepted**: bypasses his `PcmAudioPlayer` dual-output routing. Revisit if his demo needs dual-output.
+4. **OnAudioReceived NOT raised in v1**. If his audio-first caption gating depends on this event, captions won't gate. Fix path: raise dummy events on track activity (cheap follow-up).
+5. **OnAgentSpeaking driven by `sophia.agent_events` kind=`agent_state`** (new=`speaking` → true, anything else → false). Also fires `true` on track-subscribed for redundancy with HUD pill.
+6. **OnUserSpeaking driven by `sophia.agent_events` kind=`user_state`**.
+7. **Three text-stream topics** subscribed in `ConnectAsync` BEFORE `Room.Connect`: `sophia.agent_events`, `sophia.rag_result`, `lk.transcription`.
+8. **Reconnect coexistence (Q6)**: `IsConnected => (_room.ConnectionState == ConnConnected) || _isReconnecting`. Subscribe to `Reconnecting`/`Reconnected` events to flip the flag. Absorbs the controller's 1.5s grace timer during SDK transient blips.
+9. **SendImageAsync = no-op** (Q23 finding — matches VoiceRelay's existing behavior, not a regression).
+10. **SetToolRegistry accepts and stores but doesn't use** the registry. Tools live server-side in `agent.py`. API parity for the controller's type-sniff branch.
+11. **Token fetch via UnityWebRequest POST** to `_tokenEndpoint` with `X-API-Key` header. Body: `{room, identity, agent_name}`. Backend returns `{token, serverUrl}`.
+12. **Config for v1 is `[SerializeField]` Inspector fields** (`_liveKitUrl`, `_tokenEndpoint`, `_tokenApiKey`, `_agentName`, `_roomName`, `_participantIdentity`). `Initialize(ProviderConfig _)` is a no-op for v1 — accepts the arg for ProviderFactory's call to compile, but reads nothing from it. Future: refactor to pull from `ProviderConfig.LiveKit` subblock.
+13. **Debug logging prefix**: `[DEBUG_0604_LiveKit]` for grep parity with VoiceRelay's `[DEBUG_*_VoiceRelay*]` tags. Metrics events log under `[DEBUG_0604_LiveKitLegs]` (mirror VoiceRelay's `[DEBUG_0605_VoiceRelayLegs]`).
+14. **OnDestroy fire-and-forget DisconnectAsync** (VoiceRelay pattern).
+15. **Error plumbing via `RaiseError(stage, code, ex)`** helper — fills `ErrorEventArgs` including `ErrorStage` (the v1.1 observability extension already in `ILLMProvider.cs`).
+
+**v1 limitations explicitly documented in the file header**:
+- `SendAudioChunkAsync` is no-op (audio flows out-of-band via custom source).
+- `SendImageAsync` is no-op (matches VoiceRelay).
+- `OnAudioReceived` not raised (audio plays via SDK, not via `PcmAudioPlayer`).
+- Tools no-op (server-side).
+
+### Next step (step 3 of 8 in the plan)
+
+Write `MicrophoneStreamerAudioSource.cs` next. ~120 lines. Subclass of `RtcAudioSource` (the abstract base class from `sophia-glasses/client-sdk-unity/Runtime/Scripts/RtcAudioSource.cs`). The `SineWaveAudioSource.cs` test fixture at `sophia-glasses/client-sdk-unity/Tests/PlayMode/Utils/SineWaveAudioSource.cs` is the canonical example pattern.
+
+Behavior:
+- Constructor takes a `MicrophoneStreamer` reference, subscribes to `OnAudioChunk(string base64)`.
+- On each chunk: decode base64 → int16 PCM samples → convert to float[] (`RtcAudioSource` expects float frames internally).
+- Call `AudioRead?.Invoke(buffer, channels=1, sampleRate=16000)` to push the frame into LiveKit's FFI capture pipeline.
+- Override `Start()` and `Stop()` for lifecycle.
+- Override `Dispose()` to unsubscribe from MicrophoneStreamer.
+
+After step 3 lands, step 4 is vendoring the SDK so the `using LiveKit;` references resolve and the project compiles for the first time.
+
+### Things to remember when resuming
+
+- **Per-change `go` required** before any edit/write into the work clone. Saved process rule (`feedback_xr_repo_modification_rules.md`). User confirms each file before Write tool runs.
+- **Unity Editor must be CLOSED** while we're writing files that depend on yet-unwritten classes — otherwise Unity tries to compile, surfaces errors, blocks Play. Open Unity again only after a known-good compile state.
+- **Don't `git add -A`** in the work clone — Unity creates lots of import/play noise (modified .meta files, log files, ProviderConfig.asset edits, .vscode/, Sophia_Wearable.slnx, the auto-created LiveKit.meta folder marker). Add files selectively (`git add Sophia_Wearable/Assets/_Scripts/Modules/ConversationalAI/Providers/LiveKit/` etc.).
+- **2026-06-04 movement note**: Avinash moved `LiveKitLlmProvider.cs` to `/tmp/LiveKitLlmProvider.cs.bak` before the baseline test so Unity could compile his existing code without our WIP file. Moved back to the work clone path after baseline confirmed working. File restoration log: 2026-06-04 12:08.
+- **The 2 red 3ds Max errors** at first Unity import (`.max files only on Windows`) are harmless. Those are source-of-record files; runtime uses the .fbx exports.
+- **EC2 backend still up** for when smoke test happens — ws://3.227.63.49:7880 + http://3.227.63.49:8001/token + tokenApiKey `9a11fdf5ce05e3cecad28f933d778971` + agentName `sophia-agent`. Phase 2 will swap these for production AWS values via Inspector edit, no code change.
+
+### When this Q gets extended
+
+Each subsequent file we write (steps 3-7 above) gets its own subsection under "Done so far" mirroring the LiveKitLlmProvider section above — design decisions, line count, location, design rationale. Step 8 (scene wiring) gets an entry too. When smoke test passes, add a "Smoke test results" section. When measurement spike runs, add the numbers.
