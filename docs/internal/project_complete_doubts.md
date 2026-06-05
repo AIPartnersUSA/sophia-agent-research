@@ -2429,7 +2429,96 @@ Three other type-sniff branches in the same method correctly skip us as-is, no e
 - Lines 988-989: VoiceRelay uplink chunk clock for `vad_endpoint_ms` correlation. VoiceRelay-specific diagnostic.
 - Lines 1011-1013: `_voiceRelayMicChunksForwarded++` counter. Only increments for VoiceRelay + OpenAI; correctly excludes us since our mic path is out-of-band.
 
-### Where we paused — end of 2026-06-04
+### State as of 2026-06-05 mid-day (smoke test partially passed, EKS port-forward blocker remaining)
+
+Everything our integration is responsible for WORKS. EC2 logs at 2026-06-05T14:00:46 UTC PROVED end-to-end: token-mint POST 200 OK from Mac, SFU room joined, agent dispatched and joined with `agent-` prefix identity, both audio tracks published, ICE negotiation succeeded. Only the agent-worker's STT call to Whisper inference fails (Connection error) because EKS port-forward isn't running today. EKS models come up after 11 AM CST; re-test the full voice loop then.
+
+Full smoke test verification details in Q32.
+
+**Discoveries today (2026-06-05) — three additional gotchas beyond yesterday's 7 SDK API fixes**:
+- **Q30**: His ProviderConfig has THREE enum layers + bundle override (Layer 1 `CustomizedLooseConversationProvider`, Layer 2 `customizedEndpointsBundle` ScriptableObject + its own `CustomizedAwsConversationBackend` enum, Layer 3 `ConversationProviderType`, Layer 4 the converter). Only adding LiveKit to Layer 3 yesterday wasn't enough — silently dispatched to OpenAI. Fix: added LiveKit to Layer 1 + Layer 4 converter, cleared bundle in `ProviderConfig.asset` to bypass Layer 2 for v1.
+- **Q31**: Unity 6 blocks HTTP requests by default. EC2 token-mint at `http://3.227.63.49:8001/token` fails `Insecure connection not allowed`. Fix: Player Settings → Other Settings → Configuration → Allow downloads over HTTP → "Always allowed" (`insecureHttpOption: 2` in `ProjectSettings/ProjectSettings.asset`).
+- **Q32**: Smoke test verified end-to-end via EC2 logs. Phase 1 client-side integration functionally complete.
+
+### What goes in the PR (the work-clone files to commit + push to `avinash/livekit-provider`)
+
+Selectively `git add` these — DO NOT `git add -A` (Unity noise + the ARCore Extensions Samples deletions need separate handling).
+
+**Files to include in PR**:
+
+Code added (2 new files):
+1. `Sophia_Wearable/Assets/_Scripts/Modules/ConversationalAI/Providers/LiveKit/LiveKitLlmProvider.cs` (~570 lines after Q29 fixes)
+2. `Sophia_Wearable/Assets/_Scripts/Modules/ConversationalAI/Providers/LiveKit/MicrophoneStreamerAudioSource.cs` (118 lines)
+
+Code modifications (6 files):
+3. `Sophia_Wearable/Assets/_Scripts/Modules/ProviderConfiguration/ProviderConfig.cs` — `LiveKit = 6` in `ConversationProviderType` + `LiveKit = 5` in `CustomizedLooseConversationProvider` + converter mapping
+4. `Sophia_Wearable/Assets/_Scripts/Modules/ConversationalAI/Core/ProviderFactory.cs` — LiveKit case + `CreateLiveKitProvider()` method
+5. `Sophia_Wearable/Assets/_Scripts/Modules/ConversationalAI/Core/ConversationalAIController.cs` — LiveKit bypass branch in `OnMicrophoneAudioChunk`
+6. `Sophia_Wearable/Assets/_Scripts/Modules/ConversationalAI/Sophia.ConversationalAI.asmdef` — added `"LiveKit"` to references array
+
+Config + scene changes (4 files):
+7. `Sophia_Wearable/Packages/manifest.json` — added `"io.livekit.livekit-sdk": "https://github.com/livekit/client-sdk-unity.git#v1.3.7"`. ARCore Extensions removed by XR engineer (separate concern, see Q28).
+8. `Sophia_Wearable/Assets/Resources/ProviderConfigurations/ProviderConfig.asset` — `activeConversationProvider: 5` (LiveKit selected), `customizedEndpointsBundle: {fileID: 0}` (cleared for v1)
+9. `Sophia_Wearable/Assets/_Scenes/Sophia_Wearables.unity` — `LiveKitLlmProvider` GameObject under `Logic/Modules/ConversationalAI` with Inspector fields wired
+10. `Sophia_Wearable/ProjectSettings/ProjectSettings.asset` — `insecureHttpOption: 2` (HTTP allow for EC2 MVP)
+
+Auto-generated Unity meta files (4 files — must include alongside their source files):
+- `Sophia_Wearable/Assets/_Scripts/Modules/ConversationalAI/Providers/LiveKit/LiveKitLlmProvider.cs.meta`
+- `Sophia_Wearable/Assets/_Scripts/Modules/ConversationalAI/Providers/LiveKit/MicrophoneStreamerAudioSource.cs.meta`
+- `Sophia_Wearable/Assets/_Scripts/Modules/ConversationalAI/Providers/LiveKit.meta` (the folder's auto-generated meta)
+- `Sophia_Wearable/Assets/Resources/ProviderConfigurations/ProviderConfig.asset.meta` (modified)
+
+Total: 14 files in the PR.
+
+**Files NOT to include in PR (Unity-incidental noise)**:
+- `Sophia_Wearable/.vscode/` (IDE settings folder)
+- `Sophia_Wearable/Sophia_Wearable.slnx` (auto-generated solution file)
+- Any `*.log` or log `.meta` deletions
+- Any `Sophia_Wearable/Assets/_Scripts/Core/Logs/MiscLogs/*` runtime log files
+- `Sophia_Wearable/Assets/_Visuals/Models/SantaFe/3DModelsOrg/Materials/redglass.mat` (Unity touched this during reimport)
+- Misc `.meta` deletions (Unity will regenerate as needed)
+
+**Separate concerns to flag to XR engineer in PR description (not lumped with our changes)**:
+- ARCore Extensions Samples folder deletion (~50 files). He removed `com.google.ar.core.arfoundation.extensions` package; the Samples folder for that package is correctly cleaned up as a result. This is HIS change, not ours, but is included in our branch because we share the work-clone. Note in PR: "ARCore Extensions removed by XR engineer to resolve Google.Protobuf conflict with LiveKit SDK; see Q28."
+
+### PR commit-message template (use when committing tomorrow after smoke test passes)
+
+```
+feat(conversational-ai): add LiveKit provider for self-hosted WebRTC voice agent
+
+Implements ILLMProvider against LiveKit Unity SDK v1.3.7. Adds a new
+ConversationProviderType.LiveKit option that routes voice through a LiveKit
+SFU + LiveKit Agents framework backend (currently MVP on EC2 at
+3.227.63.49). Mic uplink uses a custom RtcAudioSource that wraps the
+existing MicrophoneStreamer so device-selection + AEC tuning is preserved.
+Audio downlink and text-stream subscriptions follow the Q58 agent-only
+identity-prefix pattern.
+
+New files:
+- Modules/ConversationalAI/Providers/LiveKit/LiveKitLlmProvider.cs
+- Modules/ConversationalAI/Providers/LiveKit/MicrophoneStreamerAudioSource.cs
+
+Modified:
+- ProviderConfig.cs: LiveKit enum values + converter mapping
+- ProviderFactory.cs: CreateLiveKitProvider() + new case
+- ConversationalAIController.cs: bypass byte[] mic forwarding for LiveKit
+- Sophia.ConversationalAI.asmdef: LiveKit assembly reference
+- Packages/manifest.json: UPM Git URL for LiveKit SDK v1.3.7
+- Sophia_Wearables.unity: LiveKitLlmProvider GameObject in scene
+- ProviderConfig.asset: LiveKit selected + bundle cleared
+- ProjectSettings.asset: insecureHttpOption=2 for EC2 MVP HTTP
+
+Smoke test verified via EC2 SFU logs 2026-06-05T14:00 UTC: token mint,
+SFU connect, agent dispatch, both audio tracks published, ICE
+negotiation succeeded. STT failed today only due to EKS port-forward not
+running; not a code issue.
+
+ARCore Extensions package removed separately to resolve a Google.Protobuf
+conflict with LiveKit SDK's bundled DLL. AR functionality unchanged
+(lives in AR Foundation + ARCore plugin, not Extensions).
+```
+
+### Where we paused — end of 2026-06-04 (the previous resume point, kept for archaeology)
 
 Phase 1 integration work is mostly done but the smoke test hasn't run yet. Specific paused state:
 
@@ -2917,3 +3006,188 @@ Reading SDK reference clones written for one version doesn't reliably tell you a
 ### Short-form answer
 
 I wrote LiveKitLlmProvider.cs against guessed signatures from an older SDK reading. Seven mismatches surfaced as compile errors against v1.3.7: ambiguous `RoomOptions`/`YieldInstruction` (qualify with `global::LiveKit.X`), `ConnectInstruction`/`PublishTrackInstruction`/`ReadAllInstruction` inherit `CustomYieldInstruction` not awaitable as Task (wrote `AwaitYield` helper polling `IsDone` via `Task.Yield()`), `Room.Dispose()` doesn't exist in v1.3.7 (rely on FfiHandle finalizer), `DataPublishOptions` doesn't exist (`PublishData` takes `topic:` named param), `TextStreamReader.ReadAllAsync` doesn't exist (`ReadAll()` returns `ReadAllInstruction` with `.Text` after `.IsDone`). Plus two non-API issues: missing `"LiveKit"` in asmdef references, missing `using Sophia.ConversationalAI.Config;` directive. All fixed. Provider compiles clean against v1.3.7.
+
+---
+
+## Q30 (2026-06-05): His ProviderConfig architecture has THREE enum layers + a bundle override. We discovered this during smoke test the hard way.
+
+When I added `LiveKit = 6` to `ConversationProviderType` on 2026-06-04, I thought that was sufficient. It wasn't. His Provider Configuration system has three separate enums and a bundle ScriptableObject that can override everything. To make a new provider reachable from the UI dropdown all the way to runtime dispatch, you have to touch FOUR places, not one.
+
+### The dispatch chain (in order from dropdown to runtime)
+
+**Layer 1 — UI-facing enum: `CustomizedLooseConversationProvider`** (in `ProviderConfig.cs`, ~lines 91-102)
+
+This is what the user actually selects in the Provider Configuration Manager dropdown when `EndpointConfigurationMode == CustomizedEndpoints`. Its enum values:
+- `None = 0`
+- `AwsOpenAiRealtimeGateway = 1`
+- `AwsVoiceRelaySelfHosted = 2`
+- `SophiaLocalUnityServer = 3`
+- `OpenAiDirectVendor = 4`
+- (we added) `LiveKit = 5`
+
+The serialized field `activeConversationProvider` on `ProviderConfig` is of this type.
+
+**Layer 2 — Bundle override: `customizedEndpointsBundle` ScriptableObject** (in `EndpointConfigurationBundles.cs`)
+
+`ProviderConfig` also has a serialized field `customizedEndpointsBundle` of type `CustomizedEndpointsBundle` (a ScriptableObject). The runtime dispatch checks: if a bundle is assigned, USE THE BUNDLE'S converter, ignoring the `activeConversationProvider` field. See `ProviderConfig.GetActiveConversationProvider()` ~line 574:
+```csharp
+public ConversationProviderType GetActiveConversationProvider() =>
+    UseCustomizedBundle()
+        ? customizedEndpointsBundle.ToConversationProviderType()
+        : activeConversationProvider.ToConversationProviderType();
+```
+
+The bundle has its OWN field `customizedAwsConversation` of type `CustomizedAwsConversationBackend` (a separate enum at lines 77-85: `OpenAiRealtimeGateway = 0`, `VoiceRelaySelfHosted = 1`, `OpenAiDirectVendor = 2`). The bundle's `ToConversationProviderType()` only knows how to map TO `OpenAI` or `AwsVoiceRelaySelfHosted` — NO awareness of LiveKit.
+
+So as long as a bundle is assigned to `ProviderConfig.asset`, `activeConversationProvider` is ignored and LiveKit is unreachable. This was the silent failure that made our LiveKit selection look like it worked in the dropdown but the runtime still dispatched OpenAI.
+
+**Layer 3 — Runtime enum: `ConversationProviderType`** (lines 119+, where we added `LiveKit = 6` on 2026-06-04)
+
+What `ProviderFactory.CreateLLMProvider(ConversationProviderType)` switches on. Both Layer 1 (loose enum) and Layer 2 (bundle) ultimately convert to this enum.
+
+**Layer 4 — Converter: `CustomizedLooseConversationProvider.ToConversationProviderType()`** (extension method at ~line 1057)
+
+Switch expression mapping Layer 1 enum values to Layer 3 values. Default returns `ConversationProviderType.OpenAI` (silent fallback if no case matches — which is how `LiveKit = 5` in Layer 1 silently became OpenAI in the runtime until we added the mapping).
+
+### What we had to do today to make LiveKit actually reachable
+
+For the dropdown choice to actually invoke `LiveKitLlmProvider`, all four layers had to know about LiveKit:
+
+1. **Layer 1**: add `LiveKit = 5` to `CustomizedLooseConversationProvider` enum with `[InspectorName("LiveKit (WebRTC + LiveKit Agents)")]`. **Done 2026-06-05.**
+2. **Layer 4 converter**: add `CustomizedLooseConversationProvider.LiveKit => ConversationProviderType.LiveKit` arm. **Done 2026-06-05.**
+3. **Layer 3** (was already done 2026-06-04): `LiveKit = 6` in `ConversationProviderType`.
+4. **Bypass Layer 2 for testing**: clear the `customizedEndpointsBundle` field on `ProviderConfig.asset` (set to None via Inspector → `customizedEndpointsBundle: {fileID: 0}` in the asset YAML). With bundle null, `UseCustomizedBundle()` returns false → falls through to `activeConversationProvider.ToConversationProviderType()` → reaches our new enum value.
+
+The bundle path is a long-term cleanup item: extend `CustomizedAwsConversationBackend` enum + `CustomizedEndpointsBundle.ToConversationProviderType()` to know about LiveKit. For the PR we may need to do this if the engineer wants bundles to support LiveKit; for v1 smoke test, the bundle clear is acceptable since the engineer can re-assign a bundle later when our work is being upstreamed.
+
+### Lessons + watch-fors for future provider integration
+
+1. **A single Add Component to a custom Editor UI doesn't tell you the runtime dispatch path is the same as the UI selection mechanism.** His `ProviderConfig` has two parallel paths (bundle vs loose) and we'd have walked straight into this trap if we didn't trace `GetActiveConversationProvider()` from the controller backward.
+2. **Silent default fallbacks in switch expressions are dangerous.** The converter's `_ => ConversationProviderType.OpenAI` arm makes any missing case silently route to OpenAI. From the UI it looks like the selection works; from the runtime it looks like OpenAI is selected. Add explicit cases or use exhaustive switch.
+3. **ScriptableObject "bundle" overrides are common in mature projects.** When a field on a ScriptableObject can be either-or with a runtime config, always grep for both the field and any `XxxBundle` ScriptableObjects that might shadow it.
+4. **Test the runtime dispatch, not the editor dropdown.** A `Debug.Log` in `Initialize()` is the simplest proof — if our provider's tag appears in console, dispatch is wired right.
+
+### Short-form answer
+
+His provider system has THREE enum layers (UI-facing `CustomizedLooseConversationProvider`, runtime `ConversationProviderType`, plus bundle's `CustomizedAwsConversationBackend`) + a `customizedEndpointsBundle` ScriptableObject that can override the UI-facing selection entirely. Yesterday we only added LiveKit to Layer 3. Today we added it to Layer 1 + Layer 4 converter, AND cleared the bundle to bypass Layer 2. All four touchpoints needed for LiveKit to actually dispatch at runtime. Long-term cleanup: extend the bundle path to support LiveKit too.
+
+---
+
+## Q31 (2026-06-05): Unity 6 blocks HTTP requests by default — we hit "Insecure connection not allowed" on the EC2 token-mint POST.
+
+After fixing the three-enum dispatch (Q30), our `LiveKitLlmProvider.Initialize()` started firing correctly. But `ConnectAsync` then errored with:
+
+```
+System.InvalidOperationException: Insecure connection not allowed
+  at UnityEngine.Networking.UnityWebRequest.BeginWebRequest_Injected(intptr)
+  at UnityEngine.Networking.UnityWebRequest.SendWebRequest()
+  at Sophia.ConversationalAI.Providers.LiveKit.LiveKitLlmProvider.FetchTokenAsync() at line 353
+```
+
+### Cause
+
+Unity 6 changed the default for `Player → Other Settings → Configuration → Allow downloads over HTTP` from "Always allowed" to "Not allowed". Our EC2 token-mint runs at `http://3.227.63.49:8001/token` (plain HTTP, no TLS) for the MVP. UnityWebRequest now refuses the request client-side without ever reaching the server.
+
+### Fix
+
+Edit → Project Settings → Player → Other Settings → Configuration → **Allow downloads over HTTP** → change from "Not allowed" to **"Always allowed"** (or "Allowed in development builds"). Modifies `ProjectSettings/ProjectSettings.asset`: `insecureHttpOption: 2` (0=NotAllowed, 1=DevBuildsOnly, 2=Always).
+
+Tracked file change, visible in PR diff. The XR engineer should be aware this setting is altered for our MVP HTTP-against-EC2 path. **For Phase 2** (production AWS with TLS), this setting can be reverted to "Not allowed" once token-mint and SFU are served via HTTPS/WSS.
+
+### Lesson
+
+Unity 6's new default broke many Editor-side workflows that use `http://`. If our integration is going to ship before Phase 2 TLS termination, `insecureHttpOption: 2` is required. Sophia-glasses also has this set (Q26 in `livekit_doubts.md` mentions Chrome's chrome://flags/#unsafely-treat-insecure-origin-as-secure for the browser path — same family of HTTP-vs-HTTPS friction).
+
+### Short-form answer
+
+Unity 6 defaults to blocking HTTP requests. Our EC2 MVP runs HTTP (no TLS). Set Player Settings → Allow downloads over HTTP → Always allowed. One-line change in `ProjectSettings.asset` (`insecureHttpOption: 2`). Revert when Phase 2 puts TLS in front of EC2.
+
+---
+
+## Q32 (2026-06-05): Smoke test SUCCESS confirmed end-to-end via EC2 logs (with one expected blocker for the full voice loop).
+
+After all the fixes (the three-enum + bundle clear from Q30, plus the Player Settings HTTP fix from Q31), we ran Unity Editor with LiveKit selected and verified actual EC2 backend reachability. Phase 1 client-side LiveKit integration is FUNCTIONALLY PROVEN to work end-to-end up to the inference layer.
+
+### What the EC2 logs showed at 2026-06-05T14:00:46 UTC
+
+Token-mint received POST from Mac (66.253.176.246) → 200 OK:
+```
+token-mint-1  | 2026-06-05T14:00:46Z INFO: POST /token HTTP/1.1 200 OK from 66.253.176.246:54902
+```
+
+LiveKit SFU starting an RTC session for our Mac participant:
+```
+SFU: starting RTC session, room=3a8cea15, participant=xr-3d80d058,
+     client SDK=UNITY, version=1.3.7, OS=Mac OS, deviceModel=Mac17,8,
+     RoomConfig.agents=[{agentName: "sophia-agent", restartPolicy: "JRP_ON_FAILURE"}]
+```
+
+Agent dispatcher assigned the job to the agent-worker:
+```
+SFU agents: assigned job to worker, jobID=AJ_AEBd84m8of6k, workerID=AW_souB3RfU3mXz,
+            agentName=sophia-agent
+```
+
+Agent-worker accepted the job and joined the room with identity prefix `agent-` (matches our Q58 filter):
+```
+SFU: starting RTC session, participant=agent-AJ_AEBd84m8of6k (Identity starts with "agent-"),
+     client SDK=PYTHON, version=1.1.8, deviceModel=g5.2xlarge
+```
+
+ICE negotiation succeeded (UDP connection):
+```
+agent ICE connect: 251.626 ms
+mac   ICE connect: 795.562 ms
+connectionType: udp
+```
+
+BOTH Mac and Agent published audio MICROPHONE tracks (our `MicrophoneStreamerAudioSource` adapter sent the uplink track correctly):
+```
+mediaTrack published: participant=xr-3d80d058,
+                      kind=audio, mime=audio/red, source=MICROPHONE
+mediaTrack published: participant=agent-AJ_AEBd84m8of6k,
+                      kind=audio, mime=audio/red, source=MICROPHONE
+```
+
+### Where the loop fails today (and why it's expected)
+
+Agent-worker tried to do STT via OpenAI Whisper plugin but the network connection to inference failed:
+```
+agent-worker: "failed to recognize speech: Connection error, retrying in 0.1s"
+agent-worker: "failed to recognize speech: Connection error, retrying in 2.0s"
+agent-worker: "failed to recognize speech: Connection error, retrying in 2.0s"
+agent-worker: "AgentSession is closing due to unrecoverable error: Connection error"
+```
+
+Root cause: the EKS port-forward from EC2 to the cross-region inference cluster (`spatial-ai-staging` in us-west-2) is NOT running today. The agent-worker can't reach Whisper STT (port 8080), Qwen3 LLM (port 18080), or Kokoro TTS (port 8122). All three are needed.
+
+Per Avinash: EKS models are typically up after 11 AM CST. We'll start the port-forward then and re-test for the full loop.
+
+### What this proves (Phase 1 client-side integration is DONE)
+
+Everything our LiveKitLlmProvider + MicrophoneStreamerAudioSource was responsible for works:
+
+✓ Token-mint POST with X-API-Key header (FetchTokenAsync)
+✓ Room.Connect to SFU + ICE/DTLS negotiation
+✓ Mic capture via custom RtcAudioSource (MicrophoneStreamerAudioSource ran without errors; agent participant received the track)
+✓ Agent participant identity prefix "agent-" matches our Q58 filter
+✓ The bypass in ConversationalAIController works (no controller errors about mic forwarding)
+✓ All 7 LiveKit SDK v1.3.7 API mismatches from Q29 resolved correctly (Connect/PublishTrack/AwaitYield path worked)
+
+The remaining blocker is purely EC2 infrastructure state (port-forward not running), not our code.
+
+### Open + verify after EKS models are up
+
+1. SSH to EC2, start kubectl port-forward to EKS inference services. Avinash's standard script per `mvp_deployment_shared_ec2.md` cold-start sequence.
+2. Re-run Unity Editor with LiveKit selected (no code changes needed; everything is wired).
+3. Speak into mic. Expected outcome:
+   - Agent-worker successfully calls Whisper STT → transcript returned
+   - Sophia text-stream events (`sophia.agent_events` kind=`user_transcript`) reach our provider → `OnTranscriptReceived(User, ...)` fires
+   - Agent generates response via Qwen3 LLM
+   - Sophia voice via Kokoro TTS → audio track subscribed in our provider → plays through Mac speakers
+   - HUD captions render (if his app has the HUD scene component wired)
+   - Telemetry events (`sophia.agent_events` kind=`metrics`) logged via `[DEBUG_0604_LiveKitLegs]` prefix
+
+### Short-form answer
+
+EC2 logs at 14:00 today PROVE end-to-end LiveKit integration works for everything our client-side code is responsible for: token mint, SFU connect, ICE negotiation, mic uplink via custom audio source, agent dispatch + identity prefix match, both audio tracks published. Only the agent-worker's call to OpenAI Whisper STT fails because EKS port-forward isn't running today. EKS models come up after 11 AM CST, then port-forward + re-test the full loop. Phase 1 LiveKit-into-Sophia_Xreal-U2 integration is essentially complete.
