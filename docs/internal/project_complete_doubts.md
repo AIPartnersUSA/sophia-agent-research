@@ -3191,3 +3191,232 @@ The remaining blocker is purely EC2 infrastructure state (port-forward not runni
 ### Short-form answer
 
 EC2 logs at 14:00 today PROVE end-to-end LiveKit integration works for everything our client-side code is responsible for: token mint, SFU connect, ICE negotiation, mic uplink via custom audio source, agent dispatch + identity prefix match, both audio tracks published. Only the agent-worker's call to OpenAI Whisper STT fails because EKS port-forward isn't running today. EKS models come up after 11 AM CST, then port-forward + re-test the full loop. Phase 1 LiveKit-into-Sophia_Xreal-U2 integration is essentially complete.
+
+## Q33 (2026-06-05): Full audible voice loop CONFIRMED end-to-end on Mac Editor — heard Sophia respond after restarting EKS port-forwards. UX nuance: requires in-app "Start Conversation" button click after Unity Play.
+
+### Sequence today
+
+1. Restarted EKS port-forwards on EC2 from interactive SSH (the shell that has STS creds): `./sophia-agent/infra/pf-gpu.sh start`.
+2. Verified Whisper / Qwen3 / Kokoro / sophia-spatial-ai answer at localhost:8080 / 18080 / 8122 / 8106.
+3. In Unity Editor on Sophia_Xreal-U2-main, Active Conversation Provider = LiveKit, hit Play.
+4. App scene loaded, mic hardware started, LiveKit provider initialized + connected + agent track subscribed + `mic uplink published.` — BUT Sophia did not auto-start a conversation.
+5. Clicked his in-app "Start Conversation" UI element (lower-right of game view in screenshots). Sophia engaged, mic actively forwarded, STT/RAG/LLM/TTS pipeline ran, audio came back through Mac speakers, user transcript rendered in HUD.
+
+### The in-app start button is required for ALL providers (not LiveKit-specific)
+
+Initially we suspected the second click was a LiveKit-specific connection-latency workaround (WebRTC ICE handshake takes ~500-1500ms vs OpenAI WS ~200ms — speaking immediately after Play could land during handshake silence). Re-tested with OpenAI Realtime → same behavior. **His ConversationalAIController.StartConversation is gated behind that UI button by design** regardless of provider. The early warning `[DEBUG_0505_ConversationAI] StartMicrophone: ... _currentProvider null — ensure StartConversation completed` is benign — it just says the controller's mic-to-provider wire is dormant until the user clicks the button.
+
+**Why:** distinguishing "app open" from "session active" is intentional product UX so the user controls when conversation begins. Same model as walkie-talkie PTT but with auto-stop instead of held-button.
+
+**How to apply:** when testing Phase 1, the smoke flow is always: Play → in-app start → speak. Don't try to "fix" Play to auto-start — that would diverge from his existing OpenAI / VoiceRelay / Gemini behavior. If we ever want a debug auto-start in Editor only, that goes in HIS controller, not our LiveKitLlmProvider.
+
+## Q34 (2026-06-05): Sophia's spoken text appears only AFTER she finishes speaking (delayed captions). What we tried for real-time streaming and current status.
+
+### The default state (no fix) — only `conversation_item_added`
+
+In LiveKit Agents v1.x, the framework's default transcription mechanism (`lk.transcription` topic) ships via the Room's TranscriptionReceived event channel, NOT a regular text-stream. Our `RegisterTextStreamHandler("lk.transcription", ...)` therefore never fires.
+
+To get Sophia's text into his HUD via the existing `sophia.agent_events` channel he already consumes, we added a `conversation_item_added` event handler in `sophia-agent/src/agent.py`:
+
+```python
+@session.on("conversation_item_added")
+def _on_conversation_item(ev):
+    item = getattr(ev, "item", None)
+    if item is None or getattr(item, "role", None) != "assistant":
+        return
+    parts = [c for c in (getattr(item, "content", []) or []) if isinstance(c, str)]
+    text = "".join(parts).strip()
+    if not text:
+        return
+    _fire(_publish_event({
+        "kind": "agent_transcript",
+        "text": text,
+        "is_final": True,
+        "interrupted": getattr(item, "interrupted", False),
+    }))
+```
+
+Plus client-side, a matching `case "agent_transcript":` in `LiveKitLlmProvider.OnAgentEventsMessage` that fires `OnTranscriptReceived(Agent, ...)` — wires to his HUD via the same pattern as user_transcript.
+
+### Why this is delayed
+
+`conversation_item_added` fires when the FULL assistant message lands in chat history, which happens **after TTS finishes playing**. So the HUD shows the text only after audio ends. Functionally correct, visually laggy.
+
+### Round 2 — `speech_created` hook (didn't work)
+
+Hypothesis: `speech_created` fires before TTS starts, the SpeechHandle's `chat_items` should contain the LLM's output. Added an interim publish with `is_final=False`.
+
+DEBUG log result on Avinash's test:
+```
+speech_created DEBUG: items=0 assistant_text_len=0 source=generate_reply
+```
+
+So at the moment `speech_created` fires, `chat_items` is **empty** — the LLM stream hasn't produced text yet. Speech is scheduled but content arrives later via streaming. This event is the wrong place to grab text.
+
+### Round 3 — `Assistant.llm_node` override (in progress, still NOT working as of session end)
+
+Override the Agent base class's `llm_node` to intercept Qwen3's streaming chunks AS they arrive, accumulate `delta.content`, and publish via `sophia.agent_events` with `is_final=False`:
+
+```python
+class Assistant(Agent):
+    async def llm_node(self, chat_ctx, tools, model_settings):
+        accumulated: list[str] = []
+        last_published_len = 0
+        async for chunk in Agent.default.llm_node(self, chat_ctx, tools, model_settings):
+            delta = getattr(chunk, "delta", None)
+            if delta is not None:
+                piece = getattr(delta, "content", None)
+                if piece:
+                    accumulated.append(piece)
+                    cur = "".join(accumulated)
+                    if len(cur) - last_published_len >= 8:
+                        _fire(_publish_event({
+                            "kind": "agent_transcript",
+                            "text": cur,
+                            "is_final": False,
+                        }))
+                        last_published_len = len(cur)
+            yield chunk
+```
+
+User tested, reported same problem — text still only appears after speech ends. **Status: open, will continue tomorrow.**
+
+### Hypotheses to investigate tomorrow
+
+1. **llm_node override isn't called** — framework may invoke a different code path when LLM is configured via `AgentSession(llm=openai.LLM(...))` (e.g., the openai plugin's stream goes through a different node hook). Verify by adding a log at the top of llm_node to confirm entry.
+2. **delta.content is None / chunks lack delta** — different LiveKit Agents internal chunk shape; might need `chunk.message.content` or similar. Print first chunk's repr.
+3. **HUD doesn't render interim** — even if interim publishes succeed, his HUD's `OnTranscriptReceived` handler might filter to `IsComplete=true`. Check what his other providers do for interim agent transcripts (OpenAI Realtime is streaming-capable).
+4. **Throttle window too large** — Qwen3 streams fast at low token counts so 8-char throttle may align with full sentence already. Try threshold=1 to force per-chunk publish.
+5. **Text-stream backpressure** — many tiny publishes might serialize behind earlier ones, arriving in clump near the end.
+
+### How to apply
+
+When picking up tomorrow: re-read the worker logs for `llm_node` entry markers, then walk through hypotheses 1–4 in order. The hooks themselves (event handlers + the agent_transcript case in OnAgentEventsMessage switch) are correctly wired; the question is which framework code path actually delivers streaming text.
+
+## Q35 (2026-06-05): User-side real-time transcript (text as YOU speak) — why it's not possible with the current STT setup.
+
+### Constraint
+
+Avinash wanted both real-time user transcript AND real-time agent transcript. Agent side is solvable via llm_node (see Q34, in progress). User side is blocked by the STT backend.
+
+### Why
+
+`sophia-agent/src/agent.py` uses `livekit.plugins.openai.STT(base_url=WHISPER_URL, model="whisper-large-v3")` which posts to the Whisper batch HTTP endpoint `/v1/audio/transcriptions`. Batch STT does not emit interim/partial results — only a single `is_final=True` event per turn after STT has fully processed the captured audio buffer. The framework's `user_input_transcribed` event therefore only fires once per turn with the complete text.
+
+To get interim user transcripts, we'd need a streaming-capable STT:
+
+- **Whisper streaming server** — vendors exist (e.g. `faster-whisper-server` with streaming mode) but our EKS deployment isn't running one. Infra change.
+- **Deepgram** — proprietary, costs money. Cloud-only or self-hosted.
+- **AssemblyAI realtime** — proprietary, costs money.
+- **LiveKit's own streaming Whisper plugin** — built into framework, supports interim results when backend speaks streaming protocol.
+
+### How to apply
+
+Real-time user transcript is a **Phase 1.5 infrastructure decision**, NOT a code patch. Don't attempt to hack interim publishing into the batch STT — the data simply isn't being generated. When Phase 2 infra migration happens (per HANDOFF.md), this is a good moment to swap STT to a streaming-capable backend co-located with the SFU.
+
+For Phase 1 demo on glasses tomorrow, accept post-utterance user transcript display.
+
+## Q36 (2026-06-05): EKS port-forward flakiness — symptom + recovery procedure.
+
+### Symptom
+
+Agent-worker logs flood with:
+```
+"failed to recognize speech: Connection error, retrying in 0.1s"
+"failed to recognize speech: Connection error, retrying in 2.0s"
+"AgentSession is closing due to unrecoverable error: Connection error"
+```
+
+The Unity client connects + agent dispatches + audio tracks publish (so SFU + token-mint + agent worker are fine), but every voice turn fails because the agent worker can't reach Whisper STT at `localhost:8080` (and similarly LLM / TTS).
+
+### Root cause
+
+The kubectl port-forwards we run on EC2 to the EKS cluster (us-west-2 from us-east-1) are persistent processes that die after some idle period or when kubeconfig STS credentials expire (STS lasts ~1 hour). Once dead, localhost:8080/18080/8122/8106 don't answer.
+
+### Recovery (do this in the EC2 shell that has STS creds exported)
+
+```bash
+# Verify which port-forwards are running (looks for kubectl processes)
+ps -ef | grep 'kubectl.*port-forward' | grep -v grep
+
+# Tear down + restart all of them
+./sophia-agent/infra/pf-gpu.sh stop
+./sophia-agent/infra/pf-gpu.sh start
+
+# Sanity-check each service answers
+curl -s http://localhost:8080/health    # Whisper STT
+curl -s http://localhost:18080/health   # Qwen3 LLM
+curl -s http://localhost:8122/health    # Kokoro TTS
+curl -s http://localhost:8106/health    # sophia-spatial-ai RAG
+```
+
+### STS credential reminder
+
+The shell that runs the port-forwards needs YOUR user STS credentials (not the EC2 instance role — that lacks EKS permissions). If `aws sts get-caller-identity` returns the EC2 instance ARN (`sophiaspatialai-ai-gpu-ec2`), the port-forwards will fail with "Unauthorized". Re-export `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` / `AWS_SESSION_TOKEN` from your SSO portal before running `pf-gpu.sh`.
+
+Different SSH sessions to the same EC2 see different `aws sts get-caller-identity` results because env vars are per-session — terminal A with vars exported uses your user identity, terminal B without vars falls back to instance metadata service and uses the EC2 instance role.
+
+### How to apply
+
+When debugging "Sophia connects but doesn't respond" symptoms on EC2, **first** check port-forwards before suspecting code. The pattern is so common we now treat it as the default first suspect.
+
+## Q37 (2026-06-05): Mac screen recording loses Sophia's audio — system audio capture needed.
+
+### Symptom
+
+During a demo recording session, Avinash wore earphones to avoid echo. The macOS native screen recorder (`cmd+shift+5`) captured his voice clearly (direct mic) but Sophia's voice was very faint (acoustic leak from earphones → mic only). System audio wasn't captured.
+
+### Why
+
+`cmd+shift+5` by default routes:
+- Microphone → recording (loud, direct)
+- System audio playback → speakers/headphones → NOT routed to recording
+
+When using earphones, Sophia plays only into the user's ears, never reaching the mic at meaningful volume.
+
+### Fix options (ordered easiest first)
+
+1. **macOS 14+ built-in system audio capture**: `cmd+shift+5` → Options menu → look for "Record System Audio" or similar toggle. May not exist on older macOS.
+2. **BlackHole 2ch** (free, ~3 min setup): `brew install blackhole-2ch` → Audio MIDI Setup → Multi-Output Device with earphones + BlackHole → `cmd+shift+5` Options → Microphone = BlackHole 2ch. Captures system audio cleanly. (Mic-plus-system mixing requires a more complex aggregate setup or post-mixing.)
+3. **OBS Studio** (free, ~10 min setup): obsproject.com → Display Capture + Audio Input + Audio Output Capture as separate sources. Best quality, most flexible, separate audio tracks for post-mixing.
+
+### How to apply
+
+For tomorrow's Phase 1 demo recording on glasses + Beam Pro:
+- Glasses path → Beam Pro audio routes to XREAL temple speakers via USB Audio Class; recording the glasses screen via scrcpy mirrors the Beam Pro to Mac, but does NOT capture Beam Pro's audio. Need a separate audio path (Beam Pro line-out → Mac audio interface, or record Beam Pro's audio internally via Android screen recording then merge).
+- Editor demo path → use BlackHole or OBS as above.
+
+For polished demo quality, plan recording setup BEFORE the session, not during. Today's faint-Sophia clip is unusable for sharing.
+
+## Q38 (2026-06-05): Backend agent.py code changes today (for context recovery tomorrow).
+
+### Three new event hooks added in `_attach_event_publishers`
+
+1. **`conversation_item_added`** (NEW, line ~418): publishes assistant message text via `sophia.agent_events` with `kind="agent_transcript"`, `is_final=True`. Fires AFTER speech ends. This is the FINAL confirmation path.
+
+2. **`speech_created`** (EXTENDED, line ~444): the existing handler that publishes `kind="speech_created"` was extended to also try extracting `ev.speech_handle.chat_items` and publish as interim `agent_transcript` with `is_final=False`. **DEBUG log proved chat_items is empty at this event** (`items=0 assistant_text_len=0`), so the extraction yields no publish. Kept the debug log for ongoing diagnosis.
+
+### One Agent class method override added
+
+3. **`Assistant.llm_node`** (NEW, line ~342): overrides the LLM streaming node to accumulate `delta.content` chunks and publish running text via `sophia.agent_events` with `is_final=False`. Throttled to publish every ~8 chars. **Not yet confirmed working** — Avinash tested, said same problem (final-only display). To diagnose tomorrow per Q34 hypotheses 1–4.
+
+### Client-side change
+
+`LiveKitLlmProvider.cs` `OnAgentEventsMessage` switch got a new `case "agent_transcript":` that fires `OnTranscriptReceived(this, ... Type=TranscriptType.Agent, IsComplete=is_final)`. This wires straight into his existing HUD signal path the same way `user_transcript` already does.
+
+### Sync state
+
+- Local Mac: edited
+- EC2: `scp`'d agent.py + `docker compose up -d --build agent-worker` 3 times today. Last build at 21:36 UTC.
+- Worker ID: `AW_62T9BRaMRSvn` (registered at 21:44 UTC).
+- These changes are NOT yet committed to git on local Mac. Three uncommitted files now:
+  - `sophia-agent/src/agent.py` — backend
+  - `Sophia_Xreal-U2-main/.../LiveKitLlmProvider.cs` — client (work clone, separate repo)
+  - `docs/internal/project_complete_doubts.md` — this Q&A append (in-progress)
+
+### How to apply tomorrow
+
+1. Check `sophia-agent/src/agent.py` for the 3 hooks → `git diff` shows exact lines.
+2. Re-test by hitting Play + in-app start + speaking, then `ssh sophia-gpu "docker logs sophia-agent-worker-1 --tail 60 2>&1 | grep -E 'llm_node|agent_transcript|speech_created DEBUG'"` to see what actually fires.
+3. Walk Q34 hypotheses in order. Most likely culprit: framework calls llm_node via a different path under the openai.LLM plugin's stream wrapper.
+4. Once streaming works, clean up by removing `speech_created`'s dead extraction block (keep just `_publish_event({"kind": "speech_created"})`) and the DEBUG log.

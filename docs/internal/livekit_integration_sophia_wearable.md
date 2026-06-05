@@ -719,6 +719,38 @@ For deeper understanding of specific decisions:
 - `Q30` — three-enum dispatch chain discovery (THE one we missed yesterday)
 - `Q31` — Unity 6 HTTP block + Player Settings fix
 - `Q32` — smoke test SUCCESS proof via EC2 logs
+- `Q33` — audible voice loop CONFIRMED + the in-app start button is required for ALL providers
+- `Q34` — Sophia text streaming attempts (conversation_item_added / speech_created / llm_node) — current OPEN issue
+- `Q35` — user-side real-time transcript blocked by Whisper batch STT (Phase 1.5 infra decision)
+- `Q36` — EKS port-forward flakiness recovery procedure
+- `Q37` — Mac screen recording system audio capture options
+- `Q38` — backend agent.py 2026-06-05 changes recap (for tomorrow's context recovery)
 - `Sophia_Xreal-U2.md` — architecture survey of his entire repo
 - `livekit_doubts.md` — older LiveKit framework + debugging Q&A (Q1-Q62)
 - `livekit_architectur_ec2.md` — end-to-end architecture of our EC2 backend
+
+---
+
+## Appendix F — 2026-06-05 backend transcript-streaming additions (WIP)
+
+Three additions on top of the original 10 client-side integration changes. **These live on the BACKEND** (`sophia-agent/src/agent.py`), not in the XR engineer's repo.
+
+### Backend change 1 — `conversation_item_added` event handler
+
+Publishes Sophia's FINAL spoken text via `sophia.agent_events` topic with `kind="agent_transcript"` and `is_final=True`. Fires after TTS finishes. Final-only display (delayed captions).
+
+### Backend change 2 — `speech_created` event handler (extended)
+
+Existing handler extended to try extracting `ev.speech_handle.chat_items`. DEBUG log proves `chat_items` is empty at this event (`items=0`), so no interim publish actually fires. Dead code on disk; cleanup pending after Q34 resolves.
+
+### Backend change 3 — `Assistant.llm_node` method override
+
+Attempts to publish streaming text chunks AS Qwen3 emits them, with `is_final=False`, throttled to every ~8 chars. **NOT YET WORKING** as of 2026-06-05 session end — user tested, still sees text only after speech ends. Open hypotheses tracked in Q34.
+
+### Client-side counterpart change
+
+`LiveKitLlmProvider.OnAgentEventsMessage` got one new switch case (`case "agent_transcript":`) which fires `OnTranscriptReceived` with `Type=Agent` and `IsComplete=is_final`. This is THE ONLY client-side change needed for transcript rendering; backend changes do the heavy lifting.
+
+### Tomorrow's pickup
+
+Per Q34, walk these hypotheses in order: (1) confirm `llm_node` entry via top-of-function log, (2) inspect first chunk's repr to verify `delta.content` shape, (3) test with throttle threshold = 1 char, (4) compare against how his OpenAI Realtime provider renders interim agent transcripts (he has a working precedent — may use a different event API).
