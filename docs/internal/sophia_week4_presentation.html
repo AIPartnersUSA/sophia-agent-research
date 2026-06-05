@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Sophia Voice Agent — Week 4: Integration as a Provider In Unity Client</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reset.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/black.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/monokai.css">
+
+  <style>
+    :root {
+      --accent: #5BC0EB;
+      --accent-dim: #3a7a94;
+      --warn: #FDE74C;
+      --good: #7ED957;
+      --bad: #E55934;
+      --muted: #9ba3af;
+    }
+    .reveal { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .reveal h1, .reveal h2, .reveal h3, .reveal h4 { color: var(--accent); text-transform: none; letter-spacing: -0.01em; font-weight: 600; }
+    .reveal h1 { font-size: 2.0em; }
+    .reveal h2 { font-size: 1.5em; }
+    .reveal h3 { font-size: 1.15em; }
+    .reveal section { text-align: left; }
+    .reveal section.center { text-align: center; }
+
+    .reveal .slides pre { box-shadow: none; font-size: 0.5em !important; line-height: 1.3 !important; width: 100%; }
+    .reveal .slides pre code { padding: 18px; }
+    .reveal .slides table { font-size: 0.6em !important; border-collapse: collapse; margin: 0 auto; width: 100%; }
+    .reveal table th { background: rgba(91, 192, 235, 0.15); color: var(--accent); padding: 8px 12px; text-align: left; border-bottom: 2px solid var(--accent); }
+    .reveal table td { padding: 8px 12px; border-bottom: 1px solid #333; vertical-align: top; }
+    .reveal table tr:hover td { background: rgba(91, 192, 235, 0.05); }
+    .reveal .slides .box h4 { font-size: 0.85em !important; }
+
+    .reveal .slides > section,
+    .reveal .slides > section > section {
+      max-height: 100% !important;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      padding: 20px 30px;
+      box-sizing: border-box;
+      scrollbar-width: thin;
+      scrollbar-color: var(--accent-dim) rgba(255,255,255,0.05);
+    }
+    .reveal .slides > section::-webkit-scrollbar,
+    .reveal .slides > section > section::-webkit-scrollbar {
+      width: 10px;
+    }
+    .reveal .slides > section::-webkit-scrollbar-track,
+    .reveal .slides > section > section::-webkit-scrollbar-track {
+      background: rgba(255,255,255,0.05);
+      border-radius: 5px;
+    }
+    .reveal .slides > section::-webkit-scrollbar-thumb,
+    .reveal .slides > section > section::-webkit-scrollbar-thumb {
+      background: var(--accent-dim);
+      border-radius: 5px;
+    }
+    .reveal .slides > section::-webkit-scrollbar-thumb:hover,
+    .reveal .slides > section > section::-webkit-scrollbar-thumb:hover {
+      background: var(--accent);
+    }
+
+    .reveal pre { overflow-x: auto !important; }
+    .reveal pre::-webkit-scrollbar { height: 8px; }
+    .reveal pre::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
+    .reveal pre::-webkit-scrollbar-thumb { background: var(--accent-dim); border-radius: 4px; }
+
+    .reveal section.center {
+      display: flex !important;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100%;
+    }
+    .reveal section.center > * { width: 100%; }
+    .reveal ul, .reveal ol { margin-left: 1em; }
+    .reveal li { margin-bottom: 0.4em; line-height: 1.4; }
+    .reveal code:not(pre code) { background: rgba(91, 192, 235, 0.12); color: var(--accent); padding: 2px 6px; border-radius: 3px; font-size: 0.85em; }
+    .small { font-size: 0.7em; color: var(--muted); }
+    .smaller { font-size: 0.6em; color: var(--muted); }
+    .tag { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 0.5em; font-weight: 600; vertical-align: middle; margin-left: 8px; }
+    .tag.done { background: var(--good); color: #000; }
+    .tag.wip { background: var(--warn); color: #000; }
+    .tag.todo { background: var(--bad); color: #fff; }
+    .pill { display: inline-block; padding: 4px 10px; border-radius: 14px; font-size: 0.55em; background: rgba(91, 192, 235, 0.15); color: var(--accent); border: 1px solid var(--accent-dim); margin: 4px 4px 4px 0; }
+    .quote { font-size: 1.5em; color: var(--accent); font-style: italic; text-align: center; padding: 30px 60px; line-height: 1.3; }
+    .footnote { font-size: 0.5em; color: var(--muted); margin-top: 30px; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+    .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+    .box { background: rgba(255,255,255,0.04); border: 1px solid #333; border-radius: 8px; padding: 16px; }
+    .box.accent { border-color: var(--accent-dim); background: rgba(91, 192, 235, 0.06); }
+    .box.good { border-color: var(--good); background: rgba(126, 217, 87, 0.08); }
+    .box.warn { border-color: var(--warn); background: rgba(253, 231, 76, 0.08); }
+    .box.bad { border-color: var(--bad); background: rgba(229, 89, 52, 0.08); }
+    .box h4 { margin-top: 0; color: var(--accent); font-size: 0.9em; }
+    .verdict { background: rgba(126, 217, 87, 0.1); border-left: 4px solid var(--good); padding: 16px 20px; margin: 20px 0; font-size: 0.85em; }
+    .warn-box { background: rgba(253, 231, 76, 0.08); border-left: 4px solid var(--warn); padding: 16px 20px; margin: 20px 0; font-size: 0.85em; }
+    .bad-box { background: rgba(229, 89, 52, 0.08); border-left: 4px solid var(--bad); padding: 16px 20px; margin: 20px 0; font-size: 0.85em; }
+    .stat { display: inline-block; padding: 16px 24px; border-radius: 12px; background: linear-gradient(135deg, rgba(91, 192, 235, 0.18), rgba(91, 192, 235, 0.04)); border: 1px solid var(--accent-dim); margin: 8px; min-width: 140px; text-align: center; }
+    .stat-num { display: block; font-size: 2.0em; font-weight: 700; color: var(--accent); line-height: 1; }
+    .stat-label { display: block; font-size: 0.5em; color: var(--muted); margin-top: 6px; }
+    .reveal .progress { color: var(--accent); }
+    .reveal .controls { color: var(--accent); }
+    .problem-card { background: rgba(255,255,255,0.04); border-left: 4px solid var(--bad); padding: 14px 18px; margin: 12px 0; border-radius: 4px; }
+    .problem-card h4 { color: var(--bad); margin-top: 0; font-size: 0.9em; }
+    .problem-card .fix-label { color: var(--good); font-weight: 600; font-size: 0.85em; }
+  </style>
+</head>
+<body>
+
+<div class="reveal">
+  <div class="slides">
+
+    <!-- ============================================================ -->
+    <!-- 1. TITLE -->
+    <!-- ============================================================ -->
+    <section class="center">
+      <h1 style="font-size: 2.6em; margin-bottom: 0.2em;">Sophia Voice Agent</h1>
+      <h3 style="color: var(--muted); font-size: 1.1em; font-weight: 400;">LiveKit Voice Integration as a Provider In Unity Client</h3>
+      <div style="margin-top: 80px;" class="small">
+        Org transfer · LiveKit-as-provider
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 2. RECAP -->
+    <!-- ============================================================ -->
+    <section>
+      <h2>Recap — where we ended Week 3</h2>
+
+      <div class="two-col" style="margin-top: 25px;">
+        <div class="box accent">
+          <h4>What was working</h4>
+          <ul>
+            <li>EC2 MVP shipped end-to-end</li>
+            <li>Browser demo live at public URL</li>
+            <li>XREAL + Beam Pro demo working</li>
+            <li>aws-infra SG opens merged + applied</li>
+            <li>Team presentation done</li>
+          </ul>
+        </div>
+        <div class="box warn">
+          <h4>What was still limiting</h4>
+          <ul>
+            <li>Repo was personal (<code>AvinashSophia/...</code>)</li>
+            <li>No infra-team handoff written</li>
+            <li>production client untouched</li>
+            <li>No path to plug Sophia into a real wearable build</li>
+            <li>Lots of tribal knowledge, no architecture docs</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="quote" style="font-size: 1.0em; padding: 18px 30px; margin-top: 30px;">
+        Week 3 proved the architecture. Week 4 made it transferrable.
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 3. WEEK 4 SUMMARY -->
+    <!-- ============================================================ -->
+    <section>
+      <h2>Week 4 — three parallel threads</h2>
+
+      <div class="three-col" style="margin-top: 25px;">
+        <div class="box">
+          <h4>1. Org handoff + docs</h4>
+          <p class="small">Make the repo + architecture transferrable.</p>
+          <ul class="smaller">
+            <li>Repo moved to AIPartnersUSA org</li>
+          </ul>
+        </div>
+        <div class="box">
+          <h4>2. XR client</h4>
+          <p class="small">The production wearable app.</p>
+          <ul class="smaller">
+            <li>Cloned Sophia_Xreal-U2 as reference</li>
+            <li>Mapped LiveKit as a NEW provider</li>
+          </ul>
+        </div>
+        <div class="box">
+          <h4>3. LiveKit integration</h4>
+          <p class="small">Wire LiveKit into production client.</p>
+          <ul class="smaller">
+            <li>Branch <code>avinash/livekit-provider</code></li>
+            <li>10 file changes, 2 new files</li>
+            <li>4 conflicts solved</li>
+            <li>Smoke test proven via EC2 logs</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 4. THREAD 1: ORG HANDOFF -->
+    <!-- ============================================================ -->
+    <section>
+      <h2>Thread 1 — Org handoff + docs</h2>
+      <p class="small">Repo was personal; ownership and docs both had to move.</p>
+
+      <div class="two-col" style="margin-top: 20px;">
+        <div class="box accent">
+          <h4>Repo transfer</h4>
+          <ul class="smaller">
+            <li>Moved <code>AvinashSophia/sophia-agent-research</code> → <code>AIPartnersUSA/sophia-agent-research</code></li>
+            <li>Three-way sync re-verified (LOCAL / GitHub / EC2)</li>
+            <li>All git remotes updated; no broken refs</li>
+          </ul>
+        </div>
+        <div class="box accent">
+          <h4>Templates + secrets</h4>
+          <ul class="smaller">
+            <li><code>sophia-agent/.env.production.example</code></li>
+            <li><code>agent-starter-react/.env.local.example</code></li>
+            <li><code>livekit.prod.yaml.example</code></li>
+            <li>Schema for the 3 gitignored secret files documented in HANDOFF</li>
+          </ul>
+        </div>
+      </div>
+
+      <h4 style="margin-top: 25px;">New docs at project root</h4>
+      <table style="margin-top: 10px; font-size: 0.55em;">
+        <tbody>
+          <tr><td><code>HANDOFF.md</code> (352 lines)</td><td>Infra onboarding · TL;DR + file map + 12-step migration sequence</td></tr>
+          <tr><td><code>livekit_architectur_ec2.md</code> (680 lines)</td><td>End-to-end EC2 backend walkthrough · per-component deep dive + flows</td></tr>
+          <tr><td><code>xr_build_voice_integration.md</code> (280 lines)</td><td>Generic XR-builder guide · Drop-in vs Custom paths</td></tr>
+          <tr><td><code>project_complete_doubts.md</code></td><td>Running Q&amp;A log · Q1-Q8 architecture clarifications</td></tr>
+        </tbody>
+      </table>
+
+      <div class="footnote">Also: deleted stale <code>sophia-agent/infra/docker-compose.yml</code> (was confusing infra reader — looked like EC2 used devkey/devsecret).</div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 5. THREAD 2: XR CLIENT SURVEY -->
+    <!-- ============================================================ -->
+    <section>
+      <h2>Thread 2 — production client</h2>
+      <p class="small">production Unity wearable to add Sophia voice. Cloned repo.</p>
+
+      <div class="two-col" style="margin-top: 20px;">
+        <div class="box accent">
+          <h4>Stack</h4>
+          <ul class="smaller">
+            <li>Unity 6 (6000.3.12f1), URP</li>
+            <li>AR Foundation 6.3.3 + ARCore + ARKit</li>
+            <li>XR Hands + XRI 3.3.1 + OpenXR</li>
+            <li>XREAL SDK (com.xreal.xr)</li>
+            <li>Netcode for GameObjects 2.11.0 (multiplayer)</li>
+            <li>NativeWebSocket + Convai OpenAI Unity</li>
+          </ul>
+        </div>
+        <div class="box accent">
+          <h4>Layout</h4>
+          <ul class="smaller">
+            <li><code>Sophia_Wearable/</code> — the Unity client</li>
+            <li><code>Sophia_UnityServer/</code> — local test server</li>
+            <li><code>AWS_References/</code> — 5 API handoff docs to AWS team</li>
+            <li><code>docs/</code> — extensive design notes</li>
+            <li>Single scene: <code>Sophia_Wearables.unity</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <h4 style="margin-top: 25px;">Survey artifact</h4>
+      <p class="small"><code>Sophia_Xreal-U2.md</code> (551 lines) at project root — full codebase map: top-level structure, module-per-concern map, audio pipeline, bootstrap flow, 5 critical files to read end-to-end, 7 open technical questions for the XR engineer.</p>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 6. THE KEY INSIGHT -->
+    <!-- ============================================================ -->
+    <section>
+      <h2>Architecture</h2>
+
+      <div class="verdict">
+        unity code has a clean <strong>provider abstraction</strong>. LiveKit becomes a NEW provider alongside the others.
+      </div>
+
+      <h4 style="margin-top: 20px;"></h4>
+      <pre><code class="language-text">Sophia_Wearable/Assets/_Scripts/Modules/ConversationalAI/
+├── Abstractions/
+│   ├── ILLMProvider.cs        ← events + methods
+│   ├── IAudioProvider.cs
+│   ├── IVisionProvider.cs
+│   └── IToolRegistry.cs
+├── Providers/
+│   ├── OpenAIRealtimeProvider.cs   
+│   ├── VoiceRelayProvider.cs       (custom WSS)
+│   ├── GeminiLiveProvider.cs
+│   └── GoogleVisionProvider.cs
+└── Core/
+    └── ProviderFactory.cs     ← switches on enum</code></pre>
+
+      <div class="two-col" style="margin-top: 20px;">
+        <div class="box good">
+          <h4>What we DID</h4>
+          <ul class="smaller">
+            <li>Wrote <code>LiveKitLlmProvider.cs</code> implementing his ILLMProvider</li>
+            <li>Plugged it into ProviderFactory enum switch</li>
+            <li>Bridged mic source to LiveKit FFI (RtcAudioSource subclass)</li>
+            <li>Routed agent audio + text-streams through existing event system</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footnote"></div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 7. PHASE PLAN -->
+    <!-- ============================================================ -->
+    <section data-visibility="hidden">
+      <h2>Phase plan locked with XR engineer</h2>
+      <p class="small">Each phase has a clear deliverable and depends on the prior one. Provider abstraction makes Phase 2 a config swap, not a refactor.</p>
+
+      <table style="margin-top: 20px;">
+        <thead><tr><th>Phase</th><th>What happens</th><th>Effort</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Phase 1</strong></td>
+            <td>Integrate <code>LiveKitProvider</code> against our EC2 backend on branch <code>avinash/livekit-provider</code></td>
+            <td>1-1.5 days</td>
+            <td><span class="tag done">DONE</span></td>
+          </tr>
+          <tr>
+            <td><strong>Phase 1.5</strong></td>
+            <td>Run both clients side-by-side · validate LiveKit vs VoiceRelay in his production scene</td>
+            <td>0.5 day</td>
+            <td><span class="tag wip">NEXT</span></td>
+          </tr>
+          <tr>
+            <td><strong>Phase 2</strong></td>
+            <td>Infra migrates Sophia backend to production AWS · URLs swap in ProviderConfig · NO code changes</td>
+            <td>infra-team timeline</td>
+            <td><span class="tag todo">QUEUED</span></td>
+          </tr>
+          <tr>
+            <td><strong>Phase 3</strong></td>
+            <td>Latency optimization · co-locate inference + SFU · drop cross-region port-forward (~70ms saved)</td>
+            <td>0.5-1 day</td>
+            <td><span class="tag todo">QUEUED</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="verdict" style="margin-top: 25px;">
+        <strong>Why this works:</strong> Provider abstraction = Phase 2 changes 3 strings in <code>ProviderConfig.asset</code> (URLs + key). Zero recompile of his client.
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 8. INTEGRATION CHANGES -->
+    <!-- ============================================================ -->
+    <section>
+      <h2>Thread 3 — Integration changes</h2>
+      <p class="small">Branch <code>avinash/livekit-provider</code> off  <code>development</code>. 10 total changes — 2 new files, 5 wiring edits, 3 settings tweaks.</p>
+
+      <h4 style="margin-top: 20px;">New files</h4>
+      <table style="margin-top: 5px; font-size: 0.55em;">
+        <tbody>
+          <tr><td><code>Providers/LiveKit/LiveKitLlmProvider.cs</code></td><td>Implements ILLMProvider against LiveKit SDK v1.3.7</td></tr>
+          <tr><td><code>Providers/LiveKit/MicrophoneStreamerAudioSource.cs</code></td><td>RtcAudioSource subclass · bridges 16k mic → LiveKit 48k FFI</td></tr>
+        </tbody>
+      </table>
+
+      <h4 style="margin-top: 20px;">Wiring edits</h4>
+      <table style="margin-top: 5px; font-size: 0.55em;">
+        <tbody>
+          <tr><td><code>ProviderConfig.cs</code></td><td>+ <code>LiveKit</code> enum value to ConversationProviderType + UI enum + converter</td></tr>
+          <tr><td><code>ProviderFactory.cs</code></td><td>+ case arm calling <code>CreateLiveKitProvider()</code></td></tr>
+          <tr><td><code>ConversationalAIController.cs</code></td><td>+ LiveKit bypass branch in <code>OnMicrophoneAudioChunk</code> (LiveKit owns mic uplink)</td></tr>
+          <tr><td><code>Sophia.ConversationalAI.asmdef</code></td><td>+ <code>"LiveKit"</code> reference</td></tr>
+          <tr><td><code>Sophia_Wearables.unity</code></td><td>+ LiveKitLlmProvider GameObject with Inspector wires</td></tr>
+        </tbody>
+      </table>
+
+      <h4 style="margin-top: 20px;">Settings</h4>
+      <table style="margin-top: 5px; font-size: 0.55em;">
+        <tbody>
+          <tr><td><code>Packages/manifest.json</code></td><td>+ <code>"io.livekit.livekit-sdk": "https://github.com/livekit/client-sdk-unity.git#v1.3.7"</code></td></tr>
+          <tr><td><code>ProjectSettings.asset</code></td><td><code>insecureHttpOption: 2</code> (Always allowed — Unity 6 HTTP block)</td></tr>
+          <tr><td><code>ProviderConfig.asset</code></td><td><code>activeConversationProvider: 5</code> + cleared bundle override</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 9. ARCHITECTURE: LIVEKIT AS PROVIDER -->
+    <!-- ============================================================ -->
+    <section>
+      <h2>Architecture — LiveKit alongside existing providers</h2>
+
+      <pre style="font-size: 0.42em !important;"><code class="language-text">┌──────────────────────────────────────────────────────────────────────┐
+│  Sophia_Wearable app (Unity 6)                         │
+│                                                                      │
+│  ConversationalAIController                                          │
+│        │                                                             │
+│        ▼                                                             │
+│  ProviderFactory.CreateLLMProvider(enum)                             │
+│        │                                                             │
+│        ├── OpenAIRealtime         (his existing)                     │
+│        ├── VoiceRelay (custom WSS) (his existing)                    │
+│        ├── GeminiLive             (his existing)                     │
+│        ├── Sophia local           (his existing)                     │
+│        └── LiveKit ★ NEW          → LiveKitLlmProvider.cs           │
+│                                          │                           │
+│                                          ▼                           │
+│                                   MicrophoneStreamerAudioSource      │
+│                                   (subclasses RtcAudioSource,        │
+│                                    16k → 48k upsample, FFI push)     │
+└────────────────────────────────────────────┬─────────────────────────┘
+                                             │
+   POST /token (X-API-Key)                   │       ws:// + UDP
+   ┌─────────────────────────┐               │       ┌──────────────────┐
+   │ EC2 sophia-token-mint-1 │◄──────────────┼──────►│ EC2 livekit-server│
+   │ FastAPI · port 8001     │               │       │ (SFU · host net)  │
+   └─────────────────────────┘               │       └─────────┬─────────┘
+                                             │                 │ dispatch
+                                             ▼                 ▼
+                                  ┌──────────────────────────────────────┐
+                                  │ EC2 sophia-agent-worker-1            │
+                                  │ (Python livekit-agents framework)    │
+                                  │                                      │
+                                  │ STT  → http://localhost:8080  (port-fwd)│
+                                  │ RAG  → http://localhost:8106  (port-fwd)│
+                                  │ LLM  → http://localhost:18080 (port-fwd)│
+                                  │ TTS  → http://localhost:8122  (port-fwd)│
+                                  └──────────────────────────────────────┘
+                                             │
+                                             ▼  cross-region (us-west-2)
+                                  AWS EKS spatial-ai-staging</code></pre>
+
+      <div class="footnote" style="margin-top: 15px;">
+        Per-frame data flow + verification cheat-sheet documented in <code>docs/internal/livekit_voice_flow_end_to_end.md</code>.
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 10. INTEGRATION PROBLEMS -->
+    <!-- ============================================================ -->
+    <section>
+      <h2>Integration problems + fixes</h2>
+      <p class="small">Four sharp edges hit during integration. All four documented as Q&amp;A in <code>project_complete_doubts.md</code> for future maintenance.</p>
+
+      <div class="problem-card">
+        <h4>Q28. Google.Protobuf duplicate DLL (ARCore vs LiveKit)</h4>
+        <p class="smaller">Both <code>com.google.ar.core.arfoundation.extensions</code> and the LiveKit SDK ship their own <code>Google.Protobuf.dll</code>. After adding LiveKit, ARCore Extensions Editor scripts failed with <code>CS0234: 'Protobuf' does not exist in namespace 'Google'</code>.</p>
+        <p class="fix-label">Fix:</p>
+        <p class="smaller">removed the unused ARCore Extensions package + Samples. AR functionality lives in AR Foundation + ARCore plugin directly — Extensions was vestigial.</p>
+      </div>
+
+      <div class="problem-card">
+        <h4>Q29. Seven LiveKit SDK v1.3.7 API mismatches</h4>
+        <p class="smaller">Training-data API assumptions didn't match v1.3.7. Examples: <code>RoomOptions</code> namespace ambiguity (LiveKit vs LiveKit.Proto); <code>ConnectInstruction</code> inherits CustomYieldInstruction, NOT awaitable as Task; <code>DataPublishOptions</code> removed in favor of named <code>topic:</code> param; <code>TextStreamReader.ReadAllAsync</code> renamed to <code>ReadAll()</code> returning ReadAllInstruction.</p>
+        <p class="fix-label">Fix:</p>
+        <p class="smaller">Compile-driven discovery · wrote <code>AwaitYield</code> helper that polls <code>IsDone</code> via <code>Task.Yield()</code> · used <code>global::LiveKit.*</code> to disambiguate · all 7 mismatches catalogued with corrected snippets.</p>
+      </div>
+
+      <div class="problem-card">
+        <h4>Q30. The three-enum dispatch chain (silent OpenAI fallback)</h4>
+        <p class="smaller">Selected "LiveKit" in dropdown but our <code>[DEBUG_0604_LiveKit]</code> logs never fired. Investigation: ProviderConfig has FOUR layers between dropdown and runtime — UI enum, ScriptableObject bundle override, runtime enum, AND a converter switch with a silent <code>_ =&gt; OpenAI</code> default.</p>
+        <p class="fix-label">Fix:</p>
+        <p class="smaller">Added LiveKit to layers 1 + 4, cleared the <code>customizedEndpointsBundle</code> in the asset to bypass layer 2. Hidden default arms are a teaching moment — always trace dispatch end-to-end.</p>
+      </div>
+
+      <div class="problem-card">
+        <h4>Q31. Unity 6 HTTP block</h4>
+        <p class="smaller"><code>System.InvalidOperationException: Insecure connection not allowed</code> at <code>FetchTokenAsync</code> line 353. Unity 6 blocks HTTP by default; our token endpoint is plain HTTP on EC2 MVP.</p>
+        <p class="fix-label">Fix:</p>
+        <p class="smaller">Player Settings → Other Settings → Configuration → Allow downloads over HTTP → "Always allowed" (<code>insecureHttpOption: 2</code>). Reverts naturally when Phase 2 moves backend to HTTPS.</p>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 11. SMOKE TEST SUCCESS -->
+    <!-- ============================================================ -->
+    <section>
+      <h2>Smoke test — proof from EC2 logs</h2>
+      <p class="small">2026-06-05 14:00 UTC · Mac Editor Play Mode pointed at EC2 backend · full client-side path verified end-to-end.</p>
+
+      <pre><code class="language-text">EC2 sophia-token-mint-1 log
+   POST /token  →  200 OK  (X-API-Key matched, JWT minted)
+
+EC2 sophia-livekit-server-1 (SFU) log
+   INFO  starting RTC session  participant=xr-3d80d058  client SDK=UNITY v1.3.7
+   INFO  agents: assigned job to worker  jobID=AJ_AEBd84m8of6k  workerID=AW_souB3RfU3mXz
+   INFO  starting RTC session  participant=agent-AJ_AEBd84m8of6k  client SDK=PYTHON
+   INFO  mediaTrack published  participant=xr-3d80d058       kind=audio source=MICROPHONE
+   INFO  mediaTrack published  participant=agent-AJ_AEBd84..  kind=audio source=MICROPHONE
+   INFO  participant active    connectionType=udp
+
+EC2 sophia-agent-worker-1 log
+   INFO  received job request  job_id=AJ_AEBd84m8of6k  agent_name=sophia-agent
+   INFO  process initialized
+   (... STT call fails: EKS port-forward not running ...)</code></pre>
+
+      <div class="two-col" style="margin-top: 20px;">
+        <div class="box good">
+          <h4>What worked end-to-end</h4>
+          <ul class="smaller">
+            <li>Token mint with X-API-Key auth</li>
+            <li>WebRTC connect to SFU</li>
+            <li>Agent dispatched against the room</li>
+            <li>Both mic + agent audio tracks published</li>
+            <li>ICE UDP negotiation succeeded</li>
+            <li>Text-stream handlers registered</li>
+          </ul>
+        </div>
+        <div class="box warn">
+          <h4>What was blocked</h4>
+          <ul class="smaller">
+            <li>Audible voice loop · STT fails because EKS port-forward to Whisper not running</li>
+            <li>Pure infra state · NOT a code issue</li>
+            <li>Clears after EKS pods spin up + <code>./pf-gpu.sh start</code></li>
+            <li>Repro path: SSH EC2 → wait for pods Running → start port-forwards</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 12. DOCS SHIPPED THIS WEEK -->
+    <!-- ============================================================ -->
+    <section>
+      <h2>Documentation shipped this week</h2>
+      <p class="small">Heavy docs, we can resume any context cold.</p>
+
+      <table style="margin-top: 20px;">
+        <thead><tr><th>File</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>HANDOFF.md</code></td>
+            <td>12-step production migration sequence</td>
+          </tr>
+          <tr>
+            <td><code>livekit_architectur_ec2.md</code></td>
+            <td>end-to-end EC2 backend mental model</td>
+          </tr>
+          <tr>
+            <td><code>xr_build_voice_integration.md</code></td>
+            <td>Drop-in vs Custom paths</td>
+          </tr>
+          <tr>
+            <td><code>Sophia_Xreal-U2.md</code></td>
+            <td>architecture survey of his Unity client</td>
+          </tr>
+          <tr>
+            <td><code>livekit_integration_sophia_wearable.md</code></td>
+            <td>the BUILD view of the integration (file by file)</td>
+          </tr>
+          <tr>
+            <td><code>livekit_voice_flow_end_to_end.md</code></td>
+            <td>the RUNTIME view (per-frame data flow + verification cheat-sheet)</td>
+          </tr>
+          <tr>
+            <td><code>conversational_ai_architecture.md</code></td>
+            <td>the WHAT view (subsystem architecture + 5-layer diagram)</td>
+          </tr>
+        </tbody>
+      </table>
+
+     
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 13. CURRENT STATE -->
+    <!-- ============================================================ -->
+    <section>
+      <h2>Current state</h2>
+
+      <div class="two-col" style="margin-top: 20px;">
+        <div class="box good">
+          <h4>Synced + healthy</h4>
+          <ul class="smaller">
+            <li>LOCAL Mac, GitHub, EC2 all at <code>83d4084</code></li>
+            <li>3 EC2 Docker containers Up </li>
+            <li>SFU + token-mint + agent-worker registered</li>
+            <li>Repo lives at <code>AIPartnersUSA/sophia-agent-research</code></li>
+            <li>All architecture docs reviewed + committed</li>
+          </ul>
+        </div>
+        
+      </div>
+
+      <h4 style="margin-top: 25px;">Key reference info</h4>
+      <table style="margin-top: 10px; font-size: 0.55em;">
+        <tbody>
+          <tr><td><strong>Research repo</strong></td><td><code>github.com/AIPartnersUSA/sophia-agent-research</code></td></tr>
+          <tr><td><strong>unity client repo</strong></td><td><code>github.com/AIPartnersUSA/Sophia_Xreal-U2</code> · branch <code>avinash/livekit-provider</code></td></tr>
+          <tr><td><strong>Backend URLs</strong></td><td><code>ws://3.227.63.49:7880</code> + <code>http://3.227.63.49:8001/token</code></td></tr>
+          <tr><td><strong>EC2 instance</strong></td><td><code>i-0748ed7c188c337cc</code> · g5.2xlarge · us-east-1</td></tr>
+          <tr><td><strong>SSH alias</strong></td><td><code>ssh sophia-gpu</code></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 14. WHAT'S NEXT (hidden) -->
+    <!-- ============================================================ -->
+    <section data-visibility="hidden">
+      <h2>What's next</h2>
+
+      <h4>Immediate (this week)</h4>
+      <ul>
+        <li>Wait for EKS GPU pods to leave <code>Pending</code> · restart port-forwards</li>
+        <li>Full audible smoke test on Mac Editor + XREAL + Beam Pro paths</li>
+        <li>Commit 14 work-clone files + open PR <code>avinash/livekit-provider</code> → <code>development</code></li>
+        <li>Phase 1.5 · side-by-side measurement vs VoiceRelay (latency + reliability)</li>
+      </ul>
+
+      <h4 style="margin-top: 20px;">Phase 2 + Phase 3 (infra-paced)</h4>
+      <div class="two-col" style="margin-top: 10px;">
+        <div class="box">
+          <h4>Phase 2 — infra migration</h4>
+          <ul class="smaller">
+            <li>Infra deploys backend to production AWS per HANDOFF.md</li>
+            <li>HTTPS / WSS · real DNS · Secrets Manager</li>
+            <li>Client side: 3 string changes in <code>ProviderConfig.asset</code></li>
+            <li>No recompile of his client</li>
+          </ul>
+        </div>
+        <div class="box">
+          <h4>Phase 3 — optimization</h4>
+          <ul class="smaller">
+            <li>Co-locate inference + SFU (same region)</li>
+            <li>Eliminate ~70ms cross-region RTT per inference call</li>
+            <li>Target first-byte-of-TTS &lt; 2s end-to-end</li>
+            <li>Egress-based session recording if needed</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 15. THANKS (hidden) -->
+    <!-- ============================================================ -->
+    <section class="center" data-visibility="hidden">
+      <h1 style="font-size: 2.4em;">Questions?</h1>
+      <div style="margin-top: 60px;">
+        <div class="stat"><span class="stat-num">3</span><span class="stat-label">parallel threads</span></div>
+        <div class="stat"><span class="stat-num">7</span><span class="stat-label">new docs</span></div>
+        <div class="stat"><span class="stat-num">10</span><span class="stat-label">integration changes</span></div>
+        <div class="stat"><span class="stat-num">24</span><span class="stat-label">Q&amp;A entries added</span></div>
+      </div>
+      <p style="margin-top: 80px;" class="small">
+        Phase 1 client-side proven · awaiting EKS for audible smoke test
+      </p>
+    </section>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/highlight.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/notes/notes.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    slideNumber: 'c/t',
+    transition: 'fade',
+    transitionSpeed: 'fast',
+    width: 1280,
+    height: 800,
+    margin: 0.04,
+    minScale: 0.4,
+    maxScale: 1.6,
+    center: false,
+    plugins: [RevealHighlight, RevealNotes]
+  });
+</script>
+
+</body>
+</html>
