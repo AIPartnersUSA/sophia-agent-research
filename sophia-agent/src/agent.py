@@ -339,6 +339,48 @@ class Assistant(Agent):
             }
         )
 
+    async def llm_node(self, chat_ctx, tools, model_settings):
+        """Override LLM streaming to publish text chunks in real-time.
+
+        The framework default `Agent.default.llm_node` returns an async
+        iterator of `llm.ChatChunk`s as the model streams tokens. We yield
+        each chunk through unchanged (so TTS and the rest of the pipeline
+        work normally) but also accumulate `delta.content` and publish the
+        running text via `sophia.agent_events` with `is_final=False` so
+        HUDs can show captions WHILE the LLM streams. The final
+        confirmation comes via `conversation_item_added` (is_final=True).
+
+        Throttling: re-publish only when the accumulated text grew by >= 8
+        characters (~2 tokens at typical decode rates) to avoid spamming
+        the text-stream channel with per-token messages.
+        """
+        accumulated: list[str] = []
+        last_published_len = 0
+        async for chunk in Agent.default.llm_node(
+            self, chat_ctx, tools, model_settings
+        ):
+            try:
+                delta = getattr(chunk, "delta", None)
+                if delta is not None:
+                    piece = getattr(delta, "content", None)
+                    if piece:
+                        accumulated.append(piece)
+                        cur = "".join(accumulated)
+                        if len(cur) - last_published_len >= 8:
+                            _fire(
+                                _publish_event(
+                                    {
+                                        "kind": "agent_transcript",
+                                        "text": cur,
+                                        "is_final": False,
+                                    }
+                                )
+                            )
+                            last_published_len = len(cur)
+            except Exception:
+                logger.exception("llm_node publish failed")
+            yield chunk
+
 
 # Background tasks for fire-and-forget event publishes from sync event
 # handlers. Keep a strong reference so GC does not kill the coroutine
@@ -415,9 +457,69 @@ def _attach_event_publishers(session: AgentSession) -> None:
             )
         )
 
+    @session.on("conversation_item_added")
+    def _on_conversation_item(ev):
+        # Forward only the assistant's text so HUDs can show what Sophia
+        # said. User messages already publish via "user_transcript" above;
+        # system / tool items are not UI-facing. ChatMessage.content is a
+        # list[ChatContent] (str | ImageContent | AudioContent | ...) — we
+        # only keep the plain-text parts.
+        item = getattr(ev, "item", None)
+        if item is None or getattr(item, "role", None) != "assistant":
+            return
+        parts = [c for c in (getattr(item, "content", []) or []) if isinstance(c, str)]
+        text = "".join(parts).strip()
+        if not text:
+            return
+        _fire(
+            _publish_event(
+                {
+                    "kind": "agent_transcript",
+                    "text": text,
+                    "is_final": True,
+                    "interrupted": getattr(item, "interrupted", False),
+                }
+            )
+        )
+
     @session.on("speech_created")
-    def _on_speech_created(_ev):
+    def _on_speech_created(ev):
         _fire(_publish_event({"kind": "speech_created"}))
+        # Publish Sophia's text the moment she's about to speak (vs after
+        # she finishes — `conversation_item_added` above handles the final
+        # confirmation). LLM has produced its output by this point, so the
+        # SpeechHandle's chat_items contains the assistant text. Emitting
+        # here lets the HUD show captions in sync with audio start instead
+        # of after audio end.
+        try:
+            items = getattr(ev.speech_handle, "chat_items", None) or []
+            parts = []
+            for it in items:
+                if getattr(it, "role", None) != "assistant":
+                    continue
+                for c in getattr(it, "content", []) or []:
+                    if isinstance(c, str):
+                        parts.append(c)
+            text = "".join(parts).strip()
+            logger.info(
+                "speech_created DEBUG: items=%d assistant_text_len=%d source=%s",
+                len(items),
+                len(text),
+                getattr(ev, "source", "?"),
+            )
+            if text:
+                _fire(
+                    _publish_event(
+                        {
+                            "kind": "agent_transcript",
+                            "text": text,
+                            "is_final": False,
+                            "interrupted": False,
+                        }
+                    )
+                )
+        except Exception:
+            logger.exception("speech_created: failed to extract chat_items text")
 
     @session.on("function_tools_executed")
     def _on_tools(_ev):
