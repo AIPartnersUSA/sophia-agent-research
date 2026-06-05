@@ -2429,6 +2429,78 @@ Three other type-sniff branches in the same method correctly skip us as-is, no e
 - Lines 988-989: VoiceRelay uplink chunk clock for `vad_endpoint_ms` correlation. VoiceRelay-specific diagnostic.
 - Lines 1011-1013: `_voiceRelayMicChunksForwarded++` counter. Only increments for VoiceRelay + OpenAI; correctly excludes us since our mic path is out-of-band.
 
+### Where we paused — end of 2026-06-04
+
+Phase 1 integration work is mostly done but the smoke test hasn't run yet. Specific paused state:
+
+**Code work (steps 1-7) — all done and stable in his work clone**:
+- `LiveKitLlmProvider.cs` (was 556 lines, grew to ~570 after the 7 SDK API fixes documented in Q29).
+- `MicrophoneStreamerAudioSource.cs` (118 lines, unchanged since written).
+- `Sophia.ConversationalAI.asmdef` — added `"LiveKit"` to references array.
+- `ProviderConfig.cs` — `LiveKit = 6` added to `ConversationProviderType` enum.
+- `ProviderFactory.cs` — case arm + `CreateLiveKitProvider()` method added.
+- `ConversationalAIController.cs` — LiveKit-aware bypass added in `OnMicrophoneAudioChunk` at line ~1005.
+- `Sophia_Wearable/Packages/manifest.json` — LiveKit SDK v1.3.7 added via UPM Git URL.
+
+**Build environment**:
+- Unity Editor opens, compiles cleanly. Took an SDK download + ~3 rounds of fixes to get there.
+- ARCore Extensions package was REMOVED from his manifest by the XR engineer (Q28) to resolve the Google.Protobuf conflict. His AR functionality (camera, anchors, hand tracking via AR Foundation + ARCore plugin + ARKit + XR Hands) is unaffected.
+- LiveKit SDK cached at `Library/PackageCache/io.livekit.livekit-sdk@270adc1cbceb/`.
+
+**Step 8 (scene wiring + Inspector config) — partially complete**:
+- `LiveKitLlmProvider` GameObject CREATED in the scene under `Logic/Modules/ConversationalAI`. Confirmed exactly one instance via scene-file grep.
+- Component attached. Verified: exactly one MonoBehaviour instance with script GUID `25134e8e4da244cb4a5ad8b2949be944`.
+- Inspector fields PARTIALLY set:
+  - ✓ `_liveKitUrl: ws://3.227.63.49:7880`
+  - ✓ `_tokenEndpoint: http://3.227.63.49:8001/token`
+  - ✗ `_tokenApiKey:` EMPTY — needs `9a11fdf5ce05e3cecad28f933d778971` pasted in
+  - ✓ `_agentName: sophia-agent`
+  - ✓ `_enableDebugLogging: 1`
+  - ✗ `_micStreamer: {fileID: 0}` (null) — needs the MicrophoneStreamer GameObject dragged onto this field
+  - ○ `_speakerHost: {fileID: 0}` (null — fine, our code falls back to its own transform)
+- Scene SAVED on disk (`Sophia_Wearables.unity` has uncommitted changes).
+
+**Scene state oddity (unresolved)**:
+- Current scene file has 4 ConversationExitParticipant, 4 ARRecordingExitParticipant, 4 ScenarioPrefsExitParticipant GameObjects + 22+ GameObjects with Unity's `(1)(2)(3)` duplicate-marker suffix.
+- Baseline scene at HEAD is only 3 lines — likely a Git LFS pointer file (`git lfs pull` was never run on the work clone). So we can't compare current scene state to a real baseline.
+- Whether the duplicates are pre-existing in the XR engineer's saved scene (legitimate per-module instances) or were created during Avinash's drag work is UNKNOWABLE without his actual scene to diff against.
+- His baseline OpenAI Realtime + AWS Voice Step tests both ran successfully earlier in the day with this same scene state. So whatever's there, it CAN play.
+- Decision: NOT cleaning up by hand (too risky to delete the wrong thing). Proceed with smoke test and address scene cleanup ONLY if something breaks specifically because of it.
+
+**Work-clone uncommitted state**:
+- 6 modified files + 2 new files in `Providers/LiveKit/`.
+- Scene file modified (LiveKitLlmProvider GameObject added, possibly other Unity-incidental changes).
+- ProviderConfig.asset modified (provider settings tweaked during the day).
+- Plus Unity-incidental file noise (meta files, log files, etc.).
+
+### When Avinash returns — the EXACT next actions
+
+1. **Open Unity** at `/Users/avinashbolleddula/Documents/repos/Sophia_Xreal-U2-main/Sophia_Wearable/` (work clone, on `avinash/livekit-provider` branch). Should open clean compile state since we ended there.
+2. **Open scene** `Assets/_Scenes/Sophia_Wearables.unity` if not auto-loaded.
+3. **Click LiveKitLlmProvider in Hierarchy** (under Logic/Modules/ConversationalAI).
+4. **Finish Inspector setup**:
+   a. Paste `9a11fdf5ce05e3cecad28f933d778971` into the Token Api Key field.
+   b. Find MicrophoneStreamer in Hierarchy (Cmd+F at top of Hierarchy → search "MicrophoneStreamer" → likely under `Logic/Modules/Audio/`). Drag the GameObject onto our `Mic Streamer` Inspector field.
+   c. (Optional) Drag the LiveKitLlmProvider GameObject itself onto our `Speaker Host` Inspector field.
+5. **Cmd+S to save**.
+6. **Open Provider Configuration Manager**, set Active Conversation Provider to `LiveKit (WebRTC + LiveKit Agents)`.
+7. **Hit Play**. Watch Console for `[DEBUG_0604_LiveKit]` log lines.
+
+Expected outcomes when Play runs:
+- **Success path**: `[DEBUG_0604_LiveKit] Initialize: liveKitUrl=... tokenEndpoint=... agentName=sophia-agent` then `[DEBUG_0604_LiveKit] ConnectAsync completed` then `[DEBUG_0604_LiveKit] mic uplink published` then `[DEBUG_0604_LiveKit] agent audio track subscribed sid=... identity=agent-XXX`. Speak into mic, Sophia responds. T6 (smoke test) → completed.
+- **Failure paths to watch for**:
+  - HTTP 401 from token-mint → `_tokenApiKey` wasn't set or wrong key. Re-check field, re-save.
+  - Connect failure → backend may be down. SSH to EC2, check `docker compose ps`.
+  - No audio → MicrophoneStreamer reference not set or scene has duplicates breaking the wiring.
+  - Compile error → Unity may have re-resolved packages overnight and Library/PackageCache state changed. Re-check the asmdef + provider files.
+
+### When step 8 completes successfully (smoke test passes)
+
+1. Run the measurement spike (Q16 + Q26): record VoiceRelay/AWS-cascaded latency vs LiveKit latency on the same client, same Mac, same network. Log numbers in Q25 under a new "Smoke test + measurement results" subsection.
+2. Commit work-clone changes to `avinash/livekit-provider` branch (selectively — exclude Unity-incidental noise, include only our intentional code changes + the scene file + asmdef change + manifest.json edit).
+3. Open PR from `avinash/livekit-provider` to `development` in `AIPartnersUSA/Sophia_Xreal-U2`.
+4. Update Q25's "Done so far" section with smoke test results + PR URL.
+
 ### Next step (step 8 of 8 in the plan — scene wiring + Inspector config)
 
 This is the only step that REQUIRES Unity Editor open. No more code edits from us. Avinash performs the wiring manually in the Editor:
@@ -2659,3 +2731,189 @@ Send the XR engineer a one-line clarification: "For the LiveKit comparison spike
 ### Short-form answer
 
 Phase 1 spike compares LiveKit (WebRTC + agent.py + LiveKit Agents + our EKS models) vs AWS cascaded (WSS + his AWS gateway + his AWS models). Three variables changing — transport, orchestration, model deployment. Phase 2 after infra consolidation: only transport + orchestration change. Same model endpoints serve both. The Phase 2 re-run is the cleanest possible A/B for the standardize-or-keep-both decision. We pick AWS cascaded over VoiceRelaySelfHosted because it's a more conventional streaming pattern that maps cleanly onto agent.py's shape.
+
+---
+
+## Q28 (2026-06-04): Adding LiveKit SDK to manifest.json broke his ARCore Extensions compile (Google.Protobuf conflict). What happened, what we tried, how it resolved.
+
+The integration journey hit one real environment-level conflict that wasn't predictable from reading code: LiveKit Unity SDK v1.3.7 ships its own `Google.Protobuf.dll` as a precompiledReference. His ARCore Extensions package (`com.google.ar.core.arfoundation.extensions`) ALSO ships its own `Google.Protobuf.dll` for Editor-side analytics. With both packages present, Unity's auto-resolution for ARCore's Editor Analytics scripts started failing — they could no longer find Google.Protobuf, ARCore Analytics Editor scripts wouldn't compile, the Assembly-CSharp-Editor assembly didn't build, and Unity wouldn't let Avinash add the LiveKitLlmProvider component to the scene (because Unity can't surface new components when there are project-wide compile errors).
+
+### The exact technical situation
+
+Three Google.Protobuf.dll's coexisted in the project after adding LiveKit:
+- `Library/PackageCache/com.unity.burst@.../.Runtime/Google.Protobuf.dll` — Burst's internal copy.
+- `Library/PackageCache/io.livekit.livekit-sdk@.../Runtime/Plugins/Google.Protobuf.dll` — LiveKit's bundled copy. Meta: Runtime-only, Editor disabled, `isExplicitlyReferenced: 1`.
+- `Library/PackageCache/com.google.ar.core.arfoundation.extensions@.../Editor/Scripts/Internal/Analytics/Google.Protobuf.dll` — ARCore's bundled copy. Meta: Editor-only.
+
+In theory the LiveKit and ARCore copies should not conflict — they target disjoint platforms (Runtime vs Editor) and LiveKit's is `isExplicitlyReferenced` so it shouldn't enter ARCore's resolution scope. In practice Unity's auto-detection for ARCore's Editor asmdef stopped working when LiveKit's copy entered the project, even though ARCore's `Google.XR.ARCoreExtensions.Editor.asmdef` HAD ARCore's Google.Protobuf.dll sitting right next to its Analytics scripts.
+
+Root cause analysis: ARCore's Editor asmdef has `precompiledReferences: []` (empty) and `overrideReferences: false`. It relied on Unity's folder-local auto-detection of DLLs in the same folder as its .cs files. The presence of LiveKit's Google.Protobuf.dll (anywhere in the project) caused Unity's auto-detection to bail out and refuse to deterministically pick ARCore's local copy.
+
+### What we tried before resolution
+
+**Triaged (skipped)**:
+- Adding `EXCLUDE_GOOGLE_PROTOBUF` scripting define. Found via online tip but verified by grep — no file in his project references that define. The tip applies to a Unity AI Assistant package situation, not our LiveKit + ARCore one. Dead end.
+
+**Considered but not applied**:
+- *Modify ARCore's Editor asmdef in Library/PackageCache to add `"Google.Protobuf.dll"` to precompiledReferences + set `overrideReferences: true`*. Would have worked, but Library/PackageCache regenerates on every Unity package re-resolve (manifest change, restart with version mismatch, clean clone, CI build, etc.), so the fix wouldn't persist. Only useful as a diagnostic of the theory.
+- *Embed ARCore Extensions as a local package* (copy from Library/PackageCache to Packages/ then modify the embedded asmdef). Would be permanent. But ~100 MB repo growth + visible PR diff + changes the engineer's package update workflow.
+- *Drop a project-level Google.Protobuf.dll at Assets/Plugins/ with universal platform targeting*. Mirrors what we did in sophia-glasses (Trap 2 in `docs/internal/livekit_doubts.md`). But sophia-glasses was a different conflict (LiveKit's older SDK didn't ship Protobuf at all, not a duplicate-bundling problem like this).
+
+### What actually resolved it
+
+Avinash messaged the XR engineer with the diagnosis. The engineer's direct call: **drop the `com.google.ar.core.arfoundation.extensions` package + Samples entirely from his `Packages/manifest.json`**. He keeps his AR functionality via AR Foundation + ARCore (separate from the Extensions layer). ARCore Extensions specifically adds Geospatial Creator + analytics + some extension utilities — none of which his app depends on for core function.
+
+Result: ARCore Editor scripts that needed Google.Protobuf no longer exist in the project → no compile errors → Unity's add-component dropdown works again → integration can proceed.
+
+### Trade-offs documented for the engineer's future reference
+
+- Lost feature: ARCore Geospatial Creator (only relevant if his app uses Google's Geospatial API), ARCore SDK analytics telemetry to Google.
+- Kept: AR Foundation, ARCore plugin (via `com.unity.xr.arcore`), ARKit plugin, XR Hands, XRI, OpenXR — all the actual AR functionality.
+- If Geospatial features are needed later, re-adding ARCore Extensions will re-trigger the Protobuf conflict. The permanent fix at that point would be to embed ARCore Extensions locally + modify its Editor asmdef to add `"Google.Protobuf.dll"` as a precompiledReference with `overrideReferences: true`.
+
+### Lessons + watch-fors for future integrations
+
+1. **UPM packages that bundle native or managed DLL dependencies can conflict in non-obvious ways with other packages doing the same.** Both ARCore Extensions and LiveKit Unity SDK each bundle Google.Protobuf.dll as a "let's be self-contained" choice. Together they break each other.
+2. **Unity's auto-detection of folder-local DLLs is fragile when multiple copies of the same DLL exist anywhere in the project**, even with `isExplicitlyReferenced: 1` and disjoint platform targeting. Explicit precompiledReferences in asmdef + `overrideReferences: true` is the robust pattern.
+3. **The vendor-copy alternative (Q27) might have avoided this** — vendoring our `sophia-glasses/client-sdk-unity/` instead of UPM Git URL doesn't change the bundled DLL situation, but it makes the project's DLL landscape more visible and editable. Both routes hit the same conflict, but vendor-copy would have been easier to surgically modify (delete the bundled Protobuf and rely on whatever the project's primary copy is).
+4. **When the conflict surfaces, asking the package consumer is faster than fighting the conflict.** The XR engineer immediately knew ARCore Extensions wasn't load-bearing for his product and dropped it — what would have taken us hours to validate took him 30 seconds with product knowledge.
+5. **Library/PackageCache fixes don't persist.** Any quick test there is diagnostic-only; permanent fixes have to live in tracked files (manifest.json, embedded package, Assets/Plugins/).
+
+### Short-form answer
+
+LiveKit SDK v1.3.7 and ARCore Extensions each bundle their own Google.Protobuf.dll. Unity's auto-resolution for ARCore's Editor Analytics scripts broke when both were in the project. We diagnosed it down to ARCore's asmdef having empty precompiledReferences (relying on folder-local auto-detection that bailed out with two Protobuf copies in the project). After ruling out scripting-define hacks, the XR engineer made the call to drop ARCore Extensions + Samples from his manifest since his AR functionality doesn't depend on Extensions specifically. Conflict resolved at the source. Lesson: bundled-DLL UPM packages can conflict in non-obvious ways; explicit asmdef precompiledReferences is the robust pattern; sometimes the package consumer has product knowledge that resolves it faster than technical surgery.
+
+---
+
+## Q29 (2026-06-04): LiveKit Unity SDK v1.3.7 API surface — what I guessed wrong while writing LiveKitLlmProvider.cs and what the actual API is.
+
+When I drafted the provider, I worked against signatures inferred from the SDK code we'd surveyed earlier. Several of those guesses turned out to be wrong against the actual v1.3.7 surface. This entry documents each mismatch so future-us has the corrected reference if we touch the provider again.
+
+### Mismatch 1: `RoomOptions` ambiguous
+
+**What I wrote**: `new RoomOptions()`.
+
+**What the compiler said**: `'RoomOptions' is an ambiguous reference between 'LiveKit.RoomOptions' and 'LiveKit.Proto.RoomOptions'`.
+
+**Cause**: my file has both `using LiveKit;` and `using LiveKit.Proto;` directives. Both namespaces define a `RoomOptions` type.
+
+**Initial fix**: qualify with `LiveKit.RoomOptions` — which then hit Mismatch 6 (namespace shadow).
+
+**Final fix**: `new global::LiveKit.RoomOptions()`.
+
+### Mismatch 2 + 3: `ConnectInstruction` / `PublishTrackInstruction` not awaitable as `Task`
+
+**What I wrote**: `await connectOp;` and `await pubOp;`.
+
+**What the compiler said**: `'ConnectInstruction' does not contain a definition for 'GetAwaiter'` (same for `PublishTrackInstruction`).
+
+**Cause**: `ConnectInstruction` inherits from `LiveKit.YieldInstruction` which inherits from Unity's `CustomYieldInstruction`. It's a Unity COROUTINE construct — designed for `yield return` inside `IEnumerator`, not `await` inside `async Task`. There's no `GetAwaiter` extension on `CustomYieldInstruction` because the awaiter that Unity provides (`AsyncOperationAwaitableExtensions.GetAwaiter`) only accepts `AsyncOperation`, not `CustomYieldInstruction`.
+
+**Fix**: added a helper `AwaitYield` that polls `IsDone` via `Task.Yield()`:
+```csharp
+private static async Task AwaitYield(global::LiveKit.YieldInstruction instr)
+{
+    while (!instr.IsDone)
+        await Task.Yield();
+}
+```
+Then `await AwaitYield(connectOp)` and `await AwaitYield(pubOp)`.
+
+### Mismatch 4: `Room.Dispose()` doesn't exist in v1.3.7
+
+**What I wrote**: `_room.Dispose();` inside `CleanupRoom()`.
+
+**What the compiler said**: `'Room' does not contain a definition for 'Dispose'`.
+
+**Cause**: I read about Room having a Dispose method in an OLDER version of the SDK (likely from our `sophia-glasses/client-sdk-unity/` vendored copy which is on a different commit). v1.3.7's Room has `Disconnect()` but no `Dispose()`. The SDK's FFI handle cleanup runs via the SafeHandle finalizer instead.
+
+**Fix**: drop the Dispose call entirely. `DisconnectAsync` already calls `Room.Disconnect()`, and CleanupRoom just nulls the reference. The FfiHandle finalizer handles native cleanup.
+
+### Mismatch 5: `DataPublishOptions` doesn't exist
+
+**What I wrote**:
+```csharp
+await _room.LocalParticipant.PublishData(
+    Encoding.UTF8.GetBytes(text),
+    new DataPublishOptions { Topic = "sophia.user_text" });
+```
+
+**What the compiler said**: `'DataPublishOptions' could not be found`.
+
+**Cause**: I invented an options-object pattern that doesn't match v1.3.7's actual `PublishData` signature. The real signature is:
+```csharp
+public void PublishData(
+    byte[] data,
+    IReadOnlyCollection<string> destination_identities = null,
+    bool reliable = true,
+    string topic = null)
+```
+
+Returns `void` (fire-and-forget), takes `topic` as a named string parameter, no options object.
+
+**Fix**: rewrote `SendTextAsync` to use the actual signature with `topic: "sophia.user_text"` named parameter. Method became `Task SendTextAsync` returning `Task.CompletedTask` since `PublishData` itself is void.
+
+### Mismatch 6: `TextStreamReader.ReadAllAsync()` doesn't exist
+
+**What I wrote**:
+```csharp
+await foreach (var chunk in reader.ReadAllAsync())
+    sb.Append(chunk);
+```
+
+**What the compiler said**: `'TextStreamReader' does not contain a definition for 'ReadAllAsync'`.
+
+**Cause**: I assumed an `IAsyncEnumerable<string>` API. The real API in `Runtime/Scripts/TextDataStream.cs` (NOTE: file name was `TextDataStream.cs`, not `TextStreamReader.cs`):
+```csharp
+public ReadAllInstruction ReadAll()
+```
+Returns a `ReadAllInstruction` (subclass of `YieldInstruction`) whose `.Text` property contains the final concatenated string after `.IsDone == true`. Also has `.IsError` to check.
+
+**Fix**: rewrote `ReadAndDispatchAsync` to use `reader.ReadAll()` + `AwaitYield(op)` + check `op.IsError` + read `op.Text`. Added a `finally { reader?.Dispose(); }` since TextStreamReader implements IDisposable.
+
+### Mismatch 7: `YieldInstruction` ambiguous between `LiveKit.YieldInstruction` and `UnityEngine.YieldInstruction`
+
+**What I wrote**: `private static async Task AwaitYield(YieldInstruction instr)`.
+
+**What the compiler said**: `'YieldInstruction' is an ambiguous reference between 'LiveKit.YieldInstruction' and 'UnityEngine.YieldInstruction'`.
+
+**Cause**: same as Mismatch 1 — both namespaces define a type with this name (and `using UnityEngine;` is in our usings).
+
+**Initial fix**: qualify with `LiveKit.YieldInstruction` — which then hit Mismatch 8.
+
+### Mismatch 8: Namespace shadow — `LiveKit.X` resolves to our own enclosing namespace
+
+**What I wrote (after Mismatch 7)**: `LiveKit.YieldInstruction instr`.
+
+**What the compiler said**: `The type or namespace name 'YieldInstruction' does not exist in the namespace 'Sophia.ConversationalAI.Providers.LiveKit'`.
+
+**Cause**: our file lives in `namespace Sophia.ConversationalAI.Providers.LiveKit { ... }`. When the C# compiler sees `LiveKit.YieldInstruction` inside that namespace, it tries to resolve `LiveKit` relative to the CURRENT namespace first — finds `Sophia.ConversationalAI.Providers.LiveKit`, looks for `YieldInstruction` as a subtype/sub-namespace inside that, doesn't find it. The `using LiveKit;` directive doesn't help because qualified references skip using directives.
+
+**Fix**: use `global::` qualifier to force resolution from the root: `global::LiveKit.YieldInstruction` and similarly `global::LiveKit.RoomOptions` (applied at Mismatch 1 as well).
+
+### Bonus issue: asmdef and `using` directives missing
+
+Two compile issues that weren't SDK API mismatches but came up at the same time:
+
+- **`Sophia.ConversationalAI.asmdef` had no `LiveKit` reference**. Even though LiveKit's asmdef has `autoReferenced: true`, his asmdef has explicit `references` list which makes Unity strict — auto-references aren't picked up. Fix: add `"LiveKit"` to references array in `Sophia.ConversationalAI.asmdef`.
+- **`ProviderConfig` couldn't be found** because I missed `using Sophia.ConversationalAI.Config;` at the top of our provider. The `ProviderConfig` class is in `namespace Sophia.ConversationalAI.Config`, NOT in `Sophia.ProviderConfiguration` (which is the ASSEMBLY name — different from the namespace). Confirmed by reading VoiceRelayLlmProvider.cs's using directives.
+
+### Summary table
+
+| Mismatch | What I wrote | What works in v1.3.7 |
+|---|---|---|
+| 1 + 6/7/8 | `new RoomOptions()` / `YieldInstruction` | `new global::LiveKit.RoomOptions()` / `global::LiveKit.YieldInstruction` |
+| 2 + 3 | `await connectOp;` `await pubOp;` | `await AwaitYield(connectOp);` (custom helper polling `IsDone` via `Task.Yield()`) |
+| 4 | `_room.Dispose()` | Drop the call; rely on FfiHandle finalizer + `Disconnect()` |
+| 5 | `PublishData(bytes, new DataPublishOptions {...})` | `PublishData(bytes, topic: "...")` (void return, named param) |
+| 6 | `reader.ReadAllAsync()` `await foreach` | `reader.ReadAll()` → `await AwaitYield(op)` → `op.Text` |
+| asmdef | (missing reference) | Add `"LiveKit"` to references in `Sophia.ConversationalAI.asmdef` |
+| using | (missing directive) | `using Sophia.ConversationalAI.Config;` |
+
+### Lesson for future SDK integrations
+
+Reading SDK reference clones written for one version doesn't reliably tell you another version's API. The v1.3.7 cached SDK in his Library/PackageCache was the authoritative source the whole time — we just didn't read it until the compiler told us where to look. Next time we touch this code (or write a similar provider against a future SDK version), read the SDK source in its installed location FIRST, then write against verified signatures.
+
+### Short-form answer
+
+I wrote LiveKitLlmProvider.cs against guessed signatures from an older SDK reading. Seven mismatches surfaced as compile errors against v1.3.7: ambiguous `RoomOptions`/`YieldInstruction` (qualify with `global::LiveKit.X`), `ConnectInstruction`/`PublishTrackInstruction`/`ReadAllInstruction` inherit `CustomYieldInstruction` not awaitable as Task (wrote `AwaitYield` helper polling `IsDone` via `Task.Yield()`), `Room.Dispose()` doesn't exist in v1.3.7 (rely on FfiHandle finalizer), `DataPublishOptions` doesn't exist (`PublishData` takes `topic:` named param), `TextStreamReader.ReadAllAsync` doesn't exist (`ReadAll()` returns `ReadAllInstruction` with `.Text` after `.IsDone`). Plus two non-API issues: missing `"LiveKit"` in asmdef references, missing `using Sophia.ConversationalAI.Config;` directive. All fixed. Provider compiles clean against v1.3.7.
