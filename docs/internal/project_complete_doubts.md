@@ -3897,3 +3897,181 @@ Tomorrow when writing DocumindLLM:
 - Optionally yield Documind's answer as N sentence-chunks through llm_node so TTS streams audio out (mirrors current Qwen3 streaming UX)
 
 This makes the `sophia.rag_result` topic finally honest about its payload. Future HUD work can render `visual_url` page renders and `annotated_url` boxes — capabilities sophia-spatial-ai didn't have.
+
+## Q47 (2026-06-09): Documind integration inline in agent.py vs separate plugin file. Decided inline.
+
+### Why Qwen3 didn't need a plugin
+
+qwen3-inference HTTP server speaks the OpenAI-compatible `/v1/chat/completions` contract. The framework's `openai.LLM` plugin already knows that contract. We just pointed it at our URL: `llm=openai.LLM(base_url=f"{QWEN3_URL}/v1", ...)`. Zero plugin code.
+
+### Why Documind needs translation code
+
+Documind speaks its OWN API: `POST /api/v1/ask {question, history, image_b64}` → one JSON `{answer, evidence, visual_url, ...}`. Different field shape, no streaming (whole answer returned in one HTTP response). The `openai.LLM` plugin can't talk to that.
+
+So translation has to live somewhere. Two valid spots:
+
+| Where | Pros | Cons |
+|---|---|---|
+| Inline in `Assistant.llm_node` | Matches existing override pattern. No new files. Easy to A/B. | Wire protocol mixed into agent persona class. |
+| Separate `documind_llm.py` LLM plugin | LiveKit-idiomatic. Reusable. Standard per Q36. | One more file. Overkill for single-agent project. |
+
+### Decision: inline
+
+We're not building a library; we're building one specific Sophia agent. Reusability is a non-concern. The existing `Assistant.llm_node` already sits in agent.py and is the natural home for the new logic. Inline keeps everything in one file you can scroll top-to-bottom and understand.
+
+### How to apply
+
+If we ever build a second agent that also uses Documind, then it's worth extracting to a plugin. Until then, inline + a clear method docstring is fine.
+
+## Q48 (2026-06-09): agent.py cleanup to Documind-only path. What was removed, what stayed, current size.
+
+### Removed (~132 lines)
+
+- `SOPHIA_RAG_URL`, `QWEN3_URL`, `RAG_SCORE_THRESHOLD` constants — no longer call sophia-spatial-ai `/retrieve` or Qwen3.
+- `USE_DOCUMIND` env var — committed to Documind-only, no toggle.
+- `Assistant.on_user_turn_completed` method (~95 lines) — used to call sophia-spatial-ai and inject system messages; Documind does retrieval internally so the hook is unnecessary.
+- Path A branch from `Assistant.llm_node` — Qwen3 streaming wrapper. Only Path B (Documind) remains.
+- The "Route A vs Route B / AWS TODO" speculation in the module docstring — replaced with the actual pipeline description.
+
+### Stayed (the backbone)
+
+- All VAD / turn / interruption / preemptive / AEC tuning constants (lines 89-198) — framework concerns, orthogonal to RAG/LLM choice.
+- All event publishing infra (`_publish_event`, `_publish_rag_result`, `_fire`, `_BG_TASKS`) — the side-channel to the HUD.
+- All `@session.on(...)` event-emitter callbacks (state changes, transcripts, metrics, errors) — XR HUD depends on these.
+- Whisper STT plugin + Kokoro TTS plugin in `AgentSession(...)` — unchanged.
+- The 3 new Documind helpers (`_call_documind_ask`, `_extract_question_and_history`, `_split_into_sentence_chunks`).
+
+### One pragmatic concession
+
+`AgentSession` requires `llm=` to be set even though our override fully bypasses it. We pass `openai.LLM(base_url="http://127.0.0.1:1/v1", model="placeholder-bypassed-by-llm_node", ...)`. The unreachable port-1 URL is deliberate — any regression that accidentally calls the default `llm_node` (instead of our override) will fail loudly at network level instead of silently routing somewhere wrong.
+
+### Current size
+
+971 lines → 839 lines. Cleaner mental model: STT plugin → llm_node override → TTS plugin, with telemetry side-channel.
+
+### How to apply
+
+When picking up tomorrow, the only thing left to wire is the 3 env vars + port-forward. agent.py code is final pending smoke test.
+
+## Q49 (2026-06-09): Event publishing + emitter infrastructure — why both exist + what each event powers.
+
+### Two layers
+
+1. **Transport plumbing** — `_publish_event`, `_publish_rag_result`, `_fire`, `_BG_TASKS`. Send JSON to LiveKit text-stream topics.
+2. **Event-to-payload mapping** — `_attach_event_publishers(session)` registers ~10 `@session.on(...)` callbacks. Each listens to a framework event and re-publishes a structured payload.
+
+### The flow
+
+```
+LiveKit framework emits internal events (always does)
+  ↓
+@session.on(...) callbacks fire
+  ↓
+Each callback calls _fire(_publish_event(payload))
+  ↓
+_publish_event POSTs to sophia.agent_events / sophia.rag_result topic
+  ↓
+Unity client (LiveKitLlmProvider) subscribed → OnAgentEventsMessage / OnRagResultMessage
+  ↓
+ILLMProvider events fire (OnTranscriptReceived, OnAgentSpeaking, OnError, etc.)
+  ↓
+ConversationalAIController routes to HUD
+  ↓
+Glasses display
+```
+
+### What each event powers in the HUD
+
+| Framework event | Our publish kind | HUD effect |
+|---|---|---|
+| `user_input_transcribed` | `user_transcript` | "You: ..." caption |
+| `conversation_item_added` (assistant) | `agent_transcript` is_final=True | Final "Sophia: ..." caption |
+| `agent_state_changed` | `agent_state` → `OnAgentSpeaking` | Pulsing colored state dot (listening/thinking/speaking) |
+| `user_state_changed` | `user_state` → `OnUserSpeaking` | "User talking" indicator |
+| `metrics_collected` | `metrics` | Per-leg latency telemetry; `[DEBUG_0604_LiveKitLegs]` logs |
+| `error` | `error` → `OnError` | "Sophia trouble" / reconnect trigger |
+
+Plus our llm_node streams `agent_transcript` is_final=False per sentence for live captions.
+
+### Which events XR client actually consumes (vs browser-only leftovers)
+
+XR client cares about: `agent_state_changed`, `user_state_changed`, `user_input_transcribed`, `conversation_item_added`, `metrics_collected`, `error`.
+XR client ignores (browser-only leftovers, safe to delete): `speech_created`, `function_tools_executed`, `agent_false_interruption`, `close`.
+
+Keeping the 4 ignored ones is cheap and future-useful; not worth a cleanup pass.
+
+### Why the timing matters
+
+`_attach_event_publishers(session)` must be called BEFORE `session.start(...)`. Otherwise early state-transition / first-transcript events fire before our handlers are registered and the HUD misses them.
+
+### How to apply
+
+When integrating any new HUD feature: identify which framework event carries the data → check if it's in our `_attach_event_publishers` callbacks. If not, add a `@session.on(...)` handler that publishes a new `kind` to the agent_events topic, then add a matching `case` to `LiveKitLlmProvider.OnAgentEventsMessage`. Two-end contract.
+
+## Q50 (2026-06-09): ILLMProvider is the contract across all providers. LiveKit / OpenAI / VoiceRelay each translate their own wire format to the same 6 events.
+
+### The contract
+
+His `ILLMProvider` interface exposes 6 events:
+- `OnTranscriptReceived`
+- `OnAudioReceived`
+- `OnFunctionCall`
+- `OnError`
+- `OnUserSpeaking`
+- `OnAgentSpeaking`
+
+Plus a few methods (`ConnectAsync`, `DisconnectAsync`, `SendAudioChunkAsync`, `SendImageAsync`, `SendTextAsync`, etc.).
+
+### Each provider does its own translation
+
+| Provider | Wire protocol | Translation logic lives in |
+|---|---|---|
+| OpenAI Realtime | direct OpenAI WSS to api.openai.com | `OpenAIProvider.cs` |
+| VoiceRelay (his) | custom WSS protocol via `/gateway/sophia-speech/ws` | `VoiceRelayLlmProvider.cs` |
+| LiveKit (ours) | WebRTC + 3 text-stream topics from sophia-agent | `LiveKitLlmProvider.cs` |
+| Gemini Live | direct Gemini WSS | `GeminiLiveProvider.cs` |
+| GoogleVision | HTTP polling | `GoogleVisionProvider.cs` |
+
+All 5 fire the SAME ILLMProvider events. Different wire formats, one common abstraction.
+
+### Why this matters
+
+His HUD code is provider-agnostic. Subscribes to `ILLMProvider.OnTranscriptReceived` ONCE in `ConversationalAIController` — works with any provider. Switching providers (dropdown) doesn't change a single line of HUD code.
+
+This is why our LiveKit integration was "10 file changes" not "rewrite the wearable" — we just added a 5th provider that talks the same contract.
+
+### How to apply
+
+When asked "how does the XR client know X about Sophia": trace UP the chain. HUD → ILLMProvider event → provider's handler → wire protocol. For LiveKit specifically, that's: HUD → ILLMProvider event → `OnAgentEventsMessage` switch case → text-stream topic → `_publish_event` callback in our agent.py.
+
+## Q51 (2026-06-09): To smoke-test Documind we only need 3 env vars + 1 port-forward addition.
+
+### Minimum changes when infra answers
+
+1. **Add 3 env vars on EC2** (`sophia-agent/.env.production`):
+   ```
+   DOCUMIND_URL=<their answer for Q43.3 — likely http://localhost:8502 if in-cluster, or external HTTPS>
+   DOCUMIND_API_KEY=<their answer for Q43.1>
+   DOCUMIND_COMPANY_SLUG=<their answer for Q43.2>
+   ```
+   No `USE_DOCUMIND` flag any more — Documind is always on.
+
+2. **Add `documind` to `pf-gpu.sh` KNOWN_GPU_SERVICES** (if in-cluster route) — adds `documind:8502 → localhost:8502` port-forward.
+
+3. **Rebuild + restart agent-worker**:
+   ```
+   docker compose up -d --build agent-worker
+   ```
+   `agent-worker` rebuild needed because env_file changes (Q41 from yesterday: `docker compose restart` doesn't pick up new env vars; need full rebuild). Actually wait — `restart` is fine for `.env.production` changes if env_file is referenced; rebuild is for code changes. Code already changed today so rebuild needed regardless.
+
+4. **Smoke test**: Mac Editor or glasses → speak → expect `documind /ask completed in N ms` in agent-worker logs.
+
+### What we DON'T need
+
+- No `USE_DOCUMIND` flag (removed in Q48 cleanup).
+- No `SOPHIA_RAG_URL` (removed). Drop sophia-spatial-ai port-forward from pf-gpu.sh when retiring it per Q43.6.
+- No `QWEN3_URL` (removed). Drop qwen3-inference port-forward similarly.
+
+### How to apply
+
+This is the END state for tomorrow's Documind smoke test. Once infra answers Q43, we're 5 minutes from running it.

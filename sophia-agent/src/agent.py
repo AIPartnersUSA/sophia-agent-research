@@ -1,27 +1,32 @@
 """
 sophia-agent: Sophia voice agent on fully self-hosted OSS LiveKit.
 
+Pipeline: STT (Whisper) -> Documind /ask (fused RAG + LLM) -> TTS (Kokoro).
+
 This is the OSS-replication twin of ../my-agent. my-agent stays as the
 Cloud + LiveKit Inference baseline (the benchmark we want to match).
 sophia-agent runs against:
     - a local livekit-server (Docker), NOT LiveKit Cloud
     - a local FastAPI token-mint, NOT lk cloud auth
-    - AWS-hosted STT, TTS, and (eventually) RAG/LLM, NOT LiveKit Inference
+    - AWS-hosted Whisper (STT) + Documind (fused RAG + LLM) + Kokoro (TTS).
 
 VAD (Silero) and turn detection (MultilingualModel) stay identical to my-agent
 because they are already OSS local-CPU ONNX models.
 
-The STT/LLM/TTS slots below are intentionally TODO'd. Once the AWS endpoint
-shapes are known we either:
-    Route A (OpenAI-compatible): use livekit.plugins.openai.{STT,LLM,TTS}(base_url=...)
-    Route B (custom protocol):   subclass livekit.agents.{stt,llm,tts}.* into
-                                 src/plugins/<name>.py (pattern: livekit_doubts.md Q36).
+Documind replaces what used to be two separate services in the middle of the
+pipeline -- sophia-spatial-ai /retrieve + Qwen3 LLM -- with a single POST
+/api/v1/ask call. Documind does retrieval, grounds an LLM in the retrieved
+context, and returns the full answer + evidence + visual_url + annotated_url
+in one response. See docs/internal/project_complete_doubts.md Q43-Q46 for the
+architectural rationale, and new_rag.md (project root) for the infra-team
+API contract.
 """
 
 import asyncio
 import json
 import logging
 import os
+import re
 import textwrap
 import time
 from typing import Literal
@@ -48,19 +53,18 @@ load_dotenv(".env.local")
 # Inference service URLs. Defaults are the localhost ports the dev stack
 # uses (per sophia-agent/infra/pf-gpu.sh). Override in production by setting
 # env vars to VPC-internal DNS names of the inference services.
-SOPHIA_RAG_URL = os.environ.get("SOPHIA_RAG_URL", "http://localhost:8106")
+#
+# Whisper handles the STT step; Documind replaces the old sophia-spatial-ai +
+# Qwen3 middle pieces; Kokoro handles the TTS step. See the module docstring
+# for the full pipeline diagram.
 WHISPER_URL = os.environ.get("WHISPER_URL", "http://localhost:8080")
-QWEN3_URL = os.environ.get("QWEN3_URL", "http://localhost:18080")
 KOKORO_URL = os.environ.get("KOKORO_URL", "http://localhost:8122")
+DOCUMIND_URL = os.environ.get("DOCUMIND_URL", "http://localhost:8502")
+DOCUMIND_API_KEY = os.environ.get("DOCUMIND_API_KEY", "")
+DOCUMIND_COMPANY_SLUG = os.environ.get("DOCUMIND_COMPANY_SLUG", "sophia")
 
 RAG_RESULT_TOPIC = "sophia.rag_result"
 AGENT_EVENTS_TOPIC = "sophia.agent_events"
-# /retrieve returns max_score in [0, 1]. Below this threshold we treat the
-# query as "not in the knowledge base" and skip context injection, so general
-# chat does not get polluted with irrelevant chunks. Tune up if you see qwen3
-# being misled by low-relevance hits. The infra team's voice-relay does the
-# same gate per /retrieve's docstring.
-RAG_SCORE_THRESHOLD = 0.10
 
 # ----------------------------------------------------------------------------
 # VAD + TURN-HANDLING TUNABLES -- play with these and watch the bottom-left
@@ -244,141 +248,124 @@ class Assistant(Agent):
             ),
         )
 
-    async def on_user_turn_completed(
-        self, turn_ctx: llm.ChatContext, new_message: llm.ChatMessage
-    ) -> None:
-        """Called after STT finalizes the user's turn and BEFORE the LLM runs.
+    # NOTE: `on_user_turn_completed` is intentionally NOT overridden.
+    # In the old (Qwen3) pipeline we used it to call sophia-spatial-ai
+    # /retrieve and inject manual excerpts as a system message into
+    # turn_ctx so the LLM could ground its reply. Documind does retrieval
+    # internally on every /ask call -- we just send the question + history
+    # and Documind decides what context to pull in. So this hook is unused;
+    # the framework's default no-op runs instead.
 
-        We always call sophia-spatial-ai /retrieve (fast, <150ms, no LLM
-        generation server-side) with the user's text. If the top-hit score is
-        above RAG_SCORE_THRESHOLD we inject the retrieved chunks as a system
-        message at the end of the chat context, so qwen3 grounds its reply in
-        them. If the score is low we skip injection and let qwen3 answer as
-        general chat.
+    async def llm_node(self, chat_ctx, tools, model_settings):
+        """Override LLM streaming -- entirely replaces the framework default.
 
-        This pattern is the workaround for the fact that
-        `inference-server.py` strips the `tools` field from the request
-        (silently, via Pydantic v2 extra='ignore'), so LiveKit's
-        @function_tool path does not work end-to-end. When infra adds tools
-        support to that server, we can swap this back to a @function_tool.
+        Documind is our LLM stage. We bypass Agent.default.llm_node (which
+        would route to the openai plugin) and instead translate chat_ctx to
+        Documind's (question, history) shape, POST /api/v1/ask, publish the
+        rich rag_result payload (real answer + evidence + visual_url +
+        annotated_url -- fixes the vestigial placeholder answer field
+        documented in Q46), then yield the answer as sentence-chunked
+        ChatChunks so Kokoro TTS streams audio per-sentence instead of
+        waiting for the full answer.
+
+        The final transcript confirmation still arrives via the framework's
+        `conversation_item_added` event (is_final=True) once all chunks have
+        been yielded -- same machinery as the old streaming-LLM path, just
+        driven by our sentence chunks instead of per-token streaming.
         """
-        user_text = new_message.text_content
-        if not user_text or not isinstance(user_text, str):
-            return
-        user_text = user_text.strip()
-        if not user_text:
+        question, history = _extract_question_and_history(chat_ctx)
+        if not question:
+            logger.warning(
+                "no user question found in chat_ctx -- skipping turn. "
+                "history_len=%d", len(history),
+            )
             return
 
         try:
-            async with httpx.AsyncClient(timeout=5.0) as client:
-                resp = await client.post(
-                    f"{SOPHIA_RAG_URL}/retrieve",
-                    json={"question": user_text, "top_k": 4},
-                )
-                resp.raise_for_status()
-                data = resp.json()
-        except Exception as e:
-            logger.warning("sophia-rag /retrieve failed for %r: %s", user_text, e)
-            return  # silent fail -- never block the turn on RAG
-
-        hits = data.get("hits") or []
-        max_score = float(data.get("max_score") or 0.0)
-
-        if not hits or max_score < RAG_SCORE_THRESHOLD:
-            logger.debug(
-                "skipping rag injection: hits=%d max_score=%.3f threshold=%.2f",
-                len(hits),
-                max_score,
-                RAG_SCORE_THRESHOLD,
+            t0 = time.time()
+            resp = await _call_documind_ask(question, history)
+            elapsed_ms = int((time.time() - t0) * 1000)
+            logger.info(
+                "documind /ask completed in %d ms for %r (answer_len=%d, evidence_count=%d)",
+                elapsed_ms,
+                question,
+                len(resp.get("answer") or ""),
+                len(resp.get("evidence") or []),
             )
-            await _publish_rag_result(
-                {
-                    "question": user_text,
-                    "mode": "retrieve_skipped",
-                    "max_score": max_score,
-                    "hits": hits,
-                    "images": data.get("images") or [],
-                    "answer": "(below relevance threshold; LLM answers as general chat)",
-                }
+        except Exception as e:
+            logger.exception("documind /ask failed for %r", question)
+            _fire(
+                _publish_event(
+                    {
+                        "kind": "error",
+                        "error": f"documind unreachable: {e}",
+                        "source": "DocumindLLM",
+                    }
+                )
             )
             return
 
-        excerpts = []
-        for h in hits:
-            text = (
-                h.get("text")
-                or h.get("snippet")
-                or h.get("content")
-                or h.get("page_content")
-                or ""
+        answer = (resp.get("answer") or "").strip()
+        if not answer:
+            logger.warning("documind returned empty answer for %r: %r", question, resp)
+            return
+
+        # Publish the enriched rag_result with REAL answer + evidence + visuals
+        # (Q46 cleanup: the field was vestigial-placeholder text in the Qwen3 path).
+        _fire(
+            _publish_rag_result(
+                {
+                    "question": question,
+                    "mode": "documind",
+                    "answer": answer,
+                    "evidence": resp.get("evidence") or [],
+                    "visual_url": resp.get("visual_url"),
+                    "annotated_url": resp.get("annotated_url"),
+                    "interaction_id": resp.get("interaction_id"),
+                    "latency_ms": resp.get("latency_ms"),
+                    "route": resp.get("route"),
+                }
             )
-            source = h.get("source", "unknown")
-            page = h.get("page", "?")
-            excerpts.append(f"[{source} p.{page}]\n{text}".strip())
-
-        context_block = (
-            "Relevant excerpts from indexed manuals (score "
-            f"{max_score:.2f}):\n\n" + "\n\n".join(excerpts)
-        )
-        turn_ctx.add_message(role="system", content=context_block)
-        logger.info(
-            "injected %d rag chunks (max_score=%.2f) for %r",
-            len(hits),
-            max_score,
-            user_text,
         )
 
-        await _publish_rag_result(
-            {
-                "question": user_text,
-                "mode": "retrieve_injected",
-                "max_score": max_score,
-                "hits": hits,
-                "images": data.get("images") or [],
-                "answer": "(context injected; LLM streaming reply now)",
-            }
-        )
+        # Yield as sentence-chunks so TTS streams audio out per-sentence.
+        sentences = _split_into_sentence_chunks(answer)
+        accumulated_text = ""
+        chunk_id_prefix = f"documind-{int(time.time() * 1000)}"
+        for i, sentence in enumerate(sentences):
+            piece = sentence
+            # Add a trailing space between sentences except the last one so
+            # TTS reads naturally and doesn't glue words together.
+            if i < len(sentences) - 1:
+                piece = piece + " "
+            accumulated_text += piece
 
-    async def llm_node(self, chat_ctx, tools, model_settings):
-        """Override LLM streaming to publish text chunks in real-time.
-
-        The framework default `Agent.default.llm_node` returns an async
-        iterator of `llm.ChatChunk`s as the model streams tokens. We yield
-        each chunk through unchanged (so TTS and the rest of the pipeline
-        work normally) but also accumulate `delta.content` and publish the
-        running text via `sophia.agent_events` with `is_final=False` so
-        HUDs can show captions WHILE the LLM streams. The final
-        confirmation comes via `conversation_item_added` (is_final=True).
-
-        Throttling: re-publish only when the accumulated text grew by >= 8
-        characters (~2 tokens at typical decode rates) to avoid spamming
-        the text-stream channel with per-token messages.
-        """
-        accumulated: list[str] = []
-        last_published_len = 0
-        async for chunk in Agent.default.llm_node(
-            self, chat_ctx, tools, model_settings
-        ):
+            # Construct a ChatChunk in the openai-plugin shape so the framework's
+            # downstream pipeline (TTS, conversation_item_added) treats it identically.
+            # NOTE: ChatChunk + ChoiceDelta API exists in livekit.agents.llm; if the
+            # exact attribute path differs across framework versions, adjust here.
             try:
-                delta = getattr(chunk, "delta", None)
-                if delta is not None:
-                    piece = getattr(delta, "content", None)
-                    if piece:
-                        accumulated.append(piece)
-                        cur = "".join(accumulated)
-                        if len(cur) - last_published_len >= 8:
-                            _fire(
-                                _publish_event(
-                                    {
-                                        "kind": "agent_transcript",
-                                        "text": cur,
-                                        "is_final": False,
-                                    }
-                                )
-                            )
-                            last_published_len = len(cur)
+                chunk = llm.ChatChunk(
+                    id=f"{chunk_id_prefix}-{i}",
+                    delta=llm.ChoiceDelta(role="assistant", content=piece),
+                )
             except Exception:
-                logger.exception("llm_node publish failed")
+                logger.exception(
+                    "failed to construct ChatChunk -- framework API may differ from "
+                    "expected (llm.ChatChunk + llm.ChoiceDelta). Aborting Documind path."
+                )
+                return
+
+            # Publish progressive caption update (per-sentence is plenty live for HUD).
+            _fire(
+                _publish_event(
+                    {
+                        "kind": "agent_transcript",
+                        "text": accumulated_text.strip(),
+                        "is_final": False,
+                    }
+                )
+            )
             yield chunk
 
 
@@ -392,6 +379,108 @@ def _fire(coro) -> None:
     task = asyncio.create_task(coro)
     _BG_TASKS.add(task)
     task.add_done_callback(_BG_TASKS.discard)
+
+
+# ----------------------------------------------------------------------------
+# Documind helpers (used by Assistant.llm_node).
+# ----------------------------------------------------------------------------
+
+async def _call_documind_ask(question: str, history: list[dict]) -> dict:
+    """POST Documind /api/v1/ask with the current question + chat history.
+
+    Returns the full Documind response dict (answer, evidence, visual_url,
+    annotated_url, interaction_id, latency_ms, route, image_grounded, ...).
+    Raises on HTTP failure. tts=False because we use Kokoro for synthesis
+    via the existing AgentSession `tts=` plugin -- letting Documind also
+    synthesize would double-pay GPU and skew the streaming UX.
+    """
+    url = f"{DOCUMIND_URL.rstrip('/')}/api/v1/ask"
+    headers = {"Content-Type": "application/json"}
+    if DOCUMIND_API_KEY:
+        headers["Authorization"] = f"Bearer {DOCUMIND_API_KEY}"
+    body = {
+        "question": question,
+        "company_slug": DOCUMIND_COMPANY_SLUG,
+        "history": history,
+        "max_results": 4,
+        "show_thinking": False,
+        "tts": False,
+    }
+    async with httpx.AsyncClient(timeout=15.0) as client:
+        resp = await client.post(url, json=body, headers=headers)
+        resp.raise_for_status()
+        return resp.json()
+
+
+def _extract_question_and_history(chat_ctx) -> tuple[str, list[dict]]:
+    """Pull the latest user turn + prior history out of LiveKit's ChatContext.
+
+    Returns (question, history) where:
+        question = text of the most recent role=user message
+        history  = prior turns in Documind's [{"role": ..., "content": ...}]
+                   shape, EXCLUDING the current question, EXCLUDING any
+                   system / tool / RAG-injected messages (Documind expects
+                   just user + assistant turns -- it does its own retrieval).
+
+    ChatMessage.content may be a plain string OR a list[ChatContent] where
+    each item is str | ImageContent | AudioContent. We only keep plain-text
+    parts; image grounding for Documind would come via a separate image_b64
+    field on the /ask request (not implemented in v1; image arrives via a
+    different client-side path).
+    """
+    messages = list(getattr(chat_ctx, "messages", []) or [])
+    if not messages:
+        return "", []
+
+    # Walk backwards to find the latest user message -- that's the current question.
+    question = ""
+    last_user_idx = -1
+    for i in range(len(messages) - 1, -1, -1):
+        m = messages[i]
+        if getattr(m, "role", None) != "user":
+            continue
+        content = getattr(m, "content", None)
+        if isinstance(content, list):
+            content = "".join(c for c in content if isinstance(c, str))
+        question = (content or "").strip()
+        last_user_idx = i
+        break
+
+    # History = all messages BEFORE the current question, filtered to
+    # user/assistant roles only.
+    history: list[dict] = []
+    for m in messages[:last_user_idx]:
+        role = getattr(m, "role", None)
+        if role not in ("user", "assistant"):
+            continue
+        content = getattr(m, "content", None)
+        if isinstance(content, list):
+            content = "".join(c for c in content if isinstance(c, str))
+        text = (content or "").strip()
+        if text:
+            history.append({"role": role, "content": text})
+    return question, history
+
+
+# Match end-of-sentence punctuation (. ! ?) followed by whitespace, OR a newline.
+# Used to chunk Documind's full answer into TTS-friendly sentence pieces.
+_SENTENCE_SPLIT_RE = re.compile(r"(?<=[.!?])\s+|\n+")
+
+
+def _split_into_sentence_chunks(text: str) -> list[str]:
+    """Split a paragraph into sentence-sized chunks for streaming TTS.
+
+    Documind returns the full answer in one shot; if we yield it as a single
+    ChatChunk, TTS waits for end-of-stream before starting synthesis -- the
+    user perceives a long silence. Sentence-chunking lets Kokoro start
+    speaking the first sentence while subsequent ones are still being
+    yielded. Returns a list of trimmed, non-empty chunks (at least one
+    chunk = the original text if no sentence boundaries are found).
+    """
+    if not text:
+        return []
+    parts = _SENTENCE_SPLIT_RE.split(text)
+    return [p.strip() for p in parts if p.strip()]
 
 
 async def _publish_event(payload: dict) -> None:
@@ -670,23 +759,34 @@ server.setup_fnc = prewarm
 async def sophia_agent(ctx: JobContext):
     ctx.log_context_fields = {"room": ctx.room.name}
 
-    # STT, LLM, and TTS all use the openai plugin pointed at Sophia's
-    # self-hosted AWS model servers via kubectl port-forward
-    # (see infra/pf-gpu.sh -- run with `./infra/pf-gpu.sh`). All three speak
-    # the OpenAI-compatible HTTP contract so Route A applies -- zero custom
-    # plugin code.
-    #   whisper-inference  -> Whisper Large v3 STT  on localhost:8080
-    #   qwen3-inference    -> Qwen3-VL-8B-Instruct  on localhost:18080 (text-only mode; placeholder until sophia-spatial-ai RAG endpoint is wired)
-    #   kokoro-tts         -> Kokoro-82M TTS         on localhost:8122
+    # STT and TTS use the openai plugin pointed at Sophia's self-hosted AWS
+    # model servers via kubectl port-forward (see infra/pf-gpu.sh). Both speak
+    # the OpenAI-compatible HTTP contract so no custom plugin code is needed.
+    #
+    # LLM is special: Documind doesn't speak OpenAI chat-completions, so we
+    # CAN'T point an openai.LLM at it directly. Instead Assistant.llm_node
+    # below fully overrides the LLM streaming step and POSTs to Documind's
+    # /api/v1/ask. We still pass `llm=` here because AgentSession requires
+    # it -- the value is a placeholder that's never actually called (our
+    # override yields ChatChunks directly without invoking the plugin).
+    #
+    #   whisper-inference  -> Whisper Large v3 STT  on localhost:8080  (used)
+    #   <placeholder LLM>  -> openai.LLM stub                          (NEVER CALLED, llm_node bypasses)
+    #   documind           -> POST /api/v1/ask                         (the real LLM, via llm_node override)
+    #   kokoro-tts         -> Kokoro-82M TTS         on localhost:8122  (used)
     session = AgentSession(
         stt=openai.STT(
             base_url=f"{WHISPER_URL}/v1",
             model="whisper-large-v3",
             api_key="not-needed",
         ),
+        # Placeholder -- bypassed by Assistant.llm_node which POSTs to Documind.
+        # AgentSession requires `llm=` to be set; the base_url is unreachable on
+        # purpose so a regression that accidentally calls the default llm_node
+        # would fail loudly instead of silently routing to a wrong endpoint.
         llm=openai.LLM(
-            base_url=f"{QWEN3_URL}/v1",
-            model="qwen3-vl-8b-instruct",
+            base_url="http://127.0.0.1:1/v1",
+            model="placeholder-bypassed-by-llm_node",
             api_key="not-needed",
         ),
         tts=openai.TTS(
