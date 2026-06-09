@@ -406,7 +406,10 @@ async def _call_documind_ask(question: str, history: list[dict]) -> dict:
         "show_thinking": False,
         "tts": False,
     }
-    async with httpx.AsyncClient(timeout=15.0) as client:
+    # 60s timeout: Documind cold-start can take 15-30s on the FIRST call after
+    # the tenant index is loaded into memory; subsequent calls land in ~1-6s.
+    # Caught during 2026-06-09 first smoke test where 15s timed out.
+    async with httpx.AsyncClient(timeout=60.0) as client:
         resp = await client.post(url, json=body, headers=headers)
         resp.raise_for_status()
         return resp.json()
@@ -428,7 +431,9 @@ def _extract_question_and_history(chat_ctx) -> tuple[str, list[dict]]:
     field on the /ask request (not implemented in v1; image arrives via a
     different client-side path).
     """
-    messages = list(getattr(chat_ctx, "messages", []) or [])
+    # Framework uses `chat_ctx.items` (list of ChatMessage / FunctionCall / etc.),
+    # NOT `chat_ctx.messages`. Caught during 2026-06-09 first smoke test.
+    messages = list(getattr(chat_ctx, "items", []) or [])
     if not messages:
         return "", []
 
