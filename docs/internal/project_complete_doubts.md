@@ -3420,3 +3420,480 @@ For polished demo quality, plan recording setup BEFORE the session, not during. 
 2. Re-test by hitting Play + in-app start + speaking, then `ssh sophia-gpu "docker logs sophia-agent-worker-1 --tail 60 2>&1 | grep -E 'llm_node|agent_transcript|speech_created DEBUG'"` to see what actually fires.
 3. Walk Q34 hypotheses in order. Most likely culprit: framework calls llm_node via a different path under the openai.LLM plugin's stream wrapper.
 4. Once streaming works, clean up by removing `speech_created`'s dead extraction block (keep just `_publish_event({"kind": "speech_created"})`) and the DEBUG log.
+
+## Q39 (2026-06-08): Hardware smoke test PASSED on XREAL One Pro + Beam Pro. Full voice loop end-to-end. PR opened.
+
+### The day's full sequence
+
+1. Built APK with LiveKit selected in Editor. Installed via `adb install -r ~/Desktop/sophia_livekit_test.apk` over USB to Beam Pro.
+2. **First test FAILED**: logcat showed only `OpenAIProvider:SendRealtimeOutgoingAsync` lines, ZERO `[DEBUG_0604_LiveKit]`. Sophia talked but it was OpenAI under the hood, not LiveKit.
+3. Diagnosed: asset on disk showed `activeConversationProvider: 5` (LiveKit), but at runtime on Beam Pro the `GatewayRuntimeBootstrapService` was overriding to OpenAI. See Q40 below for the full architectural analysis.
+4. Applied one-line guard fix in `ConversationProviderController.InitializeFromConfigAsync` — respect explicit LiveKit selection.
+5. Rebuilt + reinstalled APK. Second test: `[DEBUG_0604_LiveKit]` appeared in logcat, agent dispatched, but Sophia didn't respond.
+6. Checked EC2 agent-worker logs — `failed to recognize speech: Connection error`. EKS port-forwards had died AGAIN (Q36 strikes a third time).
+7. Restarted port-forwards from EC2 interactive shell — they came back up but immediately died.
+8. Discovered: EKS inference deployments (whisper / qwen3 / kokoro / sophia-spatial-ai) were SCALED TO 0 — not just port-forward issue, the actual GPU pods didn't exist.
+9. `kubectl scale deployment <each> -n multi-agent --replicas=1`, waited for pods to come up, restarted port-forwards.
+10. Third test PASSED. Full voice loop end-to-end through XREAL boom mic + temple speakers, agent text streaming back, audio synthesized.
+
+### What this proves
+
+Phase 1 is COMPLETE on real wearable hardware. Every layer verified:
+- Token mint with X-API-Key auth (POST 200 OK)
+- WebRTC connect over Tailscale-style cellular/Wi-Fi
+- Agent dispatch (`agent-AJ_7FRpjvbAWh8s` in production)
+- Mic uplink via custom `MicrophoneStreamerAudioSource` adapter
+- XREAL One Pro boom mic device selection works (his `MicrophoneStreamer` heuristic)
+- Audio downlink via per-track child GameObject (Q58 pattern)
+- USB Audio Class routing — agent voice plays through XREAL temple speakers, not Beam Pro phone speaker
+- HUD captions render
+- Whisper STT → sophia-spatial-ai RAG → Qwen3-VL-8B LLM → Kokoro TTS full pipeline
+
+### PR pushed at end of session
+
+- Branch `avinash/livekit-provider` pushed to `AIPartnersUSA/Sophia_Xreal-U2`
+- Two commits:
+  - `d5b122b0` feat(conversational-ai): add LiveKit provider for self-hosted WebRTC voice agent
+  - `26a22de2` fix(conversational-ai): respect explicit LiveKit selection over gateway override
+- **PR #420**: https://github.com/AIPartnersUSA/Sophia_Xreal-U2/pull/420
+- PR description covers: integration architecture, 4 environmental conflicts resolved (Q28-Q31), hardware test proof, gateway-guard fix (Q40), long-term cleanups, test plan
+- Waiting on XR engineer review
+
+### How to apply
+
+- For the XR engineer: walk the PR description top-to-bottom. The hardware test logs in the description are real and reproducible — pull the branch + run the smoke test in their own setup if they want to verify independently.
+- For future-us: this is the END of Phase 1. Phase 1.5 (measurement spike vs VoiceRelay per Q26) is next. Phase 2 (infra migration to production AWS per HANDOFF.md) follows when infra is ready.
+
+## Q40 (2026-06-08): The GatewayRuntimeBootstrapService override bug — explicit LiveKit selection was silently downgraded to OpenAI on Android. Fix.
+
+### Discovery sequence
+
+Hardware test #1 logcat:
+```
+06-08 14:10:10  Sophia.ConversationalAI.Providers.OpenAI.OpenAIProvider:SendRealtimeOutgoingAsync
+06-08 14:10:12  Sophia.ConversationalAI.Providers.OpenAI.OpenAIProvider:SendRealtimeOutgoingAsync
+... (no [DEBUG_0604_LiveKit] anywhere) ...
+```
+
+User insisted asset had LiveKit selected at build time. Verified disk state — `activeConversationProvider: 5`, `customizedEndpointsBundle: {fileID: 0}`. Asset was correct.
+
+### Root cause — `ConversationProviderController.InitializeFromConfigAsync`
+
+```csharp
+private async Task InitializeFromConfigAsync()
+{
+    var conv = config.GetActiveConversationProvider();   // → LiveKit ✅
+    var vis = config.GetActiveVisionProviderForFactory();
+    if (config.NeedsGatewayBootstrapBeforeConversationProviderSelect())
+    {
+        await GatewayRuntimeBootstrapService.EnsureReadyAsync(config);
+        if (GatewayRuntimeBootstrapService.IsServerSingleEndpointPolicyActive())
+            conv = GatewayRuntimeBootstrapService.GetEffectiveConversationProviderType(config);
+            // ↑ silently overwrites LiveKit with OpenAI (gateway's default for production wearable)
+    }
+    var ok = await SelectProvidersAsync(conv, vis);
+}
+```
+
+`NeedsGatewayBootstrapBeforeConversationProviderSelect()` evaluated TRUE because:
+- `activeVisionDescriptionProvider: 1` in the asset = `SophiaAwsQwen`
+- `WantsQwenVisionDescriptionHttp()` returns true in CustomizedEndpoints mode when vision description provider is SophiaAwsQwen
+- `GetSingleEndpoint()` returned non-empty because `singleEndpointAwsBundle` was populated
+- Condition 2 of the predicate: `WantsQwenVisionDescriptionHttp() && !string.IsNullOrEmpty(GetSingleEndpoint())` → TRUE → triggers gateway bootstrap
+
+Then `IsServerSingleEndpointPolicyActive()` returned true (Beam Pro's network reached the gateway successfully — `https://staging.docu-mind.com/api/client-config`). Gateway responded with single-endpoint policy active. `conv` was reassigned to OpenAI.
+
+### Why it worked in Editor but not on Beam Pro
+
+`[DEBUG_0414_GatewayBootstrap]` log in Editor today (2026-06-05) showed:
+```
+System.InvalidOperationException: Header value contains invalid characters
+```
+Editor's .NET stack threw on the gateway POST. The if-block didn't reassign `conv`. LiveKit was preserved.
+
+On Beam Pro Android, the same POST succeeded (different .NET stack, or perhaps Android handles the header more permissively). Gateway response came back, override fired, OpenAI silently won.
+
+### Fix (one-line guard, commit `26a22de2`)
+
+```csharp
+if (conv != ConversationProviderType.LiveKit
+    && config.NeedsGatewayBootstrapBeforeConversationProviderSelect())
+{
+    // ... gateway logic ...
+}
+```
+
+After fix: hardware test #2 logcat showed `[DEBUG_0604_LiveKit] Initialize:` immediately, agent dispatched, full LiveKit code path ran.
+
+### Why this is the right fix
+
+- LiveKit is self-contained (own SFU + token-mint + agent worker). Gateway has nothing useful to say about it.
+- The gateway override exists for AWS Qwen / OpenAI Realtime gateway flows where the server picks the effective backend. Those still work unchanged.
+- One-line surgical fix; clear intent from the comment.
+- His existing OpenAI Realtime / VoiceRelay / Gemini code paths are completely unchanged.
+
+### How to apply
+
+Watch for similar "configured-correctly-but-runtime-overrides" patterns elsewhere in his app. Anytime a service does `EnsureReady... → IsActive... → GetEffective... → conv = ...` chain, that's a silent override. Worth tracing similar code paths for vision provider, transcription provider, product data provider — all of which have similar gateway-driven override blocks per his architecture.
+
+## Q41 (2026-06-08): EKS inference deployments scale to 0 outside work hours. Recovery requires scale + wait + port-forward restart.
+
+### Symptom
+
+`./pf-gpu.sh start` reports all forwards "running" but immediately:
+```
+/tmp/pf-gpu-logs/whisper-inference.log:  error: timed out waiting for the condition
+/tmp/pf-gpu-logs/qwen3-inference.log:    error: timed out waiting for the condition
+/tmp/pf-gpu-logs/kokoro-tts.log:         error: timed out waiting for the condition
+/tmp/pf-gpu-logs/sophia-spatial-ai.log:  error: timed out waiting for the condition
+```
+
+`ps -ef | grep kubectl` shows only voice-relay (8111) + grafana (3030) port-forwards still alive. The 4 inference ones died.
+
+`kubectl get pods -n multi-agent | grep -E 'whisper|qwen3|kokoro|sophia-spatial'` returns EMPTY — no replicas exist, not even Pending. The deployments are scaled to 0 replicas (cost saving outside work hours, presumably driven by a CronJob or similar).
+
+### Recovery procedure (~5 min depending on GPU node availability)
+
+```bash
+# In EC2 interactive shell with STS creds exported
+kubectl scale deployment whisper-inference   -n multi-agent --replicas=1
+kubectl scale deployment qwen3-inference     -n multi-agent --replicas=1
+kubectl scale deployment kokoro-tts          -n multi-agent --replicas=1
+kubectl scale deployment sophia-spatial-ai   -n multi-agent --replicas=1
+
+# Watch progress — wait for all 4 to show 1/1 Running
+kubectl get pods -n multi-agent -w | grep -E 'whisper|qwen3|kokoro|sophia-spatial'
+# Ctrl-C when done (~1-5 min depending on whether a GPU node needs to be allocated)
+
+# Then restart port-forwards
+./sophia-agent/infra/pf-gpu.sh stop
+./sophia-agent/infra/pf-gpu.sh start
+
+# Verify
+for p in 8080 18080 8122 8106; do
+    printf "port %-5s " $p
+    curl -s -o /dev/null -w "%{http_code}\n" --max-time 3 http://localhost:$p/health
+done
+# Expect: all four 200
+```
+
+### Why pf-gpu.sh status was misleading
+
+The script reports "running" because it successfully spawned `kubectl port-forward` processes. But those processes IMMEDIATELY EXIT when the pod they're forwarding to is not Ready. The script doesn't poll for sustained readiness — it just checks that the process started.
+
+When investigating, **always look at `ps -ef | grep kubectl` AND `tail /tmp/pf-gpu-logs/<svc>.log`** to know if the forward is still alive. The script's "All forwards running" is optimistic.
+
+### How to apply
+
+Three-tier debugging when "Sophia connects but doesn't respond":
+1. **Tier 1** — port-forward processes alive? (`ps -ef | grep kubectl`)
+2. **Tier 2** — pods exist and Ready? (`kubectl get pods -n multi-agent`)
+3. **Tier 3** — deployments scaled up? (`kubectl get deploy -n multi-agent`)
+
+Tier 3 was new today. Q36 only covered tier 1-2. Future "voice loop dies overnight" issues — start at tier 3.
+
+## Q42 (2026-06-08): adb over Tailscale workflow for hardware testing — keep cable on XREAL while logcat works wirelessly.
+
+### Why we needed this
+
+Beam Pro has ONE USB-C port. During hardware testing:
+- Cable A → Beam Pro USB-C (for `adb install` + logcat)
+- Cable B → XREAL One Pro USB-C tether (for actual use)
+
+Can't do both with one port. Either:
+- (a) test "blind" — install via cable, unplug, attach XREAL, run app, reconnect cable for post-hoc log review
+- (b) move adb to Wi-Fi/Tailscale so cable can stay on XREAL
+
+(b) is much better — live logcat while testing.
+
+### Setup procedure (one-time)
+
+```bash
+# WHILE STILL CABLED to Mac:
+adb tcpip 5555                          # enable adb over Wi-Fi on Beam Pro
+adb shell ip addr show wlan0 | grep -m1 inet
+# Note the IP. Example output: inet 100.69.33.147/23 ... wlan0
+# 100.64.0.0/10 range = Tailscale tailnet (Beam Pro joined our tailnet)
+```
+
+### Switch to XREAL
+
+```bash
+# 1. Unplug cable from Mac
+# 2. Plug XREAL One Pro USB-C into Beam Pro
+# 3. From Mac, re-establish adb over Tailscale:
+adb connect 100.69.33.147:5555          # use the IP from above
+# Expected output: "connected to 100.69.33.147:5555"
+
+adb devices
+# Expected: 100.69.33.147:5555   device
+```
+
+### Live logcat from Mac while XREAL is attached
+
+```bash
+adb logcat -c                                                    # clear buffer
+adb logcat -v time | grep -E '\[Sophia|0604_LiveKit|DEBUG_0604'  # tail with our markers
+```
+
+### Teardown when done
+
+```bash
+adb disconnect
+# Optional: turn off wireless adb on Beam Pro
+adb -s 100.69.33.147:5555 usb
+```
+
+### Caveats
+
+- Both Mac and Beam Pro must be on the same Tailscale tailnet. If Mac isn't on Tailscale, `adb connect` will time out — different routable networks.
+- IP can change across Beam Pro reboots (Tailscale assigns dynamically but usually stable for same device).
+- If `adb devices` shows the IP as `offline` instead of `device`, the Beam Pro went to sleep or Tailscale dropped — re-run `adb connect`.
+
+### How to apply
+
+This becomes the default hardware-test workflow going forward. No reason to test "blind" — Tailscale logcat is free once set up.
+
+## Q43 (2026-06-08): Documind — new fused RAG + LLM service the infra team deployed. Replaces sophia-spatial-ai retrieve + Qwen3 LLM with one call.
+
+### What Documind is
+
+Per `new_rag.md` in project root:
+
+- A multimodal RAG agent on its own dedicated GPU node (`g6.12xlarge`, 4× L4).
+- Per-company (multi-tenant) isolated indexes — `company_slug` namespacing.
+- Manual ingest of customer-uploaded PDFs from S3 into per-company indexes.
+- Cognito JWT or `DOCUMIND_API_KEY` super-user auth.
+- Returns: answer text, evidence (source PDF + page + score), `visual_url` page renders, `annotated_url` bounding boxes, image grounding for camera frames, OCR + vision for figures/diagrams.
+
+### What it replaces in our pipeline
+
+Currently:
+```
+Whisper STT (8080) → sophia-spatial-ai /retrieve (8106) → Qwen3 LLM (18080) → Kokoro TTS (8122)
+                       ^^^ retrieve-only ^^^                ^^^ generation ^^^
+```
+
+With Documind:
+```
+Whisper STT (8080) → Documind /ask (replaces 8106 + 18080) → Kokoro TTS (8122)
+                       ^^^ retrieve + generate, fused ^^^
+```
+
+### Two orthogonal dimensions of the Documind API
+
+**Transport**: REST vs WebSocket
+- REST: one HTTP per call. Stateless. New TLS handshake each time.
+- WS: persistent socket. Same per-call payload — does NOT maintain server-side context. Persistence is purely the connection.
+
+**Endpoint shape**: `/ask` vs `/look-and-ask`
+- `/ask`: input is text (already-transcribed question). Output is answer text (+ optional TTS audio).
+- `/look-and-ask`: input is raw audio + optional camera frame. Documind does Whisper STT internally, then RAG + LLM. Returns transcript + answer + optional TTS audio.
+
+All 4 combinations exist (REST+/ask, REST+/look-and-ask, WS+/ask, WS+/look-and-ask).
+
+### Our chosen path: REST + `/ask`
+
+Reasons:
+1. LiveKit Agents framework already gives us Whisper STT as a plugin → we have the transcript by the time we'd call Documind. Sending audio to `/look-and-ask` would double-transcribe AND we'd lose the streaming `user_transcript` HUD events.
+2. Server-to-server inside the cluster → no TLS handshake on the wire → WS gives no latency win.
+3. Stateless per turn matches the LiveKit Agents LLM plugin contract.
+4. Simpler to debug + test with curl.
+
+### Critical insight on context/history
+
+Documind is **stateless per request regardless of transport**. Both REST and WS take `history: [{role, content}, ...]` as an explicit body field. Server doesn't remember previous turns even on a WS connection — the client must re-send history each call.
+
+This is fine for our case because **the LiveKit Agents framework already maintains chat_ctx.messages[] per session** (see CLAUDE.md). On every LLM-node call, we get the full session history from the framework. We just translate that to Documind's `history` field shape and POST.
+
+So:
+- LiveKit owns session history
+- Documind is stateless per request
+- Each turn: framework gives us chat_ctx → we POST `/ask` with question + history + optional image → Documind returns complete answer → we yield it for TTS streaming
+
+### Integration approach: custom LLM plugin (Option B from earlier)
+
+Write `sophia-agent/src/plugins/documind_llm.py` implementing the framework's `livekit.agents.llm.LLM` base class. Pattern documented in `livekit_doubts.md` Q36 (custom plugin template).
+
+In `agent.py`:
+- Swap `llm=openai.LLM(base_url=QWEN3_URL...)` for `llm=DocumindLLM(...)`
+- **DELETE** the entire `Assistant.on_user_turn_completed` method (lines 247-340) — Documind does RAG internally; we don't need to call sophia-spatial-ai or inject context anymore
+- Decide what to do with `llm_node` override:
+  - If DocumindLLM returns the full answer as one chunk → llm_node wrapper still works (Q34 streaming captions become one big update at end-of-LLM)
+  - If we chunk the answer into sentences inside DocumindLLM → wrapper still works (captions update per-sentence)
+  - Either way the wrapper pattern is intact
+
+### Open questions for infra team (BLOCKING — answer before coding)
+
+1. **Auth model for agent worker**: We're a backend service, not a logged-in user. Do we use `DOCUMIND_API_KEY` (super-user key, set as env var) or do we need a service-account Cognito JWT? If JWT, where do we get one?
+2. **Which `company_slug` should the Sophia voice agent use?** Hardcode a test value (e.g. `acme`), or is there a canonical company for the wearable's content (e.g. `sophia` or `default`)?
+3. **In-cluster URL from EC2**: Doc says `documind:8502` in-cluster. We reach EKS from EC2 via kubectl port-forward (cross-region). Should we add `documind` to `pf-gpu.sh` KNOWN_GPU_SERVICES?
+4. **STT consolidation**: Documind's `/look-and-ask` uses self-hosted Whisper internally. Is that the SAME deployment as our `whisper-inference` port-forward target? If yes, no issue. If different, we should consolidate to avoid duplicate GPU.
+5. **Ingest status**: Which company's PDFs have been ingested so far? `/ask` requires `company_slug` to point to an already-ingested corpus, otherwise returns "company has not been ingested yet". For Sophia voice testing, what's the test corpus name?
+6. **Retire sophia-spatial-ai?**: Now that Documind does retrieval, is `sophia-spatial-ai` (port 8106) being deprecated, or do they coexist? Affects whether we drop the port-forward.
+
+Sending these as a single Slack/email to infra TOMORROW before any code. The answers shape DocumindLLM's auth + config + smoke-test plan.
+
+### How to apply
+
+When picking up Documind integration tomorrow:
+1. First — send the 6 questions to infra. WAIT for answers before code.
+2. Then — write `documind_llm.py` plugin.
+3. Then — swap `llm=...` in `agent.py`. Delete `on_user_turn_completed`. Keep `llm_node` wrapper.
+4. Test in Editor first, then on EC2 + glasses.
+5. Compare per-turn latency vs current Qwen3 path (Phase 1.5 measurement spike — Q26).
+
+## Q44 (2026-06-08): Why Documind being "stateless" doesn't matter for our agent — LiveKit owns chat history client-side.
+
+### The confusion
+
+WebSocket transport suggests "persistent connection holds state". User asked whether WS maintains conversation context. Quick verification: NO — Documind doesn't maintain server-side context regardless of transport. Both REST and WS expect `history` as an explicit body field every call.
+
+### Why this is OK for us
+
+The LiveKit Agents framework maintains `ChatContext.messages[]` PER SESSION on the agent worker side. From CLAUDE.md:
+
+> "LiveKit owns `ChatContext` client-side and re-sends full `messages[]` every turn (chat-completions APIs are stateless). Exception = OpenAI Realtime / Gemini Live (server-side session via `openai.realtime.RealtimeModel(...)`)."
+
+So per turn:
+1. User speaks → STT transcribes → `user_input_transcribed` event
+2. Framework appends user message to chat_ctx
+3. Framework calls our `llm_node(chat_ctx, tools, model_settings)`
+4. **We get the full chat_ctx with all prior turns**
+5. We translate that to Documind's history field shape
+6. POST to Documind `/ask` with `{question, history, image_b64}`
+7. Documind processes statelessly (it has all the context we sent)
+8. Returns complete answer
+9. We yield it through llm_node for TTS
+10. Framework appends assistant message to chat_ctx
+11. Repeat next turn
+
+The framework's chat_ctx IS our session memory. Documind is a pure compute function: `(question, history, image) → answer`. No state on either end ever needs to persist across our REST calls.
+
+### The only thing that DOES need OpenAI-Realtime-style server-side sessions
+
+…is when you want to:
+- Maintain server-side voice characteristics across turns (e.g. emotional prosody)
+- Avoid re-sending hundreds of message history each turn (token cost)
+- Have the model "remember" via internal state rather than via re-injected context
+
+None of those apply to our wearable RAG use case. We benefit from statelessness — it means we can A/B test against any conversational backend without state-migration complexity.
+
+### How to apply
+
+When deciding between Documind REST and WS: pure latency tradeoff. For us (server-to-server in-cluster), REST is fine. WS would be valuable for a CLIENT-side integration where TLS handshake matters per question (e.g. a mobile app talking direct to Documind).
+
+## Q45 (2026-06-08): agent.py `Assistant(Agent)` inheritance — what's framework-provided vs what we override.
+
+### Class hierarchy
+
+```python
+from livekit.agents import Agent
+
+class Assistant(Agent):     # inherits from framework's Agent base
+    def __init__(self):
+        super().__init__(instructions="...")    # configure prompt
+```
+
+`Agent` provides:
+- The base lifecycle (on_enter, on_exit)
+- Four "node" methods for streaming pipeline stages
+- Several event-driven hooks for mid-turn customization
+
+We subclass + override only what differs from default.
+
+### The four node methods (streaming pipeline stages)
+
+| Node | Stage | Default behavior | Our override status |
+|---|---|---|---|
+| `stt_node` | Audio → text streaming | Routes to `stt=` plugin (openai.STT) | NOT overridden |
+| `llm_node` | Chat context → answer chunks | Routes to `llm=` plugin (openai.LLM) | **Overridden** (Q34 streaming captions wrapper) |
+| `tts_node` | Text → audio chunks | Routes to `tts=` plugin (openai.TTS) | NOT overridden |
+| `transcription_node` | Final transcript output | Framework-internal routing | NOT overridden |
+
+Each node returns an `AsyncIterator` (async for chunks) so streaming works end-to-end.
+
+### Three flavors of override
+
+When you override a node:
+
+**Flavor 1 — Wrapper (transparent)**: call `Agent.default.<node>(self, ...)`, observe each chunk, yield unchanged. Use for telemetry/logging. Sophia's current `llm_node` is this flavor.
+
+**Flavor 2 — Mutator**: call default, modify each chunk before yielding. Use for sanitization/translation.
+
+**Flavor 3 — Full replacement**: don't call default, generate chunks yourself. Use when backend doesn't speak the plugin contract. Documind integration would use this.
+
+### The lifecycle hooks (not nodes — fired between stages)
+
+| Hook | When called | Sophia's use |
+|---|---|---|
+| `on_enter()` | Agent activated in session | not overridden |
+| `on_exit()` | Agent removed from session | not overridden |
+| `on_user_turn_completed(turn_ctx, new_message)` | After STT finalizes user turn, BEFORE LLM runs | **Overridden** — RAG inject |
+
+The key value of `on_user_turn_completed` is that we get RW access to `turn_ctx`. Mutating it (e.g. `turn_ctx.add_message(role="system", content=...)`) affects what the LLM sees. That's exactly how Sophia's RAG injection works (line 323 of agent.py).
+
+### For Documind integration
+
+- `on_user_turn_completed`: DELETE entirely. Documind does retrieval internally; we don't need to call sophia-spatial-ai or mutate turn_ctx anymore.
+- `llm_node`: depends on plugin vs override choice. If we write a custom DocumindLLM plugin, we delete the wrapper too (the new plugin produces chunks that flow through the default `Agent.default.llm_node`). If we go in-line, we use Flavor 3 (full replacement) inside Assistant.
+
+### How to apply
+
+When reading any livekit-agents Agent subclass, scan for: (1) which plugins are set in AgentSession (`stt=`, `llm=`, `tts=`), (2) which hooks override the base (look for `async def on_*` and `async def *_node`). That tells you everything about what's custom vs default.
+
+## Q46 (2026-06-08): The vestigial hardcoded `answer` field in `_publish_rag_result` — placeholder, not real answer. Worth fixing once Documind lands.
+
+### Where it lives
+
+`sophia-agent/src/agent.py` lines 287-303 (case A, retrieve_skipped) and 331-340 (case B, retrieve_injected):
+
+```python
+await _publish_rag_result(
+    {
+        "question": user_text,
+        "mode": "retrieve_skipped" | "retrieve_injected",
+        "max_score": max_score,
+        "hits": hits,
+        "images": data.get("images") or [],
+        "answer": "(below relevance threshold; LLM answers as general chat)"
+                  | "(context injected; LLM streaming reply now)",
+        # ↑ NOT the real LLM answer — `on_user_turn_completed` runs BEFORE the LLM
+    }
+)
+```
+
+### Why it's a placeholder
+
+`_publish_rag_result` fires INSIDE `on_user_turn_completed`, which runs:
+1. After STT finalizes user transcript
+2. After RAG retrieve call returns
+3. **BEFORE the LLM has executed**
+
+So at publish time, we don't have the answer. The string is a status message describing what mode the agent entered for this turn.
+
+The real answer flows through `sophia.agent_events` topic with `kind=agent_transcript`:
+- Streaming deltas via `llm_node` override (`is_final=False`)
+- Final confirmation via `conversation_item_added` event (`is_final=True`)
+
+### Why it might still be there
+
+Likely vestigial — earlier frontend probably wanted a single message containing "RAG happened, here are the chunks, AND the answer". When LLM streaming was added later (impossible to have the answer at RAG time anymore), the field stayed as a placeholder rather than being removed.
+
+### What Documind integration changes
+
+Documind `/ask` returns retrieval + LLM answer in ONE response. So with Documind:
+- We DO have the real answer at the moment we'd publish `sophia.rag_result`
+- The `answer` field could legitimately become real
+- A single `sophia.rag_result` payload would carry: `question`, `evidence` (chunks/sources), `answer` (real text), `visual_url`, `annotated_url`, `interaction_id` (for thumbs-up/down feedback later), `latency_ms`
+
+We'd lose token-by-token streaming captions (Documind returns full answer), but with the per-sentence chunking approach (split answer on `. ` and yield each as a ChatChunk through llm_node), TTS still streams + HUD captions still grow per-sentence.
+
+### How to apply
+
+Tomorrow when writing DocumindLLM:
+- After Documind returns, publish `sophia.rag_result` with REAL `answer` field + all Documind metadata
+- Drop the `_publish_rag_result` call from `on_user_turn_completed` (which we're deleting anyway)
+- Optionally yield Documind's answer as N sentence-chunks through llm_node so TTS streams audio out (mirrors current Qwen3 streaming UX)
+
+This makes the `sophia.rag_result` topic finally honest about its payload. Future HUD work can render `visual_url` page renders and `annotated_url` boxes — capabilities sophia-spatial-ai didn't have.

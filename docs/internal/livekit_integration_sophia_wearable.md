@@ -21,7 +21,7 @@ How we integrated LiveKit (WebRTC + LiveKit Agents) as a new conversation provid
 - Token-mint: `http://3.227.63.49:8001/token` with header `X-API-Key: 9a11fdf5ce05e3cecad28f933d778971`
 - Agent worker registered as: `agentName = "sophia-agent"` (matches `@server.rtc_session(agent_name="sophia-agent")` in `sophia-agent/src/agent.py`)
 - Three Docker containers Up 6+ days on EC2: `sophia-livekit-server-1`, `sophia-token-mint-1`, `sophia-agent-worker-1`.
-- Cross-region kubectl port-forward from EC2 to EKS inference cluster (`spatial-ai-staging` in us-west-2) gives the agent worker access to Whisper STT (8080), Qwen3 LLM (18080), Kokoro TTS (8122).
+- Cross-region kubectl port-forward from EC2 to EKS inference cluster (`spatial-ai-staging` in us-west-2) gives the agent worker access to Whisper STT (8080), Qwen3 LLM (18080) + sophia-spatial-ai (8106) RAG, Kokoro TTS (8122).
 
 ---
 
@@ -36,7 +36,7 @@ How we integrated LiveKit (WebRTC + LiveKit Agents) as a new conversation provid
 - macOS (we worked on Mac Mac17,8 / Mac OS 26.4.1).
 - Git + Git LFS installed.
 - GitHub CLI (`gh`) authenticated as `AvinashSophia`.
-- Unity Hub + Unity Editor `6000.3.12f1` (his project's required version per `Sophia_Wearable/ProjectSettings/ProjectVersion.txt`).
+- Unity Hub + Unity Editor `6000.3.12f1` (XR Engineers project's required version per `Sophia_Wearable/ProjectSettings/ProjectVersion.txt`).
 - Unity modules: Mac Build Support (Apple silicon), Android Build Support (with SDK & NDK + OpenJDK for APK builds).
 
 **Reference clones we already have** in this research project (read-only, for code reading):
@@ -61,7 +61,7 @@ git checkout -b avinash/livekit-provider       # our feature branch
 ```
 
 **Why branch off `development`, not `main`**:
-- His team's archive branches (`archive/agent-test`, `archive/fix-rgb-camera`, etc.) suggest a development-first workflow.
+- XR Engineer's archive branches (`archive/agent-test`, `archive/fix-rgb-camera`, etc.) suggest a development-first workflow.
 - `main` is the default branch but `development` is where active work lives.
 - Branch name `avinash/livekit-provider` chosen because XR engineer said "feel free to add a branch with a clear name". The `avinash/` prefix attributes ownership.
 
@@ -754,3 +754,62 @@ Attempts to publish streaming text chunks AS Qwen3 emits them, with `is_final=Fa
 ### Tomorrow's pickup
 
 Per Q34, walk these hypotheses in order: (1) confirm `llm_node` entry via top-of-function log, (2) inspect first chunk's repr to verify `delta.content` shape, (3) test with throttle threshold = 1 char, (4) compare against how his OpenAI Realtime provider renders interim agent transcripts (he has a working precedent — may use a different event API).
+
+---
+
+## Appendix G — 2026-06-08 hardware test PASSED + PR opened + gateway-guard fix
+
+Phase 1 complete on real wearable hardware. Branch pushed; PR opened for review.
+
+### PR
+
+- **#420**: https://github.com/AIPartnersUSA/Sophia_Xreal-U2/pull/420
+- Branch `avinash/livekit-provider` → `development`
+- 2 commits:
+  - `d5b122b0` feat(conversational-ai): add LiveKit provider for self-hosted WebRTC voice agent
+  - `26a22de2` fix(conversational-ai): respect explicit LiveKit selection over gateway override
+
+### What changed since Appendix F
+
+The 10 client-side changes documented in Section 5 are unchanged. **One additional code change** discovered during hardware testing:
+
+**Change 11 — `ConversationProviderController.cs` gateway-guard fix** (commit `26a22de2`)
+
+Without this guard, `GatewayRuntimeBootstrapService.GetEffectiveConversationProviderType()` silently downgrades an explicit LiveKit selection to OpenAI on Android builds. Editor doesn't manifest because the gateway POST throws on macOS .NET stack (`Header value contains invalid characters`), but on Beam Pro Android the call succeeds and the override fires.
+
+Fix is a single-line guard in `InitializeFromConfigAsync`:
+```csharp
+if (conv != ConversationProviderType.LiveKit
+    && config.NeedsGatewayBootstrapBeforeConversationProviderSelect())
+{
+    // existing gateway logic
+}
+```
+
+Full architectural analysis in Q40 of `project_complete_doubts.md`.
+
+### Hardware test trail (2026-06-08)
+
+3 iterations needed to land:
+1. **First test** failed — gateway override. Fix: add guard, rebuild APK.
+2. **Second test** dispatched LiveKit correctly but no voice response — EKS port-forwards dead. Fix: restart.
+3. **Third test** still no response — EKS inference deployments scaled to 0 replicas (Q41 new failure mode). Fix: `kubectl scale ... --replicas=1`, wait for pods, restart port-forwards.
+
+After third fix, full voice loop end-to-end: token mint → SFU connect → agent dispatch → WebRTC handshake → mic uplink → Whisper STT → sophia-spatial-ai RAG → Qwen3-VL-8B LLM → Kokoro TTS → audio through XREAL temple speakers + HUD captions on glasses display.
+
+### Inline-comment pass on LiveKitLlmProvider.cs (2026-06-08, INCLUDED IN PR)
+
+~285 lines of inline comments were added to `LiveKitLlmProvider.cs` explaining every method + non-obvious line (the YieldInstruction bridge, the Q58 filter, the per-track GameObject pattern, the 5 ConnectAsync phases, the JWT mint flow, etc.). File grew from 595 to 880 lines.
+
+**Status: shipped in commit `d5b122b0`** (verified via `git show d5b122b0` — 880 lines on disk match committed version). PR reviewers see the fully-commented file.
+
+### New cross-references
+
+- `Q39` — hardware test SUCCESS + PR opened (full 2026-06-08 trail)
+- `Q40` — gateway-guard fix (the silent OpenAI override and how we caught it)
+- `Q41` — EKS scale-to-0 recovery pattern (Tier 3 of port-forward diagnostics)
+- `Q42` — adb-over-Tailscale workflow (cable on XREAL while logcat works wirelessly)
+- `Q43` — Documind service intro + chosen integration path (REST + `/ask`)
+- `Q44` — Documind statelessness + why it doesn't matter (LiveKit owns chat history)
+- `Q45` — `Assistant(Agent)` inheritance + framework override patterns
+- `Q46` — vestigial `answer` placeholder field in `_publish_rag_result`
