@@ -4075,3 +4075,300 @@ When asked "how does the XR client know X about Sophia": trace UP the chain. HUD
 ### How to apply
 
 This is the END state for tomorrow's Documind smoke test. Once infra answers Q43, we're 5 minutes from running it.
+
+## Q52 (2026-06-09): Documind voice loop WORKING end-to-end. Two bugs found + fixed during first smoke test.
+
+### Smoke test sequence
+
+1. New `new_rag.md` arrived from infra with auth details, including Cognito Option A (programmatic InitiateAuth) and Option B (Hosted UI in browser).
+2. User obtained Cognito id_token via browser dashboard login → decoded payload showed `custom:company_slug=sophiaspatialai` (Q43.2 answered: our slug is `sophiaspatialai`).
+3. Tested `/health` (unauth) → 200 OK; tested `/api/v1/admin/ingest/status?company_slug=sophiaspatialai` → returned `status=done`, 1614 chunks / 227 pages / 281 images already ingested (14 files including heat-pump manuals, GV70 manuals, etc.). Q43.5 answered: corpus is ready.
+4. Committed `agent.py` Documind code (commit `1b83c7a`), pushed, EC2 pulled, added 3 env vars to `.env.production`, rebuilt agent-worker.
+5. First Editor smoke test → bug 1.
+6. Fixed bug 1, scp'd + rebuilt → bug 2.
+7. Fixed bug 2, scp'd + rebuilt → SUCCESS. Real Sophia answers grounded in our manuals.
+
+### Bug 1: `chat_ctx.messages` doesn't exist; correct attribute is `chat_ctx.items`
+
+Stack trace from first test:
+```
+File "/app/src/agent.py", line 431, in _extract_question_and_history
+    messages = list(getattr(chat_ctx, "messages", []) or [])
+TypeError: 'method' object is not iterable
+```
+
+The framework's `ChatContext` exposes its turn list as `.items` (a `list[ChatMessage | FunctionCall | FunctionCallOutput | AgentHandoff]`), not `.messages`. Verified yesterday when we grepped the framework code (`livekit-agents/voice/agent_session.py:359` shows `self._chat_ctx = ChatContext.empty()` and downstream uses `chat_ctx.items.insert(...)`).
+
+Fix: `getattr(chat_ctx, "items", [])`. One-character difference but completely blocking until caught at runtime.
+
+### Bug 2: 15s httpx timeout too tight for Documind cold start
+
+Stack trace after fix 1:
+```
+documind /ask failed for 'Hi, Sophia.'
+  ...
+  raise mapped_exc(message) from exc
+httpx.ReadTimeout
+```
+
+First two calls timed out at 15s. Third call (after Documind's tenant index warmed up in memory) completed in 6035 ms with a valid answer + 4 evidence chunks.
+
+So Documind has a meaningful cold-start tax: 15-30s for the first call to a tenant whose index isn't in memory yet. Subsequent calls (within minutes) land in 1-6s.
+
+Fix: bumped `httpx.AsyncClient(timeout=...)` from 15.0 to 60.0 seconds. Generous but matches reality.
+
+### Lessons
+
+- The framework's docs don't always advertise which attribute on chat_ctx is correct. When integrating against any framework chat-context, the safest first step is grep the framework source (livekit-agents reference clone in our repo helps) for `chat_ctx.<something>` patterns.
+- Always set httpx timeouts at least 4-5x the documented latency target. Documind's doc says 1840ms; we set 60s. If their service is slow OR cold, we don't false-positive a network failure.
+- When debugging a multi-step pipeline, a try/except with `logger.exception(...)` is essential. Without our `except Exception: logger.exception(...)` blocks around `_call_documind_ask`, these would have been silent failures.
+
+## Q53 (2026-06-09): Documind per-call latency is 6-19s -- way over their documented 1840ms target. Verified backend-internal, not our integration.
+
+### Observed latencies (logs from working session)
+
+```
+documind /ask completed in 19113 ms for 'Stop it. Stop it. Go back and give me the details of sample review financials PDF.' (answer_len=526)
+documind /ask completed in 11732 ms for 'Who are the reviewers here?' (answer_len=196)
+documind /ask completed in 14135 ms for "God, it's stop." (answer_len=185)
+documind /ask completed in  6035 ms for 'Are you here?' (answer_len=51)
+```
+
+### Direct curl test bypassed our framework
+
+To rule out our Python overhead:
+```
+POST /api/v1/ask with max_results=2  ->  latency_ms=6376, wall_clock=6695ms
+```
+
+6.4s server-side for a SHORT answer with NO chat history. Pure Documind backend.
+
+### What we tried that didn't help
+
+- `max_results=2` vs `max_results=4` -- ~6s either way. Retrieval is not the bottleneck; LLM generation inside Documind is.
+- `show_thinking=false` -- already set in our code.
+
+### Per-turn latency breakdown (end-user-perceived)
+
+```
+Whisper STT (cross-region port-forward):    ~0.5-1s
+Network to/from Documind (HTTPS external):  ~0.15s
+Documind /ask (THE BOTTLENECK):              6-19s
+Kokoro TTS (streaming, starts immediately):  ~0.5s before first audio byte
+```
+
+Total: 7-21 seconds per turn. Voice UX target is <3s. Currently unusable for production but PROVES the pipeline works.
+
+### What would actually fix this
+
+This is a Documind-side issue, not ours. To improve:
+- Ask infra why their per-call latency is 10x their own documented target
+- Possibly enable streaming responses from Documind (don't wait for full answer before HTTP response starts)
+- Possibly switch Documind's internal Qwen3-VL-8B to a smaller/faster model
+- Possibly fix shared-GPU contention if multiple tenants are queueing
+
+Not something agent.py can fix.
+
+### How to apply
+
+- Don't beat yourself up over slow voice UX -- our agent.py is doing its job.
+- When raising with infra, lead with: "your doc shows 1840ms target; we measure 6-19s consistently for `sophiaspatialai` slug after warmup."
+- Phase 1.5 measurement spike (Q26) vs VoiceRelay still valuable but should compare with the awareness that Documind is the new bottleneck regardless of LiveKit vs VoiceRelay framing.
+
+## Q54 (2026-06-09): Cognito id_token operational details + 401 recovery.
+
+### Token shape
+
+`Authorization: Bearer <id_token>` -- same header for either Cognito JWT or `DOCUMIND_API_KEY` static key.
+
+### How to get a Cognito id_token
+
+Two paths in `new_rag.md`:
+- **Option A (programmatic)**: POST to Cognito `InitiateAuth` with `USER_PASSWORD_AUTH` flow + USERNAME + PASSWORD. Returns IdToken + RefreshToken + ExpiresIn=3600. Scripts well.
+- **Option B (Hosted UI in browser)**: open the Cognito login URL with `response_type=token`, login normally, extract `#id_token=...` from the redirect URL hash.
+
+For a real user actively testing, **easiest is opening `https://staging.docu-mind.com/` in browser, logging in normally, then grabbing `id_token` from browser DevTools (localStorage / cookies / Network tab)**.
+
+### Token decode -- what's inside
+
+When the user pasted their token, we decoded the payload (middle base64 section):
+- `sub` -- Cognito user ID
+- `custom:company_slug` -- THE field that scopes queries to your company's RAG corpus. For Avinash: `sophiaspatialai`.
+- `cognito:groups` -- list. `users` allows query; `uploaders` allows ingest; `admins` can target any company.
+- `exp` -- Unix timestamp expiry. Always exactly 3600 sec after `iat` (1-hour validity).
+- `name`, `email` -- humans-readable identity.
+
+### Expiry + 401 recovery
+
+After 1 hour, `/ask` returns:
+```
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url '.../api/v1/ask'
+```
+
+Recovery: grab a fresh token (re-login or refresh-token flow), update `DOCUMIND_API_KEY` env var on EC2, restart agent-worker:
+```bash
+ssh sophia-gpu "sed -i 's|^DOCUMIND_API_KEY=.*|DOCUMIND_API_KEY=<new_token>|' /workspace/avinash/sophia/sophia-agent/.env.production"
+ssh sophia-gpu "cd /workspace/avinash/sophia && docker compose up -d --force-recreate agent-worker"
+```
+
+`docker compose restart` is NOT enough -- env_file changes need `--force-recreate` or full `down + up`. Captured during today's session.
+
+### Long-term fix
+
+The Cognito id_token model is wrong for a 24/7 backend worker. For production we want either:
+- Static `DOCUMIND_API_KEY` super-user (ask infra; lives in k8s secret `documind-api-key` -- but our IAM doesn't have secret-read access in `multi-agent` namespace, so we must ask).
+- OR a refresh-token loop in `_call_documind_ask` that auto-refreshes ~5 min before expiry using `REFRESH_TOKEN_AUTH` (extra complexity but allows per-user attribution).
+
+For Phase 1 smoke testing the manual id_token approach is fine.
+
+## Q55 (2026-06-09): Streaming captions appear AFTER Sophia stops speaking. Why, and what would actually fix it.
+
+### Observed behavior
+
+User: speaks question.
+Sophia: starts speaking audibly while HUD shows nothing.
+Sophia: finishes speaking.
+HUD: now displays the full final caption.
+
+### Why this happens with Documind
+
+Documind returns the WHOLE answer in one HTTP response (no token streaming). Our `llm_node`:
+
+1. POST `/ask` → wait ~6-19s.
+2. Get full answer string.
+3. Sentence-chunk it via `_split_into_sentence_chunks`.
+4. For each sentence: yield ChatChunk + publish `is_final=False` agent_transcript event.
+
+The for-loop iterates within milliseconds because the answer is already in memory. The framework reads chunks faster than TTS can speak them, so:
+
+- All our `is_final=False` publishes fire WITHIN ~100ms
+- TTS starts speaking sentence 1
+- Sentence 1 takes ~3s to speak
+- Meanwhile sentences 2..N are already published as "is_final=False" but TTS is still on sentence 1
+
+Then `conversation_item_added` event fires after TTS finishes → we publish `is_final=True`. HUD shows the full caption AT THAT POINT.
+
+### Why this didn't happen in the Qwen3 path
+
+Qwen3 streamed tokens one at a time over 3-6 seconds. Our llm_node wrapper observed each token, accumulated it, published streaming text at the SAME pace as TTS could speak it. Naturally synchronized.
+
+### Why HUD probably waits for is_final=True
+
+The XR engineer's HUD code in `ConversationalAIController` likely has a render contract that only updates the displayed caption on `IsComplete=true` (or its `OnTranscriptReceived` handler is throttled/debounced). Our flood of 5-10 `is_final=False` events in 100ms is treated as noise; only the final one is rendered.
+
+### What would fix it
+
+Three options:
+
+1. **Pace yields in llm_node to estimated TTS time** -- e.g., `await asyncio.sleep(len(sentence) * 0.08)` between yields (~80ms per char roughly matches Kokoro speed). Crude but works. Side effect: our llm_node becomes slower, but it's already gated by Documind's 6-19s, so adding a few hundred ms doesn't matter.
+2. **Wire the HUD to render on is_final=False too** -- XR-side change in his ConversationalAIController. Probably already supported for OpenAI Realtime path; just needs same wiring for our path.
+3. **Wait until infra adds streaming to Documind** -- then our wrapper pattern from Qwen3 path works again. Out of our hands.
+
+Option 1 is the only one we control. Worth trying as a quick polish if XR engineer doesn't want to touch HUD logic.
+
+### How to apply
+
+For tomorrow if user wants captions to grow visibly: implement option 1. ~5 lines of code. Pre-flight: measure Kokoro's chars/sec output to set the sleep coefficient right.
+
+## Q56 (2026-06-09): Documind evidence + visuals (visual_url, annotated_url, evidence chunks) are SENT to HUD but NOT rendered. Why.
+
+### What we send
+
+Per turn, our `llm_node` Path B does:
+```python
+_fire(_publish_rag_result({
+    "question": ...,
+    "mode": "documind",
+    "answer": <real answer>,
+    "evidence": <list of {source, page, score, preview, shard}>,
+    "visual_url": <full page render URL>,
+    "annotated_url": <bounding-box crop URL>,
+    "interaction_id": ...,
+    "latency_ms": ...,
+    "route": ...,
+}))
+```
+
+This lands on the `sophia.rag_result` text-stream topic. Unity client subscribes via:
+```csharp
+_room.RegisterTextStreamHandler("sophia.rag_result",
+    (reader, identity) => _ = ReadAndDispatchAsync(reader, identity, OnRagResultMessage));
+```
+
+### Why HUD doesn't show it
+
+`LiveKitLlmProvider.OnRagResultMessage` is currently:
+```csharp
+private void OnRagResultMessage(string identity, JObject payload)
+{
+    if (_enableDebugLogging)
+        Debug.Log($"{DebugTag} rag_result: {payload}");
+}
+```
+
+Just logs. Doesn't fire any `ILLMProvider` event. So the controller has no signal to surface evidence chips, page renders, or bbox crops in the HUD.
+
+This was true even before Documind -- the Qwen3 path also published rag_result and the HUD ignored it. With Documind the payload is FAR richer (visual_url + annotated_url with real PNG/JPG URLs), but still unrendered.
+
+### What rendering would require
+
+Two-end change:
+
+**Backend (sophia-agent)**: no change. Payload is already complete.
+
+**Frontend (LiveKitLlmProvider + ConversationalAIController + HUD)**:
+1. `OnRagResultMessage` extracts `evidence[].source / .page / .score` + `visual_url` + `annotated_url` + `interaction_id` from the JObject.
+2. Fire some event the HUD subscribes to. Either:
+   - Add a new `OnRagEvidence` event to ILLMProvider (changes the contract -- affects all 5 providers).
+   - Or piggyback on the existing `OnFunctionCall` event (semantically wrong but already in the contract).
+   - Or use a separate hook just for LiveKit provider that the controller knows about.
+3. HUD layer (XR engineer's code) renders chips: e.g. small badge with "Manual.pdf p.45 (0.91)" anchored to bottom-right of the AR view; tap → fetch `visual_url` PNG and show as 2D card.
+
+### Fetching the visual_url image is non-trivial
+
+Asset URL is auth-required (Bearer token) AND slug-scoped (`/asset/<slug>/<filename>`). Unity's `WWW` or `UnityWebRequest` MUST set `Authorization: Bearer <id_token>` to fetch. So:
+- HUD code needs the same DOCUMIND_API_KEY (or per-session id_token) Unity-side.
+- That's a security concern (secret in the binary if hardcoded). For prod we'd want a server-side proxy that fetches + serves the image to Unity, OR Unity caches a short-lived id_token from its own login flow.
+
+### How to apply
+
+When XR engineer is ready to enhance the HUD: send him this Q + the JSON shape of rag_result. He'll likely want to land that as a separate PR after PR #420 merges. No urgency -- voice loop works; this is polish.
+
+## Q57 (2026-06-09): Network latency breakdown. The port-forward + external HTTPS overhead is dwarfed by Documind's internal model time.
+
+### Per-turn network costs today
+
+```
+User -> SFU -> agent worker:        ~50-100ms (WebRTC, fine)
+agent worker -> Whisper:            ~70ms      (cross-region port-forward us-east-1 -> us-west-2)
+agent worker -> Documind /ask:       ~50-200ms (external HTTPS to docu-mind.com)
+agent worker -> Kokoro TTS:         ~70ms      (cross-region port-forward, same as Whisper)
+```
+
+Sum of network overhead: ~250-440ms per turn.
+
+### What dominates
+
+Documind's INTERNAL model time: 6-19s per call. Network is ~3% of total turn time. Optimizing network gives <300ms savings on a 7-second turn -- invisible.
+
+### What in-cluster (Phase 2) production would change
+
+If LiveKit services move from EC2 to the same EKS cluster as Documind / Whisper / Kokoro:
+- Cross-region port-forwards (Whisper, Kokoro) go away. ~70ms each saves ~140ms.
+- Documind external HTTPS replaced with in-cluster `documind:8502` plain HTTP. Saves TLS handshake + ingress + load balancer hops. ~50-150ms saved.
+- Total: ~200-300ms saved.
+
+Still doesn't fix the 6-19s model time.
+
+### What in-cluster ACTUALLY buys us
+
+- Operational simplicity (no port-forwards to maintain, no STS credential refresh)
+- Single TLS termination at ingress (not per-call)
+- One secret manager (DOCUMIND_API_KEY pulled from k8s, not env-var-on-EC2)
+- Better observability (CloudWatch + cluster-internal traces correlate)
+
+Not latency. The infra migration plan (HANDOFF.md) calls all of this out.
+
+### How to apply
+
+When someone asks "should we move things in-cluster for performance" -- the honest answer is "no, for operational simplicity yes." Documind's model time is the real win to chase; everything else is rounding error.
